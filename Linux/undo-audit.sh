@@ -1,5 +1,8 @@
 #!/bin/bash
 
+auditctl -W /usr/bin/chown -p x -k qubit-chown
+auditctl -W /usr/bin/chmod -p x -k qubit-perm
+auditctl -W /usr/bin/gcc -p x -k qubit-gcc
 auditctl -W /etc/passwd -p wa -k qubit-passwd
 auditctl -W /etc/shadow -p wa -k qubit-shadow
 auditctl -W /usr/sbin/useradd -p x -k qubit-useradd
@@ -15,4 +18,3 @@ auditctl -W /usr/bin/nc -p x -k qubit-nc
 auditctl -W /usr/bin/ncat -p x -k qubit-nc
 auditctl -W /usr/sbin/userdel -p x -k qubit-userdel
 auditctl -W /usr/bin/whoami -p x -k qubit-recon
-auditctl -W /etc/hosts -p w -k qubit_homepageforgery
