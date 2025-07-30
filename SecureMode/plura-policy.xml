@@ -1,0 +1,7 @@
+<FileRules>
+  <FileRule Id="ID_DENY_wscript" Action="Deny" Path="C:\Windows\System32\wscript.exe" />
+  <FileRule Id="ID_DENY_regsvr32" Action="Deny" Path="C:\Windows\System32\regsvr32.exe" />
+  <FileRule Id="ID_DENY_mshta" Action="Deny" Path="C:\Windows\System32\mshta.exe" />
+  <FileRule Id="ID_DENY_cscript" Action="Deny" Path="C:\Windows\System32\cscript.exe" />
+  <FileRule Id="ID_DENY_rundll32" Action="Deny" Path="C:\Windows\System32\rundll32.exe" />
+</FileRules>
