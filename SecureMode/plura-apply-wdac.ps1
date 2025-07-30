@@ -1,15 +1,22 @@
 <#
 .SYNOPSIS
-  Apply WDAC policy and prepare system to enforce CLM + executable restrictions (e.g., LOLBins)
+  Apply SecureMode (WDAC) policy and enforce CLM + LOLBin protection.
 
 .DESCRIPTION
-  - Applies WDAC policy (.bin)
-  - Logs operations to C:\Program Files\Plura\
-  - Intended to work with a WDAC XML that blocks LOLBins like wscript.exe, regsvr32.exe, etc.
+  - Applies WDAC binary policy (.bin) to enforce PowerShell CLM
+  - Assumes policy was built with Publisher or Path rules (not hash-only)
+  - Denies LOLBins via FileRule (e.g., wscript.exe, regsvr32.exe, etc.)
+  - Requires reboot for enforcement
+
+.NOTES
+  🔒 To avoid re-generating policies after every app update,
+     use Publisher-based rules as shown below:
+
+     New-CIPolicy -FilePath .\plura-policy.xml -Level Publisher -UserPEs -Fallback Hash
 #>
 
 # === Configuration ===
-$PolicyPath = "C:\Program Files\Plura\plura-policy.bin"       # Precompiled WDAC policy
+$PolicyPath = "C:\Program Files\Plura\plura-policy.bin"
 $LogFile = "C:\Program Files\Plura\plura-wdac-log.txt"
 
 $TrustedPaths = @(
@@ -34,20 +41,17 @@ function Log {
 }
 
 # === Begin Script ===
-Log "🟢 Starting PLURA WDAC Application Script..."
+Log "🟢 Starting PLURA SecureMode WDAC Application Script..."
 
 # 1. Apply WDAC policy
 if (Test-Path $PolicyPath) {
     try {
         Log "🔐 Applying WDAC policy from: $PolicyPath"
-        # Ensure folder exists
         if (!(Test-Path "C:\Windows\System32\CodeIntegrity")) {
             New-Item -Path "C:\Windows\System32\CodeIntegrity" -ItemType Directory -Force | Out-Null
         }
-
         Copy-Item -Path $PolicyPath -Destination "C:\Windows\System32\CodeIntegrity\SIPolicy.p7b" -Force
         Log "✅ WDAC policy copied to CodeIntegrity folder."
-
     } catch {
         Log "❌ Failed to apply WDAC policy: $_"
     }
@@ -55,14 +59,14 @@ if (Test-Path $PolicyPath) {
     Log "⚠️ WDAC policy file not found: $PolicyPath"
 }
 
-# 2. Trust Paths (Note: these must be included in the XML at policy build time)
+# 2. Trust Path Logging (assumes policy already contains them)
 foreach ($path in $TrustedPaths) {
-    Log "📁 Trusted path registered in policy (assumed): $path"
+    Log "📁 Trusted path assumed in policy: $path"
 }
 
-# 3. Restricted LOLBins (Note: actual blocking must be in XML file)
+# 3. Log restricted binaries
 foreach ($exe in $RestrictedBinaries) {
-    Log "🚫 Restricted binary should be blocked via FileRule: $exe"
+    Log "🚫 Restricted binary expected to be blocked in policy: $exe"
 }
 
 # 4. Check PowerShell Language Mode
@@ -74,5 +78,5 @@ if ($mode -eq "ConstrainedLanguage") {
 }
 
 # 5. Final
-Log "✅ WDAC script completed. Please reboot to apply changes."
-Write-Host "`n[INFO] WDAC policy applied. Reboot required. Log saved to: $LogFile" -ForegroundColor Green
+Log "✅ Script completed. Reboot required for policy to take effect."
+Write-Host "`n[INFO] WDAC policy applied. Please reboot. Log saved to: $LogFile" -ForegroundColor Green
