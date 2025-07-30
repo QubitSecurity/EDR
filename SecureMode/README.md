@@ -1,8 +1,22 @@
-# 🛡️ PLURA SecureMode 정책 적용
+# 🛡️ PLURA SecureMode 정책 적용 안내서
 
 이 저장소는 SecureMode 정책을 시스템에 적용하기 위한 **보안 강화 구성 자동화 스크립트**를 포함하고 있습니다.
 
 이 저장소는 Windows Defender Application Control(WDAC)을 기반으로 PowerShell을 Constrained Language Mode(CLM)로 제한하고, 신뢰된 애플리케이션만 실행되도록 시스템을 보호합니다.
+
+---
+
+## 🖥️ 시스템 요구 사항
+
+SecureMode 정책을 적용하기 위해서는 아래와 같은 사전 조건이 충족되어야 합니다:
+
+- ✅ **UEFI 기반 부팅 방식**
+- ✅ **Secure Boot 활성화**
+- ✅ Windows 10 버전 1903 이상 (Enterprise 또는 Education 권장)
+- ✅ 관리자 권한
+
+> WDAC는 커널 레벨에서 신뢰된 코드만 실행되도록 제한하므로, UEFI + Secure Boot 환경이 필수입니다.  
+> Legacy BIOS 또는 Secure Boot 비활성화 환경에서는 정책이 적용되지 않거나 우회될 수 있습니다.
 
 ---
 
