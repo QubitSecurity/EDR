@@ -79,6 +79,34 @@ WDAC 정책에는 다음 실행 파일 차단이 포함되어 있습니다:
 
 ---
 
+## 📘 HSS_Helper 예외처리 가이드 (PyInstaller 기반 프로그램)
+
+HSS_Helper.exe는 PyInstaller로 빌드된 실행파일입니다. 기본적으로 `--onefile` 모드로 패키징된 경우 실행 시 `Temp` 폴더에 압축 해제되어 실행되며, 이는 WDAC에서 차단됩니다.
+
+이를 해결하기 위해 `--onedir` 모드로 패키징하고, 고정된 설치 경로에서 실행되도록 해야 합니다.
+
+### ✅ 1. PyInstaller 설치 및 onedir 모드 빌드
+
+```bash
+pip install pyinstaller
+pyinstaller --onedir --noconsole --name HSS_Helper main.py
+```
+
+- `dist/HSS_Helper/` 폴더가 생성되며, 그 안에 `HSS_Helper.exe`와 필요한 파일이 포함됨
+- 전체 폴더를 `C:\Program Files\HSS_Helper\`와 같은 고정된 위치에 복사
+
+### ✅ 2. WDAC 정책에 실행 경로 예외 추가
+
+```xml
+<FilePathRules>
+  <FilePathRule Id="Allow_HSSHelper" Action="Allow" Path="C:\Program Files\HSS_Helper\*" />
+</FilePathRules>
+```
+
+이제 해당 경로에 있는 실행 파일들은 WDAC 정책에 의해 신뢰되어 차단되지 않음
+
+---
+
 ## 🔄 정책 유지보수 팁
 
 WDAC 정책을 Hash 기반으로 생성하면 앱 업데이트 시 정책이 무력화될 수 있습니다. 아래 방식으로 해결 가능합니다:
@@ -88,6 +116,8 @@ WDAC 정책을 Hash 기반으로 생성하면 앱 업데이트 시 정책이 무
 | ✅ **Publisher 기반 허용** | 서명된 앱은 업데이트 되어도 실행 허용 유지됨 |
 | ✅ **Path 기반 예외 병행** | AppData, Program Files 경로 기반 예외 허용 가능 |
 | 🔁 `-Fallback Hash` 사용 | 서명 없는 앱만 해시 기반으로 처리 |
+
+> 따라서 가능하면 Publisher + Path 기반 정책을 구성하고, Hash는 Fallback 용도로만 사용하는 것을 권장합니다.
 
 ---
 
