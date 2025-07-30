@@ -12,7 +12,10 @@ SecureMode 적용을 위해서는 다음 환경이 사전에 필요합니다:
 
 - ✅ **UEFI 기반 부팅 방식**
 - ✅ **Secure Boot 활성화**
-- ✅ Windows 10 1903 이상 (Enterprise 또는 Education 권장)
+- ✅ **Windows 10 1903 이상**
+  - Pro, Enterprise, Education 에디션 지원
+- ✅ **Windows Server 2019 이상**
+  - Standard, Datacenter 에디션에서 동작 확인됨
 - ✅ 관리자 권한
 
 > WDAC는 서명된 스크립트 실행을 제한하는 보안 구조이며, Secure Boot 환경이 반드시 필요합니다.
