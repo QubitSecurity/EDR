@@ -10,10 +10,10 @@ entries=(
   "10.10.10.1    repo.plura.io"
   "10.10.10.1    apis.plura.io"
   "10.10.10.4    uploadsys.plura.io"
-  "10.10.10.7    uploadweb.plura.io"
-  "10.10.10.7    uploadnet.plura.io"
-  "10.10.10.7    uploadapp.plura.io"
-  "10.10.10.7    uploadres.plura.io"
+  "10.10.10.4    uploadweb.plura.io"
+  "10.10.10.4    uploadnet.plura.io"
+  "10.10.10.4    uploadapp.plura.io"
+  "10.10.10.4    uploadres.plura.io"
 )
 
 # Track whether any changes were made
