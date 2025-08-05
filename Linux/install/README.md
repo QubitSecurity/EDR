@@ -30,7 +30,7 @@ sudo bash ./add_hosts.sh
 에이전트를 설치하고 라이선스 키를 등록합니다.
 
 ```bash
-bash ./install_plura.sh
+bash ./run_plura.sh
 ```
 
 > ⚠️ **주의:**
