@@ -2,6 +2,9 @@
 
 set -e
 
+# 디버깅 필요 시 아래와 같이 -x 옵션 추가
+# set -ex
+
 echo https_proxy=$https_proxy
 
 echo "Switching to root user..."
