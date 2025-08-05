@@ -15,7 +15,7 @@ echo "Registering agent with license key..."
 plura register "$LICENSE_KEY"
 
 echo "Checking agent installation version..."
-plurad -version
+/usr/sbin/plurad -version
 
 echo "Installation complete."
 
