@@ -16,8 +16,7 @@
 먼저 PLURA 설치에 필요한 도메인 정보를 `/etc/hosts`에 등록해야 합니다.
 
 ```bash
-chmod +x add_hosts.sh
-sudo ./add_hosts.sh
+sudo bash ./add_hosts.sh
 ````
 
 > ⚠️ **주의:**
@@ -26,17 +25,16 @@ sudo ./add_hosts.sh
 
 ---
 
-### 2️⃣ `install_plura.sh` 실행
+### 2️⃣ `run_plura.sh` 실행
 
 에이전트를 설치하고 라이선스 키를 등록합니다.
 
 ```bash
-chmod +x install_plura.sh
-./install_plura.sh
+bash ./install_plura.sh
 ```
 
 > ⚠️ **주의:**
-> `install_plura.sh` 내부의 `LICENSE_KEY="..."` 항목은
+> `run_plura.sh` 내부의 `LICENSE_KEY="..."` 항목은
 > 반드시 **PLURA 웹 UI에서 확인한 본인의 라이선스 키로 수정**해 주세요.
 
 > 라이선스 키 확인 방법:
@@ -49,7 +47,7 @@ chmod +x install_plura.sh
 설치가 완료되면 아래 명령을 통해 정상 설치 여부를 확인할 수 있습니다.
 
 ```bash
-plurad -version
+/usr/local/sbin/plurad -version
 ```
 
 ---
