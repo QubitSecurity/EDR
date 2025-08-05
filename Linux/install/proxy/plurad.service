@@ -1,0 +1,15 @@
+[Unit]
+Description=Plura agent service
+After=network.target network-online.target
+
+[Service]
+Environment="https_proxy=http://172.16.10.20:3128"
+WorkingDirectory=/etc/plura/
+Type=simple
+ExecStart=/usr/local/sbin/plurad -start
+ExecStop=/usr/local/sbin/plurad -stop
+ExecStop=/etc/plura/plura.sh fstop
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
