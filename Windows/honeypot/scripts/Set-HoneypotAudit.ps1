@@ -9,7 +9,7 @@
 
 param(
   # Root honeypot path under current user’s Documents
-  [string]$HoneypotRoot = Join-Path $env:USERPROFILE "Documents\Honeypot"
+  [string]$HoneypotRoot = Join-Path $env:USERPROFILE "Documents\"
 )
 
 # --- Helpers ---------------------------------------------------------------
