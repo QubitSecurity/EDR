@@ -1,25 +1,42 @@
 <# 
 .SYNOPSIS
-  Minimal honeypot under Documents with audit policy + SACL for create/modify.
+  Create a simple honeypot under Documents, generate decoy files, and enable auditing (Advanced Audit Policy + SACL).
+
+.DESCRIPTION
+  - Creates Documents\Honeypot with subfolders (Docs/Images/Archives/Media).
+  - Generates decoy files across Office/PDF/Image/Archive/Media extensions.
+  - Enables "Object Access -> File System" advanced audit policy (locale-aware).
+  - Adds SACL audit rule (Everyone; create/write/append/delete) with inheritance to all child objects.
 
 .NOTES
   Run as Administrator.
-  Security logs you’ll see on activity: 4656/4663/4658/4670 (Object Access).
+  Relevant Security log events to observe: 4656, 4663, 4658, 4670.
+
 #>
 
 param(
-  # Root honeypot path under current user’s Documents
-  [string]$HoneypotRoot = Join-Path $env:USERPROFILE "Documents\"
+  # Resolve the actual Documents path (handles localization/redirected folders)
+  [string]$HoneypotRoot = $(Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'Honeypot')
 )
 
 # --- Helpers ---------------------------------------------------------------
+
+function Test-IsAdministrator {
+    <#
+      .SYNOPSIS
+        Checks if current PowerShell is elevated.
+    #>
+    $id = [Security.Principal.WindowsIdentity]::GetCurrent()
+    $pr = New-Object Security.Principal.WindowsPrincipal($id)
+    return $pr.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+}
 
 function New-TextFile {
     param(
         [Parameter(Mandatory)] [string]$Path,
         [Parameter(Mandatory)] [string]$Content
     )
-    # Simple text content regardless of extension; good enough for decoys.
+    # Create parent directory if needed and write UTF-8 text (decoy content).
     $dir = Split-Path -Parent $Path
     if (!(Test-Path $dir)) { New-Item -ItemType Directory -Path $dir -Force | Out-Null }
     $Content | Out-File -FilePath $Path -Encoding UTF8 -Force
@@ -28,97 +45,123 @@ function New-TextFile {
 function Enable-FileSystemAuditPolicy {
     <#
       .SYNOPSIS
-        Enables Advanced Audit Policy for File System (success+failure).
-      .DESCRIPTION
-        Uses auditpol to set: Object Access -> File System : Success, Failure
+        Enable Advanced Audit Policy for File System (success+failure), locale-aware.
+      .DETAILS
+        Finds the localized subcategory name by querying auditpol.
     #>
     Write-Host "[*] Enabling Advanced Audit Policy for File System..." -ForegroundColor Cyan
-    & auditpol.exe /set /subcategory:"File System" /success:enable /failure:enable | Out-Null
 
-    # Optional hardening: ensure "Object Access" subcats also include Removable Storage if desired.
-    # & auditpol.exe /set /subcategory:"Removable Storage" /success:enable /failure:enable | Out-Null
+    # Query available subcategories (localized)
+    $list = & auditpol.exe /list /subcategory:* 2>$null
+
+    # Known localized labels (extend if needed)
+    $candidates = @(
+        'File System',          # en-US
+        '파일 시스템',            # ko-KR
+        'ファイル システム',       # ja-JP
+        'Dateisystem',          # de-DE (common)
+        'Fichier système',      # fr-FR
+        'Sistema de archivos'   # es-ES
+    )
+
+    $target = $null
+    foreach ($c in $candidates) {
+        if ($list -match ("(?m)^\s*"+[regex]::Escape($c)+"\s*$")) { $target = $c; break }
+    }
+
+    # Fallback heuristic: pick the line that contains both words similar to "file" and "system"
+    if (-not $target) {
+        $guess = $list | Where-Object { $_ -match '(?i)file|fichier|archivo|datei|ファイル|파일' } |
+                         Where-Object { $_ -match '(?i)system|système|sistema|system|システム|시스템' } |
+                         Select-Object -First 1
+        if ($guess) { $target = $guess.Trim() }
+    }
+
+    if (-not $target) {
+        Write-Warning "Could not resolve localized subcategory for 'File System'."
+        Write-Warning "Run 'auditpol /list /subcategory:*' and set it manually."
+        return
+    }
+
+    # Apply success+failure
+    & auditpol.exe /set /subcategory:"$target" /success:enable /failure:enable | Out-Null
 }
 
 function Add-AuditRuleToFolder {
-    param(
-        [Parameter(Mandatory)] [string]$FolderPath
-    )
+    param([Parameter(Mandatory)] [string]$FolderPath)
+
     <#
       .SYNOPSIS
-        Adds SACL audit rules to a folder, inheriting to all child files.
+        Adds SACL audit rules to a folder, inheriting to all children.
       .DETAILS
         Identity: Everyone (S-1-1-0)
         Rights: create/write/append/delete/attr changes
         Inheritance: ContainerInherit + ObjectInherit
         Audit: Success + Failure
     #>
-    if (!(Test-Path $FolderPath)) {
-        throw "Folder not found: $FolderPath"
-    }
+
+    if (!(Test-Path $FolderPath)) { throw "Folder not found: $FolderPath" }
 
     $sidEveryone = New-Object System.Security.Principal.SecurityIdentifier "S-1-1-0"
-    $ci = [System.Security.AccessControl.InheritanceFlags]::ContainerInherit
-    $oi = [System.Security.AccessControl.InheritanceFlags]::ObjectInherit
-    $np = [System.Security.AccessControl.PropagationFlags]::None
 
-    # Rights to watch typical ransomware/file tampering behaviors
-    $rights = [System.Security.AccessControl.FileSystemRights]::CreateFiles `
-            -bor [System.Security.AccessControl.FileSystemRights]::CreateDirectories `
-            -bor [System.Security.AccessControl.FileSystemRights]::WriteData `
-            -bor [System.Security.AccessControl.FileSystemRights]::AppendData `
-            -bor [System.Security.AccessControl.FileSystemRights]::WriteAttributes `
-            -bor [System.Security.AccessControl.FileSystemRights]::WriteExtendedAttributes `
-            -bor [System.Security.AccessControl.FileSystemRights]::Delete `
-            -bor [System.Security.AccessControl.FileSystemRights]::DeleteSubdirectoriesAndFiles
+    # Build rights via integer accumulation to avoid array/bitwise pitfalls.
+    $FSR = [System.Security.AccessControl.FileSystemRights]
+    $rightsInt = 0
+    $rightsInt = $rightsInt -bor [int]$FSR::CreateFiles
+    $rightsInt = $rightsInt -bor [int]$FSR::CreateDirectories
+    $rightsInt = $rightsInt -bor [int]$FSR::WriteData
+    $rightsInt = $rightsInt -bor [int]$FSR::AppendData
+    $rightsInt = $rightsInt -bor [int]$FSR::WriteAttributes
+    $rightsInt = $rightsInt -bor [int]$FSR::WriteExtendedAttributes
+    $rightsInt = $rightsInt -bor [int]$FSR::Delete
+    $rightsInt = $rightsInt -bor [int]$FSR::DeleteSubdirectoriesAndFiles
+    $rights    = [System.Security.AccessControl.FileSystemRights]$rightsInt
 
-    $auditFlags = [System.Security.AccessControl.AuditFlags]::Success `
-                -bor [System.Security.AccessControl.AuditFlags]::Failure
+    $inherit   = [System.Security.AccessControl.InheritanceFlags]::ContainerInherit -bor `
+                 [System.Security.AccessControl.InheritanceFlags]::ObjectInherit
+    $propagate = [System.Security.AccessControl.PropagationFlags]::None
+
+    $auditFlags = [System.Security.AccessControl.AuditFlags]::Success -bor `
+                  [System.Security.AccessControl.AuditFlags]::Failure
 
     $acl = Get-Acl -Path $FolderPath
-    $sacl = $acl.GetAuditRules($true,$true,[System.Security.Principal.SecurityIdentifier])
-
-    # Build and attach audit rule
-    $auditRule = New-Object System.Security.AccessControl.FileSystemAuditRule(
-        $sidEveryone, $rights, $ci -bor $oi, $np, $auditFlags
-    )
-
-    $modified = $false
-    if (-not $sacl | Where-Object {
+    $existing = $acl.GetAuditRules($true,$true,[System.Security.Principal.SecurityIdentifier]) |
+      Where-Object {
         $_.IdentityReference -eq $sidEveryone -and
-        $_.FileSystemRights -band $rights -and
-        $_.AuditFlags -band $auditFlags
-    }) {
-        $acl.AddAuditRule($auditRule) | Out-Null
-        $modified = $true
-    }
+        ($_.FileSystemRights -band $rights) -eq $rights -and
+        ($_.AuditFlags -band $auditFlags) -eq $auditFlags -and
+        ($_.InheritanceFlags -band $inherit) -eq $inherit
+      }
 
-    if ($modified) {
-        # Apply SACL back (needs admin)
+    if (-not $existing) {
+        $auditRule = New-Object System.Security.AccessControl.FileSystemAuditRule(
+            $sidEveryone, $rights, $inherit, $propagate, $auditFlags
+        )
+        $acl.AddAuditRule($auditRule) | Out-Null
         Set-Acl -Path $FolderPath -AclObject $acl
         Write-Host "[*] SACL audit rule added to: $FolderPath" -ForegroundColor Green
-    }
-    else {
+    } else {
         Write-Host "[*] SACL already present on: $FolderPath" -ForegroundColor Yellow
     }
 }
 
-# --- 1) Create Documents\Honeypot folder ----------------------------------
+# --- Main ------------------------------------------------------------------
+
+if (-not (Test-IsAdministrator)) {
+    throw "Please run PowerShell as Administrator."
+}
 
 Write-Host "[*] Creating honeypot root: $HoneypotRoot" -ForegroundColor Cyan
 New-Item -ItemType Directory -Path $HoneypotRoot -Force | Out-Null
 
 $folders = @{
-  Docs    = Join-Path $HoneypotRoot "Docs"
-  Images  = Join-Path $HoneypotRoot "Images"
-  Archives= Join-Path $HoneypotRoot "Archives"
-  Media   = Join-Path $HoneypotRoot "Media"
+  Docs     = Join-Path $HoneypotRoot "Docs"
+  Images   = Join-Path $HoneypotRoot "Images"
+  Archives = Join-Path $HoneypotRoot "Archives"
+  Media    = Join-Path $HoneypotRoot "Media"
 }
 
-$folders.GetEnumerator() | ForEach-Object {
-  New-Item -ItemType Directory -Path $_.Value -Force | Out-Null
-}
-
-# --- 2) Create decoy files across types -----------------------------------
+$folders.Values | ForEach-Object { New-Item -ItemType Directory -Path $_ -Force | Out-Null }
 
 Write-Host "[*] Creating decoy files..." -ForegroundColor Cyan
 
@@ -141,17 +184,11 @@ New-TextFile -Path (Join-Path $folders.Media "meeting.mp3") "Audio placeholder"
 New-TextFile -Path (Join-Path $folders.Media "training.mp4") "Video placeholder"
 New-TextFile -Path (Join-Path $folders.Media "promo.avi")    "Video placeholder"
 
-# Optional: make them look “interesting” to attackers
-# (Ransomware often enumerates Documents/Media aggressively.)
-# Set-ItemProperty -Path (Join-Path $folders.Docs "Confidential_Report.pdf") -Name IsReadOnly -Value $true
-
-# --- 3) Enable Advanced Audit Policy + attach SACLs -----------------------
-
+# Enable audit policy and add SACL
 Enable-FileSystemAuditPolicy
-
-# Add SACL auditing to the honeypot root so it inherits to all children
 Add-AuditRuleToFolder -FolderPath $HoneypotRoot
 
 Write-Host "`n[+] Honeypot ready." -ForegroundColor Green
 Write-Host "    Path: $HoneypotRoot"
-Write-Host "    Watch Security log for Object Access events (e.g., 4663) on create/modify/delete." 
+Write-Host "    Check Security log for Object Access events (e.g., 4663) on create/modify/delete."
+Write-Host "    Verify policy: auditpol /get /subcategory:\"File System\"  (or the localized name)"
