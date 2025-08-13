@@ -1,30 +1,40 @@
 <# 
 .SYNOPSIS
   Configure auditing so CREATE, RENAME (incl. extension change), and DELETE
-  under the target path are written to the Security log — locale‑independent.
+  under the target path are written to the Security log — account- and locale‑independent.
 
 .DESCRIPTION
-  - Target path default: C:\Users\analyst\Documents\Client_Contracts
+  - Target path default: <CurrentUser>\Documents\Client_Contracts  (no hard-coded username)
+    * Resolves via [Environment]::GetFolderPath('MyDocuments') to handle OneDrive/redirected folders.
   - Enables Advanced Audit Policy → Object Access → File System (Success/Failure).
-    * ASCII-only auto-detect to avoid encoding issues; or pass -SubcategoryName explicitly.
-  - Applies SACL on the root (inherit to new items).
-  - Retrofits SACL to existing children via .NET (no icacls/localization problems).
+    * ASCII-only auto-detect; or pass -SubcategoryName explicitly if needed.
+  - Applies minimal SACL on the root (inherit to new items).
+  - Retrofits SACL to existing children via .NET (no icacls/localization issues).
   - SACL rights (minimal but sufficient):
       FILES      : Delete, WriteAttributes, WriteExtendedAttributes
       DIRECTORIES: CreateFiles(AddFile), AppendData, CreateDirectories,
                    WriteAttributes, Delete, DeleteSubdirectoriesAndFiles(DeleteChild)
   - Self-test creates → renames(extension) → deletes a file and prints 4663 summaries
-    using XML fields (ObjectName/AccessList/AccessMask) so it is language-agnostic.
+    using XML fields (ObjectName/AccessList/AccessMask) so it’s language-agnostic.
 
 .NOTES
   Run PowerShell as Administrator.
 #>
 
 param(
-  [string]$Root = 'C:\Users\analyst\Documents\Client_Contracts',
-  [string]$AuditSid = 'S-1-5-11',     # Authenticated Users (use 'S-1-1-0' for Everyone)
-  [string]$SubcategoryName,           # Optional exact localized name; e.g., "파일 시스템"
+  # Root defaults to <CurrentUser>\Documents\Client_Contracts (handles localization/redirects)
+  [string]$Root = (Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'Client_Contracts'),
+
+  # Who to audit: Authenticated Users (less noise). Use 'S-1-1-0' (Everyone) to broaden.
+  [string]$AuditSid = 'S-1-5-11',
+
+  # Optional exact localized subcategory name, e.g. "파일 시스템".
+  [string]$SubcategoryName,
+
+  # Also add SACL directly to existing child items (recommended first run)
   [switch]$RetrofitExisting = $true,
+
+  # Quick validation at the end
   [switch]$SelfTest = $true
 )
 
@@ -67,7 +77,7 @@ function Enable-FileSystemAuditPolicy {
 
 # ---------- Rights & SACL helpers ----------
 function Get-RightsForAudit {
-  # Minimal but sufficient rights for create / rename / delete auditing.
+  # Minimal rights for create / rename / delete auditing.
   $FSR = [System.Security.AccessControl.FileSystemRights]
   $file = [System.Enum]::ToObject($FSR,
     ([int]$FSR::Delete -bor [int]$FSR::WriteAttributes -bor [int]$FSR::WriteExtendedAttributes))
