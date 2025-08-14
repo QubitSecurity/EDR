@@ -9,7 +9,7 @@
       * Tries LogonUI LastLoggedOnUser; else newest plausible C:\Users\<name>
       * If HKU hive not mounted, loads NTUSER.DAT to HKU\_Temp_<SID> temporarily
       * Reads "User Shell Folders\Personal" and expands env vars
-  - Enables Advanced Audit Policy → Object Access → File System (Success/Failure)
+  - Enables Advanced Audit Policy → Object Access → File System (Success/Failure) using GUID
   - Forces subcategory auditing (SCENoApplyLegacyAuditPolicy=1)
   - Applies minimal SACL on root (inherit to new items) and retrofits to existing children
   - Optional self-test prints concise, locale-agnostic 4663 lines via Event XML
@@ -181,20 +181,14 @@ function Ensure-ForceSubcategory {
 }
 
 function Enable-FileSystemAuditPolicy {
-  # Locale-agnostic (ASCII) enabling of "File System" subcategory (Success/Failure)
-  Write-Host "[*] Enabling Advanced Audit Policy (File System)..." -ForegroundColor Cyan
-  $subcategory = 'File System'
+  # Locale‑independent: use the well‑known GUID for "File System"
+  # GUID: {0CCE921D-69AE-11D9-BED3-505054503030}
+  Write-Host "[*] Enabling Advanced Audit Policy (File System via GUID)..." -ForegroundColor Cyan
+  $guid = '{0CCE921D-69AE-11D9-BED3-505054503030}'
   try {
-    $list = & auditpol.exe /list /subcategory:* 2>$null
-    if ($list -notmatch '(?im)^\s*File System\s*$') {
-      $guess = $list | Where-Object { $_ -match '(?i)file\s*.*\s*system' } | Select-Object -First 1
-      if ($guess) { $subcategory = $guess.Trim() }
-    }
-  } catch { }
-  try { & auditpol.exe /set /subcategory:"$subcategory" /success:enable /failure:enable | Out-Null }
-  catch {
-    Write-Warning "Could not set audit policy for subcategory: $subcategory"
-    Write-Warning "Run 'auditpol /list /subcategory:*' and set it manually."
+    & auditpol.exe /set /subcategory:$guid /success:enable /failure:enable | Out-Null
+  } catch {
+    Write-Warning "auditpol /set failed. If a domain GPO enforces audit policy, local changes may be blocked."
   }
 }
 
@@ -252,6 +246,22 @@ function Retrofit-ChildrenSacl {
 
 # ---------------- Locale‑independent Event XML parser (for self-test) ----------------
 
+# Small map for common %% access codes → readable labels
+$AccessCodeMap = @{
+  '%%4417' = 'WriteData/AddFile'
+  '%%4418' = 'AppendData/CreateSubdir'
+  '%%4424' = 'WriteAttributes'
+  '%%4433' = 'WriteEA'
+  '%%1537' = 'DELETE'
+}
+
+function Pretty-Accesses($text) {
+  if (-not $text) { return $null }
+  ($text -split '[,\s]+' | Where-Object {$_} | ForEach-Object {
+      if ($AccessCodeMap.ContainsKey($_)) { $AccessCodeMap[$_] } else { $_ }
+  }) -join ','
+}
+
 function Parse-EventXml {
   param([Parameter(Mandatory)]$Event)
   $xml = [xml]$Event.ToXml()
@@ -271,7 +281,7 @@ function Parse-EventXml {
 
 function Self-Test {
   param([Parameter(Mandatory)][string]$RootPath)
-  Write-Host "[*] Self-test: create→rename(extension)→delete..." -ForegroundColor Cyan
+  Write-Host "[*] Self-test: create -> rename(extension) -> delete..." -ForegroundColor Cyan
   $since = Get-Date
   $sub = Join-Path $RootPath 'Docs'
   if(!(Test-Path $sub)){ New-Item -ItemType Directory -Path $sub -Force | Out-Null }
@@ -289,7 +299,9 @@ function Self-Test {
     Write-Host "[+] Found $($events.Count) 4663 event(s) since $since" -ForegroundColor Green
     foreach($e in $events){
       $p = Parse-EventXml $e
-      ('{0:u}  4663  {1}  Mask={2}' -f $e.TimeCreated, $p.Accesses, $p.Mask) | Write-Host
+      $acc = Pretty-Accesses $p.Accesses
+      if (-not $acc) { $acc = $p.Accesses }
+      ('{0:u}  4663  {1}  Mask={2}' -f $e.TimeCreated, $acc, $p.Mask) | Write-Host
       if($p.Target){ ('   -> ' + $p.Target) | Write-Host }
     }
   } else { Write-Warning "No 4663 events found—check policy/SACL." }
@@ -309,7 +321,7 @@ Ensure-ForceSubcategory
 Enable-FileSystemAuditPolicy
 
 # 2) SACL on root (inherit to new items)
-Set-RootSacl -Path $Root -AuditSid 'S-1-5-11'   # Authenticated Users (줄이고 싶으면 S-1-1-0 = Everyone)
+Set-RootSacl -Path $Root -AuditSid 'S-1-5-11'   # Authenticated Users (use S-1-1-0 for Everyone if desired)
 Write-Host "[*] SACL applied to root (will inherit to new items)" -ForegroundColor Green
 
 # 3) Retrofit to existing children (for immediate rename/delete capture)
@@ -322,4 +334,4 @@ if ($SelfTest) { Self-Test -RootPath $Root }
 
 Write-Host "`n[+] Audit ready for CREATE / RENAME / DELETE." -ForegroundColor Green
 Write-Host "    Path: $Root"
-Write-Host "    Tip: verify via:  auditpol /get /subcategory:`"File System`""
+Write-Host "    Tip: verify via:  auditpol /get /subcategory:`"{0CCE921D-69AE-11D9-BED3-505054503030}`""
