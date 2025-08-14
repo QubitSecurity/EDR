@@ -255,8 +255,8 @@ function Self-Test {
     $acc = Pretty-Accesses $p.Accesses
     if ([string]::IsNullOrWhiteSpace($acc)) { $acc = $p.Accesses }
     $line = '{0:u}  4663  {1}  Mask={2}' -f $e.TimeCreated, $acc, $p.Mask
-    Write-Output $line
-    if ($p.Target) { Write-Output ('   -> ' + $p.Target) }
+#    Write-Output $line
+#    if ($p.Target) { Write-Output ('   -> ' + $p.Target) }
   }
 }
 
