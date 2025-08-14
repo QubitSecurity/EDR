@@ -174,7 +174,7 @@ function New-TextFile {
 $DocsPath = Resolve-RealDocumentsPath
 $HoneypotRoot = Join-Path $DocsPath 'Client_Contracts'
 
-Write-Host "[*] Creating honeypot folder tree: $HoneypotRoot" -ForegroundColor Cyan
+# Write-Host "[*] Creating honeypot folder tree: $HoneypotRoot" -ForegroundColor Cyan
 New-Item -ItemType Directory -Path $HoneypotRoot -Force | Out-Null
 
 $folders = @{
@@ -185,7 +185,7 @@ $folders = @{
 }
 $folders.Values | ForEach-Object { New-Item -ItemType Directory -Path $_ -Force | Out-Null }
 
-Write-Host "[*] Creating decoy files..." -ForegroundColor Cyan
+# Write-Host "[*] Creating decoy files..." -ForegroundColor Cyan
 # Office-like
 New-TextFile -Path (Join-Path $folders.Docs "Project_Plan.docx") "Decoy document."
 New-TextFile -Path (Join-Path $folders.Docs "Budget_2025.xlsx")   "Decoy spreadsheet."
@@ -205,5 +205,5 @@ New-TextFile -Path (Join-Path $folders.Media "meeting.mp3") "Audio placeholder"
 New-TextFile -Path (Join-Path $folders.Media "training.mp4") "Video placeholder"
 New-TextFile -Path (Join-Path $folders.Media "promo.avi")    "Video placeholder"
 
-Write-Host "`n[+] Decoy files ready." -ForegroundColor Green
-Write-Host "    Path: $HoneypotRoot"
+# Write-Host "`n[+] Decoy files ready." -ForegroundColor Green
+# Write-Host "    Path: $HoneypotRoot"
