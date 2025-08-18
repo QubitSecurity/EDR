@@ -34,6 +34,7 @@ $MarkerKey  = 'HKLM:\SOFTWARE\HoneypotAudit'
 $MarkerName = 'SetLegacyOverride'           # SCENoApplyLegacyAuditPolicy was set by this script
 
 # ---------------- Logging ----------------
+### PLURA-Forensic
 function Ensure-EventSource {
   try {
     if (-not [System.Diagnostics.EventLog]::SourceExists($EventSrc)) {
@@ -42,6 +43,7 @@ function Ensure-EventSource {
   } catch {}
 }
 
+### PLURA-Forensic
 function Write-AppLog {
   param(
     [string]$Message,
@@ -52,6 +54,7 @@ function Write-AppLog {
 }
 
 # ---------------- Admin check ----------------
+### PLURA-Forensic
 function Test-IsAdministrator {
   $id = [Security.Principal.WindowsIdentity]::GetCurrent()
   $pr = New-Object Security.Principal.WindowsPrincipal($id)
@@ -61,6 +64,7 @@ if (-not (Test-IsAdministrator)) { throw "Please run PowerShell as Administrator
 Ensure-EventSource
 
 # ---------------- Resolve real Documents (SYSTEM-safe) ----------------
+### PLURA-Forensic
 function Get-UserProfilesFromProfileList {
   $base = 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList'
   $list = @()
@@ -77,6 +81,7 @@ function Get-UserProfilesFromProfileList {
   $list
 }
 
+### PLURA-Forensic
 function Get-LastLoggedOnUserName {
   $keys = @(
     'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI',
@@ -96,6 +101,7 @@ function Get-LastLoggedOnUserName {
   return $null
 }
 
+### PLURA-Forensic
 function Try-TranslateAccountToSid {
   param([string]$Account)
   try {
@@ -105,6 +111,7 @@ function Try-TranslateAccountToSid {
   } catch { return $null }
 }
 
+### PLURA-Forensic
 function Mount-UserHive {
   param([string]$Sid,[string]$ProfilePath)
   $ntuser = Join-Path $ProfilePath 'NTUSER.DAT'
@@ -119,6 +126,7 @@ function Mount-UserHive {
   return $null
 }
 
+### PLURA-Forensic
 function Resolve-DocumentsViaHive {
   param([string]$HiveRootPS,[string]$ProfilePath)
   $key = Join-Path $HiveRootPS 'Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders'
@@ -132,6 +140,7 @@ function Resolve-DocumentsViaHive {
   return (Join-Path $ProfilePath 'Documents')
 }
 
+### PLURA-Forensic
 function Resolve-RealDocumentsPath {
   try {
     $myDocs = [Environment]::GetFolderPath('MyDocuments')
@@ -159,6 +168,7 @@ function Resolve-RealDocumentsPath {
 }
 
 # ---------------- Decoys ----------------
+### PLURA-Forensic
 function New-TextFile {
   param([string]$Path,[string]$Content)
   $dir = Split-Path -Parent $Path
@@ -166,6 +176,7 @@ function New-TextFile {
   $Content | Out-File -FilePath $Path -Encoding UTF8 -Force
 }
 
+### PLURA-Forensic
 function Create-Decoys {
   param([string]$RootPath)
   $folders = @{
@@ -195,6 +206,7 @@ function Create-Decoys {
 }
 
 # ---------------- Policy helpers ----------------
+### PLURA-Forensic
 function Mark-SetLegacyOverride {
   try {
     if (-not (Test-Path $MarkerKey)) { New-Item -Path $MarkerKey -Force | Out-Null }
@@ -204,6 +216,7 @@ function Mark-SetLegacyOverride {
 function Test-SetLegacyOverride { try { ((Get-ItemProperty -Path $MarkerKey -Name $MarkerName -ErrorAction SilentlyContinue).$MarkerName -eq 1) } catch { $false } }
 function Clear-SetLegacyOverride { try { if (Test-Path $MarkerKey) { Remove-Item $MarkerKey -Recurse -Force } } catch {} }
 
+### PLURA-Forensic
 function Ensure-ForceSubcategory {
   $path='HKLM:\System\CurrentControlSet\Control\Lsa'
   $cur = (Get-ItemProperty -Path $path -Name SCENoApplyLegacyAuditPolicy -ErrorAction SilentlyContinue).SCENoApplyLegacyAuditPolicy
@@ -213,6 +226,7 @@ function Ensure-ForceSubcategory {
   }
 }
 
+### PLURA-Forensic
 function Restore-ForceSubcategoryIfMarked {
   if (Test-SetLegacyOverride) {
     try {
@@ -222,16 +236,19 @@ function Restore-ForceSubcategoryIfMarked {
   }
 }
 
+### PLURA-Forensic
 function Enable-FileSystemAuditPolicy {
   $guid = '{0CCE921D-69AE-11D9-BED3-505054503030}'
   & auditpol.exe /set /subcategory:$guid /success:enable /failure:enable | Out-Null
 }
 
+### PLURA-Forensic
 function Disable-FileSystemAuditPolicy {
   $guid = '{0CCE921D-69AE-11D9-BED3-505054503030}'
   & auditpol.exe /set /subcategory:$guid /success:disable /failure:disable | Out-Null
 }
 
+### PLURA-Forensic
 function Get-RightsForAudit {
   # Minimal rights to capture rename/extension change + delete + directory entry modifications
   $FSR = [System.Security.AccessControl.FileSystemRights]
@@ -241,6 +258,7 @@ function Get-RightsForAudit {
   [PSCustomObject]@{ FileRights=$file; DirRights=$dir }
 }
 
+### PLURA-Forensic
 function Set-RootSacl {
   param([string]$Path,[string]$AuditSid)
   $sid = New-Object System.Security.Principal.SecurityIdentifier $AuditSid
@@ -259,6 +277,7 @@ function Set-RootSacl {
   Set-Acl -LiteralPath $Path -AclObject $acl
 }
 
+### PLURA-Forensic
 function Remove-RootSacl {
   param([string]$Path,[string]$AuditSid)
   $sid = New-Object System.Security.Principal.SecurityIdentifier $AuditSid
@@ -270,6 +289,7 @@ function Remove-RootSacl {
   } catch {}
 }
 
+### PLURA-Forensic
 function Retrofit-ChildrenSacl {
   param([string]$Path,[string]$AuditSid)
   $sid = New-Object System.Security.Principal.SecurityIdentifier $AuditSid
@@ -292,6 +312,7 @@ function Retrofit-ChildrenSacl {
   }
 }
 
+### PLURA-Forensic
 function Remove-ChildrenSacl {
   param([string]$Path,[string]$AuditSid)
   $sid = New-Object System.Security.Principal.SecurityIdentifier $AuditSid
@@ -345,6 +366,7 @@ function Self-Test {
 }
 
 # ---------------- Main ----------------
+### PLURA-Forensic
 try {
   $DocsPath = Resolve-RealDocumentsPath
   $Root     = Join-Path $DocsPath $RootName
