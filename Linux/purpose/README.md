@@ -99,28 +99,28 @@ PLURA-EDR의 리눅스 에이전트는 서버·호스트 단에서 발생하는 
 ```mermaid
 flowchart LR
   subgraph Host["Linux Host"]
-    A[Syslog Sources\n(sshd, sudo, kernel, systemd, apps)]
-    B[Auditd\n(/var/log/audit/audit.log)]
-    C[System Metrics\n(CPU/Mem/Disk/Net)]
+    A["Syslog Sources<br/>(sshd, sudo, kernel, systemd, apps)"]
+    B["Auditd<br/>(/var/log/audit/audit.log)"]
+    C["System Metrics<br/>(CPU/Mem/Disk/Net)"]
   end
 
   subgraph Agent["PLURA-EDR Agent"]
-    P1[Log Collector\n(syslog tail, journal, file)]
-    P2[Audit Collector\n(audit.log)]
-    P3[Audit Policy Manager\n(audit rules deploy)]
-    N[Normalizer/Parser]
-    R[Rule Engine\n(MITRE ATT&CK mapping)]
-    T[Tagger\n(Detection Tag 부여)]
-    Q[Queue/Buffer\n(Retry, Backoff)]
-    X[Metric Collector]
-    E[Secure Sender\n(TLS)]
+    P1["Log Collector<br/>(syslog tail, journal, file)"]
+    P2["Audit Collector<br/>(audit.log)"]
+    P3["Audit Policy Manager<br/>(audit rules deploy)"]
+    N["Normalizer/Parser"]
+    R["Rule Engine<br/>(MITRE ATT&CK mapping)"]
+    T["Tagger<br/>(Detection Tag)"]
+    Q["Queue/Buffer<br/>(Retry, Backoff)"]
+    X["Metric Collector"]
+    E["Secure Sender<br/>(TLS)"]
   end
 
   subgraph Server["MITRE ATT&CK Server / PLURA-XDR"]
-    S1[Ingest API]
-    S2[Correlation/Threat Intel]
-    S3[Alerting & Dashboards]
-    S4[Storage/Lake]
+    S1["Ingest API"]
+    S2["Correlation / Threat Intel"]
+    S3["Alerting & Dashboards"]
+    S4["Storage / Lake"]
   end
 
   A --> P1 --> N
