@@ -30,7 +30,7 @@ PLURA-EDR의 리눅스 에이전트는 서버·호스트 단에서 발생하는 
 
 * **Audit 정책 자동 적용**
 
-  * auditd가 활성화되어 있다면, PLURA-EDR 에이전트는 보안 강화를 위해 필요한 \*\*감사 규칙(audit rules)\*\*을 자동으로 배포 및 적용합니다.
+  * auditd가 활성화되어 있다면, PLURA-EDR 에이전트는 보안 강화를 위해 필요한 감사 규칙(audit rules)을 자동으로 배포 및 적용합니다.
   * 예: `/etc/audit/rules.d/`에 정책 반영, root 권한 명령어 실행 추적, 주요 파일/디렉토리 접근 모니터링 등.
 
 ---
@@ -39,8 +39,8 @@ PLURA-EDR의 리눅스 에이전트는 서버·호스트 단에서 발생하는 
 
 * **로그-룰 매칭 분석**
 
-  * 수집된 `syslog` 및 `audit.log` 이벤트를 \*\*MITRE ATT\&CK 서버의 탐지 Rule(정책)\*\*과 실시간 비교합니다.
-  * 해당 이벤트가 공격 기법(Tactic/Technique)에 부합하면 \*\*탐지 태그(Detection Tag)\*\*를 부여합니다.
+  * 수집된 `syslog` 및 `audit.log` 이벤트를 MITRE ATT\&CK 서버의 탐지 Rule(정책)과 실시간 비교합니다.
+  * 해당 이벤트가 공격 기법(Tactic/Technique)에 부합하면 탐지 태그(Detection Tag)를 부여합니다.
   * 예:
 
     * `T1059 – Command and Scripting Interpreter`
@@ -52,7 +52,7 @@ PLURA-EDR의 리눅스 에이전트는 서버·호스트 단에서 발생하는 
 
 * **전송 대상: MITRE ATT\&CK 서버**
 
-  * 에이전트는 탐지 이벤트 및 전체 로그를 \*\*보안 서버(PLURA-XDR/ATT\&CK 서버)\*\*로 전송합니다.
+  * 에이전트는 탐지 이벤트 및 전체 로그를 보안 서버(PLURA-XDR/ATT&CK 서버)로 전송합니다.
   * 서버에서는 이를 기반으로 상관분석, 위협 인텔리전스 매칭, 경보(Alert) 생성 등을 수행합니다.
 
 ---
