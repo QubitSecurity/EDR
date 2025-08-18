@@ -171,30 +171,5 @@ sequenceDiagram
 
 ---
 
-## 4) 탐지 태깅 규칙 구조(예시)
 
-* **룰 키:** `linux_t1059_bash_suspicious`
-* **조건:**
-
-  * `event.source == "audit"` AND
-  * `syscall in ["execve"]` AND
-  * `exe in ["/bin/bash","/usr/bin/bash","/bin/sh"]` AND
-  * `cmdline matches /(curl|wget).*(-o|>|>>).*(/tmp|/dev\/shm)/`
-* **태그:** `TA0002(Execution)`, `T1059(Command and Scripting Interpreter)`
-* **심각도:** `High`
-* **출력 필드:** `host, user, exe, cmdline, pid, ppid, ts, detection_tags[]`
-
----
-
-## 5) 운영 포인트(요약)
-
-* **정책 일관성:** 감사 규칙은 OS 버전/환경별 템플릿화하여 배포(충돌·중복 방지).
-* **재시도/백프레셔:** 네트워크 단절 시 로컬 버퍼링, 전송 재시도 전략 필수.
-* **성능 가드레일:** 수집·파싱 스레드/큐 크기, 파일 tail 백오프, 최대 CPU% 한도 설정.
-* **가시성 연계:** 탐지 태그와 원본 이벤트를 함께 전송해 포렌식 추적성 확보.
-* **보안 전송:** TLS, 인증키 롤오버, 에이전트–서버 상호 인증 적용.
-
----
-
-필요하시면 위 다이어그램을 **컴포넌트명/노드명**만 귀사 용어로 치환한 버전, 혹은 **설치·장애·성능 튜닝 Runbook** 형태로도 바로 만들어 드릴게요.
 
