@@ -14,14 +14,18 @@
              "Force subcategory" switch ONLY if it was set by this script (marker check).
 
 .PARAMETERS
-  -Remove   : Revert policy (File System subcategory disable), remove SACL, delete decoys.
-  -SelfTest : Run create→rename(ext)→delete and parse recent 4663 events (locale-agnostic).
+  -TargetUser : Prefer/force this user (e.g., 'harry' or 'DOMAIN\harry' or 'IIS AppPool\DefaultAppPool')
+  -TargetPath : Prefer/force this exact root path (e.g., 'C:\Users\DefaultAppPool\Documents\Client_Contracts')
+  -Remove     : Revert policy (File System subcategory disable), remove SACL, delete decoys.
+  -SelfTest   : Run create→rename(ext)→delete and parse recent 4663 events (locale-agnostic).
 
 .NOTES
   Must run as Administrator. PowerShell 5.1 compatible.
 #>
 
 param(
+  [string]$TargetUser,
+  [string]$TargetPath,
   [switch]$Remove = $false,
   [switch]$SelfTest = $false
 )
@@ -42,8 +46,6 @@ function Ensure-EventSource {
     }
   } catch {}
 }
-
-### PLURA-Forensic
 function Write-AppLog {
   param(
     [string]$Message,
@@ -54,7 +56,6 @@ function Write-AppLog {
 }
 
 # ---------------- Admin check ----------------
-### PLURA-Forensic
 function Test-IsAdministrator {
   $id = [Security.Principal.WindowsIdentity]::GetCurrent()
   $pr = New-Object Security.Principal.WindowsPrincipal($id)
@@ -80,8 +81,6 @@ function Get-UserProfilesFromProfileList {
   } catch {}
   $list
 }
-
-### PLURA-Forensic
 function Get-LastLoggedOnUserName {
   $keys = @(
     'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI',
@@ -100,8 +99,6 @@ function Get-LastLoggedOnUserName {
   }
   return $null
 }
-
-### PLURA-Forensic
 function Try-TranslateAccountToSid {
   param([string]$Account)
   try {
@@ -110,8 +107,6 @@ function Try-TranslateAccountToSid {
            Translate([System.Security.Principal.SecurityIdentifier]).Value
   } catch { return $null }
 }
-
-### PLURA-Forensic
 function Mount-UserHive {
   param([string]$Sid,[string]$ProfilePath)
   $ntuser = Join-Path $ProfilePath 'NTUSER.DAT'
@@ -125,8 +120,6 @@ function Mount-UserHive {
   if ($loaded) { return @{ HiveRootPS=$hiveRegPathPS; Name=$tempName; Loaded=$true } }
   return $null
 }
-
-### PLURA-Forensic
 function Resolve-DocumentsViaHive {
   param([string]$HiveRootPS,[string]$ProfilePath)
   $key = Join-Path $HiveRootPS 'Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders'
@@ -142,43 +135,86 @@ function Resolve-DocumentsViaHive {
 
 ### PLURA-Forensic
 function Resolve-RealDocumentsPath {
+  param([string]$TargetUserParam,[string]$TargetPathParam)
+
+  # A) Absolute path override (new)
+  if ($TargetPathParam) {
+    $p = $TargetPathParam
+    # Accept root or a path under Documents; if it's not ending with root name, allow as-is
+    $dir = Split-Path -Parent $p
+    if (-not (Test-Path -LiteralPath $dir)) {
+      throw "TargetPath base does not exist: $dir"
+    }
+    return $p
+  }
+
+  # B) If current token has a real user profile (not systemprofile), allow it.
   try {
     $myDocs = [Environment]::GetFolderPath('MyDocuments')
-    if ($myDocs -and ($myDocs -notmatch '\\systemprofile\\')) { return $myDocs }
+    if ($myDocs -and ($myDocs -notmatch '\\systemprofile\\')) {
+      return (Join-Path $myDocs $RootName)
+    }
   } catch {}
-  $profiles = Get-UserProfilesFromProfileList | Where-Object { -not $_.IsSystemLike -and $_.ProfilePath -like 'C:\Users\*' }
+
+  # C) Load profiles table (both full and filtered)
+  $profilesAll  = Get-UserProfilesFromProfileList               # includes system-like
+  $profilesNorm = $profilesAll | Where-Object { -not $_.IsSystemLike -and $_.ProfilePath -like 'C:\Users\*' }
+
+  # D) Explicit target user: ignore IsSystemLike filter when matching SID (fix for AppPool etc.)
+  if ($TargetUserParam) {
+    $sid = Try-TranslateAccountToSid $TargetUserParam
+    if ($sid) {
+      $hit = $profilesAll | Where-Object { $_.SID -eq $sid } | Select-Object -First 1
+      if ($hit -and $hit.ProfilePath) {
+        $mount = Mount-UserHive -Sid $hit.SID -ProfilePath $hit.ProfilePath
+        if ($mount) { try { return (Join-Path (Resolve-DocumentsViaHive $mount.HiveRootPS $hit.ProfilePath) $RootName) }
+                      finally { & reg.exe unload "HKU\$($mount.Name)" > $null 2>&1 } }
+        else { return (Join-Path (Join-Path $hit.ProfilePath 'Documents') $RootName) }
+      }
+    }
+  }
+
+  # E) Last logged-on user (normal profiles only)
   $llu = Get-LastLoggedOnUserName
   if ($llu) {
     $sid = Try-TranslateAccountToSid $llu
     if ($sid) {
-      $hit = $profiles | Where-Object { $_.SID -eq $sid } | Select-Object -First 1
+      $hit = $profilesNorm | Where-Object { $_.SID -eq $sid } | Select-Object -First 1
       if ($hit) {
         $mount = Mount-UserHive -Sid $hit.SID -ProfilePath $hit.ProfilePath
-        if ($mount) { try { return Resolve-DocumentsViaHive $mount.HiveRootPS $hit.ProfilePath }
+        if ($mount) { try { return (Join-Path (Resolve-DocumentsViaHive $mount.HiveRootPS $hit.ProfilePath) $RootName) }
                       finally { & reg.exe unload "HKU\$($mount.Name)" > $null 2>&1 } }
-        else { return (Join-Path $hit.ProfilePath 'Documents') }
+        else { return (Join-Path (Join-Path $hit.ProfilePath 'Documents') $RootName) }
       }
     }
   }
-  $candidate = Get-ChildItem 'C:\Users' -Directory -ErrorAction SilentlyContinue |
-               Where-Object { $_.Name -notin @('Default','Default User','Public','All Users') } |
-               Sort-Object LastWriteTime -Descending | Select-Object -First 1
-  if ($candidate) { return (Join-Path $candidate.FullName 'Documents') }
+
+  # F) ProfileList-based fallback (normal profiles only)
+  $candidate = $profilesNorm |
+    Where-Object { Test-Path $_.ProfilePath } |
+    Sort-Object { (Get-Item $_.ProfilePath).LastWriteTime } -Descending |
+    Select-Object -First 1
+  if ($candidate) { return (Join-Path (Join-Path $candidate.ProfilePath 'Documents') $RootName) }
+
+  # G) Final directory scan with strict exclusions
+  $dirCandidate = Get-ChildItem 'C:\Users' -Directory -ErrorAction SilentlyContinue |
+    Where-Object {
+      $_.Name -notmatch '^(Default($| )|DefaultAppPool$|WDAGUtilityAccount$|Public$|All Users$|Administrator$|IIS_|.*\$$)'
+    } |
+    Sort-Object LastWriteTime -Descending | Select-Object -First 1
+  if ($dirCandidate) { return (Join-Path (Join-Path $dirCandidate.FullName 'Documents') $RootName) }
+
   throw "Could not resolve a human user's Documents path."
 }
 
 # ---------------- Decoys ----------------
 ### PLURA-Forensic
-function New-TextFile {
-  param([string]$Path,[string]$Content)
+function New-TextFile { param([string]$Path,[string]$Content)
   $dir = Split-Path -Parent $Path
   if (!(Test-Path $dir)) { New-Item -ItemType Directory -Path $dir -Force | Out-Null }
   $Content | Out-File -FilePath $Path -Encoding UTF8 -Force
 }
-
-### PLURA-Forensic
-function Create-Decoys {
-  param([string]$RootPath)
+function Create-Decoys { param([string]$RootPath)
   $folders = @{
     Docs     = Join-Path $RootPath "Docs"
     Images   = Join-Path $RootPath "Images"
@@ -186,20 +222,16 @@ function Create-Decoys {
     Media    = Join-Path $RootPath "Media"
   }
   $folders.Values | ForEach-Object { New-Item -ItemType Directory -Path $_ -Force | Out-Null }
-  # Office-like
   New-TextFile (Join-Path $folders.Docs "Project_Plan.docx") "Decoy document."
   New-TextFile (Join-Path $folders.Docs "Budget_2025.xlsx")  "Decoy spreadsheet."
   New-TextFile (Join-Path $folders.Docs "Sales_Review.pptx") "Decoy presentation."
   New-TextFile (Join-Path $folders.Docs "Confidential_Report.pdf") "Decoy PDF."
-  # Images
   New-TextFile (Join-Path $folders.Images "diagram.png") "PNG placeholder"
   New-TextFile (Join-Path $folders.Images "photo.jpg")   "JPG placeholder"
   New-TextFile (Join-Path $folders.Images "icon.gif")    "GIF placeholder"
-  # Archives
   New-TextFile (Join-Path $folders.Archives "backup.zip") "ZIP placeholder"
   New-TextFile (Join-Path $folders.Archives "dataset.7z") "7Z placeholder"
   New-TextFile (Join-Path $folders.Archives "legacy.rar") "RAR placeholder"
-  # Media
   New-TextFile (Join-Path $folders.Media "meeting.mp3") "Audio placeholder"
   New-TextFile (Join-Path $folders.Media "training.mp4") "Video placeholder"
   New-TextFile (Join-Path $folders.Media "promo.avi")    "Video placeholder"
@@ -216,7 +248,6 @@ function Mark-SetLegacyOverride {
 function Test-SetLegacyOverride { try { ((Get-ItemProperty -Path $MarkerKey -Name $MarkerName -ErrorAction SilentlyContinue).$MarkerName -eq 1) } catch { $false } }
 function Clear-SetLegacyOverride { try { if (Test-Path $MarkerKey) { Remove-Item $MarkerKey -Recurse -Force } } catch {} }
 
-### PLURA-Forensic
 function Ensure-ForceSubcategory {
   $path='HKLM:\System\CurrentControlSet\Control\Lsa'
   $cur = (Get-ItemProperty -Path $path -Name SCENoApplyLegacyAuditPolicy -ErrorAction SilentlyContinue).SCENoApplyLegacyAuditPolicy
@@ -225,8 +256,6 @@ function Ensure-ForceSubcategory {
     Mark-SetLegacyOverride
   }
 }
-
-### PLURA-Forensic
 function Restore-ForceSubcategoryIfMarked {
   if (Test-SetLegacyOverride) {
     try {
@@ -235,32 +264,25 @@ function Restore-ForceSubcategoryIfMarked {
     } catch {}
   }
 }
-
-### PLURA-Forensic
 function Enable-FileSystemAuditPolicy {
   $guid = '{0CCE921D-69AE-11D9-BED3-505054503030}'
   & auditpol.exe /set /subcategory:$guid /success:enable /failure:enable | Out-Null
 }
-
-### PLURA-Forensic
 function Disable-FileSystemAuditPolicy {
   $guid = '{0CCE921D-69AE-11D9-BED3-505054503030}'
   & auditpol.exe /set /subcategory:$guid /success:disable /failure:disable | Out-Null
 }
 
-### PLURA-Forensic
 function Get-RightsForAudit {
-  # Minimal rights to capture rename/extension change + delete + directory entry modifications
   $FSR = [System.Security.AccessControl.FileSystemRights]
   $file = [System.Enum]::ToObject($FSR, ([int]$FSR::Delete -bor [int]$FSR::WriteAttributes -bor [int]$FSR::WriteExtendedAttributes))
   $dir  = [System.Enum]::ToObject($FSR, ([int]$FSR::CreateFiles -bor [int]$FSR::AppendData -bor [int]$FSR::CreateDirectories -bor
      [int]$FSR::WriteAttributes -bor [int]$FSR::Delete -bor [int]$FSR::DeleteSubdirectoriesAndFiles))
   [PSCustomObject]@{ FileRights=$file; DirRights=$dir }
 }
-
-### PLURA-Forensic
 function Set-RootSacl {
   param([string]$Path,[string]$AuditSid)
+  if (-not (Test-Path -LiteralPath $Path)) { return }
   $sid = New-Object System.Security.Principal.SecurityIdentifier $AuditSid
   $rights  = Get-RightsForAudit
   $inherit = [System.Security.AccessControl.InheritanceFlags]::ContainerInherit -bor `
@@ -276,10 +298,9 @@ function Set-RootSacl {
   $acl.AddAuditRule($rule) | Out-Null
   Set-Acl -LiteralPath $Path -AclObject $acl
 }
-
-### PLURA-Forensic
 function Remove-RootSacl {
   param([string]$Path,[string]$AuditSid)
+  if (-not (Test-Path -LiteralPath $Path)) { return }
   $sid = New-Object System.Security.Principal.SecurityIdentifier $AuditSid
   try {
     $acl = Get-Acl -LiteralPath $Path
@@ -288,10 +309,9 @@ function Remove-RootSacl {
     Set-Acl -LiteralPath $Path -AclObject $acl
   } catch {}
 }
-
-### PLURA-Forensic
 function Retrofit-ChildrenSacl {
   param([string]$Path,[string]$AuditSid)
+  if (-not (Test-Path -LiteralPath $Path)) { return }
   $sid = New-Object System.Security.Principal.SecurityIdentifier $AuditSid
   $rights = Get-RightsForAudit
   $audit  = [System.Security.AccessControl.AuditFlags]::Success -bor `
@@ -311,10 +331,9 @@ function Retrofit-ChildrenSacl {
     } catch {}
   }
 }
-
-### PLURA-Forensic
 function Remove-ChildrenSacl {
   param([string]$Path,[string]$AuditSid)
+  if (-not (Test-Path -LiteralPath $Path)) { return }
   $sid = New-Object System.Security.Principal.SecurityIdentifier $AuditSid
   $items = Get-ChildItem -LiteralPath $Path -Recurse -Force -ErrorAction SilentlyContinue
   foreach($it in $items){
@@ -328,6 +347,7 @@ function Remove-ChildrenSacl {
 }
 
 # ---------------- Self-test (locale-agnostic 4663 parse) ----------------
+### PLURA-Forensic
 $AccessCodeMap = @{
   '%%4417' = 'WriteData/AddFile'
   '%%4418' = 'AppendData/CreateSubdir'
@@ -359,7 +379,6 @@ function Self-Test {
     $acc = Pretty-Accesses $p.Accesses
     if ([string]::IsNullOrWhiteSpace($acc)) { $acc = $p.Accesses }
     $cnt++
-    # 필요하다면 아래 라인을 주석 해제하여 Application 로그에도 요약을 남길 수 있습니다.
     # Write-AppLog -Message ("{0:u} 4663 {1} {2}" -f $e.TimeCreated,$acc,$p.Mask) -EventId 1012
   }
   Write-AppLog -Message ("SelfTest complete: {0} events since {1}" -f $cnt, $since) -EventId 1011
@@ -368,22 +387,28 @@ function Self-Test {
 # ---------------- Main ----------------
 ### PLURA-Forensic
 try {
-  $DocsPath = Resolve-RealDocumentsPath
-  $Root     = Join-Path $DocsPath $RootName
+  $ResolvedRoot = Resolve-RealDocumentsPath -TargetUserParam $TargetUser -TargetPathParam $TargetPath
+  $Root         = $ResolvedRoot
 
   if ($Remove) {
-    Write-AppLog -Message "Removal start: root=$Root" -EventId 2000
+    Write-AppLog -Message "Removal start: root=$Root (TargetUser='$TargetUser', TargetPath='$TargetPath')" -EventId 2000
     Disable-FileSystemAuditPolicy
-    Remove-ChildrenSacl -Path $Root -AuditSid $AuditSid
-    Remove-RootSacl     -Path $Root -AuditSid $AuditSid
-    if (Test-Path $Root) { try { Remove-Item -LiteralPath $Root -Recurse -Force -ErrorAction SilentlyContinue } catch {} }
+
+    if (Test-Path -LiteralPath $Root) {
+      Remove-ChildrenSacl -Path $Root -AuditSid $AuditSid
+      Remove-RootSacl     -Path $Root -AuditSid $AuditSid
+      try { Remove-Item -LiteralPath $Root -Recurse -Force -ErrorAction SilentlyContinue } catch {}
+    } else {
+      Write-AppLog -Message "Removal note: root not found, skipping SACL/dir cleanup." -EventId 2002
+    }
+
     Restore-ForceSubcategoryIfMarked
-    Write-AppLog -Message "Removal done: policy reverted (File System disabled), SACL removed, decoys deleted." -EventId 2001
+    Write-AppLog -Message "Removal done: policy reverted (File System disabled), SACL removed if present, decoys deleted if present." -EventId 2001
     return
   }
 
   # Setup / Apply
-  Write-AppLog -Message "Setup start: root=$Root" -EventId 1000
+  Write-AppLog -Message "Setup start: root=$Root (TargetUser='$TargetUser', TargetPath='$TargetPath')" -EventId 1000
   New-Item -ItemType Directory -Path $Root -Force | Out-Null
   Create-Decoys -RootPath $Root
 
