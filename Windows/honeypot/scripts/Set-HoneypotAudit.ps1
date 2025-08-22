@@ -199,7 +199,7 @@ function Resolve-RealDocumentsPath {
   # G) Final directory scan with strict exclusions
   $dirCandidate = Get-ChildItem 'C:\Users' -Directory -ErrorAction SilentlyContinue |
     Where-Object {
-      $_.Name -notmatch '^(Default($| )|DefaultAppPool$|WDAGUtilityAccount$|Public$|All Users$|Administrator$|IIS_|.*\$$)'
+      $_.Name -notmatch '^(Default($| )|DefaultAppPool$|WDAGUtilityAccount$|Public$|All Users$|IIS_|\.NET v.*|.*\$$)'
     } |
     Sort-Object LastWriteTime -Descending | Select-Object -First 1
   if ($dirCandidate) { return (Join-Path (Join-Path $dirCandidate.FullName 'Documents') $RootName) }
