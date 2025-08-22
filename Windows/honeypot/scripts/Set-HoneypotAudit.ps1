@@ -56,6 +56,7 @@ function Write-AppLog {
 }
 
 # ---------------- Admin check ----------------
+### PLURA-Forensic
 function Test-IsAdministrator {
   $id = [Security.Principal.WindowsIdentity]::GetCurrent()
   $pr = New-Object Security.Principal.WindowsPrincipal($id)
@@ -74,13 +75,24 @@ function Get-UserProfilesFromProfileList {
       $sid = Split-Path $_.PSChildName -Leaf
       try { $path = (Get-ItemProperty -Path $_.PsPath -Name ProfileImagePath -ErrorAction Stop).ProfileImagePath }
       catch { $path = $null }
-      $isSys = ($sid -like 'S-1-5-18' -or $sid -like 'S-1-5-19' -or $sid -like 'S-1-5-20' -or
-                ($path -like 'C:\Users\Default*') -or ($path -like 'C:\Windows\*'))
+
+      # --- 강화된 서비스/가상 계정 판별 ---
+      $name = if ($path -and $path -match '^C:\\Users\\([^\\]+)') { $Matches[1] } else { '' }
+
+      $isServiceLike =
+           ($name -match '^(DefaultAppPool|Classic \.NET AppPool|IIS_.*|\.NET v.*|WDAGUtilityAccount|Public|All Users|Default|Default User|.*\$$)$') `
+           -or ($name -match 'AppPool') `
+           -or ($path -like 'C:\Users\Default*') `
+           -or ($path -like 'C:\Windows\*')
+
+      $isSys = ($sid -like 'S-1-5-18' -or $sid -like 'S-1-5-19' -or $sid -like 'S-1-5-20' -or $isServiceLike)
+
       $list += [pscustomobject]@{ SID=$sid; ProfilePath=$path; IsSystemLike=$isSys }
     }
   } catch {}
   $list
 }
+### PLURA-Forensic
 function Get-LastLoggedOnUserName {
   $keys = @(
     'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI',
@@ -99,6 +111,7 @@ function Get-LastLoggedOnUserName {
   }
   return $null
 }
+### PLURA-Forensic
 function Try-TranslateAccountToSid {
   param([string]$Account)
   try {
@@ -107,6 +120,7 @@ function Try-TranslateAccountToSid {
            Translate([System.Security.Principal.SecurityIdentifier]).Value
   } catch { return $null }
 }
+### PLURA-Forensic
 function Mount-UserHive {
   param([string]$Sid,[string]$ProfilePath)
   $ntuser = Join-Path $ProfilePath 'NTUSER.DAT'
@@ -120,6 +134,7 @@ function Mount-UserHive {
   if ($loaded) { return @{ HiveRootPS=$hiveRegPathPS; Name=$tempName; Loaded=$true } }
   return $null
 }
+### PLURA-Forensic
 function Resolve-DocumentsViaHive {
   param([string]$HiveRootPS,[string]$ProfilePath)
   $key = Join-Path $HiveRootPS 'Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders'
@@ -140,7 +155,6 @@ function Resolve-RealDocumentsPath {
   # A) Absolute path override (new)
   if ($TargetPathParam) {
     $p = $TargetPathParam
-    # Accept root or a path under Documents; if it's not ending with root name, allow as-is
     $dir = Split-Path -Parent $p
     if (-not (Test-Path -LiteralPath $dir)) {
       throw "TargetPath base does not exist: $dir"
@@ -196,10 +210,10 @@ function Resolve-RealDocumentsPath {
     Select-Object -First 1
   if ($candidate) { return (Join-Path (Join-Path $candidate.ProfilePath 'Documents') $RootName) }
 
-  # G) Final directory scan with strict exclusions
+  # G) Final directory scan with strict exclusions (강화)
   $dirCandidate = Get-ChildItem 'C:\Users' -Directory -ErrorAction SilentlyContinue |
     Where-Object {
-      $_.Name -notmatch '^(Default($| )|DefaultAppPool$|WDAGUtilityAccount$|Public$|All Users$|IIS_|\.NET v.*|.*\$$)'
+      $_.Name -notmatch '^(Default($| )|Default User$|DefaultAppPool$|Classic \.NET AppPool$|IIS_|\.NET v.*|WDAGUtilityAccount$|Public$|All Users$|.*AppPool.*|.*\$$)'
     } |
     Sort-Object LastWriteTime -Descending | Select-Object -First 1
   if ($dirCandidate) { return (Join-Path (Join-Path $dirCandidate.FullName 'Documents') $RootName) }
@@ -214,6 +228,7 @@ function New-TextFile { param([string]$Path,[string]$Content)
   if (!(Test-Path $dir)) { New-Item -ItemType Directory -Path $dir -Force | Out-Null }
   $Content | Out-File -FilePath $Path -Encoding UTF8 -Force
 }
+### PLURA-Forensic
 function Create-Decoys { param([string]$RootPath)
   $folders = @{
     Docs     = Join-Path $RootPath "Docs"
@@ -245,9 +260,12 @@ function Mark-SetLegacyOverride {
     New-ItemProperty -Path $MarkerKey -Name $MarkerName -Type DWord -Value 1 -Force | Out-Null
   } catch {}
 }
+### PLURA-Forensic
 function Test-SetLegacyOverride { try { ((Get-ItemProperty -Path $MarkerKey -Name $MarkerName -ErrorAction SilentlyContinue).$MarkerName -eq 1) } catch { $false } }
+### PLURA-Forensic
 function Clear-SetLegacyOverride { try { if (Test-Path $MarkerKey) { Remove-Item $MarkerKey -Recurse -Force } } catch {} }
 
+### PLURA-Forensic
 function Ensure-ForceSubcategory {
   $path='HKLM:\System\CurrentControlSet\Control\Lsa'
   $cur = (Get-ItemProperty -Path $path -Name SCENoApplyLegacyAuditPolicy -ErrorAction SilentlyContinue).SCENoApplyLegacyAuditPolicy
@@ -256,6 +274,7 @@ function Ensure-ForceSubcategory {
     Mark-SetLegacyOverride
   }
 }
+### PLURA-Forensic
 function Restore-ForceSubcategoryIfMarked {
   if (Test-SetLegacyOverride) {
     try {
@@ -264,15 +283,18 @@ function Restore-ForceSubcategoryIfMarked {
     } catch {}
   }
 }
+### PLURA-Forensic
 function Enable-FileSystemAuditPolicy {
   $guid = '{0CCE921D-69AE-11D9-BED3-505054503030}'
   & auditpol.exe /set /subcategory:$guid /success:enable /failure:enable | Out-Null
 }
+### PLURA-Forensic
 function Disable-FileSystemAuditPolicy {
   $guid = '{0CCE921D-69AE-11D9-BED3-505054503030}'
   & auditpol.exe /set /subcategory:$guid /success:disable /failure:disable | Out-Null
 }
 
+### PLURA-Forensic
 function Get-RightsForAudit {
   $FSR = [System.Security.AccessControl.FileSystemRights]
   $file = [System.Enum]::ToObject($FSR, ([int]$FSR::Delete -bor [int]$FSR::WriteAttributes -bor [int]$FSR::WriteExtendedAttributes))
@@ -280,6 +302,7 @@ function Get-RightsForAudit {
      [int]$FSR::WriteAttributes -bor [int]$FSR::Delete -bor [int]$FSR::DeleteSubdirectoriesAndFiles))
   [PSCustomObject]@{ FileRights=$file; DirRights=$dir }
 }
+### PLURA-Forensic
 function Set-RootSacl {
   param([string]$Path,[string]$AuditSid)
   if (-not (Test-Path -LiteralPath $Path)) { return }
@@ -298,6 +321,7 @@ function Set-RootSacl {
   $acl.AddAuditRule($rule) | Out-Null
   Set-Acl -LiteralPath $Path -AclObject $acl
 }
+### PLURA-Forensic
 function Remove-RootSacl {
   param([string]$Path,[string]$AuditSid)
   if (-not (Test-Path -LiteralPath $Path)) { return }
@@ -309,6 +333,7 @@ function Remove-RootSacl {
     Set-Acl -LiteralPath $Path -AclObject $acl
   } catch {}
 }
+### PLURA-Forensic
 function Retrofit-ChildrenSacl {
   param([string]$Path,[string]$AuditSid)
   if (-not (Test-Path -LiteralPath $Path)) { return }
@@ -331,6 +356,7 @@ function Retrofit-ChildrenSacl {
     } catch {}
   }
 }
+### PLURA-Forensic
 function Remove-ChildrenSacl {
   param([string]$Path,[string]$AuditSid)
   if (-not (Test-Path -LiteralPath $Path)) { return }
@@ -355,8 +381,11 @@ $AccessCodeMap = @{
   '%%4433' = 'WriteEA'
   '%%1537' = 'DELETE'
 }
+### PLURA-Forensic
 function Pretty-Accesses { param([string]$text) if([string]::IsNullOrWhiteSpace($text)){return $null}; ($text -split '[,\s]+' | ? {$_} | % { if ($AccessCodeMap.ContainsKey($_)) { $AccessCodeMap[$_] } else { $_ } }) -join ',' }
+### PLURA-Forensic
 function Parse-EventXml { param($Event) $xml=[xml]$Event.ToXml(); $ed=$xml.Event.EventData; $m=@{}; foreach($d in $ed.Data){$m[$d.Name]=$d.'#text'}; [pscustomobject]@{Target=$m['ObjectName'];Accesses=$m['AccessList'];Mask=$m['AccessMask']} }
+### PLURA-Forensic
 function Self-Test {
   param([string]$RootPath)
   $since = Get-Date
