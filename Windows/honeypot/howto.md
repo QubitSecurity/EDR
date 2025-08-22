@@ -1,6 +1,6 @@
-# **1回省 SYSTEM 계정으로 실행하는 방법**
+## **1回省 SYSTEM 계정으로 실행하는 방법**
 
-## 🔹 Sysinternals PsExec 사용
+### 🔹 Sysinternals PsExec 사용
 
 1. [PsExec 다운로드](https://learn.microsoft.com/sysinternals/downloads/psexec) 후 압축 해제
    (예: `C:\tools\PsExec.exe`)
