@@ -23,3 +23,11 @@
    ```
 
 ---
+
+### 최근 Application 로그 확인
+
+   ```powershell
+   Get-EventLog -LogName Application -Source HoneypotAudit -Newest 10
+   ```
+
+---
