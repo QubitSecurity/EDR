@@ -76,12 +76,11 @@ function Get-UserProfilesFromProfileList {
       try { $path = (Get-ItemProperty -Path $_.PsPath -Name ProfileImagePath -ErrorAction Stop).ProfileImagePath }
       catch { $path = $null }
 
-      # --- 강화된 서비스/가상 계정 판별 ---
+      # --- 강화된 서비스/가상 계정 판별 (개선 정규식 적용) ---
       $name = if ($path -and $path -match '^C:\\Users\\([^\\]+)') { $Matches[1] } else { '' }
 
       $isServiceLike =
-           ($name -match '^(DefaultAppPool|Classic \.NET AppPool|IIS_.*|\.NET v.*|WDAGUtilityAccount|Public|All Users|Default|Default User|.*\$$)$') `
-           -or ($name -match 'AppPool') `
+           ($name -match '^(Default($| )|Default User$|DefaultAccount$|defaultuser0$|Guest$|Public$|All Users$|WDAGUtilityAccount$|IIS_.*|.*AppPool.*|\.NET v.*|.*\$$)$') `
            -or ($path -like 'C:\Users\Default*') `
            -or ($path -like 'C:\Windows\*')
 
@@ -210,10 +209,10 @@ function Resolve-RealDocumentsPath {
     Select-Object -First 1
   if ($candidate) { return (Join-Path (Join-Path $candidate.ProfilePath 'Documents') $RootName) }
 
-  # G) Final directory scan with strict exclusions (강화)
+  # G) Final directory scan with strict exclusions (개선 정규식 적용)
   $dirCandidate = Get-ChildItem 'C:\Users' -Directory -ErrorAction SilentlyContinue |
     Where-Object {
-      $_.Name -notmatch '^(Default($| )|Default User$|DefaultAppPool$|Classic \.NET AppPool$|IIS_|\.NET v.*|WDAGUtilityAccount$|Public$|All Users$|.*AppPool.*|.*\$$)'
+      $_.Name -notmatch '^(Default($| )|Default User$|DefaultAccount$|defaultuser0$|Guest$|Public$|All Users$|WDAGUtilityAccount$|IIS_.*|.*AppPool.*|\.NET v.*|.*\$$)'
     } |
     Sort-Object LastWriteTime -Descending | Select-Object -First 1
   if ($dirCandidate) { return (Join-Path (Join-Path $dirCandidate.FullName 'Documents') $RootName) }
