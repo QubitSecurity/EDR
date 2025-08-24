@@ -24,6 +24,19 @@
 
 ---
 
+1. 새로 열린 **SYSTEM 권한 PowerShell 창**에서 스크립트 실행:
+
+   ```powershell
+   powershell.exe -ExecutionPolicy Bypass -File "C:\temp\SysmonControl.ps1" -Mode check -Detail
+   ```
+
+   ```powershell
+   powershell.exe -ExecutionPolicy Bypass -File "C:\temp\DefenderControl.ps1" -Mode check -Detail
+   ```
+
+
+---
+
 ### 최근 Application 로그 확인
 
    ```powershell
