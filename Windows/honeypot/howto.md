@@ -34,6 +34,9 @@
    powershell.exe -ExecutionPolicy Bypass -File "C:\temp\DefenderControl.ps1" -Mode check -Detail
    ```
 
+   ```powershell
+   powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File "Set-TimeSync.ps1" -Mode check
+   ```
 
 ---
 
