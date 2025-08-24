@@ -38,6 +38,13 @@
    powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File "Set-TimeSync.ps1" -Mode check
    ```
 
+   ```powershell
+   powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File "Set-TimeSync.ps1" -Mode enable
+   ```
+
+
+
+
 ---
 
 ### 최근 Application 로그 확인
