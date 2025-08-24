@@ -3,14 +3,14 @@
 ### 🔹 Sysinternals PsExec 사용
 
 1. [PsExec 다운로드](https://learn.microsoft.com/sysinternals/downloads/psexec) 후 압축 해제
-   (예: `C:\tools\PsExec.exe`)
+   (예: `C:\temp\PsExec.exe`)
 
 2. **관리자 권한 PowerShell 또는 CMD** 실행
 
 3. SYSTEM 권한 PowerShell 열기:
 
    ```powershell
-   C:\tools\PsExec.exe -i -s powershell.exe
+   C:\temp\PsExec.exe -i -s powershell.exe
    ```
 
    * `-i` : 현재 데스크톱에서 대화형 실행
