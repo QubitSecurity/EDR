@@ -43,7 +43,9 @@
    ```
 
 
-
+   ```powershell
+   powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\Set-TimeSync.ps1 -Mode check -NtpServer "time.kriss.re.kr"
+   ```
 
 ---
 
