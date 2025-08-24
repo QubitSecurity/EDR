@@ -55,4 +55,10 @@
    Get-EventLog -LogName Application -Source HoneypotAudit -Newest 10
    ```
 
+   ```powershell
+   Get-EventLog -LogName Application -Source TimeSyncAudit -Newest 10
+   ```
+
+
+
 ---
