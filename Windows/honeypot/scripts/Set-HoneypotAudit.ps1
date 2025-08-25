@@ -298,6 +298,73 @@ function Create-Decoys { param([string]$RootPath)
   New-TextFile (Join-Path $folders.Media "promo.avi")    "Video placeholder"
 }
 
+# ---------------- Privilege enabling for SACL (fixed Add-Type + variable) ----------------
+function Enable-Privilege {
+  param([Parameter(Mandatory)][string[]]$Names)
+
+  if (-not $env:TEMP -or -not (Test-Path $env:TEMP)) {
+    $env:TEMP = Join-Path $env:WINDIR 'Temp'
+    $env:TMP  = $env:TEMP
+    try { if (-not (Test-Path $env:TEMP)) { New-Item -ItemType Directory -Force -Path $env:TEMP | Out-Null } } catch {}
+  }
+
+  $cs = @"
+using System;
+using System.Runtime.InteropServices;
+
+public static class AdjPriv {
+  [StructLayout(LayoutKind.Sequential, Pack=1)]
+  public struct LUID { public uint LowPart; public int HighPart; }
+
+  [StructLayout(LayoutKind.Sequential, Pack=1)]
+  public struct TOKEN_PRIVILEGES { public int PrivilegeCount; public LUID Luid; public int Attributes; }
+
+  [DllImport("advapi32.dll", ExactSpelling=true, SetLastError=true)]
+  public static extern bool OpenProcessToken(IntPtr ProcessHandle, int DesiredAccess, out IntPtr TokenHandle);
+
+  [DllImport("advapi32.dll", SetLastError=true)]
+  public static extern bool LookupPrivilegeValue(string lpSystemName, string lpName, ref LUID lpLuid);
+
+  [DllImport("advapi32.dll", ExactSpelling=true, SetLastError=true)]
+  public static extern bool AdjustTokenPrivileges(IntPtr TokenHandle, bool DisableAllPrivileges,
+    ref TOKEN_PRIVILEGES NewState, int BufferLength, IntPtr PreviousState, IntPtr ReturnLength);
+
+  [DllImport("kernel32.dll", ExactSpelling=true)]
+  public static extern IntPtr GetCurrentProcess();
+
+  [DllImport("kernel32.dll", ExactSpelling=true)]
+  public static extern bool CloseHandle(IntPtr hObject);
+
+  public const int SE_PRIVILEGE_ENABLED = 0x00000002;
+  public const int TOKEN_QUERY = 0x0008;
+  public const int TOKEN_ADJUST_PRIVILEGES = 0x0020;
+
+  public static bool Enable(string privName) {
+    IntPtr h;
+    if (!OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, out h)) return false;
+
+    LUID luid = new LUID();
+    if (!LookupPrivilegeValue(null, privName, ref luid)) { CloseHandle(h); return false; }
+
+    TOKEN_PRIVILEGES tp = new TOKEN_PRIVILEGES();
+    tp.PrivilegeCount = 1;
+    tp.Luid = luid;
+    tp.Attributes = SE_PRIVILEGE_ENABLED;
+
+    bool ok = AdjustTokenPrivileges(h, false, ref tp, 0, IntPtr.Zero, IntPtr.Zero);
+    CloseHandle(h);
+    return ok;
+  }
+}
+"@
+
+  if (-not ([System.Management.Automation.PSTypeName]'AdjPriv').Type) {
+    Add-Type -TypeDefinition $cs -Language CSharp -ErrorAction Stop | Out-Null
+  }
+
+  foreach ($n in $Names) { [void][AdjPriv]::Enable($n) }
+}
+
 # ---------------- Policy helpers (Advanced Audit Policy + SACL) ----------------
 function Mark-SetLegacyOverride {
   try {
@@ -331,11 +398,11 @@ function Restore-ForceSubcategoryIfMarked {
 }
 function Enable-FileSystemAuditPolicy {
   $guid = '{0CCE921D-69AE-11D9-BED3-505054503030}'
-  & auditpol.exe /set /subcategory:$guid /success:enable /failure:enable | Out-Null
+  & auditpol.exe /set /subcategory:"$guid" /success:enable /failure:enable | Out-Null
 }
 function Disable-FileSystemAuditPolicy {
   $guid = '{0CCE921D-69AE-11D9-BED3-505054503030}'
-  & auditpol.exe /set /subcategory:$guid /success:disable /failure:disable | Out-Null
+  & auditpol.exe /set /subcategory:"$guid" /success:disable /failure:disable | Out-Null
 }
 
 function Get-RightsForAudit {
@@ -347,6 +414,7 @@ function Get-RightsForAudit {
 }
 function Set-RootSacl {
   param([string]$Path,[string]$AuditSid)
+  Enable-Privilege -Names 'SeSecurityPrivilege','SeRestorePrivilege','SeBackupPrivilege'
   if (-not (Test-Path -LiteralPath $Path)) { return }
   $sid = New-Object System.Security.Principal.SecurityIdentifier $AuditSid
   $rights  = Get-RightsForAudit
@@ -365,6 +433,7 @@ function Set-RootSacl {
 }
 function Remove-RootSacl {
   param([string]$Path,[string]$AuditSid)
+  Enable-Privilege -Names 'SeSecurityPrivilege','SeRestorePrivilege','SeBackupPrivilege'
   if (-not (Test-Path -LiteralPath $Path)) { return }
   $sid = New-Object System.Security.Principal.SecurityIdentifier $AuditSid
   try {
@@ -376,6 +445,7 @@ function Remove-RootSacl {
 }
 function Retrofit-ChildrenSacl {
   param([string]$Path,[string]$AuditSid)
+  Enable-Privilege -Names 'SeSecurityPrivilege','SeRestorePrivilege','SeBackupPrivilege'
   if (-not (Test-Path -LiteralPath $Path)) { return }
   $sid = New-Object System.Security.Principal.SecurityIdentifier $AuditSid
   $rights = Get-RightsForAudit
@@ -398,6 +468,7 @@ function Retrofit-ChildrenSacl {
 }
 function Remove-ChildrenSacl {
   param([string]$Path,[string]$AuditSid)
+  Enable-Privilege -Names 'SeSecurityPrivilege','SeRestorePrivilege','SeBackupPrivilege'
   if (-not (Test-Path -LiteralPath $Path)) { return }
   $sid = New-Object System.Security.Principal.SecurityIdentifier $AuditSid
   $items = Get-ChildItem -LiteralPath $Path -Recurse -Force -ErrorAction SilentlyContinue
