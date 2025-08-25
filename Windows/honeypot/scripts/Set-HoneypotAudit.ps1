@@ -18,6 +18,7 @@
   -TargetPath : Prefer/force this exact root path (e.g., 'C:\Users\DefaultAppPool\Documents\Client_Contracts')
   -Remove     : Revert policy (File System subcategory disable), remove SACL, delete decoys.
   -SelfTest   : Run create→rename(ext)→delete and parse recent 4663 events (locale-agnostic).
+  -Status     : Print a short status summary (root path, SCENoApplyLegacyAuditPolicy, SACL rule count) to console.
 
 .NOTES
   Must run as Administrator. PowerShell 5.1 compatible.
@@ -27,7 +28,8 @@ param(
   [string]$TargetUser,
   [string]$TargetPath,
   [switch]$Remove = $false,
-  [switch]$SelfTest = $false
+  [switch]$SelfTest = $false,
+  [switch]$Status = $false
 )
 
 Set-StrictMode -Version Latest
@@ -124,11 +126,7 @@ if (-not (Test-IsAdministrator)) {
 # ---------------- Registry safe getter (fix for StrictMode) ----------------
 function Get-RegistryValueOrNull {
   param([Parameter(Mandatory)][string]$Path, [Parameter(Mandatory)][string]$Name)
-  try {
-    return (Get-ItemPropertyValue -Path $Path -Name $Name -ErrorAction Stop)
-  } catch {
-    return $null
-  }
+  try { return (Get-ItemPropertyValue -Path $Path -Name $Name -ErrorAction Stop) } catch { return $null }
 }
 
 # ---------------- Resolve real Documents (SYSTEM-safe) ----------------
@@ -138,16 +136,13 @@ function Get-UserProfilesFromProfileList {
   try {
     Get-ChildItem $base -ErrorAction Stop | ForEach-Object {
       $sid = Split-Path $_.PSChildName -Leaf
-      try { $path = (Get-ItemProperty -Path $_.PsPath -Name ProfileImagePath -ErrorAction Stop).ProfileImagePath }
-      catch { $path = $null }
-
+      try { $path = (Get-ItemProperty -Path $_.PsPath -Name ProfileImagePath -ErrorAction Stop).ProfileImagePath } catch { $path = $null }
       $name = if ($path -and $path -match '^C:\\Users\\([^\\]+)') { $Matches[1] } else { '' }
       $isServiceLike =
            ($name -match '^(Default($| )|Default User$|DefaultAccount$|defaultuser0$|Guest$|Public$|All Users$|WDAGUtilityAccount$|IIS_.*|.*AppPool.*|\.NET v.*|.*\$$)$') `
            -or ($path -like 'C:\Users\Default*') `
            -or ($path -like 'C:\Windows\*')
       $isSys = ($sid -like 'S-1-5-18' -or $sid -like 'S-1-5-19' -or $sid -like 'S-1-5-20' -or $isServiceLike)
-
       $list += [pscustomobject]@{ SID=$sid; ProfilePath=$path; IsSystemLike=$isSys }
     }
   } catch {}
@@ -196,7 +191,7 @@ function Resolve-DocumentsViaHive {
   param([string]$HiveRootPS,[string]$ProfilePath)
   $key = Join-Path $HiveRootPS 'Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders'
   try {
-    $val = (Get-ItemProperty -Path $key -Name Personal -ErrorAction Stop).Personal
+    $val = Get-ItemPropertyValue -Path $key -Name 'Personal' -ErrorAction Stop   # StrictMode-safe
     if ($val) {
       $expanded = $val -replace '%USERPROFILE%',$ProfilePath
       return [Environment]::ExpandEnvironmentVariables($expanded)
@@ -210,17 +205,13 @@ function Resolve-RealDocumentsPath {
   if ($TargetPathParam) {
     $p = $TargetPathParam
     $dir = Split-Path -Parent $p
-    if (-not (Test-Path -LiteralPath $dir)) {
-      throw "TargetPath base does not exist: $dir"
-    }
+    if (-not (Test-Path -LiteralPath $dir)) { throw "TargetPath base does not exist: $dir" }
     return $p
   }
 
   try {
     $myDocs = [Environment]::GetFolderPath('MyDocuments')
-    if ($myDocs -and ($myDocs -notmatch '\\systemprofile\\')) {
-      return (Join-Path $myDocs $RootName)
-    }
+    if ($myDocs -and ($myDocs -notmatch '\\systemprofile\\')) { return (Join-Path $myDocs $RootName) }
   } catch {}
 
   $profilesAll  = Get-UserProfilesFromProfileList
@@ -232,8 +223,7 @@ function Resolve-RealDocumentsPath {
       $hit = $profilesAll | Where-Object { $_.SID -eq $sid } | Select-Object -First 1
       if ($hit -and $hit.ProfilePath) {
         $mount = Mount-UserHive -Sid $hit.SID -ProfilePath $hit.ProfilePath
-        if ($mount) { try { return (Join-Path (Resolve-DocumentsViaHive $mount.HiveRootPS $hit.ProfilePath) $RootName) }
-                      finally { & reg.exe unload "HKU\$($mount.Name)" > $null 2>&1 } }
+        if ($mount) { try { return (Join-Path (Resolve-DocumentsViaHive $mount.HiveRootPS $hit.ProfilePath) $RootName) } finally { & reg.exe unload "HKU\$($mount.Name)" > $null 2>&1 } }
         else { return (Join-Path (Join-Path $hit.ProfilePath 'Documents') $RootName) }
       }
     }
@@ -246,23 +236,17 @@ function Resolve-RealDocumentsPath {
       $hit = $profilesNorm | Where-Object { $_.SID -eq $sid } | Select-Object -First 1
       if ($hit) {
         $mount = Mount-UserHive -Sid $hit.SID -ProfilePath $hit.ProfilePath
-        if ($mount) { try { return (Join-Path (Resolve-DocumentsViaHive $mount.HiveRootPS $hit.ProfilePath) $RootName) }
-                      finally { & reg.exe unload "HKU\$($mount.Name)" > $null 2>&1 } }
+        if ($mount) { try { return (Join-Path (Resolve-DocumentsViaHive $mount.HiveRootPS $hit.ProfilePath) $RootName) } finally { & reg.exe unload "HKU\$($mount.Name)" > $null 2>&1 } }
         else { return (Join-Path (Join-Path $hit.ProfilePath 'Documents') $RootName) }
       }
     }
   }
 
-  $candidate = $profilesNorm |
-    Where-Object { Test-Path $_.ProfilePath } |
-    Sort-Object { (Get-Item $_.ProfilePath).LastWriteTime } -Descending |
-    Select-Object -First 1
+  $candidate = $profilesNorm | Where-Object { Test-Path $_.ProfilePath } | Sort-Object { (Get-Item $_.ProfilePath).LastWriteTime } -Descending | Select-Object -First 1
   if ($candidate) { return (Join-Path (Join-Path $candidate.ProfilePath 'Documents') $RootName) }
 
   $dirCandidate = Get-ChildItem 'C:\Users' -Directory -ErrorAction SilentlyContinue |
-    Where-Object {
-      $_.Name -notmatch '^(Default($| )|Default User$|DefaultAccount$|defaultuser0$|Guest$|Public$|All Users$|WDAGUtilityAccount$|IIS_.*|.*AppPool.*|\.NET v.*|.*\$$)'
-    } |
+    Where-Object { $_.Name -notmatch '^(Default($| )|Default User$|DefaultAccount$|defaultuser0$|Guest$|Public$|All Users$|WDAGUtilityAccount$|IIS_.*|.*AppPool.*|\.NET v.*|.*\$$)' } |
     Sort-Object LastWriteTime -Descending | Select-Object -First 1
   if ($dirCandidate) { return (Join-Path (Join-Path $dirCandidate.FullName 'Documents') $RootName) }
 
@@ -273,7 +257,7 @@ function Resolve-RealDocumentsPath {
 function New-TextFile { param([string]$Path,[string]$Content)
   $dir = Split-Path -Parent $Path
   if (!(Test-Path $dir)) { New-Item -ItemType Directory -Path $dir -Force | Out-Null }
-  $Content | Out-File -FilePath $Path -Encoding UTF8 -Force
+  if (!(Test-Path $Path)) { $Content | Out-File -FilePath $Path -Encoding UTF8 -Force }  # don't rewrite if exists
 }
 function Create-Decoys { param([string]$RootPath)
   $folders = @{
@@ -373,10 +357,7 @@ function Mark-SetLegacyOverride {
   } catch {}
 }
 function Test-SetLegacyOverride {
-  try {
-    $v = Get-RegistryValueOrNull -Path $MarkerKey -Name $MarkerName
-    return ($v -eq 1)
-  } catch { return $false }
+  try { $v = Get-RegistryValueOrNull -Path $MarkerKey -Name $MarkerName; return ($v -eq 1) } catch { return $false }
 }
 function Clear-SetLegacyOverride { try { if (Test-Path $MarkerKey) { Remove-Item $MarkerKey -Recurse -Force } } catch {} }
 
@@ -501,11 +482,11 @@ function Self-Test {
   $p1 = Join-Path $sub '__audit_test.tmp'
   $p2 = Join-Path $sub '__audit_test.RENAMED.pdf'
   "audit" | Out-File -FilePath $p1 -Encoding UTF8 -Force
-  Start-Sleep -Milliseconds 150
+  Start-Sleep -Milliseconds 250
   Rename-Item $p1 (Split-Path -Leaf $p2)
-  Start-Sleep -Milliseconds 150
+  Start-Sleep -Milliseconds 250
   Remove-Item $p2 -Force
-  Start-Sleep -Seconds 1
+  Start-Sleep -Seconds 2
 
   $events = Get-WinEvent -FilterHashtable @{LogName='Security'; Id=4663; StartTime=$since} -ErrorAction SilentlyContinue |
             Where-Object { $_.Message -like "*$RootPath*" }
@@ -529,6 +510,7 @@ Write-AppOp -Op 'HoneypotAudit' -Step 'start' -Status 'Started' -EventId $EID.St
 try {
   $ResolvedRoot = Resolve-RealDocumentsPath -TargetUserParam $TargetUser -TargetPathParam $TargetPath
   $Root         = $ResolvedRoot
+  $env:PLURA_HONEYPOT_ROOT = $Root   # export for operator convenience
 
   if ($Remove) {
     Write-AppOp -Op 'HoneypotAudit' -Step 'remove' -Status 'Started' -EventId $EID.RemoveStart -LogName $LogName -Source $EventSrc `
@@ -548,6 +530,16 @@ try {
     Restore-ForceSubcategoryIfMarked
     Write-AppOp -Op 'HoneypotAudit' -Step 'remove' -Status 'Succeeded' -EventId $EID.RemoveDone -LogName $LogName -Source $EventSrc `
       -Extra @{ message='policy reverted; SACL removed; decoys deleted if present'; root=$Root }
+
+    if ($Status) {
+      Enable-Privilege -Names 'SeSecurityPrivilege','SeBackupPrivilege','SeRestorePrivilege'
+      $acl   = if (Test-Path $Root) { Get-Acl $Root } else { $null }
+      $sid   = New-Object System.Security.Principal.SecurityIdentifier 'S-1-1-0'
+      $rules = if ($acl) { $acl.GetAuditRules($true,$true,[System.Security.Principal.SecurityIdentifier]) | ? { $_.IdentityReference -eq $sid } } else { @() }
+      $scVal = Get-ItemPropertyValue -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Lsa' -Name SCENoApplyLegacyAuditPolicy -ErrorAction SilentlyContinue
+      Write-Host ("Root={0}`nSCENoApplyLegacyAuditPolicy={1}`nSACL(Rules)={2}" -f $Root, $scVal, ($rules.Count))
+    }
+
     return
   }
 
@@ -567,6 +559,15 @@ try {
     -Extra @{ message='SACL applied (root+children); File System audit enabled'; root=$Root }
 
   if ($SelfTest) { Self-Test -RootPath $Root }
+
+  if ($Status) {
+    Enable-Privilege -Names 'SeSecurityPrivilege','SeBackupPrivilege','SeRestorePrivilege'
+    $acl   = Get-Acl $Root
+    $sid   = New-Object System.Security.Principal.SecurityIdentifier 'S-1-1-0'
+    $rules = $acl.GetAuditRules($true,$true,[System.Security.Principal.SecurityIdentifier]) | ? { $_.IdentityReference -eq $sid }
+    $scVal = Get-ItemPropertyValue -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Lsa' -Name SCENoApplyLegacyAuditPolicy -ErrorAction SilentlyContinue
+    Write-Host ("Root={0}`nSCENoApplyLegacyAuditPolicy={1}`nSACL(Rules)={2}" -f $Root, $scVal, ($rules.Count))
+  }
 
 } catch {
   Write-AppOp -Op 'HoneypotAudit' -Step 'error' -Status 'Failed' -EventId $EID.Error -LogName $LogName -Source $EventSrc -Level 'Error' `
