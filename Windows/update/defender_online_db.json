@@ -78,12 +78,6 @@
     "note": "Windows Server 2022 LTSC"
   },
   {
-    "osBuild": "26100",
-    "platformVersion": "4.18.25070.5",
-    "minEngine": "1.1.25070.4",
-    "note": "Windows Server 2025 (Insider / upcoming LTSC)"
-  },
-  {
     "osBuild": "9600",
     "platformVersion": "4.18.25070.5",
     "minEngine": "1.1.25070.4",
