@@ -91,13 +91,6 @@
     "note": "Windows Server 2022 LTSC"
   },
   {
-    "osBuild": "26100",
-    "onlineLCU_KB": "KB5063878",
-    "onlineLCU_Build": "26100.4946",
-    "onlineLCU_Date": "2025-08-27",
-    "note": "Windows Server 2025 (Insider / upcoming LTSC)"
-  },
-  {
     "osBuild": "9600",
     "onlineLCU_KB": null,
     "onlineLCU_Build": null,
