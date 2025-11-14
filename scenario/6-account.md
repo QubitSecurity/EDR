@@ -1,45 +1,40 @@
-## 예시 6) 도메인 관리자 계정 탈취 또는 도메인 정책 변경 탐지 (Event ID 4739)
+## 예시 6) 도메인 정책 변경을 통한 도메인 관리자 계정 탈취/보안 약화 의심
 
-**[1] 이벤트/장비 로그에서 탐지**
+*(Trigger: `Event ID 4739 – A Domain Policy was changed`)*
 
-* **AD 보안 로그(Security)**
+**[1] 이벤트 로그에서 탐지**
 
-  * `Event ID 4739 – A Domain Policy was changed`
-  * 비업무 시간대에 **도메인 정책(암호/계정 잠금/케르beros 등)** 값이 갑자기 변경
-  * 변경 주체 계정이 평소 도메인 정책을 변경하지 않던 계정이거나,
-    최근 의심 로그인 이력이 있는 계정
+* Security 4739 (A Domain Policy was changed)
 
-* **EDR 로그(도메인 컨트롤러 보호 필터)**
+  * 도메인의 **암호 정책 / 계정 잠금 정책 / Kerberos 정책** 등이 변경될 때 발생
+  * 비업무 시간대, 또는 평소 정책을 변경하지 않던 계정이 변경 주체로 등장할 경우 의심
+* (선택) 관련 보조 이벤트:
 
-  * 도메인 컨트롤러에서 `powershell.exe`, `ntdsutil.exe`, `ldifde.exe` 등
-    **정상 관리 콘솔이 아닌 툴**을 통해 디렉터리/정책 변경 시도 탐지
-  * 정책 변경 관련 동작이 **EDR 차단 필터**에 의해 차단 또는 경고로 기록
-
-    * 예: “비신뢰 프로세스에 의한 AD 객체 수정 시도 차단”,
-      “도메인 컨트롤러에서 미승인 PowerShell 스크립트 실행 차단”
+  * 4720/4728/4732 등: 신규 계정 생성, 그룹(특히 Domain Admins/Administrators) 추가가 **근접 시간대**에 함께 발생하는지 확인
 
 ---
 
 **[2] 포렌식 항목으로 확인**
 
-* **도메인/로컬 보안 정책 현재 값 조회 (포렌식 스크립트)**
+* PLURA-Forensic 스크립트: **로컬/도메인 보안 정책 스냅샷(핵심 3종)**
 
-  * 도메인 컨트롤러에서 다음 항목 현재값 덤프:
+  * **SeRemoteInteractiveLogonRight**
 
-    * 도메인 암호 정책(최소 길이, 복잡성 요구, 만료 기간 등)
-    * 계정 잠금 정책(잠금 임계값, 잠금 기간, 관찰 기간)
-    * Kerberos 정책(TGT 수명, 재발급 제한 등)
-  * 로컬 보안 정책(SeDebugPrivilege, SeRemoteInteractiveLogonRight 등)
-    사용자 권한 할당과 보안 옵션(Security Options) 목록
+    * *Allow log on through Remote Desktop Services*
+    * 도메인 컨트롤러/중요 서버에 **RDP로 직접 접근 가능한 계정/그룹 목록** 덤프
+  * **SeDebugPrivilege**
 
-* **변경 전·후 비교(가능 시)**
+    * *Debug programs*
+    * 디버그 권한을 가진 계정/그룹 목록 덤프
+    * Domain Admin이 아닌 서비스/일반 계정이 포함돼 있는지 확인
+  * **SeBackupPrivilege**
 
-  * 베이스라인(기준 값) 또는 직전 백업 값과 비교해
+    * *Back up files and directories*
+    * 백업 권한 보유 계정/그룹 덤프
+    * AD DB/시스템 파일 덤프에 활용 가능한 권한이므로, 비정상 계정 존재 여부 확인
 
-    * 비밀번호 정책 완화(길이↓, 만료기간↑)
-    * 잠금 임계값 증가 또는 잠금 기능 사실상 무력화
-    * 관리자 그룹/권한에 특정 계정 추가 여부
-  * 변경 주체 계정의 최근 로그인 이력, 사용 위치, 사용 호스트도 함께 확인
+> 포인트: 4739 발생 시점의 **“권한 할당(User Rights)” 최소 3종 스냅샷**을 남겨
+> 나중에 “누가 언제 RDP/Debug/Backup 권한을 가지게 되었는가”를 정확히 재구성할 수 있게 함.
 
 ---
 
@@ -47,27 +42,25 @@
 
 * AI 프롬프트 예:
 
-  > “다음 AD 보안 로그(Event ID 4739 등)와 EDR 차단 로그,
-  > 그리고 현재 도메인/로컬 보안 정책 포렌식 결과(암호/잠금/Kerberos/권한 할당)를
-  > ‘변경 전-후’ 관점에서 비교해 줘.
+  > “다음 AD 보안 로그(Event ID 4739 등)와
+  > 포렌식으로 수집한 User Rights 스냅샷(SeRemoteInteractiveLogonRight, SeDebugPrivilege, SeBackupPrivilege)을 분석해서
   >
-  > 1. 정책 변경이 **도메인 관리자 계정 탈취** 또는 **권한 상승 후 백도어 설정**에 해당하는지 평가해 줘.
-  > 2. 공격자가 노리는 효과(비밀번호 추측 용이, 계정 잠금 회피, 장기 체류 등)를 추정해 줘.
-  > 3. ‘도메인 관리자 계정 탈취 가능성 높음 / 정책 오남용 의심 / 정당한 변경’ 중 하나로 판정해 줘.
-  > 4. 판정 근거를 리스트로 정리하고, 즉시 수행해야 할 대응 조치(롤백, 계정 잠금, 감시 강화 등)를 제안해 줘.”
+  > 1. 도메인 정책 변경이 도메인 관리자 계정 탈취나 장기 체류를 위한 보안 약화에 해당하는지 평가해 줘.
+  > 2. 원래 이 권한을 가지지 않았어야 할 계정/그룹이 새로 추가되었는지 중심으로 봐 줘.
+  > 3. ‘도메인 정책 악성 변경 강하게 의심 / 정책 오남용 의심 / 정당한 변경’ 중 하나로 판정해 줘.
+  > 4. 판정 근거를 리스트로 정리하고, 즉시 수행해야 할 대응 조치(권한 원복, 계정 잠금, 추가 포렌식 범위 확장)를 제안해 줘.”
 
 ---
 
 **[4] 공격 판단 + 근거 저장**
 
-* `verdict`: `도메인 관리자 계정 탈취 또는 정책 악성 변경 강하게 의심`
+* `verdict`: `도메인 정책 악성 변경 또는 고위험 권한 부여 강하게 의심`
 
 * `reason`:
 
-  * `[1] Event ID 4739이 비업무 시간대에 발생했고, 변경 계정이 평소 도메인 정책을 변경하지 않던 계정임`
-  * `[2] EDR 차단 필터가 도메인 컨트롤러에서 비정상 PowerShell/ntdsutil 실행과 AD 정책 변경 시도를 탐지·차단함`
-  * `[3] 암호/잠금 정책이 짧은 시간 내 대폭 완화되어, 무차별 대입·크리덴셜 스터핑·장기 체류에 유리한 방향으로 변경됨`
-  * `[4] 변경 직전에 해당 계정으로 의심스러운 로그인(새 IP, 새 단말, 실패 후 성공 패턴)이 존재함`
+  * `[1] Event ID 4739이 비업무 시간대에 발생했고, 평소 도메인 정책 변경을 수행하지 않던 계정이 변경 주체로 기록됨`
+  * `[2] SeRemoteInteractiveLogonRight에 기존에 없던 계정/그룹(Domain Users, 특정 서비스 계정 등)이 새로 포함되어 DC/중요 서버에 RDP 접근 가능해짐`
+  * `[3] SeDebugPrivilege 또는 SeBackupPrivilege에 비정상 계정이 추가되어, 프로세스 메모리/AD DB 덤프 등 권한 상승·자격 증명 탈취 가능성이 높아짐`
 
 ---
 
@@ -79,35 +72,29 @@ sequenceDiagram
     participant Attacker as 공격자
     participant DC as 도메인 컨트롤러
     participant EventLog as AD 보안 로그
-    participant EDR as EDR/엔드포인트 보호
     participant XDR as PLURA-XDR
     participant Forensic as PLURA-Forensic 스크립트(보안 정책)
     participant AI as AI 분석엔진
     participant DB as 증적저장소
 
-    Attacker ->> DC: 탈취한 도메인 관리자/고권한 계정으로 로그인
-    DC ->> EventLog: 로그인·권한 사용 이벤트 기록
+    Attacker ->> DC: 탈취한 고권한/도메인 관리자 계정으로 로그인
+    DC ->> EventLog: 로그인 및 권한 사용 관련 이벤트 기록
 
-    Attacker ->> DC: 도메인/로컬 보안 정책 변경 시도
+    Attacker ->> DC: 도메인 정책·보안 설정 변경 시도
     DC ->> EventLog: Event ID 4739 (Domain Policy 변경) 생성
-    DC ->> EDR: 프로세스 생성/행위 텔레메트리 제공
-
-    EDR ->> EDR: 비정상 관리 도구/스크립트의 정책 변경 시도 탐지
-    EDR -->> EventLog: 차단/경고 로그 기록
-    EDR -->> XDR: 탐지/차단 이벤트 전송
 
     EventLog ->> XDR: 4739 및 관련 보안 로그 수집
-    XDR ->> XDR: 비업무 시간대 정책 변경 + EDR 탐지 상관분석
+    XDR ->> XDR: 비정상 시간/계정의 정책 변경 여부 규칙 매칭
 
-    XDR ->> Forensic: 현재 도메인/로컬 보안 정책 포렌식 수집 요청
-    Forensic ->> DC: 암호 정책·잠금 정책·Kerberos·권한 할당 값 조회
-    DC -->> Forensic: 현재 보안 정책 값 반환
-    Forensic -->> XDR: 포렌식 결과 보고
+    XDR ->> Forensic: 보안 정책 스냅샷 수집 요청
+    Forensic ->> DC: SeRemoteInteractiveLogonRight, SeDebugPrivilege, SeBackupPrivilege 조회
+    DC -->> Forensic: User Rights 계정/그룹 목록 반환
+    Forensic -->> XDR: 권한 스냅샷 포렌식 결과 보고
 
-    XDR ->> AI: 보안 로그(4739 등) + EDR 로그 + 정책 포렌식 결과 전달
-    AI ->> AI: 탈취/악성 정책 변경 여부 분석 및 전후 비교
-    AI -->> XDR: 판정(탈취 가능성/오남용/정상) + 상세 근거·권고 조치
+    XDR ->> AI: 4739 로그 + 권한 스냅샷 결과 전달
+    AI ->> AI: 고위험 권한에 비정상 계정 추가 여부 분석
+    AI -->> XDR: 판정(악성 변경/오남용/정상) + 상세 근거·권고 조치
 
-    XDR ->> DB: 판정 결과 + 변경 전후 정책 값 + 로그·포렌식 증적 저장
-    XDR -->> XDR: 고위험 인시던트 생성, 정책 롤백·계정 차단·DC 격리 플레이북 연결
+    XDR ->> DB: 판정 결과 + 원본 로그 + 권한 스냅샷 증적 저장
+    XDR -->> XDR: 인시던트 생성 및 권한 원복·계정 차단 플레이북 연결
 ```
