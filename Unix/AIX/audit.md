@@ -259,7 +259,7 @@ users:
 
 ---
 
-# 9.2 📄 **rhel-auditd-attack-deep.rules**
+# 9.2 [📄rhel-auditd-attack-deep.rules](rhel-auditd-attack-deep.rules)
 
 (RHEL Linux 고급 공격 탐지 룰)
 
