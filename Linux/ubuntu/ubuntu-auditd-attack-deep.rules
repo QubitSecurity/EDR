@@ -1,0 +1,131 @@
+################################################
+# ubuntu-auditd-attack-deep.rules
+# - 목적: 심화 포렌식/연구용 (고볼륨, 선택 적용)
+# - 특징: SYSCALL/네트워크/메모리/파일 동작을 더 넓게 추적
+# - 태그: plura_* (PLURA 에이전트 생성 룰)
+################################################
+
+##############
+# 0. 공통 필터
+##############
+# 심화 규칙은 보통 특정 서버(예: 의심 서버, 연구 환경)에만 적용 권장.
+
+##########################################
+# 1. 심화 execve 추적 (root 포함)
+##########################################
+
+# root 계정(auid=0) 및 시스템 서비스의 execve 추가 추적
+# 64bit
+-a always,exit -F arch=b64 -S execve \
+  -F auid=0 \
+  -k plura_execve_root
+
+# 32bit (옵션 – 필요시만 주석 해제)
+#-a always,exit -F arch=b32 -S execve \
+#  -F auid=0 \
+#  -k plura_execve_root
+
+##########################################
+# 2. 고위험 syscall 클러스터 (Privilege Esc / Defense Evasion)
+##########################################
+
+# 권한/ID 변경 계열 (setuid/setgid 등)
+-a always,exit -F arch=b64 \
+  -S setuid,setreuid,setresuid,setgid,setregid,setresgid \
+  -F auid>=1000 -F auid!=4294967295 \
+  -k plura_sys_privchange
+
+# capability / security 속성 변경
+-a always,exit -F arch=b64 \
+  -S capset \
+  -F auid>=1000 -F auid!=4294967295 \
+  -k plura_sys_capset
+
+# 파일 권한/소유권 변경 (chmod/chown 계열)
+-a always,exit -F arch=b64 \
+  -S chmod,fchmod,fchmodat,chown,fchown,fchownat,lchown \
+  -F auid>=1000 -F auid!=4294967295 \
+  -k plura_sys_chmod_chown
+
+# mount/umount – 파일시스템/장치 마운트 변경
+-a always,exit -F arch=b64 \
+  -S mount,umount2 \
+  -F auid>=1000 -F auid!=4294967295 \
+  -k plura_sys_mount
+
+# ptrace – 프로세스 인젝션/디버깅 시도
+-a always,exit -F arch=b64 \
+  -S ptrace \
+  -F auid>=1000 -F auid!=4294967295 \
+  -k plura_sys_ptrace
+
+##########################################
+# 3. 메모리 조작 / 코드 영역 변경 (MMAP/MPROTECT)
+##########################################
+
+# mmap / mprotect – 코드 인젝션, ROP 등 탐지 보조
+-a always,exit -F arch=b64 \
+  -S mmap,mprotect \
+  -F auid>=1000 -F auid!=4294967295 \
+  -k plura_sys_mmap
+
+##########################################
+# 4. 심화 파일 동작 (홈디렉터리 중심)
+##########################################
+
+# /home, /root, /tmp 아래의 파일 생성/삭제/속성변경
+# (open/openat/creat/unlink/rename/link 등)
+-a always,exit -F arch=b64 \
+  -S open,openat,creat,truncate,ftruncate,unlink,unlinkat,rename,renameat,link,linkat,symlink,symlinkat \
+  -F dir=/home \
+  -F auid>=1000 -F auid!=4294967295 \
+  -k plura_fs_home
+
+-a always,exit -F arch=b64 \
+  -S open,openat,creat,truncate,ftruncate,unlink,unlinkat,rename,renameat,link,linkat,symlink,symlinkat \
+  -F dir=/root \
+  -k plura_fs_root
+
+-a always,exit -F arch=b64 \
+  -S open,openat,creat,truncate,ftruncate,unlink,unlinkat,rename,renameat,link,linkat,symlink,symlinkat \
+  -F dir=/tmp \
+  -k plura_fs_tmp
+
+##########################################
+# 5. 네트워크 syscall (connect/accept 등)
+##########################################
+
+# outbound/inbound 연결 추적 (T1041, T1071 등)
+-a always,exit -F arch=b64 \
+  -S socket,connect,accept,accept4,bind,listen \
+  -F auid>=1000 -F auid!=4294967295 \
+  -k plura_net_socket
+
+# 데이터 송수신 (간략 세트 – sendto/recvfrom 등)
+-a always,exit -F arch=b64 \
+  -S sendto,recvfrom,sendmsg,recvmsg \
+  -F auid>=1000 -F auid!=4294967295 \
+  -k plura_net_data
+
+##########################################
+# 6. netfilter 패킷(고볼륨) & 방화벽 심층
+##########################################
+# 주의: NETFILTER_PKT는 커널 설정에 따라 매우 고볼륨이 될 수 있음.
+# auditd rule로 직접 제어하기보다는, 커널 netfilter 설정+log_level로 조절.
+# iptables/nft 실행 자체는 baseline 규칙(plura_fw_change)에서 이미 추적 중.
+
+##########################################
+# 7. 모든 SYSCALL 전역 추적 (연구/POC 환경 전용)
+##########################################
+# ※ 정말 로그 폭탄이므로, 일반 운영환경에는 권장 X
+# 예시만 제시하고 기본은 주석 처리.
+
+#-a always,exit -F arch=b64 \
+#  -S all \
+#  -F auid>=1000 -F auid!=4294967295 \
+#  -k plura_sys_all_user
+
+# root 포함 전체 syscall (강력 경고: 연구/샌드박스에서만)
+#-a always,exit -F arch=b64 \
+#  -S all \
+#  -k plura_sys_all_any
