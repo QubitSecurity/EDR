@@ -183,7 +183,7 @@ BIN → auditpr → text 파일 → syslog forward
 
 ---
 
-# 9.1 [📄](aix-auditd-attack-baseline.rules) **aix-auditd-attack-baseline.rules**
+# 9.1 [📄aix-auditd-attack-baseline.rules](aix-auditd-attack-baseline.rules)
 
 (IBM AIX 기본 공격 탐지 룰)
 
