@@ -23,10 +23,10 @@ BIN 로그 → auditstream → logger(local6.notice) → syslog → 외부 서�
 
 이 방식은 다음과 같은 장점이 있습니다:
 
-✔ 시스템 부하 낮음
-✔ 실시간 전송
-✔ syslog 표준 포맷
-✔ PLURA·Elastic·Splunk·syslog-ng 연동 쉬움
+✔ 시스템 부하 낮음  
+✔ 실시간 전송  
+✔ syslog 표준 포맷  
+✔ PLURA·Elastic·Splunk·syslog-ng 연동 쉬움  
 ✔ 운영 현장에서 가장 안정적
 
 ---
