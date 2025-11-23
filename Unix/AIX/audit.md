@@ -263,8 +263,6 @@ users:
 
 (RHEL Linux 고급 공격 탐지 룰)
 
-Linux auditd는 보다 상세한 Deep 분석이 가능합니다.
-
 ```
 # RHEL ATTACK DEEP RULESET
 # File: rhel-auditd-attack-deep.rules
@@ -328,19 +326,4 @@ Linux auditd는 보다 상세한 Deep 분석이 가능합니다.
 AIX AUDIT → auditstream → logger(local6.notice) → syslog → 외부 수집 서버
 ```
 
-*
-
-AIX: **Baseline 공격 탐지 룰 적용**
-RHEL: **Deep 공격 탐지 룰 적용**
-
 ---
-
-# 11. 추가 지원 가능 항목
-
-원하시면 다음 문서도 제작해 드립니다:
-
-✅ AIX 보안 설정 자동 점검 스크립트
-✅ AIX Audit → JSON 변환 파서
-✅ RHEL auditd 고급 룰셋(전체 MITRE 매핑)
-✅ PLURA-XDR 포렌식용 룰 최적화 버전
-✅ 고객사 제출용 PDF 설명서
