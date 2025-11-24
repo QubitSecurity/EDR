@@ -182,4 +182,25 @@
           chrome.exe;
           msedge.exe;
           Squirrel.exe;
-          Upda
+          Update.exe;
+          Discord.exe;
+          Teams.exe;
+          Zoom.exe
+        </Image>
+
+        <!-- (10) RMM / 백업 / 모니터링 에이전트 -->
+        <Image condition="contains any">
+          agent;
+          updater;
+          backup;
+          monitor
+        </Image>
+
+        <!-- (11) OneDrive -->
+        <Image condition="end with">OneDrive.exe</Image>
+
+      </FileBlockExecutable>
+    </RuleGroup>
+
+  </EventFiltering>
+</Sysmon>
