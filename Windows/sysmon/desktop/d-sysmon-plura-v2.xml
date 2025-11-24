@@ -1,41 +1,33 @@
-<!-- PLURA Version 2.0 -->
+<!-- PLURA Version 2.0 - Desktop -->
 	
 <Sysmon schemaversion="4.22">
-	<!--SYSMON META CONFIG-->
-	<HashAlgorithms>*</HashAlgorithms> <!-- Both MD5 and SHA256 are the industry-standard algorithms for identifying files -->
-	<CheckRevocation/> <!-- Check loaded drivers, log if their code-signing certificate has been revoked, in case malware stole one to sign a kernel driver -->
+	<HashAlgorithms>*</HashAlgorithms>
+	<CheckRevocation/>
 	<EventFiltering>
 	
 <!--SYSMON EVENT ID 1 : PROCESS CREATION [ProcessCreate]-->
-	<!--DATA: UtcTime, ProcessGuid, ProcessID, Image, FileVersion, Description, Product, Company, CommandLine, CurrentDirectory, User, LogonGuid, LogonId, TerminalSessionId, IntegrityLevel, Hashes, ParentProcessGuid, ParentProcessId, ParentImage, ParentCommandLine, RuleName-->
 	<ProcessCreate onmatch="exclude">
 	</ProcessCreate>
  
-<!--SYSMON EVENT ID 2 : FILE CREATION TIME RETROACTIVELY CHANGED IN THE FILESYSTEM [FileCreateTime]-->
-	<!--DATA: UtcTime, ProcessGuid, ProcessId, Image, TargetFilename, CreationUtcTime, PreviousCreationUtcTime--> 
-	<!--Cannot be filtered.-->
+<!--SYSMON EVENT ID 2 : FILE CREATION TIME RETROACTIVELY CHANGED [FileCreateTime]-->
+	<!-- Cannot be filtered. -->
 
 <!--SYSMON EVENT ID 3 : NETWORK CONNECTION INITIATED [NetworkConnect]-->
-	<!--DATA: UtcTime, ProcessGuid, ProcessId, Image, User, Protocol, Initiated, SourceIsIpv6, SourceIp, SourceHostname, SourcePort, SourcePortName, DestinationIsIpV6, DestinationIp, DestinationHostname, DestinationPort, DestinationPortName-->
 	<NetworkConnect onmatch="exclude">
 		<Image condition="begin with">C:\Program Files (x86)\PLURA\</Image>
 	</NetworkConnect>
 	
 <!--SYSMON EVENT ID 4 : RESERVED FOR SYSMON SERVICE STATUS MESSAGES-->
-	<!--DATA: UtcTime, State, Version, SchemaVersion-->
-	<!--Cannot be filtered.-->
+	<!-- Cannot be filtered. -->
 		
 <!--SYSMON EVENT ID 5 : PROCESS ENDED [ProcessTerminate]-->
-	<!--DATA: UtcTime, ProcessGuid, ProcessId, Image-->
 	<ProcessTerminate onmatch="exclude">
 	</ProcessTerminate>
 
 <!--SYSMON EVENT ID 6 : DRIVER LOADED INTO KERNEL [DriverLoad]-->
-	<!--DATA: UtcTime, ImageLoaded, Hashes, Signed, Signature, SignatureStatus-->
-	<!--Cannot be filtered.-->
+	<!-- Cannot be filtered. -->
 
 <!--SYSMON EVENT ID 7 : DLL (IMAGE) LOADED BY PROCESS [ImageLoad]-->
-	<!--DATA: UtcTime, ProcessGuid, ProcessId, Image, ImageLoaded, Hashes, Signed, Signature, SignatureStatus-->
 	<RuleGroup name="" groupRelation="or">
 		<ImageLoad onmatch="include">
 			<ImageLoaded condition="Contains">System.Reflection.Dll</ImageLoaded>
@@ -45,19 +37,15 @@
 	</RuleGroup>
 
 <!--SYSMON EVENT ID 8 : REMOTE THREAD CREATED [CreateRemoteThread]-->
-	<!--DATA: UtcTime, SourceProcessGuid, SourceProcessId, SourceImage, TargetProcessId, TargetImage, NewThreadId, StartAddress, StartModule, StartFunction-->
-	<!--Cannot be filtered.-->	
+	<!-- Cannot be filtered. -->	
 	
 <!--SYSMON EVENT ID 9 : RAW DISK ACCESS [RawAccessRead]-->
-	<!--DATA: UtcTime, ProcessGuid, ProcessId, Image, Device-->
-	<!--Cannot be filtered.-->
+	<!-- Cannot be filtered. -->
 	
 <!--SYSMON EVENT ID 10 : INTER-PROCESS ACCESS [ProcessAccess]-->
-	<!--DATA: UtcTime, SourceProcessGuid, SourceProcessId, SourceThreadId, SourceImage, TargetProcessGuid, TargetProcessId, TargetImage, GrantedAccess, CallTrace-->
-	<!--Cannot be filtered.-->
+	<!-- Cannot be filtered. -->
 	
 <!--SYSMON EVENT ID 11 : FILE CREATED [FileCreate]-->
-	<!--DATA: UtcTime, ProcessGuid, ProcessId, Image, TargetFilename, CreationUtcTime-->
 	<RuleGroup name="" groupRelation="or">
 		<FileCreate onmatch="include">
 			<TargetFilename condition="contains">\Start Menu</TargetFilename> 
@@ -90,6 +78,7 @@
 			<TargetFilename condition="end with">.xlsm</TargetFilename>
 			<TargetFilename condition="end with">proj</TargetFilename>
 			<TargetFilename condition="end with">.sln</TargetFilename>
+
 			<TargetFilename condition="begin with">C:\Users\Default</TargetFilename> 
 			<TargetFilename condition="begin with">C:\Windows\system32\Drivers</TargetFilename>
 			<TargetFilename condition="begin with">C:\Windows\SysWOW64\Drivers</TargetFilename>
@@ -99,6 +88,7 @@
 			<TargetFilename condition="begin with">C:\Windows\SysWOW64\Wbem</TargetFilename>
 			<TargetFilename condition="begin with">C:\Windows\system32\WindowsPowerShell</TargetFilename>
 			<TargetFilename condition="begin with">C:\Windows\SysWOW64\WindowsPowerShell</TargetFilename>
+
 			<!-- Powershell PLURA -->
 			<TargetFilename condition="begin with">C:\Windows\System32\drivers\etc\hosts</TargetFilename>
 			<TargetFilename condition="begin with">C:\Windows\System32\winevt\Logs</TargetFilename>
@@ -109,13 +99,18 @@
 			<TargetFilename condition="begin with">C:\Windows\Tasks\</TargetFilename>
 			<TargetFilename condition="begin with">C:\Windows\system32\Tasks</TargetFilename>
 			<TargetFilename condition="begin with">C:\Windows\SysWOW64\Tasks</TargetFilename>
-			<TargetFilename condition="begin with">%SystemRoot%\system32\</TargetFilename>
-			<TargetFilename condition="begin with">%SystemDrive%\Users\Default\</TargetFilename>
-			<TargetFilename condition="begin with">%UserProfile%\AppData\Roaming\</TargetFilename>
-			<TargetFilename condition="begin with">%AppData%\Microsoft\Windows\Start Menu\Programs\Startup</TargetFilename>
-			<TargetFilename condition="begin with">%SystemDrive%\Program Files\Common Files\</TargetFilename>
-			<TargetFilename condition="begin with">%SystemDrive%\Program Files (x86)\Common Files</TargetFilename>
-			<Image condition="begin with">\Device\HarddiskVolumeShadowCopy</Image>
+
+			<!-- 환경변수 기반 경로를 실제 경로/패턴으로 보완 -->
+			<TargetFilename condition="begin with">C:\Windows\system32\</TargetFilename>
+			<TargetFilename condition="begin with">C:\Users\Default\</TargetFilename>
+			<TargetFilename condition="contains">\AppData\Roaming\</TargetFilename>
+			<TargetFilename condition="contains">\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup</TargetFilename>
+			<TargetFilename condition="begin with">C:\Program Files\Common Files\</TargetFilename>
+			<TargetFilename condition="begin with">C:\Program Files (x86)\Common Files</TargetFilename>
+
+			<!-- 섀도우 카피 접근 -->
+			<TargetFilename condition="contains">\Device\HarddiskVolumeShadowCopy</TargetFilename>
+
 			<!--Windows application compatibility-->
 			<TargetFilename condition="begin with">C:\Windows\AppPatch\Custom</TargetFilename> 
 			<TargetFilename condition="contains">VirtualStore</TargetFilename> 
@@ -148,10 +143,9 @@
 	</RuleGroup>
 
 <!--SYSMON EVENT ID 12 & 13 & 14 : REGISTRY MODIFICATION [RegistryEvent]-->
-	<!--DATA: EventType, UtcTime, ProcessGuid, ProcessId, Image, TargetObject, Details (can't filter on), NewName (can't filter on)-->
 	<RuleGroup name="" groupRelation="or">
 		<RegistryEvent onmatch="include">		
-			<TargetObject condition="contains">Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run</TargetObject> <!--2012에는 없음-->
+			<TargetObject condition="contains">Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run</TargetObject>
 			<TargetObject condition="contains">SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders</TargetObject> 
 			<TargetObject condition="contains">Software\Microsoft\Active Setup\Installed Components</TargetObject> 
 			<TargetObject condition="contains">SOFTWARE\Microsoft\Windows\CurrentVersion\Run</TargetObject> 
@@ -172,4 +166,253 @@
 			<TargetObject condition="contains">HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Folder\SuperHidden</TargetObject>
 			<TargetObject condition="contains">HKLM\SYSTEM\ControlSet002\Services\SharedAccess\Parameters\FirewallPolicy\StandardProfile</TargetObject>
 			<TargetObject condition="contains">HKLM\SYSTEM\CurrentControlSet\Services\SharedAccess\Defaults\FirewallPolicy\StandardProfile\Logging</TargetObject>
-			<TargetObject condition="contai
+			<TargetObject condition="contains">HKLM\SYSTEM\CurrentControlSet\services\SharedAccess\Parameters\FirewallPolicy\StandardProfile</TargetObject>
+			<TargetObject condition="contains">HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot</TargetObject>
+			<TargetObject condition="contains">HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections</TargetObject>
+			<TargetObject condition="contains">HKLM\SYSTEM\ControlSet001\services\USBSTOR</TargetObject>
+			<TargetObject condition="contains">SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows</TargetObject>
+			<TargetObject condition="contains">HKLM\SOFTWARE\Classes\batfile\shell\edit\command</TargetObject>		
+			<TargetObject condition="contains">HKLM\SOFTWARE\Classes\cmdfile\shell\open\command</TargetObject>		
+			<TargetObject condition="contains">HKLM\SOFTWARE\Classes\comfile\shell\open\command</TargetObject>
+			<TargetObject condition="contains">HKLM\SOFTWARE\Classes\Directory\background\shell\cmd\command</TargetObject>
+			<TargetObject condition="contains">HKLM\SOFTWARE\Classes\exefile\shell\open\command</TargetObject>		
+			<TargetObject condition="contains">HKLM\SOFTWARE\Classes\Folder\shell\open\command</TargetObject>
+			<TargetObject condition="contains">HKLM\SOFTWARE\Classes\htafile\shell\open\command</TargetObject>
+			<TargetObject condition="contains">HKLM\SOFTWARE\Classes\mscfile\shell\open\command</TargetObject>		
+			<TargetObject condition="contains">SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced</TargetObject>		
+			<TargetObject condition="contains">HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\URL\DefaultPrefix</TargetObject>
+			<TargetObject condition="contains">HKLM\SYSTEM\ControlSet001\Services\SharedAccess\Parameters\FirewallPolicy\StandardProfile</TargetObject>		
+			<TargetObject condition="contains">HKLM\SYSTEM\ControlSet001\Control\SafeBoot</TargetObject>
+			<TargetObject condition="contains">HKLM\SYSTEM\CurrentControlSet\Services\wscsvc\Parameters</TargetObject>
+			<TargetObject condition="contains">HKLM\SYSTEM\CurrentControlSet\Services\RemoteAccess\RouterManagers\Ip</TargetObject>
+			<TargetObject condition="contains">HKLM\SOFTWARE\Microsoft\SystemCertificates\AuthRoot\Certificates\DAC9024F54D8F6DF94935FB1732638CA6AD77C13</TargetObject>
+			<TargetObject condition="contains">Software\Microsoft\Windows\CurrentVersion\Internet Settings</TargetObject>
+			<TargetObject condition="contains">Control Panel\Desktop</TargetObject>
+			<TargetObject condition="contains">Software\Microsoft\Internet Explorer\TypedURLs</TargetObject>
+			<TargetObject condition="contains">HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\Folders</TargetObject>		
+		</RegistryEvent>
+	</RuleGroup>
+
+<!--SYSMON EVENT ID 15 : ALTERNATE DATA STREAM CREATED [FileCreateStreamHash]-->
+	<!-- Cannot be filtered. -->
+
+<!--SYSMON EVENT ID 16 : SYSMON CONFIGURATION CHANGE-->
+	<!-- Cannot be filtered. -->
+
+<!--SYSMON EVENT ID 17 & 18 : PIPE CREATED / PIPE CONNECTED [PipeEvent]-->
+	<!-- Cannot be filtered. -->
+		
+<!--SYSMON EVENT ID 19 & 20 & 21 : WMI EVENT MONITORING [WmiEvent]-->
+	<!-- Cannot be filtered. -->
+
+<!--SYSMON EVENT ID 22 : DNS QUERY [DnsQuery]-->
+	<DnsQuery onmatch="include">
+		<Image condition="end with">powershell.exe</Image>
+		<Image condition="end with">pwsh.exe</Image>
+		<Image condition="end with">cmd.exe</Image>
+		<Image condition="end with">wscript.exe</Image>
+		<Image condition="end with">cscript.exe</Image>
+		<Image condition="end with">mshta.exe</Image>
+		<Image condition="end with">regsvr32.exe</Image>
+		<Image condition="end with">rundll32.exe</Image>
+	</DnsQuery>
+
+<!--SYSMON EVENT ID 27 : FILE BLOCK EXECUTABLE [FileBlockExecutable] - Desktop (강화 버전) -->
+
+	<RuleGroup name="Include_MalwareDrop_Desktop" groupRelation="or">
+		<FileBlockExecutable onmatch="include">
+
+			<!-- (A) 사용자 데이터 보호 (Honeypot) -->
+			<Rule groupRelation="and">
+				<TargetFilename condition="begin with">C:\Users\</TargetFilename>
+				<TargetFilename condition="contains any">
+					\Documents\;
+					\Pictures\;
+					\Videos\;
+					\Music\;
+					\Favorites\;
+					\Client_Contracts\
+				</TargetFilename>
+			</Rule>
+
+			<!-- (B) 공격자 임시 Drop & Run 경로 -->
+			<TargetFilename condition="begin with">C:\Temp\</TargetFilename>
+			<TargetFilename condition="begin with">C:\Windows\Temp\</TargetFilename>
+
+			<!-- (C) User Local Temp -->
+			<TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+
+			<!-- (D) User Roaming -->
+			<TargetFilename condition="contains">\AppData\Roaming\</TargetFilename>
+
+			<!-- (E) ProgramData 내부 임시 폴더 -->
+			<TargetFilename condition="contains any">
+				C:\ProgramData\Temp\;
+				C:\ProgramData\Updater\;
+				C:\ProgramData\Random\
+			</TargetFilename>
+
+			<!-- (F) Office 체인 → Temp/Roaming EXE 생성 시 차단 -->
+			<Rule groupRelation="and">
+				<Image condition="contains any">
+					OUTLOOK.exe;
+					WINWORD.exe;
+					POWERPNT.exe;
+					EXCEL.exe;
+					VISIO.exe;
+					MSACCESS.exe;
+					MSPUB.exe;
+					EQNEDT32.exe;
+					TEAMS.exe;
+					LYNC.exe
+				</Image>
+				<TargetFilename condition="contains any">
+					\Temp\;
+					\AppData\Local\Temp\;
+					\AppData\Roaming\
+				</TargetFilename>
+			</Rule>
+
+			<!-- (G) ZIP 기반 랜섬웨어 Drop (7z.exe 사용) -->
+			<Rule groupRelation="and">
+				<Image condition="end with">7z.exe</Image>
+				<TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+			</Rule>
+
+			<!-- (H) PowerShell → Temp/LocalTemp/Roaming/ProgramData EXE/DLL 생성 차단 -->
+			<Rule groupRelation="and">
+				<Image condition="end with">powershell.exe</Image>
+				<TargetFilename condition="contains any">
+					\Temp\;
+					\AppData\Local\Temp\;
+					\AppData\Roaming\;
+					C:\ProgramData\
+				</TargetFilename>
+			</Rule>
+
+			<!-- (I) LOLBin(mshta) → Drop 차단 -->
+			<Rule groupRelation="and">
+				<Image condition="end with">mshta.exe</Image>
+				<TargetFilename condition="contains any">
+					\Temp\;
+					\AppData\Local\Temp\;
+					\AppData\Roaming\;
+					C:\ProgramData\
+				</TargetFilename>
+			</Rule>
+
+			<!-- (J) LOLBin(regsvr32) → Drop 차단 -->
+			<Rule groupRelation="and">
+				<Image condition="end with">regsvr32.exe</Image>
+				<TargetFilename condition="contains any">
+					\Temp\;
+					\AppData\Local\Temp\;
+					\AppData\Roaming\;
+					C:\ProgramData\
+				</TargetFilename>
+			</Rule>
+
+			<!-- (선택) 필요 시 아래 주석 해제
+			<Rule groupRelation="and">
+				<Image condition="end with">wscript.exe</Image>
+				<TargetFilename condition="contains any">
+					\Temp\;
+					\AppData\Local\Temp\;
+					\AppData\Roaming\;
+					C:\ProgramData\
+				</TargetFilename>
+			</Rule>
+
+			<Rule groupRelation="and">
+				<Image condition="end with">rundll32.exe</Image>
+				<TargetFilename condition="contains any">
+					\Temp\;
+					\AppData\Local\Temp\;
+					\AppData\Roaming\;
+					C:\ProgramData\
+				</TargetFilename>
+			</Rule>
+			-->
+
+		</FileBlockExecutable>
+	</RuleGroup>
+
+	<RuleGroup name="Exclude_LegitActivity_Desktop" groupRelation="or">
+		<FileBlockExecutable onmatch="exclude">
+
+			<!-- (1) Outlook/Office 정상 임시 파일 -->
+			<TargetFilename condition="contains">Content.Outlook\</TargetFilename>
+			<TargetFilename condition="contains">Content.MSO\</TargetFilename>
+			<TargetFilename condition="end with">MSForms.exd</TargetFilename>
+			<TargetFilename condition="contains">~$</TargetFilename>
+
+			<!-- (2) 정상 다운로드 폴더 -->
+			<Rule groupRelation="and">
+				<TargetFilename condition="begin with">C:\Users\</TargetFilename>
+				<TargetFilename condition="contains">\Downloads\</TargetFilename>
+			</Rule>
+
+			<!-- (3) PowerShell Profile 업데이트 -->
+			<Rule groupRelation="and">
+				<TargetFilename condition="begin with">C:\Users\</TargetFilename>
+				<TargetFilename condition="contains">\Documents\WindowsPowerShell\</TargetFilename>
+			</Rule>
+
+			<!-- (4) Windows Installer / Update -->
+			<Image condition="is">C:\Windows\System32\msiexec.exe</Image>
+			<Image condition="is">C:\Windows\servicing\TrustedInstaller.exe</Image>
+			<Image condition="is">C:\Windows\System32\TiWorker.exe</Image>
+			<Image condition="is">C:\Windows\System32\dism.exe</Image>
+			<Image condition="is">C:\Windows\System32\wusa.exe</Image>
+			<Image condition="is">C:\Windows\System32\cleanmgr.exe</Image>
+			<Image condition="is">C:\Windows\System32\wuauclt.exe</Image>
+
+			<!-- (5) Windows 오류보고/진단 -->
+			<Image condition="is">C:\Windows\System32\werfault.exe</Image>
+			<Image condition="is">C:\Windows\System32\wermgr.exe</Image>
+
+			<!-- (6) Windows CAB/압축 관련 -->
+			<Image condition="is">C:\Windows\System32\makecab.exe</Image>
+			<Image condition="is">C:\Windows\System32\iexpress.exe</Image>
+
+			<!-- (7) 보안 솔루션 필수 예외 -->
+			<Image condition="contains any">
+				C:\ProgramData\Microsoft\Windows Defender\Platform\;
+				MsMpEng.exe
+			</Image>
+			<Image condition="end with">MpSigStub.exe</Image>
+			<Image condition="end with">NisSrv.exe</Image>
+			<Image condition="end with">Sysmon.exe</Image>
+
+			<!-- (8) Python 개발 환경 (개발 PC 고려) -->
+			<Image condition="contains">\venv\Scripts\python.exe</Image>
+			<Image condition="contains">\python.exe</Image>
+			<Image condition="contains">\pip.exe</Image>
+
+			<!-- (9) 브라우저/전자회의/Electron 업데이트 -->
+			<Image condition="contains any">
+				chrome.exe;
+				msedge.exe;
+				Squirrel.exe;
+				Update.exe;
+				Discord.exe;
+				Teams.exe;
+				Zoom.exe
+			</Image>
+
+			<!-- (10) RMM / 백업 / 모니터링 에이전트 -->
+			<Image condition="contains any">
+				agent;
+				updater;
+				backup;
+				monitor
+			</Image>
+
+			<!-- (11) OneDrive -->
+			<Image condition="end with">OneDrive.exe</Image>
+
+		</FileBlockExecutable>
+	</RuleGroup>
+
+	</EventFiltering>
+</Sysmon>
