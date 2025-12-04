@@ -113,7 +113,6 @@
 
         <!-- (9) 기타 자동 업데이트/에이전트 (환경에 맞게 추가/조정) -->
         <Image condition="contains any">
-          chrome.exe;
           msedge.exe;
           Squirrel.exe;
           Update.exe;
@@ -121,6 +120,9 @@
           Teams.exe;
           Zoom.exe
         </Image>
+        <Rule groupRelation="and">
+          <Image condition="is">C:\Program Files\Google\Chrome\Application\chrome.exe</Image>
+        </Rule>
 
         <Image condition="contains any">
           agent;
@@ -131,6 +133,19 @@
 
         <Image condition="end with">OneDrive.exe</Image>
 
+        <!-- (10) Windows Troubleshooter -->
+        <Rule groupRelation="and">
+          <Image condition="is">C:\Windows\System32\taskhostw.exe</Image>
+          <TargetFilename condition="begin with">C:\Windows\Temp\SDIAG_</TargetFilename>
+          <TargetFilename condition="contains any">.dll;.dll.mui</TargetFilename>
+        </Rule>
+
+        <!-- (11) DISM 핵심 DLL -->
+        <Rule groupRelation="and">
+          <Image condition="is">C:\Windows\system32\wbem\wmiprvse.exe</Image>
+          <TargetFilename condition="contains">\Windows\Temp\</TargetFilename>
+        </Rule>
+        
       </FileBlockExecutable>
     </RuleGroup>
 
