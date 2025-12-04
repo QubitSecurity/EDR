@@ -164,10 +164,10 @@
         <Image condition="is">C:\Windows\System32\iexpress.exe</Image>
 
         <!-- (7) 보안 솔루션 필수 예외 -->
-        <Image condition="contains any">
-          C:\ProgramData\Microsoft\Windows Defender\Platform\;
-          MsMpEng.exe
-        </Image>
+        <Rule groupRelation="and">
+          <Image condition="begin with">C:\ProgramData\Microsoft\Windows Defender\Platform\</Image>
+          <Image condition="end with">\MsMpEng.exe</Image>
+        </Rule>
         <Image condition="end with">MpSigStub.exe</Image>
         <Image condition="end with">NisSrv.exe</Image>
         <Image condition="end with">Sysmon.exe</Image>
@@ -179,7 +179,6 @@
 
         <!-- (9) 브라우저/전자회의/Electron 업데이트 -->
         <Image condition="contains any">
-          chrome.exe;
           msedge.exe;
           Squirrel.exe;
           Update.exe;
@@ -187,6 +186,9 @@
           Teams.exe;
           Zoom.exe
         </Image>
+        <Rule groupRelation="and">
+          <Image condition="is">C:\Program Files\Google\Chrome\Application\chrome.exe</Image>
+        </Rule>
 
         <!-- (10) RMM / 백업 / 모니터링 에이전트 -->
         <Image condition="contains any">
@@ -199,8 +201,61 @@
         <!-- (11) OneDrive -->
         <Image condition="end with">OneDrive.exe</Image>
 
-      </FileBlockExecutable>
-    </RuleGroup>
+        <!-- (12) Windows Troubleshooter -->
+        <Rule groupRelation="and">
+          <Image condition="is">C:\Windows\System32\taskhostw.exe</Image>
+          <TargetFilename condition="begin with">C:\Windows\Temp\SDIAG_</TargetFilename>
+          <TargetFilename condition="contains any">.dll;.dll.mui</TargetFilename>
+        </Rule>
+
+        <!-- (13) DISM 핵심 DLL -->
+        <Rule groupRelation="and">
+          <Image condition="is">C:\Windows\system32\wbem\wmiprvse.exe</Image>
+          <TargetFilename condition="contains">\Windows\Temp\</TargetFilename>
+        </Rule>
+    
+        <!-- (14) MSS Helper -->
+        <Rule groupRelation="and">
+          <Image condition="end with">\SOC_2.1.1.exe</Image>
+        </Rule>
+    
+        <!-- (15) Canon MF642C 프린터 -->
+        <Image condition="end with">\MF642C\MFDriver\UFRII\Setup.exe</Image>
+    
+        <!-- (16) Edge WebView2 Unpacker -->
+        <Rule groupRelation="and">
+          <Image condition="end with">\msedgewebview2.exe</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\chrome_Unpacker_BeginUnzipping</TargetFilename>
+        </Rule>
+    
+        <!-- (17) WinREAgent → dismhost -->
+        <Rule groupRelation="and">
+          <Image condition="begin with">C:\$WinREAgent\</Image>
+          <Image condition="end with">\dismhost.exe</Image>
+          <TargetFilename condition="contains">\Windows\Temp\</TargetFilename>
+        </Rule>
+    
+        <!-- (18) CefSharp Unpacking -->
+        <Rule groupRelation="and">
+          <Image condition="end with">CefSharp.BrowserSubprocess.exe</Image>
+          <TargetFilename condition="contains">\chrome_Unpacker_BeginUnzipping</TargetFilename>
+        </Rule>
+    
+        <!-- (19) Visual Studio Installer -->
+        <Rule groupRelation="and">
+          <Image condition="begin with">C:\Program Files (x86)\Microsoft Visual Studio\Installer\</Image>
+          <Image condition="end with">\Microsoft.VisualStudio.Setup.ServiceBackgroundDownload.exe</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+          <TargetFilename condition="end with">vs_setup_bootstrapper.exe</TargetFilename>
+        </Rule>
+    
+        <!-- (20) BITS tmp 파일 -->
+        <Rule groupRelation="and">
+          <Image condition="is">C:\WINDOWS\System32\svchost.exe</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\BIT\</TargetFilename>
+        </Rule>
+          </FileBlockExecutable>
+        </RuleGroup>
 
   </EventFiltering>
 </Sysmon>
