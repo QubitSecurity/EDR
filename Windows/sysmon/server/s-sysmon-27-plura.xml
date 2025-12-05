@@ -1,6 +1,6 @@
 <!-- PLURA Sysmon 27 Server -->
 
-<Sysmon schemaversion="4.22">
+<Sysmon schemaversion="4.90">
   <EventFiltering>
 
     <!-- SYSMON EVENT ID 27 : FILE BLOCK EXECUTABLE [FileBlockExecutable] - Server (보수적 적용) -->
