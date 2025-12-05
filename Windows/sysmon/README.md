@@ -122,11 +122,11 @@ Get-Service Sysmon64
 
 ## 📍 5. Sysmon 로그 위치
 
-**이벤트 뷰어 →**
-`Applications and Services Logs` →
-`Microsoft` →
-`Windows` →
-`Sysmon` →
+**이벤트 뷰어 →**  
+`Applications and Services Logs` →  
+`Microsoft` →  
+`Windows` →  
+`Sysmon` →  
 `Operational`
 
 ---
