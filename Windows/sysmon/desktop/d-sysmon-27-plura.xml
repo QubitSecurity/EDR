@@ -1,6 +1,6 @@
 <!-- PLURA Sysmon 27 Desktop -->
 
-<Sysmon schemaversion="4.22">
+<Sysmon schemaversion="4.90">
   <EventFiltering>
 
     <!-- SYSMON EVENT ID 27 : FILE BLOCK EXECUTABLE [FileBlockExecutable] - Desktop (강화 버전) -->
