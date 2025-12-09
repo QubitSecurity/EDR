@@ -122,12 +122,20 @@ Get-Service Sysmon64
 
 ## 📍 5. Sysmon 로그 위치
 
-**이벤트 뷰어 →**  
-`Applications and Services Logs` →  
-`Microsoft` →  
-`Windows` →  
-`Sysmon` →  
-`Operational`
+```
+Event Viewer
+ └─ Applications and Services Logs
+     └─ Microsoft
+         └─ Windows
+             └─ Sysmon
+                 └─ Operational
+```
+
+### ✔ 전체 경로 문자열
+
+```
+C:\Windows\System32\Winevt\Logs\Microsoft-Windows-Sysmon%4Operational.evtx
+```
 
 ---
 
