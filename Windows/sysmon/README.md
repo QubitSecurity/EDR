@@ -137,6 +137,10 @@ Event Viewer
 C:\Windows\System32\Winevt\Logs\Microsoft-Windows-Sysmon%4Operational.evtx
 ```
 
+
+![Event Viewer with sysmon](img/eventviewer-sysmon.png)
+
+
 ---
 
 ## 📄 6. 참고 사항
