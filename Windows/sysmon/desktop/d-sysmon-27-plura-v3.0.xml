@@ -224,6 +224,26 @@
           <Image condition="contains">WinSCP</Image>
           <TargetFilename condition="contains">\AppData\Local\Temp\is-</TargetFilename>
         </Rule>
+
+		<!-- (22) Windows 배경화면 애플리케이션 업데이트 -->
+		<Rule groupRelation="and">
+          <Image condition="begin with">C:\Program Files\WindowsApps\Microsoft.BingWallpaper</Image>
+          <Image condition="end with">BingWallpaper.exe</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+
+		<!-- (23) OneDrive 패치 -->
+		<Rule groupRelation="and">
+          <Image condition="contains">\AppData\Local\Microsoft\OneDrive\</Image>
+          <Image condition="end with">\OneDrivePatcher.exe</Image>
+          <TargetFilename condition="contains all">\AppData\Local\Temp\;\OneDriveDeltaPatch\</TargetFilename>
+        </Rule>
+
+		<!-- (24) ALToolsManager 업데이트 -->
+		<Rule groupRelation="and">
+          <Image condition="is">C:\Program Files (x86)\ESTsoft\ALToolsManager\ALToolsManager.exe</Image>
+          <TargetFilename condition="contains">\AppData\Roaming\ESTsoft\ALToolsManager\</TargetFilename>
+        </Rule>
       </FileBlockExecutable>
     </RuleGroup>
 
