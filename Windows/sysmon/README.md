@@ -1,6 +1,6 @@
-## 📘 Sysmon 설치 및 운영 가이드 (PLURA-XDR 전용)
+# 📘 Sysmon 설치 및 운영 가이드 (PLURA-XDR 전용)
 
-본 문서는 **PLURA-XDR** 환경에서 Desktop(워크스테이션)과 Server(서버) 시스템에  
+본 문서는 **PLURA-XDR** 환경에서 Desktop(워크스테이션)과 Server(서버) 시스템에
 Sysmon을 설치하고 설정을 관리하기 위한 가이드입니다.
 
 Sysmon 실행 파일: **Sysmon64.exe**
@@ -14,7 +14,7 @@ Sysmon 실행 파일: **Sysmon64.exe**
 
 👉 **[https://learn.microsoft.com/ko-kr/sysinternals/downloads/sysmon](https://learn.microsoft.com/ko-kr/sysinternals/downloads/sysmon)**
 
-위 링크에서 최신 버전의 Sysmon을 다운로드한 뒤, 압축을 해제하고  
+위 링크에서 최신 버전의 Sysmon을 다운로드한 뒤, 압축을 해제하고
 `Sysmon64.exe` 파일을 사용해 아래 명령들을 실행하십시오.
 
 ---
@@ -26,7 +26,7 @@ Sysmon 실행 파일: **Sysmon64.exe**
 | **d-** | Desktop 전용 Config | Windows 10 / Windows 11           |
 | **s-** | Server 전용 Config  | Windows Server 2016 / 2019 / 2022 |
 
-Desktop과 Server의 로그 특성, 성능, 서비스 구성 차이 때문에  
+Desktop과 Server의 로그 특성, 성능, 서비스 구성 차이 때문에
 PLURA에서는 운영환경에 최적화된 별도 Sysmon 룰셋을 제공합니다.
 
 ---
@@ -137,9 +137,7 @@ Event Viewer
 C:\Windows\System32\Winevt\Logs\Microsoft-Windows-Sysmon%4Operational.evtx
 ```
 
-
 ![Event Viewer with sysmon](img/eventviewer-sysmon.png)
-
 
 ---
 
@@ -150,5 +148,29 @@ C:\Windows\System32\Winevt\Logs\Microsoft-Windows-Sysmon%4Operational.evtx
   **불필요하거나 과도한 로그가 생성되거나 중요한 이벤트가 누락될 수 있습니다.**
 * PLURA-XDR에서는 **v2.1 규칙 세트(최신)** 사용을 권장합니다.
 * 설치 및 제거는 **재부팅이 필요하지 않습니다.**
+
+---
+
+## 🧩 7. 예외 처리 가이드 (Executable Blocking 예외)
+
+일부 프로그램 설치 파일(예: WinSCP, 특정 Inno Setup 기반 설치 프로그램)은
+설치 과정에서 **임시 디렉터리(Temp)** 에서 실행 파일을 풀어 사용하며,
+Sysmon **Event ID 27 (FileBlockExecutable)** 정책에 의해 차단될 수 있습니다.
+
+이런 경우, PLURA-XDR 규칙 세트에서는 아래 문서를 참고하여
+안전한 범위 내에서 예외 처리를 설정할 수 있습니다.
+
+👉 **README-Exceptions.md — Sysmon 예외 처리 가이드**
+(WinSCP 설치 예외 추가 예시 포함)
+
+문서에는 다음이 포함됩니다:
+
+* 예외 처리 파일 추가 위치
+* 예외 규칙 작성 예시
+* 새 규칙 반영 방법 (`Sysmon64.exe -c …`)
+* 삭제/해제 방법
+
+필요한 경우 특정 프로그램의 **정밀 예외 룰**도 쉽게 적용할 수 있도록
+간단한 구조로 작성되어 있습니다.
 
 ---
