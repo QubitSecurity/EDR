@@ -160,7 +160,7 @@ Sysmon **Event ID 27 (FileBlockExecutable)** 정책에 의해 차단될 수 있�
 이런 경우, PLURA-XDR 규칙 세트에서는 아래 문서를 참고하여
 안전한 범위 내에서 예외 처리를 설정할 수 있습니다.
 
-👉 [예외처리 Exceptions](README-Exceptions.md) — Sysmon 예외 처리 가이드**
+👉 [예외처리 Exceptions](README-Exceptions.md) — Sysmon 예외 처리 가이드
 (WinSCP 설치 예외 추가 예시 포함)
 
 문서에는 다음이 포함됩니다:
