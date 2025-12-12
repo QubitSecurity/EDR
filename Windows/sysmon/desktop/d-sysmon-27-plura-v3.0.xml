@@ -102,7 +102,7 @@
 
         <!-- (3) Google Chrome / Edge WebView 업데이트 -->
         <Rule groupRelation="and">
-          <Image condition="contains">\Google\Update\</Image>
+          <Image condition="contains any">\Google\Update\;\Google\Chrome\</Image>
           <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
         </Rule>
 
@@ -244,6 +244,20 @@
           <Image condition="is">C:\Program Files (x86)\ESTsoft\ALToolsManager\ALToolsManager.exe</Image>
           <TargetFilename condition="contains">\AppData\Roaming\ESTsoft\ALToolsManager\</TargetFilename>
         </Rule>
+
+		<!-- (25) Windows Update 플랫폼이 업데이트 준비 과정에서 생성하는 정상 DLL -->
+		<Rule groupRelation="and">
+          <Image condition="begin with">C:\WINDOWS\SoftwareDistribution\Download\</Image>
+          <Image condition="end with">\InstallUpdatePlatform.amd64fre.exe</Image>
+          <TargetFilename condition="begin with">C:\Windows\Temp\</TargetFilename>
+        </Rule>
+
+		<!-- sysmon 업데이트 시, 임시 경로에 자신의 복사본을 만들고 작업을 수행 -->
+		<Rule groupRelation="and">
+          <Image condition="is">C:\Program Files\PLURA\Sysmon.exe</Image>
+          <Image condition="end with">\AppData\Local\Temp\Sysmon.exe</Image>
+        </Rule>
+		  
       </FileBlockExecutable>
     </RuleGroup>
 
