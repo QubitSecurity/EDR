@@ -39,15 +39,15 @@ PLURA에서는 운영환경에 최적화된 별도 Sysmon 룰셋을 제공합니
 
 ---
 
-### **1) Desktop — d-sysmon-27-plura.xml 설치**
+### **1) Desktop — 27번 전용 설치**
 
 ```powershell
-Sysmon64.exe -i .\d-sysmon-27-plura.xml -accepteula
+Sysmon64.exe -i .\d-sysmon-27-plura-v3.0.xml -accepteula
 ```
 
 ---
 
-### **2) Server — s-sysmon-27-plura.xml 설치**
+### **2) Server — 27번 전용 설치**
 
 ```powershell
 Sysmon64.exe -i .\s-sysmon-27-plura.xml -accepteula
@@ -55,7 +55,7 @@ Sysmon64.exe -i .\s-sysmon-27-plura.xml -accepteula
 
 ---
 
-### **3) Server — s-sysmon-plura-v2.1.xml 설치**
+### **3) Server — 통합 설치**
 
 ```powershell
 Sysmon64.exe -i .\s-sysmon-plura-v2.1.xml -accepteula
@@ -63,7 +63,7 @@ Sysmon64.exe -i .\s-sysmon-plura-v2.1.xml -accepteula
 
 ---
 
-### **4) Desktop — d-sysmon-plura-v2.1.xml 설치**
+### **4) Desktop — 통합 설치**
 
 ```powershell
 Sysmon64.exe -i .\d-sysmon-plura-v2.1.xml -accepteula
