@@ -1,7 +1,7 @@
 <!-- PLURA_CONFIG_VERSION: s-sysmon-27-plura-v3.1-lolbas-curated.xml --> 
 <!-- PLURA_SCHEMA_TARGET: 4.90 -->
 
-<Sysmon schemaversion="5.0">
+<Sysmon schemaversion="4.90">
   <HashAlgorithms>*</HashAlgorithms>
   <CheckRevocation>False</CheckRevocation>
   <DnsLookup>False</DnsLookup>
