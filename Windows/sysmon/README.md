@@ -1,176 +1,112 @@
-# 📘 Sysmon 설치 및 운영 가이드 (PLURA-XDR 전용)
+# PLURA-Forensic – Sysmon Desktop / Server Configuration (v3.1)
 
-본 문서는 **PLURA-XDR** 환경에서 Desktop(워크스테이션)과 Server(서버) 시스템에
-Sysmon을 설치하고 설정을 관리하기 위한 가이드입니다.
+본 저장소는 **PLURA-Forensic** 관점에서 설계된  
+Sysmon Desktop(d-) / Server(s-) 설정 파일을 포함합니다.
 
-Sysmon 실행 파일: **Sysmon64.exe**
-권장 버전: **v15.15 이상**
-
----
-
-## 🔽 Sysmon 다운로드
-
-공식 Microsoft Sysinternals(Sysmon) 다운로드 페이지:
-
-👉 **[https://learn.microsoft.com/ko-kr/sysinternals/downloads/sysmon](https://learn.microsoft.com/ko-kr/sysinternals/downloads/sysmon)**
-
-위 링크에서 최신 버전의 Sysmon을 다운로드한 뒤, 압축을 해제하고
-`Sysmon64.exe` 파일을 사용해 아래 명령들을 실행하십시오.
+랜섬웨어, LOLBAS, Living-off-the-Land 공격 등
+**실제 침해 사고 대응을 염두에 둔 탐지·차단 중심 설계**를 목표로 합니다.
 
 ---
 
-## 🏷️ d- / s- 파일 구분
+## 📁 파일 구성 개요
 
-| Prefix | 의미                | 대상 OS                             |
-| ------ | ----------------- | --------------------------------- |
-| **d-** | Desktop 전용 Config | Windows 10 / Windows 11           |
-| **s-** | Server 전용 Config  | Windows Server 2016 / 2019 / 2022 |
+### Desktop (d- prefix)
 
-Desktop과 Server의 로그 특성, 성능, 서비스 구성 차이 때문에
-PLURA에서는 운영환경에 최적화된 별도 Sysmon 룰셋을 제공합니다.
+- `d-sysmon-27-plura-v3.1.xml`
+- `d-sysmon-29-plura-v3.1.xml`
+- `d-sysmon-plura-v3.1-merge-27.xml`
+- `d-sysmon-plura-v3.1-merge-29.xml`
+- `d-sysmon-plura-v3.1-desktop.xml`
 
----
+### Server (s- prefix)
 
-## 🔧 1. Sysmon 설치 (Install)
-
-반드시 **관리자 권한 PowerShell 또는 CMD**에서 실행해야 합니다.
-
-### ✔ PLURA Sysmon 설정 파일별 설치 명령
-
----
-
-### **1) Desktop — 27번 전용 설치**
-
-```powershell
-Sysmon64.exe -i .\d-sysmon-27-plura-v3.0.xml -accepteula
-```
+- `s-sysmon-27-plura-v3.1.xml`
+- `s-sysmon-29-plura-v3.1.xml`
+- `s-sysmon-plura-v3.1-merge-27.xml`
+- `s-sysmon-plura-v3.1-merge-29.xml`
+- `s-sysmon-plura-v3.1.xml`
 
 ---
 
-### **2) Server — 27번 전용 설치**
+## 🔍 Sysmon Event ID 27 vs 29 – 차이점 정리
 
-```powershell
-Sysmon64.exe -i .\s-sysmon-27-plura.xml -accepteula
-```
+### ✅ Sysmon Event ID 27  
+**(File Blocked / 차단 중심 정책)**
 
----
+| 항목 | 설명 |
+|----|----|
+| 목적 | **의심 파일 실행 차단 + 로그 기록** |
+| 성격 | **능동적 방어 (Preventive Control)** |
+| 영향 | 실제 실행이 차단되므로 운영 영향 가능 |
+| 주요 활용 | 랜섬웨어, 드로퍼, LOLBAS 초기 실행 차단 |
 
-### **3) Server — 통합 설치**
-
-```powershell
-Sysmon64.exe -i .\s-sysmon-plura-v2.1.xml -accepteula
-```
-
----
-
-### **4) Desktop — 통합 설치**
-
-```powershell
-Sysmon64.exe -i .\d-sysmon-plura-v2.1.xml -accepteula
-```
+**주의사항**
+- 정상 업무 파일이 차단될 수 있으므로  
+  ▶ 예외(AllowList) 관리가 반드시 필요
+- 운영 환경에서는 **사전 테스트 및 단계적 적용 권장**
 
 ---
 
-## 🔁 2. 설정 업데이트 (Change Config)
+### ✅ Sysmon Event ID 29  
+**(File Executable Detected / 탐지 전용 정책)**
 
-Sysmon이 이미 설치된 상태에서 **룰만 최신 파일로 교체**할 때 사용합니다.
+| 항목 | 설명 |
+|----|----|
+| 목적 | **새 실행 파일 생성 탐지** |
+| 성격 | **수동적 탐지 (Detective Control)** |
+| 영향 | 시스템 동작에 영향 없음 |
+| 주요 활용 | 침해 지표 수집, 포렌식, 상관 분석 |
 
-```powershell
-Sysmon64.exe -c .\변경할-설정파일.xml
-```
-
-예시:
-
-```powershell
-Sysmon64.exe -c .\d-sysmon-plura-v2.1.xml
-```
-
-* 서비스 재시작 없이 즉시 반영됨
-* 최초 설치(`-i`)가 되어 있어야 사용 가능
+**특징**
+- 운영 안정성이 높아 **모든 환경에 무조건 적용 가능**
+- 차단은 하지 않으므로 **즉각적 공격 저지는 불가**
 
 ---
 
-## ❌ 3. Sysmon 제거 (Uninstall)
+## 🛡️ 랜섬웨어 대응 관점에서의 권고 정책
 
-Sysmon 서비스 및 드라이버 제거:
+### 🔴 핵심 결론
 
-```powershell
-Sysmon64.exe -u
-```
+> **실질적인 랜섬웨어 대응을 준비하려면  
+> Sysmon Event ID 27 기반 차단 정책 운영을 권고합니다.**
 
-드라이버, 서비스, 로그까지 **강제로 완전 제거**하려면:
+### 이유
 
-```powershell
-Sysmon64.exe -u force
-```
-
----
-
-## 🧪 4. Sysmon 설치 상태 확인
-
-```powershell
-sc query Sysmon64
-```
-
-또는 PowerShell:
-
-```powershell
-Get-Service Sysmon64
-```
+- 랜섬웨어는 **“실행 순간”을 놓치면 피해가 확산**
+- Event ID 29는 **사후 탐지·분석에는 유효**하나,
+  실행 자체를 막을 수는 없음
+- Event ID 27은 **실행 단계에서 공격을 차단**할 수 있는
+  거의 유일한 Sysmon 레벨의 통제 수단
 
 ---
 
-## 📍 5. Sysmon 로그 위치
+## ⚖️ 운영 전략 권장 시나리오
 
-```
-Event Viewer
- └─ Applications and Services Logs
-     └─ Microsoft
-         └─ Windows
-             └─ Sysmon
-                 └─ Operational
-```
+### 1️⃣ 보수적 운영 환경
+- **Event ID 29 단독 사용**
+- 탐지 + 포렌식 중심
+- 차단 부담이 없는 환경
 
-### ✔ 전체 경로 문자열
+### 2️⃣ 보안 우선 환경 (권장)
+- **Event ID 27 + 29 병행**
+- 29로 전체 가시성 확보
+- 27로 고위험 실행 파일 차단
 
-```
-C:\Windows\System32\Winevt\Logs\Microsoft-Windows-Sysmon%4Operational.evtx
-```
-
-![Event Viewer with sysmon](img/eventviewer-sysmon.png)
+### 3️⃣ 성숙한 보안 운영 환경
+- Event ID 27 적극 활용
+- 화이트리스트 기반 예외 관리
+- PLURA-XDR / SIEM 연동 자동 대응
 
 ---
 
-## 📄 6. 참고 사항
+## 📌 정리
 
-* XML 설정 파일의 `schemaversion` 은 Sysmon 버전과 호환되어야 합니다.
-* Desktop(d-)과 Server(s-) 설정 파일을 혼용하면
-  **불필요하거나 과도한 로그가 생성되거나 중요한 이벤트가 누락될 수 있습니다.**
-* PLURA-XDR에서는 **v2.1 규칙 세트(최신)** 사용을 권장합니다.
-* 설치 및 제거는 **재부팅이 필요하지 않습니다.**
-
----
-
-## 🧩 7. 예외 처리 가이드 (Executable Blocking 예외)
-
-일부 프로그램 설치 파일(예: WinSCP, 특정 Inno Setup 기반 설치 프로그램)은
-설치 과정에서 **임시 디렉터리(Temp)** 에서 실행 파일을 풀어 사용하며,
-Sysmon **Event ID 27 (FileBlockExecutable)** 정책에 의해 차단될 수 있습니다.
-
-이런 경우, PLURA-XDR 규칙 세트에서는 아래 문서를 참고하여
-안전한 범위 내에서 예외 처리를 설정할 수 있습니다.
-
-👉 [예외처리 Exceptions](README-Exceptions.md) — Sysmon 예외 처리 가이드
-(WinSCP 설치 예외 추가 예시 포함)
-
-문서에는 다음이 포함됩니다:
-
-* 예외 처리 파일 추가 위치
-* 예외 규칙 작성 예시
-* 새 규칙 반영 방법 (`Sysmon64.exe -c …`)
-* 삭제/해제 방법
-
-필요한 경우 특정 프로그램의 **정밀 예외 룰**도 쉽게 적용할 수 있도록
-간단한 구조로 작성되어 있습니다.
+- **29번**: 안정적인 **탐지·가시성 확보용**
+- **27번**: 실제 공격을 멈추는 **차단용 핵심 정책**
+- 랜섬웨어 대응을 “탐지”가 아닌 “저지” 관점에서 본다면  
+  ▶ **27번 차단 정책 운영은 선택이 아닌 필수**
 
 ---
+
+© PLURA-Forensic / PLURA-XDR  
+Everything is visible. Everything is protected.
