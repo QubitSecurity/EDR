@@ -1,15 +1,5 @@
-<!-- NOTICE: PLURA Sysmon Configuration File Version 3.1 (Server - EventID 27 Only) -->
-<!-- BASED ON: s-sysmon-27-plura.xml (Server-tailored Event ID 27(FileBlockExecutable) policy) -->
-<!-- DOWNLOAD: https://learn.microsoft.com/ko-kr/sysinternals/downloads/sysmon -->
-<!-- INSTALL: Sysmon64.exe -accepteula -i "C:\Program Files (x86)\PLURA\s-sysmon-27-plura-v3.1-lolbas-strict.xml" -->
-<!-- UPDATE:  Sysmon64.exe -c "C:\Program Files (x86)\PLURA\s-sysmon-27-plura-v3.1-lolbas-strict.xml" -->
-<!-- DELETE:  Sysmon64.exe -u force -->
-
-<!--
-s-sysmon-27-plura-v3.1-lolbas-strict.xml (Server Event ID 27 전용)
-- Server 환경에서 랜섬웨어 Drop/Run 경로, Office 체인 기반 EXE 생성 등을 "보수적으로" 차단
-- s-sysmon-plura-v3.1.xml(서버 기본 룰셋)과 분리 운영하거나, merge27 구성과 함께 사용 가능
--->
+<!-- PLURA_CONFIG_VERSION: s-sysmon-27-plura-v3.1-lolbas-strict.xml --> 
+<!-- PLURA_SCHEMA_TARGET: 4.90 -->
 
 <Sysmon schemaversion="4.90">
   <EventFiltering>
