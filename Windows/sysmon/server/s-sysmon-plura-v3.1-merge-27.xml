@@ -1,17 +1,5 @@
-<!-- NOTICE: PLURA Sysmon Configuration File Version 3.1 (Server + EventID 27 Merge) -->
-<!-- BASED ON: s-sysmon-plura-v3.1.xml + s-sysmon-27-plura-v3.1.xml -->
-<!-- DOWNLOAD: https://learn.microsoft.com/ko-kr/sysinternals/downloads/sysmon -->
-<!-- INSTALL: Sysmon64.exe -accepteula -i "C:\Program Files (x86)\PLURA\s-sysmon-plura-v3.1-merge27.xml" -->
-<!-- UPDATE:  Sysmon64.exe -c "C:\Program Files (x86)\PLURA\s-sysmon-plura-v3.1-merge27.xml" -->
-<!-- DELETE:  Sysmon64.exe -u force -->
-
-<!--
-s-sysmon-plura-v3.1-merge27.xml
-- BASE: s-sysmon-plura-v3.1.xml + 27: s-sysmon-27-plura-v3.1.xml
-- Server 전용 v3.1 룰셋에 Sysmon Event ID 27(FileBlockExecutable) 차단 정책을 병합한 버전
-- Event ID 27은 Sysmon 스키마 4.90+ 필요. 본 파일은 schemaversion=5.0으로 설정.
-- 서버 환경 특성(IIS/SQL/업데이트/패치)에 맞춰 27번 예외(Exclude) 규칙을 포함합니다.
--->
+<!-- PLURA_CONFIG_VERSION: s-sysmon-plura-v3.1-merge-27.xml --> 
+<!-- PLURA_SCHEMA_TARGET: 4.90 -->
 
 <Sysmon schemaversion="5.0">
   <HashAlgorithms>*</HashAlgorithms>
