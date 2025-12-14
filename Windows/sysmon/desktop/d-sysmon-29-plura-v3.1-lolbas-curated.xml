@@ -1,0 +1,828 @@
+<!-- NOTICE: PLURA Sysmon Configuration File Version 3.2 (Desktop, EventID 29 Only) -->
+<!-- BASED ON: d-sysmon-27-plura-v3.1-desktop.xml (Event ID 27 -> 29 변환) -->
+<!-- DOWNLOAD: https://learn.microsoft.com/ko-kr/sysinternals/downloads/sysmon -->
+<!-- INSTALL: Sysmon64.exe -accepteula -i "C:\Program Files (x86)\PLURA\d-sysmon-29-plura-v3.2.xml" -->
+<!-- UPDATE:  Sysmon64.exe -c "C:\Program Files (x86)\PLURA\d-sysmon-29-plura-v3.2.xml" -->
+<!-- DELETE:  Sysmon64.exe -u force -->
+
+<!--
+  d-sysmon-29-plura-v3.2.xml
+  - Desktop용 Sysmon Event ID 29(FileExecutableDetected) 정책 (탐지 전용)
+  - Event ID 29는 실행파일(PE) 생성 탐지 이벤트이며, 차단/삭제를 수행하지 않습니다.
+  - Event ID 29는 Sysmon schema 4.90+ 필요. 본 파일은 schemaversion=4.90으로 설정.
+-->
+<Sysmon schemaversion="4.90">
+  <EventFiltering>
+
+    <!-- SYSMON EVENT ID 29 : FILE EXECUTABLE DETECTED [FileExecutableDetected] - Desktop (강화 버전) -->
+
+    <!-- INCLUDE: 악성 Drop/Run 경로 + PowerShell/LOLBin까지 강하게 탐지 -->
+    <RuleGroup name="Include_MalwareDrop_Desktop" groupRelation="or">
+      <FileExecutableDetected onmatch="include">
+
+        <!-- (A) 사용자 데이터 보호 (Honeypot) -->
+        <Rule groupRelation="and">
+          <TargetFilename condition="begin with">C:\Users\</TargetFilename>
+          <TargetFilename condition="contains any">
+            \Documents\;
+            \Pictures\;
+            \Videos\;
+            \Music\;
+            \Favorites\;
+            \Client_Contracts\
+          </TargetFilename>
+        </Rule>
+
+        <!-- (B) 공격자 임시 Drop & Run 경로
+               - 사용자 임시 폴더, Temp, Downloads 등 -->
+        <Rule groupRelation="or">
+          <!-- 사용자 임시 폴더 -->
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+          <!-- Windows Temp -->
+          <TargetFilename condition="contains">\Windows\Temp\</TargetFilename>
+          <!-- Downloads 디렉터리 -->
+          <TargetFilename condition="contains">\Downloads\</TargetFilename>
+        </Rule>
+
+        <!-- (C) 공격자들이 자주 사용하는 Drop 경로 (예: C:\ProgramData, Public 등) -->
+        <Rule groupRelation="or">
+          <TargetFilename condition="begin with">C:\ProgramData\</TargetFilename>
+          <TargetFilename condition="begin with">C:\Users\Public\</TargetFilename>
+        </Rule>
+
+        <!-- (D) PowerShell 스크립트 실행 탐지 -->
+        <Rule groupRelation="or">
+          <TargetFilename condition="end with">.ps1</TargetFilename>
+          <TargetFilename condition="end with">.psm1</TargetFilename>
+          <TargetFilename condition="end with">.psd1</TargetFilename>
+        </Rule>
+
+        <!-- (E) LOLBin/LOLScript Drop & Run 패턴 탐지 -->
+        <Rule groupRelation="or">
+          <!-- 공용 LOLBin 위치 -->
+          <TargetFilename condition="end with">\certutil.exe</TargetFilename>
+          <TargetFilename condition="end with">\bitsadmin.exe</TargetFilename>
+          <TargetFilename condition="end with">\mshta.exe</TargetFilename>
+          <TargetFilename condition="end with">\wscript.exe</TargetFilename>
+          <TargetFilename condition="end with">\cscript.exe</TargetFilename>
+          <TargetFilename condition="end with">\powershell.exe</TargetFilename>
+          <TargetFilename condition="end with">\pwsh.exe</TargetFilename>
+          <TargetFilename condition="end with">\regsvr32.exe</TargetFilename>
+        </Rule>
+
+        <!-- (F) Office 매크로가 드랍하는 실행 파일 (일반적인 Temp 위치) -->
+        <Rule groupRelation="and">
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+          <TargetFilename condition="end with">.exe</TargetFilename>
+        </Rule>
+
+        <!-- (G) 악성 Word/Excel 매크로에서 Dropping하는 경로 (예시) -->
+        <Rule groupRelation="and">
+          <TargetFilename condition="contains">\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\</TargetFilename>
+          <TargetFilename condition="end with">.lnk</TargetFilename>
+        </Rule>
+
+        <!-- (H) 사용자 프로파일 하위의 Run/Startup 경로 악성 Drop -->
+        <Rule groupRelation="and">
+          <TargetFilename condition="begin with">C:\Users\</TargetFilename>
+          <TargetFilename condition="contains any">
+            \AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\;
+            \AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\;
+            \AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\
+          </TargetFilename>
+        </Rule>
+
+      </FileExecutableDetected>
+    </RuleGroup>
+
+
+    <!-- INCLUDE: LOLBAS Writer Process 기반 PE Drop 탐지 (Curated) -->
+    <RuleGroup name="Include_LOLBAS_FileExecutableDetected_Desktop_Curated" groupRelation="or">
+      <FileExecutableDetected onmatch="include">
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\AddinUtil.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Aspnet_Compiler.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\At.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Atbroker.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Bash.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Bitsadmin.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\CertOC.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\CertReq.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Certutil.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Change.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Cipher.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Cmdkey.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Cmstp.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Colorcpl.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\ComputerDefaults.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\ConfigSecurityPolicy.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Control.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\DataSvcUtil.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Desktopimgdownldr.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\DeviceCredentialDeployment.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Dfsvc.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Diantz.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Diskshadow.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Dnscmd.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Esentutl.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Eudcedit.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Eventvwr.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Expand.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Explorer.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Extexport.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Extrac32.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Findstr.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Finger.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Forfiles.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Fsutil.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Ftp.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Gpscript.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Hh.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\IMEWDBLD.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Ie4uinit.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Ieexec.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Infdefaultinstall.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Installutil.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Ldifde.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Makecab.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Mavinject.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Microsoft.Workflow.Compiler.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Mmc.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\MpCmdRun.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Msconfig.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Msdt.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Mshta.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Netsh.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Ngen.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Odbcconf.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\OfflineScannerShell.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Pcalua.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Pcwrun.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Pktmon.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Pnputil.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Presentationhost.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Print.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\PrintBrm.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Provlaunch.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Psr.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Query.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Rasautou.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Reg.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Regasm.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Regedit.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Regini.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Register-cimprovider.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Regsvcs.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Regsvr32.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Replace.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Reset.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Rpcping.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Rundll32.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Runexehelper.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Runonce.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Runscripthelper.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Sc.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Schtasks.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Scriptrunner.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Setres.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\SettingSyncHost.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Sftp.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Stordiag.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\SyncAppvPublishingServer.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Tar.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Ttdinject.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Tttracer.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Unregmp2.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Verclsid.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Wab.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Wlrmdr.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Wmic.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\WorkFolders.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Wsreset.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\Xwizard.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\cmdl32.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\fltMC.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\iediagcmd.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\iscsicpl.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\rdrleakdiag.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\ssh.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\wbadmin.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\wbemtest.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">\wuauclt.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
+        </Rule>
+
+      </FileExecutableDetected>
+    </RuleGroup>
+    <!-- EXCLUDE: 정상 소프트웨어 / 업데이트 / 패치 프로세스 등 허용 -->
+    <RuleGroup name="Exclude_LegitActivity_Desktop" groupRelation="or">
+      <FileExecutableDetected onmatch="exclude">
+
+        <!-- (1) Microsoft Office 정식 설치 프로그램 -->
+        <Rule groupRelation="and">
+          <Image condition="contains">\Office\setup.exe</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+
+        <!-- (2) Adobe Reader / Acrobat 설치 및 업데이트 -->
+        <Rule groupRelation="and">
+          <Image condition="contains">\Adobe\</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+
+        <!-- (3) Google Chrome / Edge WebView 업데이트 -->
+        <Rule groupRelation="and">
+          <Image condition="contains any">\Google\Update\;\Google\Chrome\</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+
+        <!-- (4) Microsoft Edge 업데이트 -->
+        <Rule groupRelation="and">
+          <Image condition="contains">\Microsoft\EdgeUpdate\</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+
+        <!-- (5) Zoom / WebEx / Teams 등 Collaboration 툴 -->
+        <Rule groupRelation="and">
+          <Image condition="contains">\zoom\</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+
+        <!-- (6) Slack / Discord / 기타 Chat 클라이언트 -->
+        <Rule groupRelation="and">
+          <Image condition="contains">\Slack\</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+
+        <!-- (7) Microsoft Visual Studio / .NET Installer -->
+        <Rule groupRelation="and">
+          <Image condition="contains">\Microsoft Visual Studio\</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+
+        <!-- (8) .NET Framework / Windows Installer (MSI 기반) -->
+        <Rule groupRelation="and">
+          <Image condition="end with">msiexec.exe</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+
+        <!-- (9) Windows Defender / AV 엔진 자체 업데이트 -->
+        <Rule groupRelation="and">
+          <Image condition="contains">\ProgramData\Microsoft\Windows Defender\Platform\</Image>
+          <TargetFilename condition="contains">\ProgramData\Microsoft\Windows Defender\Definition Updates\</TargetFilename>
+        </Rule>
+
+        <!-- (10) Chrome / Edge 자체 Installer (예: ChromeSetup.exe 등) -->
+        <Rule groupRelation="and">
+          <Image condition="contains">\ChromeSetup.exe</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+
+        <!-- (11) VSCode / JetBrains 제품군 설치 및 업데이트 -->
+        <Rule groupRelation="and">
+          <Image condition="contains">\AppData\Local\Programs\Microsoft VS Code\</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+
+        <!-- (12) JetBrains Toolbox / IntelliJ / PyCharm 등 -->
+        <Rule groupRelation="and">
+          <Image condition="contains">\JetBrains\Toolbox\</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+
+        <!-- (13) Steam / 게임 런처 업데이트 (선택적으로 허용) -->
+        <Rule groupRelation="and">
+          <Image condition="contains">\Steam\</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+
+        <!-- (14) NVIDIA / AMD 그래픽 드라이버 설치 프로그램 -->
+        <Rule groupRelation="and">
+          <Image condition="contains">\NVIDIA\</Image>
+          <TargetFilename condition="contains">\Program Files\NVIDIA Corporation\Installer2\</TargetFilename>
+        </Rule>
+
+        <!-- (15) Windows Update 에이전트 일부 동작 허용 (필요 시) -->
+        <Rule groupRelation="and">
+          <Image condition="end with">wuauclt.exe</Image>
+          <TargetFilename condition="contains">\SoftwareDistribution\Download\</TargetFilename>
+        </Rule>
+
+        <!-- (16) Chocolatey / Winget 등 패키지 관리자 (개발 환경에서 사용 시) -->
+        <Rule groupRelation="and">
+          <Image condition="contains">\chocolatey\</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+
+        <!-- (17) Winget -->
+        <Rule groupRelation="and">
+          <Image condition="contains">\App Installer\</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+
+        <!-- (18) CefSharp Unpacking -->
+        <Rule groupRelation="and">
+          <Image condition="end with">CefSharp.BrowserSubprocess.exe</Image>
+          <TargetFilename condition="contains">\chrome_Unpacker_BeginUnzipping</TargetFilename>
+        </Rule>
+    
+        <!-- (19) Visual Studio Installer -->
+        <Rule groupRelation="and">
+          <Image condition="begin with">C:\Program Files (x86)\Microsoft Visual Studio\Installer\</Image>
+          <Image condition="end with">\Microsoft.VisualStudio.Setup.ServiceBackgroundDownload.exe</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+          <TargetFilename condition="end with">vs_setup_bootstrapper.exe</TargetFilename>
+        </Rule>
+    
+        <!-- (20) BITS tmp 파일 -->
+        <Rule groupRelation="and">
+          <Image condition="is">C:\WINDOWS\System32\svchost.exe</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\BIT</TargetFilename>
+        </Rule>
+		
+        <!-- (21) WinSCP 설치 프로그램 예외 -->
+        <!-- 1단계: 설치 exe가 Temp 아래로 파일을 풀어낼 때 허용 -->
+        <Rule groupRelation="and">
+          <!-- 다운로드 폴더에서 실행되는 WinSCP 설치 파일 -->
+          <Image condition="end with">WinSCP-6.5.5-Setup.exe</Image>
+          <!-- 이 설치 파일이 AppData\Local\Temp 아래에 뭔가를 만들 때는 허용 -->
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+
+        <!-- 2단계: Inno Setup가 만드는 is-xxxx.tmp 폴더 내 실행 허용 -->
+        <Rule groupRelation="and">
+          <Image condition="contains">WinSCP</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\is-</TargetFilename>
+        </Rule>
+
+		<!-- (22) Windows 배경화면 애플리케이션 업데이트 -->
+		<Rule groupRelation="and">
+          <Image condition="begin with">C:\Program Files\WindowsApps\Microsoft.BingWallpaper</Image>
+          <Image condition="end with">BingWallpaper.exe</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+
+		<!-- (23) OneDrive 패치 -->
+		<Rule groupRelation="and">
+          <Image condition="contains">\AppData\Local\Microsoft\OneDrive\</Image>
+          <Image condition="end with">\OneDrivePatcher.exe</Image>
+          <TargetFilename condition="contains all">\AppData\Local\Temp\;\OneDriveDeltaPatch\</TargetFilename>
+        </Rule>
+
+		<!-- (24) ALToolsManager 업데이트 -->
+		<Rule groupRelation="and">
+          <Image condition="is">C:\Program Files (x86)\ESTsoft\ALToolsManager\ALToolsManager.exe</Image>
+          <TargetFilename condition="contains">\AppData\Roaming\ESTsoft\ALToolsManager\</TargetFilename>
+        </Rule>
+
+		<!-- (25) Windows Update 플랫폼이 업데이트 준비 과정에서 생성하는 정상 DLL -->
+		<Rule groupRelation="and">
+          <Image condition="begin with">C:\WINDOWS\SoftwareDistribution\Download\</Image>
+          <Image condition="end with">\InstallUpdatePlatform.amd64fre.exe</Image>
+          <TargetFilename condition="begin with">C:\Windows\Temp\</TargetFilename>
+        </Rule>
+
+		<!-- sysmon 업데이트 시, 임시 경로에 자신의 복사본을 만들고 작업을 수행 -->
+		<Rule groupRelation="and">
+          <Image condition="is">C:\Program Files\PLURA\Sysmon.exe</Image>
+          <Image condition="end with">\AppData\Local\Temp\Sysmon.exe</Image>
+        </Rule>
+		  
+      </FileExecutableDetected>
+    </RuleGroup>
+
+  </EventFiltering>
+</Sysmon>
