@@ -1,16 +1,5 @@
-<!-- NOTICE: PLURA Sysmon Configuration File Version 3.1 (Server) -->
-<!-- BASED ON: sysmon-plura.xml (PLURA v2.0) -->
-<!-- DOWNLOAD: https://learn.microsoft.com/ko-kr/sysinternals/downloads/sysmon -->
-<!-- INSTALL: Sysmon64.exe -accepteula -i "C:\Program Files (x86)\PLURA\s-sysmon-plura-v3.1.xml" -->
-<!-- UPDATE:  Sysmon64.exe -c "C:\Program Files (x86)\PLURA\s-sysmon-plura-v3.1.xml" -->
-<!-- DELETE:  Sysmon64.exe -u force -->
-
-<!--
-s-sysmon-plura-v3.1.xml (Server 전용)
-- Desktop/사용자 행위(Downloads/Desktop/Office/브라우저/클라우드 동기화) 중심 룰 제거 또는 축소
-- Server 핵심 워크로드(IIS/SQL/서비스/스케줄러/원격관리) 중심으로 정리
-- 과도한 로그 발생을 막기 위해 "의미 있는 경로/확장자/프로세스" 중심으로 Include
--->
+<!-- PLURA_CONFIG_VERSION: s-sysmon-plura-v3.1.xml --> 
+<!-- PLURA_SCHEMA_TARGET: 4.90 -->
 
 <Sysmon schemaversion="5.0">
   <HashAlgorithms>*</HashAlgorithms>
