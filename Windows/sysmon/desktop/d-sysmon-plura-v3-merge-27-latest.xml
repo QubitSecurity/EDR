@@ -1,17 +1,7 @@
-<!-- NOTICE: PLURA Sysmon Configuration File Version 3.0 (Desktop + EventID 27 Merge) -->
-<!-- BASED ON: d-sysmon-plura-v3.0.xml + d-sysmon-27-plura-v3.0.xml -->
-<!-- DOWNLOAD: https://learn.microsoft.com/ko-kr/sysinternals/downloads/sysmon -->
-<!-- INSTALL: Sysmon64.exe -accepteula -i "C:\Program Files (x86)\PLURA\d-sysmon-plura-v3.0-merge27-desktop-tuned.xml" -->
-<!-- UPDATE:  Sysmon64.exe -c "C:\Program Files (x86)\PLURA\d-sysmon-plura-v3.0-merge27-desktop-tuned.xml" -->
-<!-- DELETE:  Sysmon64.exe -u force -->
+<!-- PLURA_CONFIG_VERSION: d-sysmon-plura-v3-merge-27-latest.xml --> 
+<!-- PLURA_SCHEMA_TARGET: 4.90 -->
 
-<!--
-d-sysmon-plura-v3.0-merge27-desktop-tuned.xml
-- Desktop 전용 v3.0 룰셋에 Sysmon Event ID 27(FileBlockExecutable) 차단 정책을 병합한 버전
-- Event ID 27은 Sysmon 스키마 4.90+ 필요. 본 파일은 schemaversion=5.0으로 설정.
--->
-
-<Sysmon schemaversion="5.0">
+<Sysmon schemaversion="4.90">
   <HashAlgorithms>*</HashAlgorithms>
   <CheckRevocation>False</CheckRevocation>
   <DnsLookup>False</DnsLookup>
