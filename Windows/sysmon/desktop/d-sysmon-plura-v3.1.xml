@@ -1,16 +1,6 @@
-<!-- NOTICE: PLURA Sysmon Configuration File Version 3.0 (Desktop) -->
-<!-- BASED ON: sysmon-plura.xml (PLURA v2.0) -->
-<!-- IMPORTANT: Event ID 27(FileBlockExecutable / FileBlockExecutable) NOT INCLUDED by design -->
-<!-- DOWNLOAD: https://learn.microsoft.com/ko-kr/sysinternals/downloads/sysmon -->
-<!-- INSTALL: Sysmon64.exe -accepteula -i "C:\Program Files (x86)\PLURA\d-sysmon-plura-v3.0.xml" -->
-<!-- UPDATE:  Sysmon64.exe -c "C:\Program Files (x86)\PLURA\d-sysmon-plura-v3.0.xml" -->
-<!-- DELETE:  Sysmon64.exe -u force -->
-<!--
-d-sysmon-plura-v3.0.xml (Desktop 전용, EventID 27 미포함)
-- Desktop 사용자 행위(Downloads/Desktop/Office/브라우저/메신저/클라우드 동기화) 중심 룰 유지/강화
-- Server 워크로드(IIS/SQL/서버 덤프 경로 등) 룰 제거
-- 로그 과다 방지를 위해 PLURA/Windows 일반 노이즈 exclude 유지
--->
+<!-- PLURA_CONFIG_VERSION: d-sysmon-plura-v3.1.xml --> 
+<!-- PLURA_SCHEMA_TARGET: 4.90 -->
+
 <Sysmon schemaversion="5.0">
   <HashAlgorithms>*</HashAlgorithms>
   <CheckRevocation>False</CheckRevocation>
