@@ -1,17 +1,6 @@
-<!-- NOTICE: PLURA Sysmon Configuration File Version 3.2 (Desktop + EventID 29 Merge) -->
-<!-- BASED ON: d-sysmon-plura-v3.2.xml + d-sysmon-29-plura-v3.2.xml -->
-<!-- DOWNLOAD: https://learn.microsoft.com/ko-kr/sysinternals/downloads/sysmon -->
-<!-- INSTALL: Sysmon64.exe -accepteula -i "C:\Program Files (x86)\PLURA\d-sysmon-plura-v3.2-merge-29.xml" -->
-<!-- UPDATE:  Sysmon64.exe -c "C:\Program Files (x86)\PLURA\d-sysmon-plura-v3.2-merge-29.xml" -->
-<!-- DELETE:  Sysmon64.exe -u force -->
+<!-- PLURA_CONFIG_VERSION: d-sysmon-plura-v3.1-merge-29.xml --> 
+<!-- PLURA_SCHEMA_TARGET: 4.90 -->
 
-<!--
-  d-sysmon-plura-v3.2-merge-29.xml
-  - Desktop 전용 v3.2 룰셋에 Sysmon Event ID 29(FileExecutableDetected) 정책을 병합한 버전(탐지 전용)
-  - Event ID 27(FileBlockExecutable) 사용 시 업무/업데이트 충돌 등으로 문제가 발생하면,
-    본 merge-29 파일로 전환하여 "탐지"만 수행하도록 운영할 수 있습니다.
-  - Event ID 29는 Sysmon schema 4.90+ 필요. 본 파일은 기존 merge 파일과 동일하게 schemaversion=5.0을 사용합니다.
--->
 <Sysmon schemaversion="5.0">
   <HashAlgorithms>*</HashAlgorithms>
   <CheckRevocation>False</CheckRevocation>
