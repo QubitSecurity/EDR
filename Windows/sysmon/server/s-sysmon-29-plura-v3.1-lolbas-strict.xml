@@ -4,10 +4,6 @@
 <Sysmon schemaversion="4.90">
   <EventFiltering>
 
-    <!-- SYSMON EVENT ID 29 : FILE EXECUTABLE DETECTED [FileExecutableDetected] - Server (보수적 적용) -->
-
-    <!-- NOTE: Event ID 29는 차단(삭제)하지 않고, PE(실행파일) 생성 사실을 이벤트로 기록합니다. -->
-
     <!-- INCLUDE: 악성 Drop/Run 경로 (서버에 맞게 보수적으로) -->
     <RuleGroup name="Include_MalwareDrop_Server" groupRelation="or">
       <FileExecutableDetected onmatch="include">
