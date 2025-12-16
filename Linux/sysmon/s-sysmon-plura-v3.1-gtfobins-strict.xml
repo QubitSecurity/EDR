@@ -1,10 +1,6 @@
-<!--
-  PLURA_CONFIG_VERSION: linux-sysmon-filecreate-gtfobins-strict-v1.0
-  PURPOSE: "Strict" variant (more writer binaries) to approximate Windows Sysmon EID 27 LOLBAS strict list.
-  NOTE:
-    - Uses EID 11 (FileCreate) for detection in place of Windows EID 27 blocking.
-  GENERATED: 2025-12-16
--->
+<!-- PLURA_CONFIG_VERSION: s-sysmon-plura-v3.1-gtfobins-strict.xml --> 
+<!-- PLURA_SCHEMA_TARGET: 4.90 -->
+
 <Sysmon schemaversion="4.90">
   <EventFiltering>
 
