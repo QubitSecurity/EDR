@@ -1,7 +1,6 @@
-<!-- PLURA_CONFIG_VERSION: s-sysmon-plura-v3.1-merge-gtfobins-strict-ubuntu.xml -->
+<!-- PLURA_CONFIG_VERSION: s-sysmon-plura-v3.1-merge-gtfobins-strict.xml -->
 <!-- PLURA_SCHEMA_TARGET: 4.90 -->
 <!-- DISTRO_TARGET: UBUNTU -->
-<!-- MERGED_FROM: sysmon-plura.xml + s-sysmon-plura-v3.1-gtfobins-strict.xml  [DISTRO=UBUNTU] -->
 
 <Sysmon schemaversion="4.90">
   <HashAlgorithms>*</HashAlgorithms>
