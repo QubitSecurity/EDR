@@ -1,11 +1,6 @@
-<!--
-  PLURA_CONFIG_VERSION: linux-sysmon-filecreate-gtfobins-curated-v1.0
-  PURPOSE: Linux equivalent (detection-oriented) to Windows Sysmon EID 27 FileBlockExecutable rules.
-  NOTE:
-    - Sysmon for Linux focuses on logging (e.g., FileCreate/ProcessCreate) and writes events to syslog.
-    - This config uses EID 11 (FileCreate) as the closest equivalent to "block PE drops" on Windows.
-  GENERATED: 2025-12-16
--->
+<!-- PLURA_CONFIG_VERSION: s-sysmon-plura-v3.1-gtfobins-curated.xml --> 
+<!-- PLURA_SCHEMA_TARGET: 4.90 -->
+
 <Sysmon schemaversion="4.90">
   <EventFiltering>
 
