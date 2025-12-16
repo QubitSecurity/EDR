@@ -1,0 +1,273 @@
+<!-- PLURA_CONFIG_VERSION: s-sysmon-plura-v3.1-merge-gtfobins-curated-ubuntu.xml -->
+<!-- PLURA_SCHEMA_TARGET: 4.90 -->
+<!-- DISTRO_TARGET: UBUNTU -->
+<!-- MERGED_FROM: sysmon-plura.xml + s-sysmon-plura-v3.1-gtfobins-curated.xml  [DISTRO=UBUNTU] -->
+
+<Sysmon schemaversion="4.90">
+  <HashAlgorithms>*</HashAlgorithms>
+  <EventFiltering>
+    <!-- =========================================================-->
+    <!--  PLURA baseline filters (from sysmon-plura.xml)-->
+    <!-- =========================================================-->
+    <RuleGroup name="Defult_ProcessCreate" groupRelation="or">
+      <ProcessCreate onmatch="exclude">
+        <Rule name="PLURA_Syslog" groupRelation="and">
+          <Image condition="contains">logger</Image>
+          <ParentImage condition="contains">bash</ParentImage>
+          <CommandLine condition="contains">-p local0.notice</CommandLine>
+          <CommandLine condition="contains">-t bash -i --</CommandLine>
+        </Rule>
+        <Rule name="PLURA_Execution_Disk Use" groupRelation="and">
+          <CurrentDirectory condition="is">/etc/plura</CurrentDirectory>
+          <CommandLine condition="begin with">sh -c df -h</CommandLine>
+          <CommandLine condition="contains">awk '$NF==</CommandLine>
+          <CommandLine condition="end with">$(NF-1)}'</CommandLine>
+        </Rule>
+        <Rule name="PLURA_Execution_Disk Use_gawk" groupRelation="and">
+          <Image condition="is">/usr/bin/gawk</Image>
+          <CurrentDirectory condition="is">/etc/plura</CurrentDirectory>
+          <CommandLine condition="begin with">awk $NF==</CommandLine>
+          <CommandLine condition="contains">{printf</CommandLine>
+          <CommandLine condition="end with">, $(NF-1)}</CommandLine>
+        </Rule>
+        <Rule name="PLURA_Execution_Disk Use_df" groupRelation="and">
+          <Image condition="is">/usr/bin/df</Image>
+          <CurrentDirectory condition="is">/etc/plura</CurrentDirectory>
+          <CommandLine condition="is">df -h</CommandLine>
+        </Rule>
+        <Rule name="PLURA_Execution_Mem Use_free" groupRelation="and">
+          <Image condition="is">/usr/bin/free</Image>
+          <CurrentDirectory condition="is">/etc/plura</CurrentDirectory>
+          <CommandLine condition="is">free -m</CommandLine>
+        </Rule>
+        <Rule name="PLURA_Execution_Mem Use" groupRelation="and">
+          <CurrentDirectory condition="is">/etc/plura</CurrentDirectory>
+          <CommandLine condition="begin with">sh -c free -m | awk 'NR==2{printf "%.2f%%", $3*100/$2 }'</CommandLine>
+        </Rule>
+        <Rule name="PLURA_Execution_Mem Use_gawk" groupRelation="and">
+          <Image condition="is">/usr/bin/gawk</Image>
+          <CurrentDirectory condition="is">/etc/plura</CurrentDirectory>
+          <CommandLine condition="begin with">awk NR==2{printf</CommandLine>
+          <CommandLine condition="end with">, $3*100/$2 }</CommandLine>
+        </Rule>
+        <Rule name="PLURA_Execution_log gzip" groupRelation="and">
+          <Image condition="is">/usr/bin/gzip</Image>
+          <CommandLine condition="is">/bin/gzip /var/log/plura/agent/event.log</CommandLine>
+          <ParentImage condition="is">/usr/bin/bash</ParentImage>
+          <User condition="is">root</User>
+        </Rule>
+        <Rule name="PLURA_Execution_log rm_weblog" groupRelation="and">
+          <Image condition="is">/usr/bin/rm</Image>
+          <CommandLine condition="begin with">rm -f /var/log/plura/weblog</CommandLine>
+          <ParentImage condition="is">/usr/bin/bash</ParentImage>
+          <User condition="is">root</User>
+        </Rule>
+        <Rule name="PLURA_Execution_log rm_evnetlog" groupRelation="and">
+          <Image condition="is">/usr/bin/rm</Image>
+          <CommandLine condition="begin with">rm -f /var/log/plura/agent/event.log.gz</CommandLine>
+          <ParentImage condition="is">/usr/bin/bash</ParentImage>
+          <User condition="is">root</User>
+        </Rule>
+        <Rule name="PLURA_Execution_log wc" groupRelation="and">
+          <Image condition="is">/usr/bin/wc</Image>
+          <CommandLine condition="is">wc -c /var/log/plura/agent/event.log</CommandLine>
+          <User condition="is">root</User>
+        </Rule>
+        <Rule name="PLURA_Execution_log mv" groupRelation="or">
+          <CommandLine condition="begin with">mv /var/log/plura/weblog*.log /var/log/plura/weblog*.log-</CommandLine>
+          <CommandLine condition="begin with">mv /var/log/plura/ceelog-127.0.0.1.log /var/log/plura/ceelog-127.0.0.1.log-</CommandLine>
+        </Rule>
+        <Rule name="PLURA_Execution_timer" groupRelation="and">
+          <Image condition="is">/usr/bin/bash</Image>
+          <CommandLine condition="begin with">/bin/bash /etc/plura/plura.sh timer</CommandLine>
+        </Rule>
+        <Rule name="PLURA_Defend" groupRelation="and">
+          <CurrentDirectory condition="is">/etc/plura</CurrentDirectory>
+          <CommandLine condition="begin with">iptables -I INPUT -s</CommandLine>
+          <CommandLine condition="end with">-j LOG --log-prefix [PLURA Defend]</CommandLine>
+        </Rule>
+      </ProcessCreate>
+    </RuleGroup>
+    <RuleGroup name="Defult_NetworkConnect" groupRelation="or">
+      <NetworkConnect onmatch="exclude">
+        <Image condition="contains">/usr/local/sbin/plurad</Image>
+        <Image condition="is">plurad</Image>
+      </NetworkConnect>
+    </RuleGroup>
+    <RuleGroup name="Defult_ProcessTerminate" groupRelation="or">
+      <ProcessTerminate onmatch="exclude">
+        <Rule name="PLURA_Execution_Disk Use_dash" groupRelation="and">
+          <Image condition="is">/usr/bin/dash</Image>
+        </Rule>
+        <Rule name="PLURA_Execution_Disk Use_df" groupRelation="and">
+          <Image condition="is">/usr/bin/df</Image>
+        </Rule>
+        <Rule name="PLURA_Execution_Disk Use_gawk" groupRelation="and">
+          <Image condition="is">/usr/bin/gawk</Image>
+        </Rule>
+        <Rule name="PLURA_Execution_Mem Use_free" groupRelation="and">
+          <Image condition="is">/usr/bin/free</Image>
+        </Rule>
+        <Rule name="PLURA_Execution_log gzip" groupRelation="and">
+          <Image condition="is">/usr/bin/gzip</Image>
+        </Rule>
+        <Rule name="PLURA_Execution_log rm" groupRelation="and">
+          <Image condition="is">/usr/bin/rm</Image>
+        </Rule>
+        <Rule name="PLURA_Execution_log wc" groupRelation="and">
+          <Image condition="is">/usr/bin/wc</Image>
+        </Rule>
+        <Rule name="PLURA_Execution_log mv" groupRelation="and">
+          <Image condition="is">/usr/bin/mv</Image>
+        </Rule>
+        <Rule name="grep" groupRelation="or">
+          <Image condition="is">/usr/bin/grep</Image>
+          <Image condition="is">/usr/bin/pgrep</Image>
+        </Rule>
+        <Rule name="bash" groupRelation="and">
+          <Image condition="is">/usr/bin/bash</Image>
+          <User condition="is">root</User>
+        </Rule>
+        <Rule name="unknown process" groupRelation="and">
+          <Image condition="contains">unknown process</Image>
+          <User condition="is">-</User>
+          <ProcessGuid condition="is">{00000000-0000-0000-0000-000000000000}</ProcessGuid>
+        </Rule>
+      </ProcessTerminate>
+    </RuleGroup>
+    <RuleGroup name="Defult_RawAccessRead" groupRelation="or">
+      <RawAccessRead onmatch="exclude" />
+    </RuleGroup>
+    <RuleGroup name="Defult_FileCreate" groupRelation="or">
+      <FileCreate onmatch="exclude">
+        <Rule name="PLURA_Execution_event.log" groupRelation="and">
+          <Image condition="is">/usr/local/sbin/plurad</Image>
+          <TargetFilename condition="is">/var/log/plura/agent/event.log</TargetFilename>
+        </Rule>
+        <Rule name="PLURA_Execution_event.log" groupRelation="and">
+          <Image condition="is">/usr/local/sbin/plurad</Image>
+          <TargetFilename condition="is">/etc/plura/temp/.sysfilter-ref.json</TargetFilename>
+        </Rule>
+        <Rule name="PLURA_Execution_plurad.job" groupRelation="and">
+          <Image condition="is">/usr/local/sbin/plurad</Image>
+          <TargetFilename condition="is">/run/plurad.job</TargetFilename>
+        </Rule>
+        <Rule name="PLURA_Execution_event.log.gz" groupRelation="and">
+          <Image condition="is">/usr/bin/gzip</Image>
+          <TargetFilename condition="is">/var/log/plura/agent/event.log.gz</TargetFilename>
+        </Rule>
+        <Rule name="RSYSLOG_Execution_log" groupRelation="and">
+          <Image condition="is">/usr/sbin/rsyslogd</Image>
+          <TargetFilename condition="is">/var/log/plura/ceelog-127.0.0.1.log</TargetFilename>
+          <User condition="is">syslog</User>
+        </Rule>
+        <Rule name="RSYSLOG_tmp_log" groupRelation="and">
+          <Image condition="is">/usr/sbin/rsyslogd</Image>
+          <TargetFilename condition="is">/etc/plura/temp/.sysfilter-ref.json</TargetFilename>
+        </Rule>
+        <Rule name="RSYSLOG_tmp_log" groupRelation="and">
+          <Image condition="is">/usr/sbin/rsyslogd</Image>
+          <TargetFilename condition="is">/var/lib/rsyslog/imjournal.state.tmp</TargetFilename>
+        </Rule>
+      </FileCreate>
+    </RuleGroup>
+    <RuleGroup name="Defult_FileDelete" groupRelation="or">
+      <FileDelete onmatch="exclude">
+        <Rule name="PLURA_Execution_gzip event.log" groupRelation="and">
+          <Image condition="is">/usr/bin/gzip</Image>
+          <TargetFilename condition="is">/var/log/plura/agent/event.log</TargetFilename>
+        </Rule>
+        <Rule name="PLURA_Execution_gzip event.log.gz" groupRelation="and">
+          <Image condition="is">/usr/bin/gzip</Image>
+          <TargetFilename condition="is">/var/log/plura/agent/event.log</TargetFilename>
+        </Rule>
+        <Rule name="RSYSLOG_PLURA_log" groupRelation="and">
+          <Image condition="is">/usr/local/sbin/plurad</Image>
+          <TargetFilename condition="is">/etc/plura/temp/.sysfilter-ref.json</TargetFilename>
+        </Rule>
+        <Rule name="RSYSLOG_rsyslogd_log" groupRelation="and">
+          <Image condition="is">/usr/sbin/rsyslogd</Image>
+          <TargetFilename condition="end with">/var/lib/rsyslog/imjournal.state.tmp</TargetFilename>
+        </Rule>
+      </FileDelete>
+    </RuleGroup>
+    <!-- =========================================================-->
+    <!--  GTFOBins additions (from s-sysmon-plura-v3.1-gtfobins-curated.xml )-->
+    <!--  NOTE: If an event tag uses onmatch="include", Sysmon will log ONLY matched events for that tag.-->
+    <!-- =========================================================-->
+    <RuleGroup name="Include_MalwareDrop_Linux" groupRelation="or">
+      <FileCreate onmatch="include">
+        <Rule groupRelation="and">
+          <TargetFilename condition="begin with">/home/</TargetFilename>
+          <TargetFilename condition="contains any">/Documents/;/Desktop/;/Downloads/;/Pictures/;/Videos/;/Music/;/Client_Contracts/</TargetFilename>
+          <TargetFilename condition="contains any">.sh;.bash;.zsh;.ksh;.py;.pl;.rb;.php;.js;.jar;.so;.bin;.run;.elf;.out;.AppImage</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <TargetFilename condition="begin with">/root/</TargetFilename>
+          <TargetFilename condition="contains any">/Downloads/;/Documents/;/Desktop/</TargetFilename>
+          <TargetFilename condition="contains any">.sh;.bash;.py;.pl;.rb;.php;.js;.jar;.so;.bin;.run;.elf;.out;.AppImage</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <TargetFilename condition="begin with">/tmp/</TargetFilename>
+          <TargetFilename condition="contains any">.sh;.bash;.py;.pl;.rb;.php;.js;.jar;.so;.bin;.run;.elf;.out;.AppImage</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <TargetFilename condition="begin with">/var/tmp/</TargetFilename>
+          <TargetFilename condition="contains any">.sh;.bash;.py;.pl;.rb;.php;.js;.jar;.so;.bin;.run;.elf;.out;.AppImage</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <TargetFilename condition="begin with">/dev/shm/</TargetFilename>
+          <TargetFilename condition="contains any">.sh;.bash;.py;.pl;.rb;.php;.js;.jar;.so;.bin;.run;.elf;.out;.AppImage</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <TargetFilename condition="begin with">/run/user/</TargetFilename>
+          <TargetFilename condition="contains any">.sh;.bash;.py;.pl;.rb;.php;.js;.jar;.so;.bin;.run;.elf;.out;.AppImage</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <TargetFilename condition="contains any">/var/www/;/srv/www/</TargetFilename>
+          <TargetFilename condition="contains any">.php;.jsp;.asp;.aspx;.cgi;.pl;.py;.sh;.so;.bin;.elf</TargetFilename>
+        </Rule>
+      </FileCreate>
+    </RuleGroup>
+    <RuleGroup name="Include_GTFOBins_Writers_Linux_Curated" groupRelation="or">
+      <FileCreate onmatch="include">
+        <Rule groupRelation="and">
+          <Image condition="contains any">/curl;/wget;/python;/python3;/perl;/ruby;/php;/node;/ssh;/scp;/sftp;/nc;/ncat;/socat;/ftp;/tftp;/base64;/openssl;/busybox</Image>
+          <TargetFilename condition="contains any">/tmp/;/var/tmp/;/dev/shm/;/run/user/;/home/;/root/;/var/www/;/opt/;/srv/;/var/lib/</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="contains any">/tar;/unzip;/7z;/gzip;/bzip2;/xz</Image>
+          <TargetFilename condition="contains any">/tmp/;/var/tmp/;/dev/shm/;/run/user/;/home/;/root/</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="contains any">/bash;/sh;/dash;/zsh;/ksh</Image>
+          <TargetFilename condition="contains any">/tmp/;/var/tmp/;/dev/shm/;/run/user/</TargetFilename>
+          <TargetFilename condition="contains any">.sh;.bash;.zsh;.ksh;.py;.pl;.rb;.php;.js;.jar;.so;.bin;.run;.elf;.out;.AppImage</TargetFilename>
+        </Rule>
+      </FileCreate>
+    </RuleGroup>
+    <RuleGroup name="Exclude_LegitActivity_Linux" groupRelation="or">
+      <FileCreate onmatch="exclude">
+        <Rule groupRelation="and">
+          <!-- UBUNTU package manager / installer noise -->
+          <Image condition="contains any">/apt;/apt-get;/aptitude;/dpkg;/dpkg-query;/dpkg-deb;/unattended-upgrade;/unattended-upgrades;/snap;/snapd;/flatpak;/packagekitd;/pkcon</Image>
+          <TargetFilename condition="contains any">/tmp/;/var/tmp/;/var/cache/;/var/lib/</TargetFilename>
+        </Rule>
+        <TargetFilename condition="end with">.swp</TargetFilename>
+        <TargetFilename condition="end with">.swx</TargetFilename>
+        <TargetFilename condition="end with">.tmp</TargetFilename>
+        <TargetFilename condition="end with">.part</TargetFilename>
+        <TargetFilename condition="end with">.crdownload</TargetFilename>
+        <TargetFilename condition="end with">~</TargetFilename>
+      </FileCreate>
+    </RuleGroup>
+    <RuleGroup name="Include_Temp_Execution_Linux" groupRelation="or">
+      <ProcessCreate onmatch="include">
+        <Image condition="begin with">/tmp/</Image>
+        <Image condition="begin with">/var/tmp/</Image>
+        <Image condition="begin with">/dev/shm/</Image>
+        <Image condition="begin with">/run/user/</Image>
+      </ProcessCreate>
+    </RuleGroup>
+  </EventFiltering>
+</Sysmon>
