@@ -1,7 +1,6 @@
-<!-- PLURA_CONFIG_VERSION: s-sysmon-plura-v3.1-merge-gtfobins-curated-rhel.xml -->
+<!-- PLURA_CONFIG_VERSION: s-sysmon-plura-v3.1-merge-gtfobins-curated.xml -->
 <!-- PLURA_SCHEMA_TARGET: 4.90 -->
 <!-- DISTRO_TARGET: RHEL -->
-<!-- MERGED_FROM: sysmon-plura.xml + s-sysmon-plura-v3.1-gtfobins-curated.xml  [DISTRO=RHEL] -->
 
 <Sysmon schemaversion="4.90">
   <HashAlgorithms>*</HashAlgorithms>
@@ -88,54 +87,62 @@
         </Rule>
       </ProcessCreate>
     </RuleGroup>
-    <RuleGroup name="Defult_NetworkConnect" groupRelation="or">
+        <!-- =========================================================-->
+    <!--  Event ID 3: NetworkConnect (NOISE MIN)                    -->
+    <!--  Strategy: Log ONLY high-signal cases.                     -->
+    <!-- =========================================================-->
+    <RuleGroup name="NoiseMin_NetworkConnect" groupRelation="or">
+      <NetworkConnect onmatch="include">
+
+        <!-- Executables running from user-writable / staging locations -->
+        <Image condition="begin with">/tmp/</Image>
+        <Image condition="begin with">/var/tmp/</Image>
+        <Image condition="begin with">/dev/shm/</Image>
+        <Image condition="begin with">/run/user/</Image>
+        <Image condition="begin with">/var/www/</Image>
+        <Image condition="begin with">/srv/www/</Image>
+
+        <!-- Classic reverse-shell / tunneling utilities (rare in normal ops) -->
+        <Image condition="end with">/nc</Image>
+        <Image condition="end with">/ncat</Image>
+        <Image condition="end with">/socat</Image>
+        <Image condition="end with">/telnet</Image>
+        <Image condition="end with">/ftp</Image>
+        <Image condition="end with">/tftp</Image>
+
+      </NetworkConnect>
+    </RuleGroup>
+
+    <!-- Defense-in-depth: keep PLURA agent traffic out even if it matches future includes -->
+    <RuleGroup name="Exclude_PLURA_NetworkConnect" groupRelation="or">
       <NetworkConnect onmatch="exclude">
         <Image condition="contains">/usr/local/sbin/plurad</Image>
         <Image condition="is">plurad</Image>
       </NetworkConnect>
     </RuleGroup>
-    <RuleGroup name="Defult_ProcessTerminate" groupRelation="or">
-      <ProcessTerminate onmatch="exclude">
-        <Rule name="PLURA_Execution_Disk Use_dash" groupRelation="and">
-          <Image condition="is">/usr/bin/dash</Image>
-        </Rule>
-        <Rule name="PLURA_Execution_Disk Use_df" groupRelation="and">
-          <Image condition="is">/usr/bin/df</Image>
-        </Rule>
-        <Rule name="PLURA_Execution_Disk Use_gawk" groupRelation="and">
-          <Image condition="is">/usr/bin/gawk</Image>
-        </Rule>
-        <Rule name="PLURA_Execution_Mem Use_free" groupRelation="and">
-          <Image condition="is">/usr/bin/free</Image>
-        </Rule>
-        <Rule name="PLURA_Execution_log gzip" groupRelation="and">
-          <Image condition="is">/usr/bin/gzip</Image>
-        </Rule>
-        <Rule name="PLURA_Execution_log rm" groupRelation="and">
-          <Image condition="is">/usr/bin/rm</Image>
-        </Rule>
-        <Rule name="PLURA_Execution_log wc" groupRelation="and">
-          <Image condition="is">/usr/bin/wc</Image>
-        </Rule>
-        <Rule name="PLURA_Execution_log mv" groupRelation="and">
-          <Image condition="is">/usr/bin/mv</Image>
-        </Rule>
-        <Rule name="grep" groupRelation="or">
-          <Image condition="is">/usr/bin/grep</Image>
-          <Image condition="is">/usr/bin/pgrep</Image>
-        </Rule>
-        <Rule name="bash" groupRelation="and">
-          <Image condition="is">/usr/bin/bash</Image>
-          <User condition="is">root</User>
-        </Rule>
-        <Rule name="unknown process" groupRelation="and">
-          <Image condition="contains">unknown process</Image>
-          <User condition="is">-</User>
-          <ProcessGuid condition="is">{00000000-0000-0000-0000-000000000000}</ProcessGuid>
-        </Rule>
+    <!-- =========================================================-->
+    <!--  Event ID 5: ProcessTerminate (NOISE MIN)                  -->
+    <!--  Strategy: Only log termination of suspicious processes.   -->
+    <!-- =========================================================-->
+    <RuleGroup name="NoiseMin_ProcessTerminate" groupRelation="or">
+      <ProcessTerminate onmatch="include">
+
+        <!-- Processes executed from typical attacker staging dirs -->
+        <Image condition="begin with">/tmp/</Image>
+        <Image condition="begin with">/var/tmp/</Image>
+        <Image condition="begin with">/dev/shm/</Image>
+        <Image condition="begin with">/run/user/</Image>
+        <Image condition="begin with">/var/www/</Image>
+        <Image condition="begin with">/srv/www/</Image>
+
+        <!-- Reverse shell / tunneling utilities -->
+        <Image condition="end with">/nc</Image>
+        <Image condition="end with">/ncat</Image>
+        <Image condition="end with">/socat</Image>
+
       </ProcessTerminate>
     </RuleGroup>
-    <RuleGroup name="Defult_RawAccessRead" groupRelation="or">
+<RuleGroup name="Defult_RawAccessRead" groupRelation="or">
       <RawAccessRead onmatch="exclude" />
     </RuleGroup>
     <RuleGroup name="Defult_FileCreate" groupRelation="or">
@@ -171,27 +178,52 @@
         </Rule>
       </FileCreate>
     </RuleGroup>
-    <RuleGroup name="Defult_FileDelete" groupRelation="or">
+        <!-- =========================================================-->
+    <!--  Event ID 23: FileDelete (NOISE MIN)                       -->
+    <!--  Strategy: Log ONLY high-signal deletions.                 -->
+    <!-- =========================================================-->
+    <RuleGroup name="NoiseMin_FileDelete" groupRelation="or">
+      <FileDelete onmatch="include">
+
+        <!-- Deleting scripts/binaries from common staging locations -->
+        <Rule groupRelation="and">
+          <TargetFilename condition="contains any">/tmp/;/var/tmp/;/dev/shm/;/run/user/;/var/www/;/srv/www/</TargetFilename>
+          <TargetFilename condition="contains any">.sh;.bash;.zsh;.ksh;.py;.pl;.rb;.jar;.so;.bin;.run;.elf;.out;.AppImage</TargetFilename>
+        </Rule>
+
+        <!-- History / evidence removal -->
+        <TargetFilename condition="end with">/.bash_history</TargetFilename>
+        <TargetFilename condition="end with">/.zsh_history</TargetFilename>
+        <TargetFilename condition="end with">/.ash_history</TargetFilename>
+        <TargetFilename condition="end with">/.sh_history</TargetFilename>
+        <TargetFilename condition="end with">/.mysql_history</TargetFilename>
+        <TargetFilename condition="end with">/.psql_history</TargetFilename>
+
+        <!-- SSH persistence / credential material -->
+        <TargetFilename condition="end with">/.ssh/authorized_keys</TargetFilename>
+        <TargetFilename condition="end with">/.ssh/id_rsa</TargetFilename>
+        <TargetFilename condition="end with">/.ssh/id_ed25519</TargetFilename>
+        <TargetFilename condition="end with">/.ssh/known_hosts</TargetFilename>
+
+        <!-- Rare but high-impact system files -->
+        <TargetFilename condition="is">/etc/passwd</TargetFilename>
+        <TargetFilename condition="is">/etc/shadow</TargetFilename>
+        <TargetFilename condition="is">/etc/sudoers</TargetFilename>
+        <TargetFilename condition="is">/etc/ssh/sshd_config</TargetFilename>
+
+      </FileDelete>
+    </RuleGroup>
+
+    <!-- OS-specific: suppress package-manager/cache churn even if it matches the above -->
+    <RuleGroup name="Exclude_PackageManager_FileDelete_RHEL" groupRelation="or">
       <FileDelete onmatch="exclude">
-        <Rule name="PLURA_Execution_gzip event.log" groupRelation="and">
-          <Image condition="is">/usr/bin/gzip</Image>
-          <TargetFilename condition="is">/var/log/plura/agent/event.log</TargetFilename>
-        </Rule>
-        <Rule name="PLURA_Execution_gzip event.log.gz" groupRelation="and">
-          <Image condition="is">/usr/bin/gzip</Image>
-          <TargetFilename condition="is">/var/log/plura/agent/event.log</TargetFilename>
-        </Rule>
-        <Rule name="RSYSLOG_PLURA_log" groupRelation="and">
-          <Image condition="is">/usr/local/sbin/plurad</Image>
-          <TargetFilename condition="is">/etc/plura/temp/.sysfilter-ref.json</TargetFilename>
-        </Rule>
-        <Rule name="RSYSLOG_rsyslogd_log" groupRelation="and">
-          <Image condition="is">/usr/sbin/rsyslogd</Image>
-          <TargetFilename condition="end with">/var/lib/rsyslog/imjournal.state.tmp</TargetFilename>
+        <Rule groupRelation="and">
+          <Image condition="contains any">/yum;/dnf;/dnf5;/microdnf;/rpm;/dnf-automatic;/yum-cron;/subscription-manager;/flatpak;/packagekitd;/pkcon</Image>
+          <TargetFilename condition="contains any">/tmp/;/var/tmp/;/var/cache/dnf/;/var/cache/yum/;/var/lib/rpm/;/var/lib/dnf/;/var/cache/PackageKit/;/var/lib/PackageKit/</TargetFilename>
         </Rule>
       </FileDelete>
     </RuleGroup>
-    <!-- =========================================================-->
+<!-- =========================================================-->
     <!--  GTFOBins additions (from s-sysmon-plura-v3.1-gtfobins-curated.xml )-->
     <!--  NOTE: If an event tag uses onmatch="include", Sysmon will log ONLY matched events for that tag.-->
     <!-- =========================================================-->
@@ -251,7 +283,7 @@
         <Rule groupRelation="and">
           <!-- RHEL package manager / installer noise -->
           <Image condition="contains any">/yum;/dnf;/dnf5;/microdnf;/rpm;/dnf-automatic;/yum-cron;/subscription-manager;/flatpak;/packagekitd;/pkcon</Image>
-          <TargetFilename condition="contains any">/tmp/;/var/tmp/;/var/cache/;/var/lib/</TargetFilename>
+          <TargetFilename condition="contains any">/tmp/;/var/tmp/;/var/cache/dnf/;/var/cache/yum/;/var/lib/rpm/;/var/lib/dnf/;/var/cache/PackageKit/;/var/lib/PackageKit/</TargetFilename>
         </Rule>
         <TargetFilename condition="end with">.swp</TargetFilename>
         <TargetFilename condition="end with">.swx</TargetFilename>
