@@ -140,7 +140,14 @@
         <!-- (9) Windows Defender / AV 엔진 자체 업데이트 -->
         <Rule groupRelation="and">
           <Image condition="contains">\ProgramData\Microsoft\Windows Defender\Platform\</Image>
-          <TargetFilename condition="contains">\ProgramData\Microsoft\Windows Defender\Definition Updates\</TargetFilename>
+          <TargetFilename condition="contains">\ProgramData\Microsoft\Windows Defender\</TargetFilename>
+          <TargetFilename condition="contains any">\Definition Updates\;\Platform\</TargetFilename>
+        </Rule>
+
+		<!-- (9-1) Microsoft Defender 업데이트-->
+		<Rule groupRelation="and">
+          <Image condition="is">C:\WINDOWS\system32\MpSigStub.exe</Image>
+          <TargetFilename condition="is">C:\Windows\Temp\</TargetFilename>
         </Rule>
 
         <!-- (10) Chrome / Edge 자체 Installer (예: ChromeSetup.exe 등) -->
@@ -203,6 +210,12 @@
           <Image condition="end with">\Microsoft.VisualStudio.Setup.ServiceBackgroundDownload.exe</Image>
           <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
           <TargetFilename condition="end with">vs_setup_bootstrapper.exe</TargetFilename>
+        </Rule>
+
+		<!-- (19-1) VS Code 업데이트 -->
+        <Rule groupRelation="and">
+          <Image condition="end with">\AppData\Local\Programs\Microsoft VS Code\Code.exe</Image>
+          <TargetFilename condition="contains all">\AppData\Local\Temp\vscode-stable-user;\CodeSetup-stable-</TargetFilename>
         </Rule>
     
         <!-- (20) BITS tmp 파일 -->
