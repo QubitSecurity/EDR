@@ -147,7 +147,7 @@
 		<!-- (9-1) Microsoft Defender 업데이트-->
 		<Rule groupRelation="and">
           <Image condition="is">C:\WINDOWS\system32\MpSigStub.exe</Image>
-          <TargetFilename condition="is">C:\Windows\Temp\</TargetFilename>
+          <TargetFilename condition="begin with">C:\Windows\Temp\</TargetFilename>
         </Rule>
 
         <!-- (10) Chrome / Edge 자체 Installer (예: ChromeSetup.exe 등) -->
