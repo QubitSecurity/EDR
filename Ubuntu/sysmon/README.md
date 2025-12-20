@@ -143,7 +143,7 @@ journalctl -u sysmon
 
 ## ✔️ 실무 한 줄 결론
 
-> **Ubuntu 운영 환경에서는 22.04 LTS + Sysmon (curated 설정) 조합을 기본값으로 사용**
+> **Ubuntu 운영 환경에서는 22.04 LTS + Sysmon (curated 설정) 조합을 기본값으로 사용**  
 > 24.04 LTS는 **PoC → 검증 → 단계적 확대 적용**이 안전
 
 ---
