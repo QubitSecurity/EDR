@@ -1,7 +1,7 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<!-- NOTICE: PLURA Sysmon Configuration File Version 2.01 -->
-<!-- Sysmon v1.3.4  -->
-<Sysmon schemaversion="4.81">
+<!-- PLURA_CONFIG_VERSION: s-sysmon-plura-v3.2-merge-29.xml --> 
+<!-- PLURA_SCHEMA_TARGET: 4.90 -->
+
+<Sysmon schemaversion="4.90">
 	<!-- PLURA_CONFIG_VERSION : s-sysmon-plura-v3.2-merge-29.xml --><HashAlgorithms>*</HashAlgorithms>
 	<EventFiltering>
 		<!-- Event Tags : (ProcessCreate | FileCreateTime | NetworkConnect | ProcessTerminate | DriverLoad | ImageLoad | CreateRemoteThread | RawAccessRead | ProcessAccess | FileCreate | RegistryEvent | FileCreateStreamHash | PipeEvent | WmiEvent | DnsQuery | FileDelete | ClipboardChange | ProcessTampering | FileDeleteDetected) -->
