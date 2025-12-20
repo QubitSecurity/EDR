@@ -5,11 +5,11 @@ Audit config for PLURA
 
   * 🪟 [Windows](https://github.com/QubitSecurity/EDR/tree/main/Windows/sysmon/)
   * 🔴 [RHEL](https://github.com/QubitSecurity/EDR/tree/main/RHEL/sysmon/server)
-  * 🐧 [Ubuntu](https://github.com/QubitSecurity/EDR/tree/main/Ubuntu/sysmon/server)
+  * 🟠 [Ubuntu](https://github.com/QubitSecurity/EDR/tree/main/Ubuntu/sysmon/server)
 
 ---
 
-## Useful Links
+## 🔗 Useful Links
 
 ### Windows Subcategory and SubcategoryGUID
 
