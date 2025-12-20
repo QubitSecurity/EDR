@@ -1,0 +1,400 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- NOTICE: PLURA Sysmon Configuration File Version 2.01 -->
+<!-- Sysmon v1.3.4  -->
+<Sysmon schemaversion="4.90">
+	<!-- PLURA_CONFIG_VERSION : s-sysmon-plura-v3.2-merge-27.xml --><HashAlgorithms>*</HashAlgorithms>
+	<EventFiltering>
+		<!-- Event Tags : (ProcessCreate | FileCreateTime | NetworkConnect | ProcessTerminate | DriverLoad | ImageLoad | CreateRemoteThread | RawAccessRead | ProcessAccess | FileCreate | RegistryEvent | FileCreateStreamHash | PipeEvent | WmiEvent | DnsQuery | FileDelete | ClipboardChange | ProcessTampering | FileDeleteDetected) -->
+		<!-- Event ID 1 == Process Creation - Excludes -->
+		<RuleGroup name="Defult_ProcessCreate" groupRelation="or">
+			<ProcessCreate onmatch="exclude">
+				<Rule name="PLURA_Syslog" groupRelation="and">
+					<Image condition="contains">logger</Image>
+					<ParentImage condition="contains">bash</ParentImage>
+					<CommandLine condition="contains">-p local0.notice</CommandLine>
+					<CommandLine condition="contains">-t bash -i --</CommandLine>
+				</Rule>
+				<Rule name="PLURA_Execution_Disk Use" groupRelation="and">
+					<CurrentDirectory condition="is">/etc/plura</CurrentDirectory>
+					<CommandLine condition="begin with">sh -c df -h</CommandLine>
+					<CommandLine condition="contains">awk '$NF==</CommandLine>
+					<CommandLine condition="end with">$(NF-1)}'</CommandLine>
+				</Rule>
+				<Rule name="PLURA_Execution_Disk Use_gawk" groupRelation="and">
+					<Image condition="is">/usr/bin/gawk</Image>
+					<CurrentDirectory condition="is">/etc/plura</CurrentDirectory>
+					<CommandLine condition="begin with">awk $NF==</CommandLine>
+					<CommandLine condition="contains">{printf</CommandLine>
+					<CommandLine condition="end with">, $(NF-1)}</CommandLine>
+				</Rule>
+				<Rule name="PLURA_Execution_Disk Use_df" groupRelation="and">
+					<Image condition="is">/usr/bin/df</Image>
+					<CurrentDirectory condition="is">/etc/plura</CurrentDirectory>
+					<CommandLine condition="is">df -h</CommandLine>
+				</Rule>
+				
+				
+				<Rule name="PLURA_Execution_Mem Use_free" groupRelation="and">
+					<Image condition="is">/usr/bin/free</Image>
+					<CurrentDirectory condition="is">/etc/plura</CurrentDirectory>
+					<CommandLine condition="is">free -m</CommandLine>
+				</Rule>
+				<Rule name="PLURA_Execution_Mem Use" groupRelation="and">
+					<CurrentDirectory condition="is">/etc/plura</CurrentDirectory>
+					<CommandLine condition="begin with">sh -c free -m | awk 'NR==2{printf "%.2f%%", $3*100/$2 }'</CommandLine>
+				</Rule>
+				<Rule name="PLURA_Execution_Mem Use_gawk" groupRelation="and">
+					<Image condition="is">/usr/bin/gawk</Image>
+					<CurrentDirectory condition="is">/etc/plura</CurrentDirectory>
+					<CommandLine condition="begin with">awk NR==2{printf</CommandLine>
+					<CommandLine condition="end with">, $3*100/$2 }</CommandLine>
+				</Rule>
+				
+				<Rule name="PLURA_Execution_log gzip" groupRelation="and">
+					<Image condition="is">/usr/bin/gzip</Image>
+					<CommandLine condition="is">/bin/gzip /var/log/plura/agent/event.log</CommandLine>
+					<ParentImage condition="is">/usr/bin/bash</ParentImage>
+					<User condition="is">root</User>
+				</Rule>
+				<Rule name="PLURA_Execution_log rm_weblog" groupRelation="and">
+					<Image condition="is">/usr/bin/rm</Image>
+					<CommandLine condition="begin with">rm -f /var/log/plura/weblog</CommandLine>
+					<ParentImage condition="is">/usr/bin/bash</ParentImage>
+					<User condition="is">root</User>
+				</Rule>
+				<Rule name="PLURA_Execution_log rm_evnetlog" groupRelation="and">
+					<Image condition="is">/usr/bin/rm</Image>
+					<CommandLine condition="begin with">rm -f /var/log/plura/agent/event.log.gz</CommandLine>
+					<ParentImage condition="is">/usr/bin/bash</ParentImage>
+					<User condition="is">root</User>
+				</Rule>
+				<Rule name="PLURA_Execution_log wc" groupRelation="and">
+					<Image condition="is">/usr/bin/wc</Image>
+					<CommandLine condition="is">wc -c /var/log/plura/agent/event.log</CommandLine>
+					<User condition="is">root</User>
+				</Rule>
+				<Rule name="PLURA_Execution_log mv" groupRelation="or">
+					<CommandLine condition="begin with">mv /var/log/plura/weblog*.log /var/log/plura/weblog*.log-</CommandLine>
+					<CommandLine condition="begin with">mv /var/log/plura/ceelog-127.0.0.1.log /var/log/plura/ceelog-127.0.0.1.log-</CommandLine>
+				</Rule>
+				<Rule name="PLURA_Execution_timer" groupRelation="and">
+					<Image condition="is">/usr/bin/bash</Image>
+					<CommandLine condition="begin with">/bin/bash /etc/plura/plura.sh timer</CommandLine>
+				</Rule>
+				<Rule name="PLURA_Defend" groupRelation="and">
+					<CurrentDirectory condition="is">/etc/plura</CurrentDirectory>
+					<CommandLine condition="begin with">iptables -I INPUT -s</CommandLine>
+					<CommandLine condition="end with">-j LOG --log-prefix [PLURA Defend]</CommandLine>
+				</Rule>
+			</ProcessCreate>
+		</RuleGroup>
+		
+		<!-- Event ID 3 == Network connection detected - Excludes -->
+		<RuleGroup name="Defult_NetworkConnect" groupRelation="or">
+			<NetworkConnect onmatch="exclude">
+				<Image condition="contains">/usr/local/sbin/plurad</Image>
+				<Image condition="is">plurad</Image>
+				
+			</NetworkConnect>
+		</RuleGroup>
+		
+		<!-- Event ID 4 == Sysmon service state changed - Excludes -->
+		
+		<!-- Event ID 5 == Process terminated - Excludes -->
+		<RuleGroup name="Defult_ProcessTerminate" groupRelation="or">
+			<ProcessTerminate onmatch="exclude">
+				<Rule name="PLURA_Execution_Disk Use_dash" groupRelation="and">
+					<Image condition="is">/usr/bin/dash</Image>
+				</Rule>
+				<Rule name="PLURA_Execution_Disk Use_df" groupRelation="and">
+					<Image condition="is">/usr/bin/df</Image>
+				</Rule>
+				<Rule name="PLURA_Execution_Disk Use_gawk" groupRelation="and">
+					<Image condition="is">/usr/bin/gawk</Image>
+				</Rule>
+				<Rule name="PLURA_Execution_Mem Use_free" groupRelation="and">
+					<Image condition="is">/usr/bin/free</Image>
+				</Rule>
+				<Rule name="PLURA_Execution_log gzip" groupRelation="and">
+					<Image condition="is">/usr/bin/gzip</Image>
+				</Rule>
+				<Rule name="PLURA_Execution_log rm" groupRelation="and">
+					<Image condition="is">/usr/bin/rm</Image>
+				</Rule>
+				<Rule name="PLURA_Execution_log wc" groupRelation="and">
+					<Image condition="is">/usr/bin/wc</Image>
+				</Rule>
+				<Rule name="PLURA_Execution_log mv" groupRelation="and">
+					<Image condition="is">/usr/bin/mv</Image>
+				</Rule>
+				<Rule name="grep" groupRelation="or">
+					<Image condition="is">/usr/bin/grep</Image>
+					<Image condition="is">/usr/bin/pgrep</Image>
+				</Rule>
+				<Rule name="bash" groupRelation="and">
+					<Image condition="is">/usr/bin/bash</Image>
+					<User condition="is">root</User>
+				</Rule>
+				<Rule name="unknown process" groupRelation="and">
+					<Image condition="contains">unknown process</Image>
+					<User condition="is">-</User>
+					<ProcessGuid condition="is">{00000000-0000-0000-0000-000000000000}</ProcessGuid>
+				</Rule> 
+			</ProcessTerminate>
+		</RuleGroup>
+	
+		<!-- Event ID 9 == RawAccessRead detected - Excludes -->
+		<RuleGroup name="Defult_RawAccessRead" groupRelation="or">
+			<RawAccessRead onmatch="exclude"/>
+		</RuleGroup>
+		
+		<!-- Event ID 11 == File created - Excludes -->
+		<RuleGroup name="Defult_FileCreate" groupRelation="or">
+			<FileCreate onmatch="exclude">
+				<Rule name="PLURA_Execution_event.log" groupRelation="and">
+					<Image condition="is">/usr/local/sbin/plurad</Image>
+					<TargetFilename condition="is">/var/log/plura/agent/event.log</TargetFilename>
+				</Rule>
+				<Rule name="PLURA_Execution_event.log" groupRelation="and">
+					<Image condition="is">/usr/local/sbin/plurad</Image>
+					<TargetFilename condition="is">/etc/plura/temp/.sysfilter-ref.json</TargetFilename>
+				</Rule>
+				<Rule name="PLURA_Execution_plurad.job" groupRelation="and">
+					<Image condition="is">/usr/local/sbin/plurad</Image>
+					<TargetFilename condition="is">/run/plurad.job</TargetFilename>
+				</Rule>
+				<Rule name="PLURA_Execution_event.log.gz" groupRelation="and">
+					<Image condition="is">/usr/bin/gzip</Image>
+					<TargetFilename condition="is">/var/log/plura/agent/event.log.gz</TargetFilename>
+				</Rule>
+				<Rule name="RSYSLOG_Execution_log" groupRelation="and">
+					<Image condition="is">/usr/sbin/rsyslogd</Image>
+					<TargetFilename condition="is">/var/log/plura/ceelog-127.0.0.1.log</TargetFilename>
+					<User condition="is">syslog</User>
+				</Rule>
+				<Rule name="RSYSLOG_tmp_log" groupRelation="and">
+					<Image condition="is">/usr/sbin/rsyslogd</Image>
+					<TargetFilename condition="is">/etc/plura/temp/.sysfilter-ref.json</TargetFilename>
+				</Rule>
+				<Rule name="RSYSLOG_tmp_log" groupRelation="and">
+					<Image condition="is">/usr/sbin/rsyslogd</Image>
+					<TargetFilename condition="is">/var/lib/rsyslog/imjournal.state.tmp</TargetFilename>
+				</Rule>
+			</FileCreate>
+		</RuleGroup>
+		
+		
+		<!-- Event ID 23 == File Delete archived - Excludes -->
+		<RuleGroup name="Defult_FileDelete" groupRelation="or">
+			<FileDelete onmatch="exclude">
+				<Rule name="PLURA_Execution_gzip event.log" groupRelation="and">
+					<Image condition="is">/usr/bin/gzip</Image>
+					<TargetFilename condition="is">/var/log/plura/agent/event.log</TargetFilename>
+				</Rule>
+				<Rule name="PLURA_Execution_gzip event.log.gz" groupRelation="and">
+					<Image condition="is">/usr/bin/gzip</Image>
+					<TargetFilename condition="is">/var/log/plura/agent/event.log</TargetFilename>
+				</Rule>
+				<Rule name="RSYSLOG_PLURA_log" groupRelation="and">
+					<Image condition="is">/usr/local/sbin/plurad</Image>
+					<TargetFilename condition="is">/etc/plura/temp/.sysfilter-ref.json</TargetFilename>
+				</Rule>
+				<Rule name="RSYSLOG_rsyslogd_log" groupRelation="and">
+					<Image condition="is">/usr/sbin/rsyslogd</Image>
+					<TargetFilename condition="end with">/var/lib/rsyslog/imjournal.state.tmp</TargetFilename>
+				</Rule>
+			</FileDelete>
+		</RuleGroup>
+
+	<RuleGroup name="ProcessAccess-Exclude-Legit" groupRelation="or">
+		<ProcessAccess onmatch="exclude">
+			<SourceImage condition="is">C:\Program Files\Windows Defender\MsMpEng.exe</SourceImage>
+			<SourceImage condition="is">C:\Program Files\Microsoft Defender\MsMpEng.exe</SourceImage>
+			<SourceImage condition="is">C:\Windows\System32\Taskmgr.exe</SourceImage>
+			<SourceImage condition="is">C:\Sysinternals\procexp.exe</SourceImage>
+			<SourceImage condition="is">C:\Sysinternals\procmon.exe</SourceImage>
+			<SourceImage condition="end with">\Program Files (x86)\PLURA\PLURAService.exe</SourceImage>
+			<SourceImage condition="end with">\Program Files (x86)\PLURA\PLURASControl.exe</SourceImage>
+			<SourceImage condition="end with">\Program Files (x86)\PLURA\PLURAConfig.exe</SourceImage>
+			<SourceImage condition="end with">\Program Files (x86)\PLURA\PLURATray.exe</SourceImage>
+			</ProcessAccess>
+		</RuleGroup>
+	<RuleGroup name="ProcessAccess-Include-HighSignal" groupRelation="or">
+		<ProcessAccess onmatch="include">
+			<Rule groupRelation="and">
+				<TargetImage condition="end with">\lsass.exe</TargetImage>
+				<Rule groupRelation="or">
+					<SourceImage condition="end with">\powershell.exe</SourceImage>
+					<SourceImage condition="end with">\pwsh.exe</SourceImage>
+					<SourceImage condition="end with">\cmd.exe</SourceImage>
+					<SourceImage condition="end with">\wscript.exe</SourceImage>
+					<SourceImage condition="end with">\cscript.exe</SourceImage>
+					<SourceImage condition="end with">\rundll32.exe</SourceImage>
+					<SourceImage condition="end with">\regsvr32.exe</SourceImage>
+					<SourceImage condition="end with">\mshta.exe</SourceImage>
+					<SourceImage condition="end with">\wmic.exe</SourceImage>
+					<SourceImage condition="end with">\bitsadmin.exe</SourceImage>
+					<SourceImage condition="end with">\certutil.exe</SourceImage>
+					<SourceImage condition="end with">\msbuild.exe</SourceImage>
+					<SourceImage condition="end with">\python.exe</SourceImage>
+					<SourceImage condition="end with">\perl.exe</SourceImage>
+					<SourceImage condition="end with">\ruby.exe</SourceImage>
+					<SourceImage condition="end with">\node.exe</SourceImage>
+					<SourceImage condition="end with">\java.exe</SourceImage>
+					<GrantedAccess condition="contains any">0x1fffff;0x1f3fff;0x1410;0x143a;0x1438;0x1430;0x1010</GrantedAccess>
+					</Rule>
+				</Rule>
+			<Rule groupRelation="and">
+				<TargetImage condition="end with">\winlogon.exe</TargetImage>
+				<GrantedAccess condition="contains any">0x1fffff;0x1f3fff;0x1410;0x143a;0x1438;0x1430</GrantedAccess>
+				</Rule>
+			<Rule groupRelation="and">
+				<TargetImage condition="end with">\lsaiso.exe</TargetImage>
+				<GrantedAccess condition="contains any">0x1fffff;0x1f3fff;0x1410;0x143a;0x1438;0x1430</GrantedAccess>
+				</Rule>
+			</ProcessAccess>
+		</RuleGroup>
+	<RuleGroup name="Include_MalwareDrop_Server" groupRelation="or">
+      <FileBlockExecutable onmatch="include">
+
+        <!-- (A) 사용자 데이터 보호 (Honeypot) -->
+        <Rule groupRelation="and">
+          <TargetFilename condition="begin with">C:\Users\</TargetFilename>
+          <TargetFilename condition="contains any">
+            \Documents\;
+            \Pictures\;
+            \Videos\;
+            \Music\;
+            \Favorites\;
+            \Client_Contracts\
+          </TargetFilename>
+        </Rule>
+
+        <!-- (B) 일반적 임시경로 (C:\Temp, C:\Windows\Temp) -->
+        <TargetFilename condition="begin with">C:\Temp\</TargetFilename>
+        <TargetFilename condition="begin with">C:\Windows\Temp\</TargetFilename>
+
+        <!-- (C) Office 체인 → Temp/Roaming EXE 생성 시 차단 -->
+        <Rule groupRelation="and">
+          <Image condition="contains any">
+            OUTLOOK.exe;
+            WINWORD.exe;
+            POWERPNT.exe;
+            EXCEL.exe;
+            VISIO.exe;
+            MSACCESS.exe;
+            MSPUB.exe;
+            EQNEDT32.exe;
+            TEAMS.exe;
+            LYNC.exe
+          </Image>
+          <TargetFilename condition="contains any">
+            \Temp\;
+            \AppData\Local\Temp\;
+            \AppData\Roaming\
+          </TargetFilename>
+        </Rule>
+
+        <!-- (D) ZIP 기반 랜섬웨어 Drop (7z.exe 사용) -->
+        <Rule groupRelation="and">
+          <Image condition="end with">7z.exe</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+
+        <!-- 서버에서는 PowerShell/LOLBin의 Temp/ProgramData 전역 차단은 제외 -->
+
+      </FileBlockExecutable>
+    </RuleGroup>
+
+    <RuleGroup name="Exclude_LegitActivity_Server" groupRelation="or">
+      <FileBlockExecutable onmatch="exclude">
+
+        <!-- (1) Outlook/Office 정상 임시 파일 -->
+        <TargetFilename condition="contains">Content.Outlook\</TargetFilename>
+        <TargetFilename condition="contains">Content.MSO\</TargetFilename>
+        <TargetFilename condition="end with">MSForms.exd</TargetFilename>
+        <TargetFilename condition="contains">~$</TargetFilename>
+
+        <!-- (2) 정상 다운로드 폴더 -->
+        <Rule groupRelation="and">
+          <TargetFilename condition="begin with">C:\Users\</TargetFilename>
+          <TargetFilename condition="contains">\Downloads\</TargetFilename>
+        </Rule>
+
+        <!-- (3) PowerShell Profile 업데이트 -->
+        <Rule groupRelation="and">
+          <TargetFilename condition="begin with">C:\Users\</TargetFilename>
+          <TargetFilename condition="contains">\Documents\WindowsPowerShell\</TargetFilename>
+        </Rule>
+
+        <!-- (4) Windows Installer / Update -->
+        <Image condition="is">C:\Windows\System32\msiexec.exe</Image>
+        <Image condition="is">C:\Windows\servicing\TrustedInstaller.exe</Image>
+        <Image condition="is">C:\Windows\System32\TiWorker.exe</Image>
+        <Image condition="is">C:\Windows\System32\dism.exe</Image>
+        <Image condition="is">C:\Windows\System32\wusa.exe</Image>
+        <Image condition="is">C:\Windows\System32\cleanmgr.exe</Image>
+        <Image condition="is">C:\Windows\System32\wuauclt.exe</Image>
+
+        <!-- (5) Windows 오류보고/진단 -->
+        <Image condition="is">C:\Windows\System32\werfault.exe</Image>
+        <Image condition="is">C:\Windows\System32\wermgr.exe</Image>
+
+        <!-- (6) Windows CAB/압축 관련 -->
+        <Image condition="is">C:\Windows\System32\makecab.exe</Image>
+        <Image condition="is">C:\Windows\System32\iexpress.exe</Image>
+
+        <!-- (7) 보안 솔루션 필수 예외 -->
+        <Image condition="contains any">
+          C:\ProgramData\Microsoft\Windows Defender\Platform\;
+          MsMpEng.exe
+        </Image>
+        <Image condition="end with">MpSigStub.exe</Image>
+        <Image condition="end with">NisSrv.exe</Image>
+        <Image condition="end with">Sysmon.exe</Image>
+
+        <!-- (8) Python 개발 환경 (필요 시 서버에 맞게 조정) -->
+        <Image condition="contains">\venv\Scripts\python.exe</Image>
+        <Image condition="contains">\python.exe</Image>
+        <Image condition="contains">\pip.exe</Image>
+
+        <!-- (9) 기타 자동 업데이트/에이전트 (환경에 맞게 추가/조정) -->
+        <Image condition="contains any">
+          msedge.exe;
+          Squirrel.exe;
+          Update.exe;
+          Discord.exe;
+          Teams.exe;
+          Zoom.exe
+        </Image>
+        <Rule groupRelation="and">
+          <Image condition="is">C:\Program Files\Google\Chrome\Application\chrome.exe</Image>
+        </Rule>
+
+        <Image condition="contains any">
+          agent;
+          updater;
+          backup;
+          monitor
+        </Image>
+
+        <Image condition="end with">OneDrive.exe</Image>
+
+        <!-- (10) Windows Troubleshooter -->
+        <Rule groupRelation="and">
+          <Image condition="is">C:\Windows\System32\taskhostw.exe</Image>
+          <TargetFilename condition="begin with">C:\Windows\Temp\SDIAG_</TargetFilename>
+          <TargetFilename condition="contains any">.dll;.dll.mui</TargetFilename>
+        </Rule>
+
+        <!-- (11) DISM 핵심 DLL -->
+        <Rule groupRelation="and">
+          <Image condition="is">C:\Windows\system32\wbem\wmiprvse.exe</Image>
+          <TargetFilename condition="contains">\Windows\Temp\</TargetFilename>
+        </Rule>
+        
+      </FileBlockExecutable>
+    </RuleGroup>
+
+  </EventFiltering>
+</Sysmon>
