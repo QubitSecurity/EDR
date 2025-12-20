@@ -4,11 +4,11 @@
 
 ---
 
-![Image](https://www.safebreach.com/wp-content/uploads/2023/12/image16-2-1024x489.webp?utm_source=chatgpt.com)
+![Image](https://www.safebreach.com/wp-content/uploads/2023/12/image16-2-1024x489.webp)
 
-![Image](https://images.contentstack.io/v3/assets/bltefdd0b53724fa2ce/blt414e818295fc42dc/5e2f925ce147ae4537d92acb/process-injection-techniques-blogs-iat-ex.png?utm_source=chatgpt.com)
+![Image](https://images.contentstack.io/v3/assets/bltefdd0b53724fa2ce/blt414e818295fc42dc/5e2f925ce147ae4537d92acb/process-injection-techniques-blogs-iat-ex.png)
 
-![Image](https://www.oreilly.com/api/v2/epubs/urn%3Aorm%3Abook%3A9781788392501/files/assets/19eb9b3e-9923-4e6f-9bef-b9b9dbfdc700.png?utm_source=chatgpt.com)
+![Image](https://www.oreilly.com/api/v2/epubs/urn%3Aorm%3Abook%3A9781788392501/files/assets/19eb9b3e-9923-4e6f-9bef-b9b9dbfdc700.png)
 
 ## 🎯 기본 전제
 
