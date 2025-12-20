@@ -32,14 +32,11 @@
 
 ### 📦 Platform Configurations
 
-* 🪟 **Windows**
-  [https://github.com/QubitSecurity/EDR/tree/main/Windows/sysmon/](https://github.com/QubitSecurity/EDR/tree/main/Windows/sysmon/)
+* 🪟 [**Windows**](https://github.com/QubitSecurity/EDR/tree/main/Windows/sysmon/)
 
-* 🔴 **RHEL / Rocky Linux**
-  [https://github.com/QubitSecurity/EDR/tree/main/RHEL/sysmon/](https://github.com/QubitSecurity/EDR/tree/main/RHEL/sysmon/)
+* 🔴 [**RHEL / Rocky Linux**](https://github.com/QubitSecurity/EDR/tree/main/RHEL/sysmon/)
 
-* 🟠 **Ubuntu**
-  [https://github.com/QubitSecurity/EDR/tree/main/Ubuntu/sysmon/](https://github.com/QubitSecurity/EDR/tree/main/Ubuntu/sysmon/)
+* 🟠 [**Ubuntu**](https://github.com/QubitSecurity/EDR/tree/main/Ubuntu/sysmon/)
 
 ---
 
