@@ -1,6 +1,6 @@
 # 📘 **AIX Audit 로그 외부 전송 + 공격 탐지 룰 설정 안내서**
 
-이 문서는 IBM AIX 서버에서 **Audit(감사) 로그를 외부 서버(PLURA-XDR / SIEM)로 안정적으로 전송**하고,
+이 문서는 IBM AIX 서버에서 **Audit(감사) 로그를 외부 서버(PLURA-XDR / SIEM)로 안정적으로 전송**하고,  
 공격 탐지를 위한 **AIX 기본(Baseline) 룰** 및 Linux(RHEL) 고급(Deep) 룰을 안내하기 위해 작성되었습니다.
 
 ---
