@@ -28,6 +28,10 @@ PLURA Standard Audit & Logging Configuration
 
 ## 🔗 Useful Links
 
+### 리눅스에서도 Sysmon을 사용해야 하는 이유
+
+- https://blog.plura.io/ko/respond/linux_sysmon/
+
 ### Windows Subcategory and SubcategoryGUID
 
 - https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-gpac/77878370-0712-47cd-997d-b07053429f6d
