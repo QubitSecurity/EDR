@@ -1,6 +1,6 @@
 # 🐧 RHEL & Rocky Linux
 
-## Sysmon (Sysmon for Linux) 버전별 설치 가이드 (간단)
+## Sysmon (Sysmon for Linux) 버전별 설치 가이드
 
 > 대상 OS
 >
