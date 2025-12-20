@@ -4,8 +4,8 @@ Audit config for PLURA
 ## 🛠️ Sysmon
 
   * 🪟 [Windows](https://github.com/QubitSecurity/EDR/tree/main/Windows/sysmon/)
-  * 🔴 [RHEL](https://github.com/QubitSecurity/EDR/tree/main/RHEL/sysmon/server)
-  * 🟠 [Ubuntu](https://github.com/QubitSecurity/EDR/tree/main/Ubuntu/sysmon/server)
+  * 🔴 [RHEL](https://github.com/QubitSecurity/EDR/tree/main/RHEL/sysmon/)
+  * 🟠 [Ubuntu](https://github.com/QubitSecurity/EDR/tree/main/Ubuntu/sysmon/)
 
 ---
 
