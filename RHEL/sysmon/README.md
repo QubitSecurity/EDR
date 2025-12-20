@@ -141,7 +141,7 @@ Sysmon 이벤트는 **journald / syslog** 를 통해 수집됨
 
 ## ✔️ 실무 한 줄 결론
 
-> **운영 환경에서는 RHEL/Rocky 8 + Sysmon (curated 설정) 조합을 기본으로 사용**
+> **운영 환경에서는 RHEL/Rocky 8 + Sysmon (curated 설정) 조합을 기본으로 사용**  
 > RHEL/Rocky 9는 **PoC → 검증 후 단계적 적용** 권장
 
 ---
