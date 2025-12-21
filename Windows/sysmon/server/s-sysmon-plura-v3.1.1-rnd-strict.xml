@@ -1,10 +1,6 @@
-<!--
-PLURA-Forensic
-Sysmon RnD (Persistence / Injection / DNS / Mass Delete) - Strict
-- Target: low-noise validation for: EventID 8, 12/13/14, 22, 26
-PLURA_CONFIG_VERSION   : s-sysmon-plura-v3.1.1-rnd-strict.xml
-PLURA_SCHEMA_TARGET    : 4.90
--->
+<!-- PLURA_CONFIG_VERSION: s-sysmon-plura-v3.1.1-rnd-strict.xml --> 
+<!-- PLURA_SCHEMA_TARGET: 4.90 -->
+
 <Sysmon schemaversion="4.90">
   <HashAlgorithms>*</HashAlgorithms>
   <CheckRevocation>False</CheckRevocation>
