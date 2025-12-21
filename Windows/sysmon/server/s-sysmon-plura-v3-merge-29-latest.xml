@@ -1,4 +1,4 @@
-<!-- PLURA_CONFIG_VERSION: s-sysmon-plura-v3-merge-29-latest.xml --> 
+<!-- PLURA_CONFIG_VERSION: s-sysmon-29-plura-v3.2.3-server-unite-curated.xml
 <!-- PLURA_SCHEMA_TARGET: 4.90 -->
 
 <Sysmon schemaversion="4.90">
@@ -313,23 +313,32 @@
         <Image condition="end with">\msbuild.exe</Image>
       </DnsQuery>
     </RuleGroup>
-    <RuleGroup name="FileDeleteDetected-Include-HighSignal" groupRelation="or">
-      <FileDeleteDetected onmatch="include">
-        <TargetFilename condition="begin with">C:\Users\</TargetFilename>
-        <TargetFilename condition="end with">.doc</TargetFilename>
-        <TargetFilename condition="end with">.docx</TargetFilename>
-        <TargetFilename condition="end with">.xls</TargetFilename>
-        <TargetFilename condition="end with">.xlsx</TargetFilename>
-        <TargetFilename condition="end with">.ppt</TargetFilename>
-        <TargetFilename condition="end with">.pptx</TargetFilename>
-        <TargetFilename condition="end with">.pdf</TargetFilename>
-        <TargetFilename condition="end with">.hwp</TargetFilename>
-        <TargetFilename condition="end with">.txt</TargetFilename>
-        <TargetFilename condition="end with">\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt</TargetFilename>
-        <TargetFilename condition="end with">\NTUSER.DAT</TargetFilename>
-      </FileDeleteDetected>
-    </RuleGroup>
-    <RuleGroup name="Exclude-Legit-Minimal" groupRelation="or">
+  <RuleGroup name="FileDeleteDetected-Include-HighSignal" groupRelation="or">
+    <FileDeleteDetected onmatch="include">
+      <TargetFilename condition="begin with">C:\Windows\System32\winevt\Logs\</TargetFilename>
+      <TargetFilename condition="end with">.evtx</TargetFilename>
+      <TargetFilename condition="begin with">C:\Windows\System32\LogFiles\</TargetFilename>
+      <TargetFilename condition="begin with">C:\Windows\Logs\</TargetFilename>
+      <TargetFilename condition="begin with">C:\inetpub\logs\LogFiles\</TargetFilename>
+      <TargetFilename condition="begin with">C:\inetpub\wwwroot\</TargetFilename>
+      <TargetFilename condition="end with">.aspx</TargetFilename>
+      <TargetFilename condition="end with">.ashx</TargetFilename>
+      <TargetFilename condition="end with">.asmx</TargetFilename>
+      <TargetFilename condition="end with">.config</TargetFilename>
+      <TargetFilename condition="end with">web.config</TargetFilename>
+      <TargetFilename condition="end with">.ps1</TargetFilename>
+      <TargetFilename condition="end with">.vbs</TargetFilename>
+      <TargetFilename condition="end with">.js</TargetFilename>
+      <TargetFilename condition="end with">.exe</TargetFilename>
+      <TargetFilename condition="end with">.dll</TargetFilename>
+      <TargetFilename condition="begin with">C:\Windows\System32\Tasks\</TargetFilename>
+      <TargetFilename condition="is">C:\Windows\System32\drivers\etc\hosts</TargetFilename>
+      <TargetFilename condition="begin with">C:\Windows\System32\inetsrv\config\</TargetFilename>
+      <TargetFilename condition="end with">applicationHost.config</TargetFilename>
+      <TargetFilename condition="end with">administration.config</TargetFilename>
+    </FileDeleteDetected>
+  </RuleGroup>
+<RuleGroup name="Exclude-Legit-Minimal" groupRelation="or">
       <CreateRemoteThread onmatch="exclude">
         <SourceImage condition="end with">\MsMpEng.exe</SourceImage>
         <SourceImage condition="end with">\Taskmgr.exe</SourceImage>
