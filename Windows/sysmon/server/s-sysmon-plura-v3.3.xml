@@ -1,0 +1,347 @@
+<!-- PLURA_CONFIG_VERSION: s-sysmon-plura-v3.3.xml -->
+<!-- PLURA_SCHEMA_TARGET: 4.90 -->
+
+<Sysmon schemaversion="4.90">
+  <HashAlgorithms>*</HashAlgorithms>
+  <CheckRevocation>False</CheckRevocation>
+  <DnsLookup>False</DnsLookup>
+  <ArchiveDirectory>Sysmon</ArchiveDirectory>
+
+  <EventFiltering>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 1: Process Create (서버 핵심 프로세스 중심) -->
+    <!-- ============================================================ -->
+
+    <!-- (1) 공통 노이즈/PLURA 자체 프로세스 제외 -->
+    <RuleGroup name="ProcessCreate-Exclude-Noise" groupRelation="or">
+      <ProcessCreate onmatch="exclude">
+        <!-- PLURA Agent / Tools -->
+        <ParentImage condition="end with">\Program Files (x86)\PLURA\PLURAService.exe</ParentImage>
+        <ParentImage condition="end with">\Program Files (x86)\PLURA\PLURASControl.exe</ParentImage>
+        <ParentImage condition="end with">\Program Files (x86)\PLURA\PLURAConfig.exe</ParentImage>
+        <ParentImage condition="end with">\Program Files (x86)\PLURA\PLURATray.exe</ParentImage>
+
+        <!-- Windows common noise -->
+        <Image condition="end with">\Windows\System32\RuntimeBroker.exe</Image>
+        <Image condition="end with">\Windows\System32\backgroundTaskHost.exe</Image>
+
+        <!-- .NET ngen / mscorsvw compilation noise -->
+        <CommandLine condition="begin with">C:\Windows\Microsoft.NET\Framework\v4.0.30319\ngen.exe</CommandLine>
+        <Image condition="is">C:\Windows\Microsoft.NET\Framework64\v4.0.30319\mscorsvw.exe</Image>
+        <Image condition="is">C:\Windows\Microsoft.NET\Framework\v4.0.30319\mscorsvw.exe</Image>
+      </ProcessCreate>
+    </RuleGroup>
+
+    <!-- (2) 서버에서 특히 관심 있는 행위 Include -->
+    <RuleGroup name="ProcessCreate-Include-Server" groupRelation="or">
+      <ProcessCreate onmatch="include">
+
+        <!-- PowerShell / Script engines -->
+        <Image condition="end with">\Windows\System32\WindowsPowerShell\v1.0\powershell.exe</Image>
+        <Image condition="end with">\Windows\SysWOW64\WindowsPowerShell\v1.0\powershell.exe</Image>
+        <Image condition="end with">\Windows\System32\pwsh.exe</Image>
+        <Image condition="end with">\Windows\System32\cscript.exe</Image>
+        <Image condition="end with">\Windows\System32\wscript.exe</Image>
+        <Image condition="end with">\Windows\System32\mshta.exe</Image>
+        <Image condition="end with">\Windows\System32\rundll32.exe</Image>
+        <Image condition="end with">\Windows\System32\regsvr32.exe</Image>
+        <Image condition="end with">\Windows\System32\cmd.exe</Image>
+
+        <!-- Remote admin tools / lateral movement utilities -->
+        <Image condition="end with">\Windows\System32\psexec.exe</Image>
+        <Image condition="end with">\Windows\System32\wmic.exe</Image>
+        <Image condition="end with">\Windows\System32\net.exe</Image>
+        <Image condition="end with">\Windows\System32\net1.exe</Image>
+        <Image condition="end with">\Windows\System32\sc.exe</Image>
+        <Image condition="end with">\Windows\System32\schtasks.exe</Image>
+
+        <!-- IIS / Web stack -->
+        <Image condition="end with">\Windows\System32\inetsrv\w3wp.exe</Image>
+        <Image condition="end with">\Windows\System32\inetsrv\appcmd.exe</Image>
+        <Image condition="end with">\Windows\System32\inetsrv\iisreset.exe</Image>
+        <Image condition="end with">\Windows\System32\inetsrv\inetinfo.exe</Image>
+
+        <!-- SQL Server -->
+        <Image condition="end with">\MSSQL\Binn\sqlservr.exe</Image>
+        <Image condition="contains">\Microsoft SQL Server\</Image>
+
+        <!-- Security-relevant: living-off-the-land downloaders -->
+        <Image condition="end with">\Windows\System32\certutil.exe</Image>
+        <Image condition="end with">\Windows\System32\bitsadmin.exe</Image>
+        <Image condition="end with">\Windows\System32\curl.exe</Image>
+        <Image condition="end with">\Windows\System32\wget.exe</Image>
+
+        <!-- Suspicious execution locations on servers -->
+        <Rule groupRelation="and">
+          <Image condition="contains">\Windows\Temp\</Image>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="contains">\ProgramData\</Image>
+        </Rule>
+      </ProcessCreate>
+    </RuleGroup>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 3: Network Connect (서버 노이즈 축소 + PLURA 제외 유지) -->
+    <!-- ============================================================ -->
+    <RuleGroup name="NetworkConnect-Exclude-Noise" groupRelation="or">
+      <NetworkConnect onmatch="exclude">
+        <!-- PLURA -->
+        <Image condition="contains">:\Program Files (x86)\PLURA\</Image>
+        <DestinationHostname condition="is">ns.plura.io</DestinationHostname>
+        <DestinationHostname condition="is">apis.plura.io</DestinationHostname>
+
+        <!-- Multicast / loopback -->
+        <SourceIp condition="begin with">224.0.0.</SourceIp>
+        <SourceIp condition="begin with">ff02:0:0:0:0:0:1:</SourceIp>
+        <SourceIp condition="is">239.255.255.250</SourceIp>
+        <SourceIp condition="is">0:0:0:0:0:0:0:1</SourceIp>
+        <DestinationIp condition="is">239.255.255.250</DestinationIp>
+        <DestinationIp condition="is">0:0:0:0:0:0:0:1</DestinationIp>
+
+        <!-- Windows Update / Microsoft -->
+        <DestinationHostname condition="end with">.windowsupdate.microsoft.com</DestinationHostname>
+        <DestinationHostname condition="end with">.windowsupdate.com</DestinationHostname>
+        <DestinationHostname condition="end with">wustat.windows.com</DestinationHostname>
+        <DestinationHostname condition="end with">go.microsoft.com</DestinationHostname>
+        <DestinationHostname condition="end with">.update.microsoft.com</DestinationHostname>
+        <DestinationHostname condition="end with">download.microsoft.com</DestinationHostname>
+      </NetworkConnect>
+    </RuleGroup>
+
+    <!-- 서버에서 의미있는 Outbound 포함(선택적) -->
+    <RuleGroup name="NetworkConnect-Include-Server" groupRelation="or">
+      <NetworkConnect onmatch="include">
+        <!-- IIS worker outbound -->
+        <Image condition="end with">\Windows\System32\inetsrv\w3wp.exe</Image>
+        <!-- PowerShell outbound -->
+        <Image condition="end with">\Windows\System32\WindowsPowerShell\v1.0\powershell.exe</Image>
+        <Image condition="end with">\Windows\System32\pwsh.exe</Image>
+        <!-- Any process initiating RDP/SMB admin-like connections -->
+        <DestinationPort condition="is">3389</DestinationPort>
+        <DestinationPort condition="is">445</DestinationPort>
+        <DestinationPort condition="is">5985</DestinationPort>
+        <DestinationPort condition="is">5986</DestinationPort>
+      </NetworkConnect>
+    </RuleGroup>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 5: Process Terminate (기본 노이즈 제외) -->
+    <!-- ============================================================ -->
+    <RuleGroup name="ProcessTerminate-Exclude-Noise" groupRelation="or">
+      <ProcessTerminate onmatch="exclude">
+        <Image condition="end with">\Windows\System32\backgroundTaskHost.exe</Image>
+        <Image condition="end with">\Windows\System32\RuntimeBroker.exe</Image>
+        <Image condition="end with">\Sysmon\Sysmon64.exe</Image>
+        <Image condition="end with">\Sysmon\Sysmon.exe</Image>
+      </ProcessTerminate>
+    </RuleGroup>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 7: ImageLoad (PowerShell 관련 DLL 로딩 추적 유지) -->
+    <!-- ============================================================ -->
+    <RuleGroup name="ImageLoad-PowerShell" groupRelation="and">
+      <ImageLoad onmatch="include">
+        <Rule groupRelation="or">
+          <ImageLoaded condition="contains">System.Management.Automation</ImageLoaded>
+          <ImageLoaded condition="contains">System.Reflection</ImageLoaded>
+          <ImageLoaded condition="contains">sspisrv.dll</ImageLoaded>
+        </Rule>
+      </ImageLoad>
+      <!-- PowerShell 자체가 로딩하는 것은 제외(노이즈) -->
+      <ImageLoad onmatch="exclude">
+        <Rule groupRelation="or">
+          <Image condition="end with">\Windows\SysWOW64\WindowsPowerShell\v1.0\powershell.exe</Image>
+          <Image condition="end with">\Windows\System32\WindowsPowerShell\v1.0\powershell.exe</Image>
+          <Image condition="end with">\Windows\System32\WindowsPowerShell\v1.0\powershell_ise.exe</Image>
+        </Rule>
+      </ImageLoad>
+    </RuleGroup>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 9: RawAccessRead (디스크 직접 접근 - 서버에서 유용) -->
+    <!-- ============================================================ -->
+    <RuleGroup name="RawAccessRead-Server" groupRelation="and">
+      <RawAccessRead onmatch="include">
+        <Device condition="contains">\Device\Harddisk0\DR0</Device>
+      </RawAccessRead>
+      <RawAccessRead onmatch="exclude">
+        <Rule groupRelation="or">
+          <Image condition="contains all">\ProgramData\Microsoft\Windows Defender\platform\;\MsMpEng.exe</Image>
+          <Image condition="contains">\Windows\System32\</Image>
+          <Image condition="contains">\Windows\SysWOW64\</Image>
+        </Rule>
+      </RawAccessRead>
+    </RuleGroup>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 11: FileCreate (서버 핵심 경로 중심으로 축소) -->
+    <!-- ============================================================ -->
+    <RuleGroup name="FileCreate-Include-ServerCore" groupRelation="or">
+      <FileCreate onmatch="include">
+
+        <!-- Server OS & Security sensitive -->
+        <TargetFilename condition="begin with">C:\Windows\System32\drivers\etc\hosts</TargetFilename>
+        <TargetFilename condition="begin with">C:\Windows\System32\winevt\Logs</TargetFilename>
+        <TargetFilename condition="begin with">C:\Windows\System32\config\SAM</TargetFilename>
+        <TargetFilename condition="begin with">C:\Windows\Tasks\</TargetFilename>
+        <TargetFilename condition="begin with">C:\Windows\System32\Tasks\</TargetFilename>
+        <TargetFilename condition="begin with">C:\Windows\SysWOW64\Tasks\</TargetFilename>
+        <TargetFilename condition="begin with">C:\Windows\System32\GroupPolicy\Machine\Scripts</TargetFilename>
+        <TargetFilename condition="begin with">C:\Windows\System32\GroupPolicy\User\Scripts</TargetFilename>
+
+        <!-- IIS: webroot & config -->
+        <TargetFilename condition="begin with">C:\inetpub\wwwroot\</TargetFilename>
+        <TargetFilename condition="contains">\Windows\System32\inetsrv\config</TargetFilename>
+
+        <!-- SQL Server dumps / backups / binaries -->
+        <TargetFilename condition="contains all">C:\Program Files\Microsoft SQL Server;\Shared\ErrorDumps</TargetFilename>
+        <TargetFilename condition="contains all">C:\Program Files\Microsoft SQL Server;\DataDumps</TargetFilename>
+        <TargetFilename condition="contains">\Microsoft SQL Server\</TargetFilename>
+
+        <!-- Suspicious common drop locations -->
+        <Rule groupRelation="and">
+          <TargetFilename condition="contains">\Windows\Temp\</TargetFilename>
+          <TargetFilename condition="contains any">.exe;.dll;.ps1;.vbs;.js;.jse;.hta;.bat;.cmd;.scr;.sys</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <TargetFilename condition="contains">\ProgramData\</TargetFilename>
+          <TargetFilename condition="contains any">.exe;.dll;.ps1;.vbs;.js;.jse;.hta;.bat;.cmd;.scr;.sys</TargetFilename>
+        </Rule>
+
+      </FileCreate>
+    </RuleGroup>
+
+    <!-- FileCreate 노이즈 제외(PLURA) -->
+    <RuleGroup name="FileCreate-Exclude-PLURA" groupRelation="or">
+      <FileCreate onmatch="exclude">
+        <Image condition="end with">\Program Files (x86)\PLURA\PLURAService.exe</Image>
+        <Image condition="end with">\Program Files (x86)\PLURA\PLURASControl.exe</Image>
+        <Image condition="end with">\Program Files (x86)\PLURA\PLURAConfig.exe</Image>
+        <Image condition="end with">\Program Files (x86)\PLURA\PLURATray.exe</Image>
+      </FileCreate>
+    </RuleGroup>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 12/13/14: RegistryEvent (서버 Persistence/Defence Evasion 중심) -->
+    <!-- ============================================================ -->
+    <RuleGroup name="RegistryEvent-Include-ServerCore" groupRelation="or">
+      <RegistryEvent onmatch="include">
+
+        <!-- Run Keys / Policies -->
+        <TargetObject condition="contains">\CurrentVersion\Run</TargetObject>
+        <TargetObject condition="contains">\Policies\Explorer\Run</TargetObject>
+
+        <!-- Winlogon / Shell -->
+        <TargetObject condition="contains">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon</TargetObject>
+
+        <!-- IFEO -->
+        <TargetObject condition="begin with">HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options</TargetObject>
+
+        <!-- Services (Persistence) -->
+        <TargetObject condition="contains">HKLM\SYSTEM\CurrentControlSet\Services\</TargetObject>
+
+        <!-- PowerShell logging tamper -->
+        <TargetObject condition="contains">HKLM\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging</TargetObject>
+        <TargetObject condition="contains">HKLM\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ModuleLogging</TargetObject>
+        <TargetObject condition="contains">HKLM\SOFTWARE\Policies\Microsoft\Windows\PowerShell\Transcription</TargetObject>
+
+        <!-- WDigest / LSA -->
+        <TargetObject condition="contains">\Control\Lsa\</TargetObject>
+        <TargetObject condition="contains">\Control\SecurityProviders\WDigest</TargetObject>
+
+        <!-- Windows Event Log tamper / retention -->
+        <TargetObject condition="contains all">\SYSTEM\;\Service\EventLog;Retention</TargetObject>
+        <TargetObject condition="contains all">\SYSTEM\;\Service\EventLog;MaxSize</TargetObject>
+
+      </RegistryEvent>
+    </RuleGroup>
+
+    <!-- RegistryEvent 노이즈 일부 제외(PLURA/일반) -->
+    <RuleGroup name="RegistryEvent-Exclude-PLURA-Noise" groupRelation="or">
+      <RegistryEvent onmatch="exclude">
+        <Image condition="contains all">\Program Files\Common Files\Microsoft Shared\ClickToRun\Updates\;\OfficeClickToRun.exe</Image>
+        <Image condition="begin with">C:\Program Files (x86)\PLURA\</Image>
+        <Image condition="begin with">C:\Program Files\PLURA\</Image>
+      </RegistryEvent>
+    </RuleGroup>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 15: FileCreateStreamHash (Zone.Identifier / script) -->
+    <!-- ============================================================ -->
+    <RuleGroup name="FileCreateStreamHash-Server" groupRelation="or">
+      <FileCreateStreamHash onmatch="include">
+        <Rule name="ZoneIdentifier" groupRelation="and">
+          <TargetFilename condition="end with">:Zone.Identifier</TargetFilename>
+          <Contents condition="contains any">about:internet;blob:</Contents>
+        </Rule>
+        <TargetFilename condition="end with">.ps1</TargetFilename>
+        <TargetFilename condition="end with">.psm1</TargetFilename>
+        <TargetFilename condition="end with">.vbs</TargetFilename>
+        <TargetFilename condition="end with">.js</TargetFilename>
+      </FileCreateStreamHash>
+    </RuleGroup>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 22: DNS Query (서버는 기본 off 권장이나, 특정 IOC는 유지 가능) -->
+    <!-- ============================================================ -->
+    <RuleGroup name="DnsQuery-IOC" groupRelation="or">
+      <DnsQuery onmatch="include">
+        <!-- 기존 예시 IOC 유지(필요 시 교체) -->
+        <QueryName condition="end with">tcjst.com</QueryName>
+      </DnsQuery>
+    </RuleGroup>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 23/26: FileDelete / FileDeleteDetected -->
+    <!-- - 서버는 디스크 사용 고려: 23은 off 유지 -->
+    <!-- - 26은 핵심 경로/확장자 중심 include -->
+    <!-- ============================================================ -->
+
+    <!-- 23: Archive copy delete (disabled) -->
+    <RuleGroup name="FileDelete-ArchivedCopy-Disabled" groupRelation="or">
+      <FileDelete onmatch="exclude" />
+    </RuleGroup>
+
+    <!-- 26: FileDeleteDetected (서버 핵심 경로/덤프/임시폴더 중심) -->
+    <RuleGroup name="FileDeleteDetected-Include-ServerCore" groupRelation="or">
+      <FileDeleteDetected onmatch="include">
+
+        <!-- SQL dumps / crash dumps -->
+        <TargetFilename condition="contains all">C:\Program Files\Microsoft SQL Server;\Shared\ErrorDumps</TargetFilename>
+        <TargetFilename condition="contains all">C:\Program Files\Microsoft SQL Server;\DataDumps</TargetFilename>
+
+        <!-- Temp / ProgramData executable-like deletes -->
+        <Rule groupRelation="and">
+          <TargetFilename condition="contains">\Windows\Temp\</TargetFilename>
+          <TargetFilename condition="contains any">.exe;.dll;.ps1;.vbs;.js;.jse;.hta;.bat;.cmd;.scr;.sys;.msi</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <TargetFilename condition="contains">\ProgramData\</TargetFilename>
+          <TargetFilename condition="contains any">.exe;.dll;.ps1;.vbs;.js;.jse;.hta;.bat;.cmd;.scr;.sys;.msi</TargetFilename>
+        </Rule>
+
+      </FileDeleteDetected>
+    </RuleGroup>
+
+    <RuleGroup name="FileDeleteDetected-Exclude-CommonNoise" groupRelation="or">
+      <FileDeleteDetected onmatch="exclude">
+        <!-- Chrome cleanup noise (서버에도 설치된 경우) -->
+        <Image condition="contains all">\appdata\local\google\chrome\user data\swreporter\;software_reporter_tool.exe</Image>
+        <User condition="contains any">NETWORK SERVICE;LOCAL SERVICE</User>
+      </FileDeleteDetected>
+    </RuleGroup>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 8: CreateRemoteThread (Injection signal) -->
+    <!-- ============================================================ -->
+    <RuleGroup name="CreateRemoteThread-Include" groupRelation="or">
+      <CreateRemoteThread onmatch="include">
+        <SourceImage condition="begin with">C:\</SourceImage>
+        <SourceImage condition="begin with">\\</SourceImage>
+      </CreateRemoteThread>
+    </RuleGroup>
+
+  </EventFiltering>
+</Sysmon>
