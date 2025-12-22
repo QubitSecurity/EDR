@@ -2,6 +2,9 @@
 
 ## **PLURA Standard Audit & Logging Configuration**
 
+> **"미래를 예측하는 최선의 방법은 그것을 창조하는 것이다."**  
+> — *피터 드러커*
+
 ---
 
 ## 🛠️ Sysmon
