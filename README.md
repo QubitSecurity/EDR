@@ -11,7 +11,7 @@
 
 ### *Standard Logging for Cross-Platform Security*
 
-> ### 🔍 Why Sysmon
+> ### ❓ Why Sysmon
 >
 > Sysmon is used as the **standard logging system** for PLURA.  
 > It delivers **consistent and high-fidelity security logs** across **Windows and Linux**,  
@@ -22,7 +22,7 @@
 
 ---
 
-> ### 🔍 Sysmon을 사용하는 이유
+> ### ❓ Sysmon을 사용하는 이유
 >
 > Sysmon은 PLURA의 **표준 로깅 시스템(Standard Logging System)** 입니다.  
 > Windows와 Linux 환경 전반에 걸쳐  
