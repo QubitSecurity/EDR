@@ -1,10 +1,10 @@
 # 📘 Sysmon 설치 및 운영 가이드 (PLURA-XDR 전용)
 
-본 문서는 **PLURA-XDR** 환경에서 Desktop(워크스테이션)과 Server(서버) 시스템에
+본 문서는 **PLURA-XDR** 환경에서 Desktop(워크스테이션)과 Server(서버) 시스템에  
 Sysmon을 설치하고 설정을 관리하기 위한 가이드입니다.
 
-Sysmon 실행 파일: **Sysmon64.exe**
-권장 버전: **v15.15 이상**
+* Sysmon 실행 파일: **Sysmon64.exe**  
+* 권장 버전: **v15.15 이상**
 
 ---
 
