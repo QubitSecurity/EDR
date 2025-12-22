@@ -15,10 +15,7 @@ Sysmon을 설치하고 설정을 관리하기 위한 가이드입니다.
 👉 **[https://learn.microsoft.com/ko-kr/sysinternals/downloads/sysmon](https://learn.microsoft.com/ko-kr/sysinternals/downloads/sysmon)**
 
 
-
-
-
-위 링크에서 최신 버전의 Sysmon을 다운로드한 뒤, 압축을 해제하고
+위 링크에서 최신 버전의 Sysmon을 다운로드한 뒤, 압축을 해제하고  
 `Sysmon64.exe` 파일을 사용해 아래 명령들을 실행하십시오.
 
 ---
@@ -30,7 +27,7 @@ Sysmon을 설치하고 설정을 관리하기 위한 가이드입니다.
 | **d-** | Desktop 전용 Config | Windows 10 / Windows 11           |
 | **s-** | Server 전용 Config  | Windows Server 2016 / 2019 / 2022 |
 
-Desktop과 Server의 로그 특성, 성능, 서비스 구성 차이 때문에
+Desktop과 Server의 로그 특성, 성능, 서비스 구성 차이 때문에  
 PLURA에서는 운영환경에 최적화된 별도 Sysmon 룰셋을 제공합니다.
 
 ---
