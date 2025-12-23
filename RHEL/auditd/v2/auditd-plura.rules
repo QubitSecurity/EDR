@@ -1,0 +1,47 @@
+# 비밀번호 정보 변경 (NO 4)
+auditctl -w /etc/shadow -p wa -k qubit-shadow
+# 소유권 및 권한 변경 도구 (NO 159, 158)
+auditctl -w /usr/bin/chown -p x -k qubit-chown
+auditctl -w /usr/bin/chmod -p x -k qubit-perm
+# 컴파일러 실행 (NO 157)
+auditctl -w /usr/bin/gcc -p x -k qubit-gcc
+# 계정 정보 및 관리 (NO 156, 51, 49, 8, 5)
+auditctl -w /etc/passwd -p wa -k qubit-passwd
+auditctl -w /usr/bin/whoami -p x -k qubit-recon
+auditctl -w /usr/sbin/userdel -p x -k qubit-userdel
+auditctl -w /usr/bin/w -p x -k qubit-recon
+auditctl -w /usr/sbin/useradd -p x -k qubit-useradd
+# 네트워크 및 전송 도구 (NO 29, 28, 26, 25)
+auditctl -w /usr/bin/ncat -p x -k qubit-nc
+auditctl -w /usr/bin/nc -p x -k qubit-nc
+auditctl -w /usr/bin/curl -p x -k qubit-curl
+auditctl -w /usr/bin/wget -p x -k qubit-wget
+# 시스템 유틸리티 및 설정 파일 (NO 27, 12, 11, 10, 9)
+auditctl -w /usr/bin/base64 -p x -k qubit-base64
+auditctl -w /etc/sysctl.conf -p wa -k qubit-kernel
+auditctl -w /etc/selinux/ -p wa -k qubit-selinux
+auditctl -w /etc/hosts -p wa -k qubit-host
+auditctl -w /etc/localtime -p wa -k qubit-time
+# VNC 및 원격 접속 (NO 213, 212, 211, 210, 208)
+auditctl -w /usr/bin/vncserver -p x -k qubit-vnc
+auditctl -w /usr/bin/x11vnc -p x -k qubit-vnc
+auditctl -w /usr/bin/Xvnc -p x -k qubit-vnc
+auditctl -w /usr/bin/sftp -p x -k qubit-sftp
+auditctl -w /usr/bin/rsync -p x -k qubit-rsync
+# 런타임 및 Socket 호출 (NO 192, 191, 190)
+auditctl -w /run -p x -k qubit-dir-/run
+auditctl -a always,exit -F arch=b32 -S socket -F a0=17 -k qubit-socket-17
+auditctl -a always,exit -F arch=b64 -S socket -F a0=17 -k qubit-socket-17
+# 파일 조작 명령어 (NO 189, 188, 187)
+auditctl -w /usr/bin/scp -p x -k qubit-scp
+auditctl -w /usr/bin/rm -p x -k qubit-rm
+auditctl -w /usr/bin/cp -p x -k qubit-cp
+# IPTables 방화벽 (NO 186, 185, 184, 183)
+auditctl -w /etc/iptables -p wa -k qubit-iptables
+auditctl -w /usr/sbin/iptables -p x -k qubit-iptables
+auditctl -w /etc/sysconfig/iptables -p wa -k qubit-iptables
+auditctl -w /sbin/iptables -p x -k qubit-iptables
+# 주요 디렉토리 감시 (NO 182, 181, 180)
+auditctl -w /var/run -p x -k qubit-dir-/var/run
+auditctl -w /var/lock -p x -k qubit-dir-/var/lock
+auditctl -w /dev/shm -p x -k qubit-dir-/dev/shm
