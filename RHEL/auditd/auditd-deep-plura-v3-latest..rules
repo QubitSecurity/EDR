@@ -1,1 +1,68 @@
-0
+# PLURA_CONFIG_VERSION: auditd-deep-plura-v3.1.rules
+# PLURA_SCHEMA_TARGET: v3.1
+# Profile: DEEP (incident response / higher visibility)
+# Notes:
+# - Includes BASELINE rules + deeper syscall auditing.
+# - Default deep focuses on authenticated sessions (auid!=unset) and root actions (euid=0) to control volume.
+# - Optional "all user actions" blocks are provided but commented.
+
+############################################################
+# 0) Include BASELINE content
+#    (For repo management: keep the baseline block identical, then append deep block.)
+############################################################
+
+# --- START: baseline v3.1 rules (same as auditd-baseline-plura-v3.1.rules) ---
+# (Paste the entire baseline v3.1 rules here)
+# --- END: baseline v3.1 rules ---
+
+
+############################################################
+# 3) PLURA deep additions (syscall rules)
+############################################################
+
+# 3-1) Root command execution from authenticated sessions (very useful, manageable)
+-a always,exit -F arch=b64 -S execve -F euid=0 -F auid!=unset -k plura_execve_root
+-a always,exit -F arch=b32 -S execve -F euid=0 -F auid!=unset -k plura_execve_root
+# Optional if supported by kernel:
+# -a always,exit -F arch=b64 -S execveat -F euid=0 -F auid!=unset -k plura_execve_root
+# -a always,exit -F arch=b32 -S execveat -F euid=0 -F auid!=unset -k plura_execve_root
+
+# 3-2) Privilege/identity changes (set*id)
+-a always,exit -F arch=b64 -S setuid -S setreuid -S setresuid -S setgid -S setregid -S setresgid -F auid!=unset -k plura_sys_privchange
+-a always,exit -F arch=b32 -S setuid -S setreuid -S setresuid -S setgid -S setregid -S setresgid -F auid!=unset -k plura_sys_privchange
+
+# 3-3) Capability changes
+-a always,exit -F arch=b64 -S capset -F auid!=unset -k plura_sys_capset
+-a always,exit -F arch=b32 -S capset -F auid!=unset -k plura_sys_capset
+
+# 3-4) Mount/unmount (persistence / defense evasion)
+-a always,exit -F arch=b64 -S mount -S umount2 -F euid=0 -F auid!=unset -k plura_fs_mount
+-a always,exit -F arch=b32 -S mount -S umount2 -F euid=0 -F auid!=unset -k plura_fs_mount
+
+# 3-5) File tampering (delete/rename/rmdir) - default: root only
+-a always,exit -F arch=b64 -S unlink -S unlinkat -S rename -S renameat -S rmdir -F euid=0 -F auid!=unset -k plura_file_tamper_root
+-a always,exit -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -S rmdir -F euid=0 -F auid!=unset -k plura_file_tamper_root
+
+# Optional: all authenticated users (can be noisy depending on workload)
+# -a always,exit -F arch=b64 -S unlink -S unlinkat -S rename -S renameat -S rmdir -F auid!=unset -k plura_file_tamper_user
+# -a always,exit -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -S rmdir -F auid!=unset -k plura_file_tamper_user
+
+# 3-6) Permission/ownership changes - default: root only
+-a always,exit -F arch=b64 -S chmod -S fchmod -S fchmodat -S chown -S fchown -S fchownat -S lchown -F euid=0 -F auid!=unset -k plura_file_permchg_root
+-a always,exit -F arch=b32 -S chmod -S fchmod -S fchmodat -S chown -S fchown -S fchownat -S lchown -F euid=0 -F auid!=unset -k plura_file_permchg_root
+
+# Optional: all authenticated users
+# -a always,exit -F arch=b64 -S chmod -S fchmod -S fchmodat -S chown -S fchown -S fchownat -S lchown -F auid!=unset -k plura_file_permchg_user
+# -a always,exit -F arch=b32 -S chmod -S fchmod -S fchmodat -S chown -S fchown -S fchownat -S lchown -F auid!=unset -k plura_file_permchg_user
+
+# 3-7) xattr changes (ACL/hidden attributes) - default: root only
+-a always,exit -F arch=b64 -S setxattr -S lsetxattr -S fsetxattr -S removexattr -S lremovexattr -S fremovexattr -F euid=0 -F auid!=unset -k plura_xattr_root
+-a always,exit -F arch=b32 -S setxattr -S lsetxattr -S fsetxattr -S removexattr -S lremovexattr -S fremovexattr -F euid=0 -F auid!=unset -k plura_xattr_root
+
+# 3-8) ptrace (process injection / debugging abuse)
+-a always,exit -F arch=b64 -S ptrace -F auid!=unset -k plura_ptrace
+-a always,exit -F arch=b32 -S ptrace -F auid!=unset -k plura_ptrace
+
+# Optional (advanced / kernel-dependent): memfd_create is not available on older kernels
+# -a always,exit -F arch=b64 -S memfd_create -F auid!=unset -k plura_memfd
+# -a always,exit -F arch=b32 -S memfd_create -F auid!=unset -k plura_memfd
