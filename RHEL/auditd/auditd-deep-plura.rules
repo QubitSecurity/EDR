@@ -1,13 +1,5 @@
-# auditd-*-plura.rules
-# Generated: 2025-12-23 (Asia/Seoul)
-# Source: existing "qubit-*" rules + attached plura attack rules
-# Format: audit.rules (-w/-a). Load with: augenrules --load  OR  auditctl -R <file>
-#
-# NOTE
-# - Duplicate file watches were skipped to avoid double events.
-# - Keys:
-#   - qubit-* : existing 운영 키(유지)
-#   - plura_* : ATT&CK 커버용 키(추가)
+# PLURA_CONFIG_VERSION: auditd-deep-plura.rules
+# PLURA_SCHEMA_TARGET: v3.0
 
 ###############################################
 # 1) Existing (qubit-*)
