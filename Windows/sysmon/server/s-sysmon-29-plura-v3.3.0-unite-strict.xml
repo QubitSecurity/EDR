@@ -1,4 +1,4 @@
-<!-- PLURA_CONFIG_VERSION: s-sysmon-29-plura-v3.2.5-unite-strict-blindfix1-context2-2025-12-21.xml -->
+<!-- PLURA_CONFIG_VERSION: s-sysmon-29-plura-v3.3.0-unite-strict.xml -->
 <!-- PLURA_PATCH: blindfix1-2025-12-21 (minimal blind-spot fixes) -->
 <!-- PLURA_PATCH: context2-2025-12-21 (server context expansion: ProcessCreate/NetworkConnect/FileCreate/ImageLoad) -->
 <!-- PLURA_SCHEMA_TARGET: 4.90 -->
