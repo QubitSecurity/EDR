@@ -1,8 +1,3 @@
-다음은 **Ubuntu 용으로 변환된 문서 + ubuntu 규칙 파일 2종**입니다.
-내용 구조·의도는 RHEL 문서를 그대로 유지하되, **용어/경로/파일명**만 Ubuntu 기준으로 조정했습니다.
-
----
-
 # Ubuntu auditd 기반 MITRE ATT&CK 탐지를 위한 PLURA 설정 가이드
 
 ## 0. 문서 목적
