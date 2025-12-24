@@ -1,5 +1,5 @@
 <#
-Rootkit Detection Scanner v1.0-rev2 (Windows / PowerShell)
+Rootkit Detection Scanner v1.0-rev4 (Windows / PowerShell)
 
 PLURA-Forensic philosophy:
 - No log file.
@@ -21,8 +21,8 @@ Exit codes:
 Run as Administrator.
 
 Notes:
-- Windows cannot reliably "prove" a kernel rootkit from user-space alone.
-  This script flags high-risk anomalies (autostart + drivers + network listen).
+- Windows user-space cannot "prove" a kernel rootkit with certainty.
+  This flags high-risk anomalies (autostart + suspicious drivers + listening from user-writable paths).
 #>
 
 [CmdletBinding()]
@@ -49,7 +49,7 @@ function Expand-Env([string]$s) {
 function Resolve-WindowsPath([string]$rawPath) {
   if (-not $rawPath) { return "" }
 
-  $p = $rawPath.Trim()
+  $p = ($rawPath + "").Trim()
   $p = Expand-Env $p
 
   # Remove surrounding quotes
@@ -78,47 +78,75 @@ function Resolve-WindowsPath([string]$rawPath) {
 }
 
 function Extract-ExePath([string]$cmdOrPath) {
+  # Extract a .exe path from:
+  # - "C:\Program Files\App\a.exe" args...
+  # - C:\Windows\System32\svchost.exe -k ...
+  # - cmd.exe /c ...
+  # - %SystemRoot%\System32\cmd.exe ...
   if (-not $cmdOrPath) { return "" }
 
   $s = ($cmdOrPath + "").Trim()
   $s = Expand-Env $s
 
-  # Quoted path: "C:\...\app.exe" args...
+  # Quoted path first
   if ($s.StartsWith('"')) {
     $m = [regex]::Match($s, '^"([^"]+)"')
     if ($m.Success) { return (Resolve-WindowsPath $m.Groups[1].Value) }
   }
 
-  # Unquoted: C:\...\app.exe args...
-  $m2 = [regex]::Match($s, '^\s*([A-Za-z]:\\[^\s"]+?\.exe)\b', [System.Text.RegularExpressions.RegexOptions]::IgnoreCase)
+  # Drive path up to FIRST .exe (allows spaces)
+  $m2 = [regex]::Match($s, '^\s*([A-Za-z]:\\.*?\.exe)\b', [System.Text.RegularExpressions.RegexOptions]::IgnoreCase)
   if ($m2.Success) { return (Resolve-WindowsPath $m2.Groups[1].Value) }
 
-  # First token (could be powershell.exe/cmd.exe without full path)
-  $tok = $s.Split(' ', 2)[0]
-  $tok = $tok.Trim('"')
-  $tok = Resolve-WindowsPath $tok
+  # Try again after basic normalization (handles \??\C:\... etc)
+  $norm = Resolve-WindowsPath $s
+  $m3 = [regex]::Match($norm, '^\s*([A-Za-z]:\\.*?\.exe)\b', [System.Text.RegularExpressions.RegexOptions]::IgnoreCase)
+  if ($m3.Success) { return (Resolve-WindowsPath $m3.Groups[1].Value) }
 
-  # If looks like just "something.exe", try resolve via PATH
+  # Token that is just "something.exe": resolve via PATH
+  $tok = $s.Split(' ', 2)[0].Trim('"')
   if ($tok -match '^[^\\/:]+\.exe$') {
     $gc = Get-Command $tok -ErrorAction SilentlyContinue
-    if ($gc -and $gc.Source) { return $gc.Source }
+    if ($gc -and $gc.Source) { return (Resolve-WindowsPath $gc.Source) }
   }
 
-  return $tok
+  # Last resort: return normalized token
+  return (Resolve-WindowsPath $tok)
+}
+
+function Get-FilePresence([string]$path) {
+  # Present | Missing | AccessDenied
+  if (-not $path) { return "Missing" }
+  try {
+    $null = Get-Item -LiteralPath $path -ErrorAction Stop
+    return "Present"
+  } catch [System.UnauthorizedAccessException] {
+    return "AccessDenied"
+  } catch {
+    return "Missing"
+  }
 }
 
 function Get-FileHashSafe([string]$path, [string]$algo) {
-  if (-not (Test-Path -LiteralPath $path)) { return "N/A" }
+  if (-not $path) { return "N/A" }
+  if ((Get-FilePresence $path) -eq "Missing") { return "N/A" }
   try {
     return (Get-FileHash -Algorithm $algo -LiteralPath $path -ErrorAction Stop).Hash
   } catch { return "N/A" }
 }
 
 function Write-FileDetails([string]$path) {
-  if (-not (Test-Path -LiteralPath $path)) {
+  if (-not $path) { Write-Host " - File Not Found!"; return }
+  $presence = Get-FilePresence $path
+  if ($presence -eq "Missing") {
     Write-Host " - File Not Found!"
     return
   }
+  if ($presence -eq "AccessDenied") {
+    Write-Host " - File Exists (AccessDenied)"
+    # still attempt hashes (will likely fail) but keep fields consistent
+  }
+
   try {
     $i = Get-Item -LiteralPath $path -ErrorAction Stop
     Write-Host (" - Modified: {0}" -f $i.LastWriteTime.ToString("yyyy-MM-dd HH:mm:ss"))
@@ -127,6 +155,7 @@ function Write-FileDetails([string]$path) {
     Write-Host " - Modified: N/A"
     Write-Host " - Created : N/A"
   }
+
   Write-Host (" - MD5: {0}" -f (Get-FileHashSafe $path "MD5"))
   Write-Host (" - SHA256: {0}" -f (Get-FileHashSafe $path "SHA256"))
 }
@@ -154,26 +183,28 @@ function Test-ProbablySystemPath([string]$path) {
   $p = $path.ToLowerInvariant()
   $sr = ($env:SystemRoot + "").ToLowerInvariant()
   $pf = ($env:ProgramFiles + "").ToLowerInvariant()
-  $pf86 = ($env:ProgramFiles(x86) + "").ToLowerInvariant()
+  $pf86 = ([Environment]::GetEnvironmentVariable('ProgramFiles(x86)') + "").ToLowerInvariant()
+  $pd = ($env:ProgramData + "").ToLowerInvariant()
+
   return (
     ($sr -and $p.StartsWith($sr)) -or
     ($pf -and $p.StartsWith($pf)) -or
-    ($pf86 -and $p.StartsWith($pf86))
+    ($pf86 -and $p.StartsWith($pf86)) -or
+    ($pd -and $p.StartsWith($pd))
   )
 }
 
 function Get-SignatureSummary([string]$path) {
-  if (-not (Test-Path -LiteralPath $path)) {
-    return @{ Status="Missing"; IsMicrosoft=$false; Subject="" }
-  }
+  if (-not $path) { return @{ Status="Missing"; IsMicrosoft=$false } }
+  if ((Get-FilePresence $path) -eq "Missing") { return @{ Status="Missing"; IsMicrosoft=$false } }
   try {
     $sig = Get-AuthenticodeSignature -FilePath $path -ErrorAction Stop
     $subj = ($sig.SignerCertificate.Subject + "")
     $isMs = $false
     if ($subj -match "Microsoft") { $isMs = $true }
-    return @{ Status=($sig.Status.ToString()); IsMicrosoft=$isMs; Subject=$subj }
+    return @{ Status=($sig.Status.ToString()); IsMicrosoft=$isMs }
   } catch {
-    return @{ Status="Unknown"; IsMicrosoft=$false; Subject="" }
+    return @{ Status="Unknown"; IsMicrosoft=$false }
   }
 }
 
@@ -187,16 +218,16 @@ function Get-HiddenEntryFindings {
     foreach ($s in $services) {
       $exe = Extract-ExePath ($s.PathName + "")
       $exe = Resolve-WindowsPath $exe
-
       if (-not $exe) { continue }
 
-      $missing = -not (Test-Path -LiteralPath $exe)
+      $presence = Get-FilePresence $exe
+      $missing = ($presence -eq "Missing")
       $writable = Test-UserWritablePath $exe
 
       if ($missing -or $writable) {
         $out += [pscustomobject]@{
           Kind="Service"
-          Name=$s.Name
+          Name=($s.Name + "")
           Detail=($s.DisplayName + "")
           FilePath=$exe
           Reason=($(if($missing){"MissingBinary"}else{"UserWritablePath"}))
@@ -211,12 +242,17 @@ function Get-HiddenEntryFindings {
       $tasks = Get-ScheduledTask -ErrorAction Stop
       foreach ($t in $tasks) {
         foreach ($a in $t.Actions) {
-          $exe = ""
-          if ($a.Execute) { $exe = Extract-ExePath ($a.Execute + "") }
+          # Only Exec actions have Execute
+          if ($a.PSObject.Properties.Match('Execute').Count -eq 0) { continue }
+          if (-not $a.Execute) { continue }
+
+          # Execute is the program path (arguments are separate). Still resolve env + allow "cmd.exe" style.
+          $exe = Extract-ExePath ($a.Execute + "")
           $exe = Resolve-WindowsPath $exe
           if (-not $exe) { continue }
 
-          $missing = -not (Test-Path -LiteralPath $exe)
+          $presence = Get-FilePresence $exe
+          $missing = ($presence -eq "Missing")
           $writable = Test-UserWritablePath $exe
 
           if ($missing -or $writable) {
@@ -243,76 +279,82 @@ function Get-HiddenEntryFindings {
       $f = $filters   | Where-Object { $_.__RELPATH -eq $b.Filter }   | Select-Object -First 1
       $c = $consumers | Where-Object { $_.__RELPATH -eq $b.Consumer } | Select-Object -First 1
       if (-not $c) { continue }
+
       $cmd = ($c.CommandLineTemplate + "")
       if (-not $cmd) { continue }
 
       $exe = Extract-ExePath $cmd
       $exe = Resolve-WindowsPath $exe
+      if (-not $exe) { continue }
 
-      # Only flag when the executable is missing OR user-writable OR not under typical system/program paths
-      $missing = ($exe -and (-not (Test-Path -LiteralPath $exe)))
-      $writable = ($exe -and (Test-UserWritablePath $exe))
-      $nonSystem = ($exe -and (-not (Test-ProbablySystemPath $exe)))
+      $presence = Get-FilePresence $exe
+      $missing = ($presence -eq "Missing")
+      $writable = Test-UserWritablePath $exe
+      $nonSystem = -not (Test-ProbablySystemPath $exe)
 
       if ($missing -or $writable -or $nonSystem) {
         $out += [pscustomobject]@{
           Kind="WMI"
           Name=("Filter=" + ($f.Name + "") + " Consumer=" + ($c.Name + ""))
           Detail=("CommandLine=" + $cmd)
-          FilePath=($exe + "")
+          FilePath=$exe
           Reason=($(if($missing){"MissingBinary"}elseif($writable){"UserWritablePath"}else{"NonSystemPath"}))
         }
       }
     }
   } catch {}
 
-  # de-dup by filepath + kind + name
   $out | Sort-Object Kind,Name,FilePath -Unique
 }
 
 function Get-RootkitDriverFindings {
   $out = @()
-
   try {
     $drivers = Get-CimInstance Win32_SystemDriver -ErrorAction Stop | Where-Object { $_.State -eq "Running" }
     foreach ($d in $drivers) {
       $raw = ($d.PathName + "")
       if (-not $raw) { continue }
 
-      $p = Resolve-WindowsPath (Extract-ExePath $raw)
+      # Driver may not be an .exe; still extract a file-ish path
+      $p = Resolve-WindowsPath $raw
+      $p = Resolve-WindowsPath (Extract-ExePath $p)  # harmless if already path-like
 
-      # Driver paths can be "\SystemRoot\System32\drivers\foo.sys" or "system32\drivers\foo.sys"
-      # After Resolve-WindowsPath, it should be a file path.
       if (-not $p) { continue }
-
-      # ensure .sys only
       if (-not $p.ToLowerInvariant().EndsWith(".sys")) { continue }
 
-      $missing = -not (Test-Path -LiteralPath $p)
+      $presence = Get-FilePresence $p
+      $missing = ($presence -eq "Missing")
       $writable = Test-UserWritablePath $p
-      $sig = Get-SignatureSummary $p
-
-      # Heuristics:
-      # - Strong: missing or user-writable
-      # - Medium: non-system path AND signature not Valid
       $nonSystem = -not (Test-ProbablySystemPath $p)
-      $badSig = ($sig.Status -ne "Valid")
 
       $susp = $false
       $reason = ""
+      $sigStatus = "Unknown"
+      $isMs = $false
 
       if ($missing) { $susp = $true; $reason = "MissingDriverFile" }
       elseif ($writable) { $susp = $true; $reason = "UserWritablePath" }
-      elseif ($nonSystem -and $badSig) { $susp = $true; $reason = "NonSystemPath+UntrustedSignature" }
+      elseif ($nonSystem) {
+        # Signature check is the slow part: only do it for NON-system paths
+        $sig = Get-SignatureSummary $p
+        $sigStatus = $sig.Status
+        $isMs = $sig.IsMicrosoft
+        if ($sigStatus -ne "Valid") { $susp = $true; $reason = "NonSystemPath+UntrustedSignature" }
+      }
 
       if ($susp) {
+        if (-not $nonSystem) {
+          # If we didn't signature-check, keep consistent fields
+          $sigStatus = "Skipped"
+          $isMs = $false
+        }
         $out += [pscustomobject]@{
           Kind="Driver"
           Name=($d.Name + "")
           Detail=("State=" + ($d.State + "") + " Start=" + ($d.StartMode + ""))
           FilePath=$p
-          SigStatus=$sig.Status
-          IsMicrosoft=$sig.IsMicrosoft
+          SigStatus=$sigStatus
+          IsMicrosoft=$isMs
           Reason=$reason
         }
       }
@@ -325,30 +367,28 @@ function Get-RootkitDriverFindings {
 function Get-ListeningSockets {
   $out = @()
 
-  # Prefer Get-NetTCPConnection if available
   if (Get-Command Get-NetTCPConnection -ErrorAction SilentlyContinue) {
     try {
       $out = Get-NetTCPConnection -State Listen -ErrorAction Stop | ForEach-Object {
         [pscustomobject]@{
           LocalAddress = $_.LocalAddress
           LocalPort    = $_.LocalPort
-          PID          = $_.OwningProcess
+          OwningProcess= $_.OwningProcess
         }
       }
       return $out
     } catch {}
   }
 
-  # Fallback: netstat parsing
+  # netstat fallback
   try {
     $lines = & netstat.exe -ano -p tcp 2>$null
     foreach ($ln in $lines) {
-      # Example: TCP    0.0.0.0:135     0.0.0.0:0    LISTENING    1234
       if ($ln -match '^\s*TCP\s+(\S+):(\d+)\s+\S+\s+LISTENING\s+(\d+)\s*$') {
         $out += [pscustomobject]@{
           LocalAddress = $Matches[1]
           LocalPort    = [int]$Matches[2]
-          PID          = [int]$Matches[3]
+          OwningProcess= [int]$Matches[3]
         }
       }
     }
@@ -357,18 +397,16 @@ function Get-ListeningSockets {
   return $out
 }
 
-function Get-ProcessPathByPid([int]$pid) {
-  if ($pid -le 0) { return "" }
+function Get-ProcessPathById([int]$procId) {
+  if ($procId -le 0) { return "" }
 
-  # Prefer CIM (ExecutablePath is more reliable for services)
   try {
-    $p = Get-CimInstance Win32_Process -Filter ("ProcessId=" + $pid) -ErrorAction Stop
+    $p = Get-CimInstance Win32_Process -Filter ("ProcessId=" + $procId) -ErrorAction Stop
     if ($p -and $p.ExecutablePath) { return (Resolve-WindowsPath ($p.ExecutablePath + "")) }
   } catch {}
 
-  # Fallback Get-Process
   try {
-    $p2 = Get-Process -Id $pid -ErrorAction Stop
+    $p2 = Get-Process -Id $procId -ErrorAction Stop
     try { return (Resolve-WindowsPath ($p2.Path + "")) } catch {}
   } catch {}
 
@@ -379,17 +417,16 @@ function Get-BackdoorFindings {
   $out = @()
   $listeners = Get-ListeningSockets
   foreach ($l in $listeners) {
-    $pid = [int]$l.PID
-    $img = Get-ProcessPathByPid $pid
-    if (-not $img) { continue }
+    $owningPid = [int]$l.OwningProcess   # DO NOT use $pid / $PID (reserved automatic variable)
+    $imgPath = Get-ProcessPathById $owningPid
+    if (-not $imgPath) { continue }
 
-    # heuristic: listening + user-writable binary path
-    if (Test-UserWritablePath $img) {
+    if (Test-UserWritablePath $imgPath) {
       $out += [pscustomobject]@{
         Kind="Listen"
-        Name=("PID=" + $pid + " " + ($l.LocalAddress + ":" + $l.LocalPort))
+        Name=("PID=" + $owningPid + " " + ($l.LocalAddress + ":" + $l.LocalPort))
         Detail=""
-        FilePath=$img
+        FilePath=$imgPath
         Reason="ListeningFromUserWritablePath"
       }
     }
@@ -404,11 +441,10 @@ if (-not (Test-IsAdmin)) {
 }
 
 if ($ShowSystemInfo) {
-  try {
-    $os = (Get-CimInstance Win32_OperatingSystem -ErrorAction Stop).Caption
-  } catch { $os = "Unknown" }
+  $os = "Unknown"
+  try { $os = (Get-CimInstance Win32_OperatingSystem -ErrorAction Stop).Caption } catch {}
   Write-Host "============================================================"
-  Write-Host "           Rootkit Detection Scanner v.1.0-rev2 (Windows)"
+  Write-Host "           Rootkit Detection Scanner v.1.0-rev4 (Windows)"
   Write-Host "============================================================"
   Write-Host (" - Hostname: {0}" -f $env:COMPUTERNAME)
   Write-Host (" - User    : {0}" -f $env:USERNAME)
@@ -432,21 +468,12 @@ if ($hidden.Count -gt 0) {
   $exitCodes += 10
   Write-Host "[Alert] Hidden Entry Found!"
   foreach ($f in $hidden) {
-    if ($f.FilePath) {
-      Write-Host ("[!] FilePath: {0}" -f $f.FilePath)
-      Write-Host (" - Source: {0}" -f $f.Kind)
-      if ($f.Name)   { Write-Host (" - Name: {0}" -f $f.Name) }
-      if ($f.Detail) { Write-Host (" - Detail: {0}" -f $f.Detail) }
-      if ($f.Reason) { Write-Host (" - Reason: {0}" -f $f.Reason) }
-      Write-FileDetails $f.FilePath
-    } else {
-      # If we can't extract a path, still keep minimal evidence without breaking the "FilePath-first" convention
-      Write-Host ("[!] FilePath: N/A")
-      Write-Host (" - Source: {0}" -f $f.Kind)
-      if ($f.Name)   { Write-Host (" - Name: {0}" -f $f.Name) }
-      if ($f.Detail) { Write-Host (" - Detail: {0}" -f $f.Detail) }
-      if ($f.Reason) { Write-Host (" - Reason: {0}" -f $f.Reason) }
-    }
+    Write-Host ("[!] FilePath: {0}" -f $f.FilePath)
+    Write-Host (" - Source: {0}" -f $f.Kind)
+    if ($f.Name)   { Write-Host (" - Name: {0}" -f $f.Name) }
+    if ($f.Detail) { Write-Host (" - Detail: {0}" -f $f.Detail) }
+    if ($f.Reason) { Write-Host (" - Reason: {0}" -f $f.Reason) }
+    Write-FileDetails $f.FilePath
   }
 }
 
