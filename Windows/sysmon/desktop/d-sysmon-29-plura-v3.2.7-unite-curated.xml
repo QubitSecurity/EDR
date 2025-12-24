@@ -150,27 +150,9 @@
       <ProcessAccess onmatch="include">
         <Rule groupRelation="and">
           <TargetImage condition="end with">\lsass.exe</TargetImage>
-          <Rule groupRelation="or">
-            <SourceImage condition="end with">\powershell.exe</SourceImage>
-            <SourceImage condition="end with">\pwsh.exe</SourceImage>
-            <SourceImage condition="end with">\cmd.exe</SourceImage>
-            <SourceImage condition="end with">\wscript.exe</SourceImage>
-            <SourceImage condition="end with">\cscript.exe</SourceImage>
-            <SourceImage condition="end with">\rundll32.exe</SourceImage>
-            <SourceImage condition="end with">\regsvr32.exe</SourceImage>
-            <SourceImage condition="end with">\mshta.exe</SourceImage>
-            <SourceImage condition="end with">\wmic.exe</SourceImage>
-            <SourceImage condition="end with">\bitsadmin.exe</SourceImage>
-            <SourceImage condition="end with">\certutil.exe</SourceImage>
-            <SourceImage condition="end with">\msbuild.exe</SourceImage>
-            <SourceImage condition="end with">\python.exe</SourceImage>
-            <SourceImage condition="end with">\perl.exe</SourceImage>
-            <SourceImage condition="end with">\ruby.exe</SourceImage>
-            <SourceImage condition="end with">\node.exe</SourceImage>
-            <SourceImage condition="end with">\java.exe</SourceImage>
-            <GrantedAccess condition="contains any">0x1fffff;0x1f3fff;0x1410;0x143a;0x1438;0x1430;0x1010</GrantedAccess>
-          </Rule>
-        </Rule>
+          <GrantedAccess condition="contains any">0x1fffff;0x1f3fff;0x1410;0x143a;0x1438;0x1430;0x1010</GrantedAccess>
+          <SourceImage condition="contains any">\powershell.exe;\pwsh.exe;\cmd.exe;\wscript.exe;\cscript.exe;\rundll32.exe;\regsvr32.exe;\mshta.exe;\wmic.exe;\bitsadmin.exe;\certutil.exe;\msbuild.exe;\python.exe;\perl.exe;\ruby.exe;\node.exe;\java.exe</SourceImage>
+		    </Rule>
         <Rule groupRelation="and">
           <TargetImage condition="end with">\winlogon.exe</TargetImage>
           <GrantedAccess condition="contains any">0x1fffff;0x1f3fff;0x1410;0x143a;0x1438;0x1430</GrantedAccess>
