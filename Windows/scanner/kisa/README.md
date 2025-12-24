@@ -1,12 +1,3 @@
-검토해 보니, 제가 전에 드린 **`rootkit_detect_scanner_windows_v1.0-rev1.ps1`는 “아이디어/구조”는 맞지만, Windows 현실에서 오탐/과탐을 크게 만들 수 있는 핵심 결함이 있습니다.**
-특히 **드라이버 경로(PathName) 정규화**가 부족해서, 실환경에서 “대부분의 드라이버가 MissingBinary로 잡히는” 문제가 생길 수 있습니다.
-
-그래서 아래처럼 **rev2로 수정/재작성**해서 드립니다(PLURA-Forensic 철학 유지: **로그 파일 없음, 발견 시에만 출력**).
-
-[Download rootkit_detect_scanner_windows_v1.0-rev2.ps1](sandbox:/mnt/data/rootkit_detect_scanner_windows_v1.0-rev2.ps1)
-
----
-
 ## rev1에서 문제였던 핵심 포인트(중요)
 
 ### 1) 드라이버 `PathName`이 Windows에서는 종종 “실제 파일 경로 형태가 아님”
