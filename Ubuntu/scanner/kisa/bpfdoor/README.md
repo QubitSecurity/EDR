@@ -5,7 +5,7 @@ PLURA-Forensic 기준에 맞춘 **Ubuntu/Debian 환경용 BPFDoor(Backdoor) 의�
 기본 동작은 **로그 파일을 생성하지 않으며**, 실행 결과는 **표준 출력(stdout)** 으로만 제공합니다.  
 (필요 시에만 `-o` 옵션으로 출력 내용을 파일로 tee 할 수 있습니다.)
 
-> 본 문서는 PLURA-Forensic 스타일 README(“로그 미생성/표준 출력/노이즈 억제/탐지 시 증적 자동 조회/Exit Code”) 구성을 참고하여 작성했습니다. fileciteturn1file1L1-L17
+> 본 문서는 PLURA-Forensic 스타일 README(“로그 미생성/표준 출력/노이즈 억제/탐지 시 증적 자동 조회/Exit Code”) 구성을 참고하여 작성했습니다.
 
 ---
 
