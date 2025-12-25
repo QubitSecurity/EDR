@@ -3,7 +3,6 @@
 
 set -u
 
-
 ### RED=$(tput setaf 1); GREEN=$(tput setaf 2); YELLOW=$(tput setaf 3); BLUE=$(tput setaf 4); RESET=$(tput sgr0)
 RED=$(tput setaf 1 2>/dev/null); GREEN=$(tput setaf 2 2>/dev/null); YELLOW=$(tput setaf 3 2>/dev/null); BLUE=$(tput setaf 4 2>/dev/null); RESET=$(tput sgr0 2>/dev/null)
 HIDDEN_FOUND=0; ROOTKIT_FOUND=0; BACKDOOR_FOUND=0
@@ -44,8 +43,6 @@ need_root() {
   [[ $(id -u) -ne 0 ]] && { echo "${RED}[ERROR]${RESET} Run as root(uid=0)"; exit 1; }
   log "${GREEN}[OK]${RESET} Running with root privileges (uid=0)"
 }
-
-
 
 get_system_info() {
     local kernel_version=$(uname -r 2>/dev/null || echo "Unknown")
