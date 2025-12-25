@@ -1,10 +1,10 @@
 <#
-Rootkit Detection Scanner v1.0-rev7 (Windows / PowerShell)
+Rootkit Detection Scanner v1.0-rev10 (Windows / PowerShell)
 
 PLURA-Forensic philosophy:
 - No log file.
 - Print only when FOUND (3 alerts).
-- Quiet when nothing is found.
+- Always prints SCAN RESULT / END blocks (even when nothing is found).
 
 Alerts:
 1) [Alert] Hidden Entry Found!
@@ -31,6 +31,176 @@ param(
 )
 
 Set-StrictMode -Version Latest
+
+
+# ---------------- Noise Reduction (PLURA) ----------------
+# Default: reduce common benign noise. Override via environment variables if needed.
+#   PLURA_DEBUG=1                                -> show suppression debug lines (stderr)
+#   PLURA_TRUSTED_COMPANY_KEYWORDS="Zoom,..."    -> comma-separated
+#   PLURA_TRUSTED_SIGNER_KEYWORDS="Zoom,..."     -> comma-separated
+#   PLURA_EXCLUDE_MS_WINDOWS_TASK_MISSING=0      -> keep Microsoft\Windows scheduled-task MissingBinary
+#   PLURA_EXCLUDE_TRUSTED_WRITABLE=0             -> keep UserWritablePath even when Valid-signed by trusted vendor
+#   PLURA_CHECK_WINDOWSAPPS_VERSION_DRIFT=0      -> disable WindowsApps "version drift" suppression
+
+$PLURA_DEBUG = ($env:PLURA_DEBUG -eq "1")
+
+$PLURA_TRUSTED_COMPANY_KEYWORDS = @("Zoom")
+if ($env:PLURA_TRUSTED_COMPANY_KEYWORDS) {
+  $PLURA_TRUSTED_COMPANY_KEYWORDS = ($env:PLURA_TRUSTED_COMPANY_KEYWORDS -split "," | ForEach-Object { $_.Trim() } | Where-Object { $_ })
+}
+
+$PLURA_TRUSTED_SIGNER_KEYWORDS = @("Zoom Video Communications")
+if ($env:PLURA_TRUSTED_SIGNER_KEYWORDS) {
+  $PLURA_TRUSTED_SIGNER_KEYWORDS = ($env:PLURA_TRUSTED_SIGNER_KEYWORDS -split "," | ForEach-Object { $_.Trim() } | Where-Object { $_ })
+}
+
+$PLURA_EXCLUDE_MS_WINDOWS_TASK_MISSING = ($env:PLURA_EXCLUDE_MS_WINDOWS_TASK_MISSING -ne "0")
+$PLURA_EXCLUDE_TRUSTED_WRITABLE = ($env:PLURA_EXCLUDE_TRUSTED_WRITABLE -ne "0")
+$PLURA_CHECK_WINDOWSAPPS_VERSION_DRIFT = ($env:PLURA_CHECK_WINDOWSAPPS_VERSION_DRIFT -ne "0")
+
+function Write-PluraDebug([string]$msg) {
+  if (-not $PLURA_DEBUG) { return }
+  try {
+    # Write to stderr without creating an ErrorRecord (avoids red Write-Error noise)
+    [Console]::Error.WriteLine("[PLURA_DEBUG] " + $msg)
+  } catch {
+    # Fallback for environments where Console is unavailable
+    Write-Host ("[PLURA_DEBUG] " + $msg)
+  }
+}
+
+
+function Get-CompanyNameSafe([string]$path) {
+  if (-not $path) { return "" }
+  if ((Get-FilePresence $path) -ne "Present") { return "" }
+  try {
+    $vi = (Get-Item -LiteralPath $path -ErrorAction Stop).VersionInfo
+    return ($vi.CompanyName + "")
+  } catch { return "" }
+}
+
+function Get-SignerSubjectSafe([string]$path) {
+  if (-not $path) { return "" }
+  if ((Get-FilePresence $path) -ne "Present") { return "" }
+  try {
+    $sig = Get-AuthenticodeSignature -FilePath $path -ErrorAction Stop
+    if ($sig -and $sig.SignerCertificate) { return ($sig.SignerCertificate.Subject + "") }
+    return ""
+  } catch { return "" }
+}
+
+function Test-TrustedSignedVendor([string]$path) {
+  # True when:
+  #  - file exists
+  #  - signature status is Valid
+  #  - AND CompanyName or Signer subject contains trusted keyword(s)
+  if (-not $path) { return $false }
+  if ((Get-FilePresence $path) -ne "Present") { return $false }
+
+  $sigStatus = "Unknown"
+  try {
+    $sig = Get-AuthenticodeSignature -FilePath $path -ErrorAction Stop
+    $sigStatus = $sig.Status.ToString()
+  } catch { $sigStatus = "Unknown" }
+
+  if ($sigStatus -ne "Valid") { return $false }
+
+  $company = Get-CompanyNameSafe $path
+  $signer  = Get-SignerSubjectSafe $path
+
+  foreach ($k in $PLURA_TRUSTED_COMPANY_KEYWORDS) {
+    if ($k -and $company -and ($company -like ("*" + $k + "*"))) { return $true }
+  }
+  foreach ($k in $PLURA_TRUSTED_SIGNER_KEYWORDS) {
+    if ($k -and $signer -and ($signer -like ("*" + $k + "*"))) { return $true }
+  }
+  return $false
+}
+
+function Test-WindowsAppsVersionDrift([string]$windowsAppsPath) {
+  # Returns: $true  -> another version exists (noise)
+  #          $false -> no alternate found
+  #          $null  -> cannot verify
+  if (-not $windowsAppsPath) { return $false }
+  if ($windowsAppsPath -notmatch '\\WindowsApps\\') { return $false }
+
+  $root = Join-Path $env:ProgramFiles "WindowsApps"
+  if (-not (Test-Path -LiteralPath $root)) { return $null }
+
+  # Parse: <root>\<pkgDir>\<relSubpath>
+  $m = [regex]::Match($windowsAppsPath, '^(?<root>.+\\WindowsApps)\\(?<pkgdir>[^\\]+)\\(?<rel>.+)$', [System.Text.RegularExpressions.RegexOptions]::IgnoreCase)
+  if (-not $m.Success) { return $null }
+
+  $pkgdir = $m.Groups["pkgdir"].Value
+  $rel    = $m.Groups["rel"].Value
+
+  # Package dir format: Name_Version_Arch__PublisherId
+  $m2 = [regex]::Match($pkgdir, '^(?<name>.+)_(?<ver>\d+(?:\.\d+)+)_(?<arch>[^_]+)__(?<pub>.+)$')
+  if (-not $m2.Success) { return $null }
+
+  $name = $m2.Groups["name"].Value
+  $arch = $m2.Groups["arch"].Value
+  $pub  = $m2.Groups["pub"].Value
+
+  $pattern = ($name + "_*_" + $arch + "__" + $pub)
+
+  try {
+    $dirs = Get-ChildItem -LiteralPath $root -Directory -Force -ErrorAction Stop | Where-Object { $_.Name -like $pattern }
+    foreach ($d in $dirs) {
+      $candidate = Join-Path $d.FullName $rel
+      try {
+        if (Test-Path -LiteralPath $candidate) { return $true }
+      } catch {}
+    }
+    return $false
+  } catch {
+    return $null
+  }
+}
+
+function Should-SuppressHiddenFinding(
+  [string]$Kind,
+  [string]$Name,
+  [string]$FilePath,
+  [string]$Reason,
+  [string]$Raw,
+  [string]$StartMode,
+  [string]$State
+) {
+  # 1) Suppress trusted vendor binaries running from user-writable paths
+  if ($Reason -eq "UserWritablePath" -and $PLURA_EXCLUDE_TRUSTED_WRITABLE) {
+    if (Test-TrustedSignedVendor $FilePath) {
+      Write-PluraDebug ("Suppress UserWritablePath trusted vendor: " + $FilePath)
+      return $true
+    }
+  }
+
+  # 2) Suppress Microsoft\Windows scheduled tasks that reference missing binaries (common benign noise)
+  if ($Kind -eq "ScheduledTask" -and $Reason -eq "MissingBinary" -and $PLURA_EXCLUDE_MS_WINDOWS_TASK_MISSING) {
+    if ($Name -like '\Microsoft\Windows\*') {
+      Write-PluraDebug ("Suppress MS Windows task MissingBinary: " + $Name + " -> " + $FilePath)
+      return $true
+    }
+  }
+
+  # 3) WindowsApps service MissingBinary: second-pass verify (version drift / disabled service)
+  if ($Kind -eq "Service" -and $Reason -eq "MissingBinary" -and $FilePath -match '\\WindowsApps\\') {
+    if ($StartMode -eq "Disabled" -and $State -ne "Running") {
+      Write-PluraDebug ("Suppress WindowsApps disabled service MissingBinary: " + $Name)
+      return $true
+    }
+    if ($PLURA_CHECK_WINDOWSAPPS_VERSION_DRIFT) {
+      $drift = Test-WindowsAppsVersionDrift $FilePath
+      if ($drift -eq $true) {
+        Write-PluraDebug ("Suppress WindowsApps version drift: " + $Name + " -> " + $FilePath)
+        return $true
+      }
+    }
+  }
+
+  return $false
+}
+
 
 # ---------------- Helpers ----------------
 function Test-IsAdmin {
@@ -225,7 +395,9 @@ function Get-HiddenEntryFindings {
       $writable = Test-UserWritablePath $exe
 
       if ($missing -or $writable) {
-        $out += [pscustomobject]@{
+      $reason = ($(if($missing){"MissingBinary"}else{"UserWritablePath"}))
+      if (Should-SuppressHiddenFinding -Kind "Service" -Name ($s.Name + "") -FilePath $exe -Reason $reason -Raw ($s.PathName + "") -StartMode ($s.StartMode + "") -State ($s.State + "")) { continue }
+      $out += [pscustomobject]@{
           Kind="Service"
           Name=($s.Name + "")
           Detail=($s.DisplayName + "")
@@ -233,7 +405,7 @@ function Get-HiddenEntryFindings {
           Raw=($s.PathName + "")
           StartMode=($s.StartMode + "")
           State=($s.State + "")
-          Reason=($(if($missing){"MissingBinary"}else{"UserWritablePath"}))
+          Reason=$reason
         }
       }
     }
@@ -259,6 +431,9 @@ function Get-HiddenEntryFindings {
           $writable = Test-UserWritablePath $exe
 
           if ($missing -or $writable) {
+            $reason = ($(if($missing){"MissingBinary"}else{"UserWritablePath"}))
+            $taskFullName = ($t.TaskPath + $t.TaskName)
+            if (Should-SuppressHiddenFinding -Kind "ScheduledTask" -Name $taskFullName -FilePath $exe -Reason $reason -Raw ($a.Execute + "") -StartMode "" -State "") { continue }
             $out += [pscustomobject]@{
               Kind="ScheduledTask"
               Name=($t.TaskPath + $t.TaskName)
@@ -267,7 +442,7 @@ function Get-HiddenEntryFindings {
               Raw=($a.Execute + "")
               Arguments=($(if ($a.PSObject.Properties.Match("Arguments").Count -gt 0) { ($a.Arguments + "") } else { "" }))
               WorkingDirectory=($(if ($a.PSObject.Properties.Match("WorkingDirectory").Count -gt 0) { ($a.WorkingDirectory + "") } else { "" }))
-              Reason=($(if($missing){"MissingBinary"}else{"UserWritablePath"}))
+              Reason=$reason
             }
           }
         }
@@ -299,13 +474,16 @@ function Get-HiddenEntryFindings {
       $nonSystem = -not (Test-ProbablySystemPath $exe)
 
       if ($missing -or $writable -or $nonSystem) {
+        $reason = ($(if($missing){"MissingBinary"}elseif($writable){"UserWritablePath"}else{"NonSystemPath"}))
+        $wmiName = ("Filter=" + ($f.Name + "") + " Consumer=" + ($c.Name + ""))
+        if (Should-SuppressHiddenFinding -Kind "WMI" -Name $wmiName -FilePath $exe -Reason $reason -Raw $cmd -StartMode "" -State "") { continue }
         $out += [pscustomobject]@{
           Kind="WMI"
           Name=("Filter=" + ($f.Name + "") + " Consumer=" + ($c.Name + ""))
           Detail=("CommandLine=" + $cmd)
           FilePath=$exe
           Raw=$cmd
-          Reason=($(if($missing){"MissingBinary"}elseif($writable){"UserWritablePath"}else{"NonSystemPath"}))
+          Reason=$reason
         }
       }
     }
@@ -526,7 +704,7 @@ if ($ShowSystemInfo) {
   $os = "Unknown"
   try { $os = (Get-CimInstance Win32_OperatingSystem -ErrorAction Stop).Caption } catch {}
   Write-Host "============================================================"
-  Write-Host "           Rootkit Detection Scanner v.1.0-rev7 (Windows)"
+  Write-Host "           Rootkit Detection Scanner v.1.0-rev10 (Windows)"
   Write-Host "============================================================"
   Write-Host (" - Hostname: {0}" -f $env:COMPUTERNAME)
   Write-Host (" - User    : {0}" -f $env:USERNAME)
@@ -540,11 +718,9 @@ $backdoor= @(Get-BackdoorFindings)
 
 $exitCodes = @()
 
-if ($hidden.Count -gt 0 -or $rootkit.Count -gt 0 -or $backdoor.Count -gt 0) {
-  Write-Host "============================================================"
-  Write-Host "                        SCAN RESULT"
-  Write-Host "============================================================"
-}
+Write-Host "============================================================"
+Write-Host "                        SCAN RESULT"
+Write-Host "============================================================"
 
 if ($hidden.Count -gt 0) {
   $exitCodes += 10
@@ -585,6 +761,15 @@ if ($backdoor.Count -gt 0) {
     Write-ItemEvidence $b.FilePath
   }
 }
+
+if ($exitCodes.Count -eq 0) {
+  Write-Host ""
+  Write-Host "- Not Found!"
+  Write-Host ""
+}
+Write-Host "============================================================"
+Write-Host "                        END"
+Write-Host "============================================================"
 
 if ($exitCodes.Count -eq 0) { exit 0 }
 if ($exitCodes.Count -ge 2) { exit 40 }
