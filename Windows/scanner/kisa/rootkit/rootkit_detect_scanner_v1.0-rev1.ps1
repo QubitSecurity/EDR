@@ -1,5 +1,5 @@
 <#
-Rootkit Detection Scanner v1.0-rev4 (Windows / PowerShell)
+Rootkit Detection Scanner v1.0-rev7 (Windows / PowerShell)
 
 PLURA-Forensic philosophy:
 - No log file.
@@ -230,6 +230,9 @@ function Get-HiddenEntryFindings {
           Name=($s.Name + "")
           Detail=($s.DisplayName + "")
           FilePath=$exe
+          Raw=($s.PathName + "")
+          StartMode=($s.StartMode + "")
+          State=($s.State + "")
           Reason=($(if($missing){"MissingBinary"}else{"UserWritablePath"}))
         }
       }
@@ -261,6 +264,9 @@ function Get-HiddenEntryFindings {
               Name=($t.TaskPath + $t.TaskName)
               Detail=""
               FilePath=$exe
+              Raw=($a.Execute + "")
+              Arguments=($(if ($a.PSObject.Properties.Match("Arguments").Count -gt 0) { ($a.Arguments + "") } else { "" }))
+              WorkingDirectory=($(if ($a.PSObject.Properties.Match("WorkingDirectory").Count -gt 0) { ($a.WorkingDirectory + "") } else { "" }))
               Reason=($(if($missing){"MissingBinary"}else{"UserWritablePath"}))
             }
           }
@@ -298,6 +304,7 @@ function Get-HiddenEntryFindings {
           Name=("Filter=" + ($f.Name + "") + " Consumer=" + ($c.Name + ""))
           Detail=("CommandLine=" + $cmd)
           FilePath=$exe
+          Raw=$cmd
           Reason=($(if($missing){"MissingBinary"}elseif($writable){"UserWritablePath"}else{"NonSystemPath"}))
         }
       }
@@ -353,6 +360,7 @@ function Get-RootkitDriverFindings {
           Name=($d.Name + "")
           Detail=("State=" + ($d.State + "") + " Start=" + ($d.StartMode + ""))
           FilePath=$p
+          Raw=($d.PathName + "")
           SigStatus=$sigStatus
           IsMicrosoft=$isMs
           Reason=$reason
@@ -434,6 +442,80 @@ function Get-BackdoorFindings {
   $out | Sort-Object FilePath,Name -Unique
 }
 
+
+function Write-ItemEvidence([string]$path) {
+  # Evidence bundle for single output (so analysts don't need extra steps).
+  # Includes:
+  #  - Presence (Present/Missing/AccessDenied)
+  #  - Test-Path result
+  #  - File attributes, size
+  #  - VersionInfo (Company/Product/FileVersion/OriginalFilename/Description)
+  #  - Authenticode signature (Status, Signer subject)
+  #  - Hashes (MD5/SHA256)
+  if (-not $path) {
+    Write-Host " - Presence: Missing"
+    Write-Host " - Test-Path: False"
+    Write-Host " - File Not Found!"
+    return
+  }
+
+  $presence = Get-FilePresence $path
+  Write-Host (" - Presence: {0}" -f $presence)
+
+  $tp = $false
+  try { $tp = Test-Path -LiteralPath $path } catch { $tp = $false }
+  Write-Host (" - Test-Path: {0}" -f $tp)
+
+  if ($presence -eq "Missing") {
+    Write-Host " - File Not Found!"
+    return
+  }
+
+  # File timestamps / size / attributes
+  try {
+    $i = Get-Item -LiteralPath $path -ErrorAction Stop
+    Write-Host (" - Modified: {0}" -f $i.LastWriteTime.ToString("yyyy-MM-dd HH:mm:ss"))
+    Write-Host (" - Created : {0}" -f $i.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"))
+    try { Write-Host (" - Size    : {0}" -f $i.Length) } catch {}
+    try { Write-Host (" - Attrs   : {0}" -f ($i.Attributes.ToString())) } catch {}
+  } catch {
+    Write-Host " - Modified: N/A"
+    Write-Host " - Created : N/A"
+  }
+
+  # Owner (best-effort)
+  try {
+    $acl = Get-Acl -LiteralPath $path -ErrorAction Stop
+    if ($acl -and $acl.Owner) { Write-Host (" - Owner   : {0}" -f $acl.Owner) }
+  } catch {}
+
+  # Version info (best-effort)
+  try {
+    $vi = (Get-Item -LiteralPath $path -ErrorAction Stop).VersionInfo
+    if ($vi) {
+      if ($vi.CompanyName)       { Write-Host (" - Company : {0}" -f $vi.CompanyName) }
+      if ($vi.ProductName)       { Write-Host (" - Product : {0}" -f $vi.ProductName) }
+      if ($vi.FileVersion)       { Write-Host (" - Version : {0}" -f $vi.FileVersion) }
+      if ($vi.OriginalFilename)  { Write-Host (" - Original: {0}" -f $vi.OriginalFilename) }
+      if ($vi.FileDescription)   { Write-Host (" - Desc    : {0}" -f $vi.FileDescription) }
+    }
+  } catch {}
+
+  # Signature (only for existing files; best-effort)
+  try {
+    $sig = Get-AuthenticodeSignature -FilePath $path -ErrorAction Stop
+    $sigStatus = $sig.Status.ToString()
+    $subj = ""
+    try { $subj = ($sig.SignerCertificate.Subject + "") } catch { $subj = "" }
+    Write-Host (" - SigStatus: {0}" -f $sigStatus)
+    if ($subj) { Write-Host (" - Signer  : {0}" -f $subj) }
+  } catch {}
+
+  # Hashes
+  Write-Host (" - MD5: {0}" -f (Get-FileHashSafe $path "MD5"))
+  Write-Host (" - SHA256: {0}" -f (Get-FileHashSafe $path "SHA256"))
+}
+
 # ---------------- Main ----------------
 if (-not (Test-IsAdmin)) {
   Write-Host "[ERROR] Run as Administrator"
@@ -444,7 +526,7 @@ if ($ShowSystemInfo) {
   $os = "Unknown"
   try { $os = (Get-CimInstance Win32_OperatingSystem -ErrorAction Stop).Caption } catch {}
   Write-Host "============================================================"
-  Write-Host "           Rootkit Detection Scanner v.1.0-rev4 (Windows)"
+  Write-Host "           Rootkit Detection Scanner v.1.0-rev7 (Windows)"
   Write-Host "============================================================"
   Write-Host (" - Hostname: {0}" -f $env:COMPUTERNAME)
   Write-Host (" - User    : {0}" -f $env:USERNAME)
@@ -473,7 +555,7 @@ if ($hidden.Count -gt 0) {
     if ($f.Name)   { Write-Host (" - Name: {0}" -f $f.Name) }
     if ($f.Detail) { Write-Host (" - Detail: {0}" -f $f.Detail) }
     if ($f.Reason) { Write-Host (" - Reason: {0}" -f $f.Reason) }
-    Write-FileDetails $f.FilePath
+    Write-ItemEvidence $f.FilePath
   }
 }
 
@@ -485,9 +567,10 @@ if ($rootkit.Count -gt 0) {
     Write-Host (" - Source: Driver")
     if ($d.Name)   { Write-Host (" - Name: {0}" -f $d.Name) }
     if ($d.Detail) { Write-Host (" - Detail: {0}" -f $d.Detail) }
+    if ($d.PSObject.Properties.Match("Raw").Count -gt 0 -and $d.Raw) { Write-Host (" - Raw: {0}" -f $d.Raw) }
     Write-Host (" - SigStatus: {0} (Microsoft={1})" -f $d.SigStatus, $d.IsMicrosoft)
     Write-Host (" - Reason: {0}" -f $d.Reason)
-    Write-FileDetails $d.FilePath
+    Write-ItemEvidence $d.FilePath
   }
 }
 
@@ -499,7 +582,7 @@ if ($backdoor.Count -gt 0) {
     Write-Host (" - Source: NetworkListen")
     if ($b.Name)   { Write-Host (" - Name: {0}" -f $b.Name) }
     if ($b.Reason) { Write-Host (" - Reason: {0}" -f $b.Reason) }
-    Write-FileDetails $b.FilePath
+    Write-ItemEvidence $b.FilePath
   }
 }
 
