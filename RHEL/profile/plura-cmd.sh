@@ -1,5 +1,5 @@
 # /etc/plura/plura-cmd.sh
-#
+# version: 3.0
 # PLURA command collection for interactive Bash sessions (shared for RHEL/Ubuntu).
 #
 # - Intended to be sourced by Bash (e.g., copied to /etc/profile.d/plura-cmd.sh).
