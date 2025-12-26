@@ -1,4 +1,13 @@
-# /etc/profile.d/plura-cmd.sh
+# /etc/plura/plura-cmd.sh
+#
+# This file is intended to be sourced by Bash (e.g., from /etc/profile.d).
+# It logs each interactive Bash command to syslog (local0.notice) via logger.
+
+# Avoid double-loading in the same shell.
+if [ -n "${__PLURA_CMD_LOADED:-}" ]; then
+  return 0 2>/dev/null || exit 0
+fi
+__PLURA_CMD_LOADED=1
 
 # Run only in Bash and only for interactive shells.
 if [ -z "${BASH_VERSION:-}" ]; then
