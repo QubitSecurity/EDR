@@ -1,9 +1,10 @@
 # /etc/profile.d/plura-cmd.sh
 
-# bash에서만, 그리고 인터랙티브 쉘에서만 동작
+# Run only in Bash and only for interactive shells.
 if [ -z "${BASH_VERSION:-}" ]; then
   return 0 2>/dev/null || exit 0
 fi
+
 case "$-" in
   *i*) : ;;
   *) return 0 ;;
@@ -12,16 +13,16 @@ esac
 plura_log2syslog() {
   local cmd="${BASH_COMMAND:-}"
 
-  # 제어문자 최소 치환(로그 포이즈닝 완화)
+  # Minimal control-character escaping (mitigates log poisoning).
   cmd=${cmd//$'\n'/\\n}
   cmd=${cmd//$'\r'/\\r}
   cmd=${cmd//$'\t'/\\t}
 
-  # 실제 사용자 추적(가능하면 SUDO_USER 우선)
+  # Track the real user (prefer SUDO_USER when available).
   local user="${SUDO_USER:-${USER:-unknown}}"
   local pwd="${PWD:-unknown}"
 
-  # 원격접속 IP(있으면)
+  # Remote source IP (if available).
   local src="local"
   if [ -n "${SSH_CLIENT:-}" ]; then
     src="${SSH_CLIENT%% *}"
@@ -29,7 +30,7 @@ plura_log2syslog() {
     src="${SSH_CONNECTION%% *}"
   fi
 
-  # tty (가능하면)
+  # TTY (if available).
   local tty="notty"
   tty="$(tty 2>/dev/null || echo notty)"
 
