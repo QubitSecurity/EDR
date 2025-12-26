@@ -42,32 +42,18 @@
         </Rule>
       </ProcessAccess>
     </RuleGroup>
+	
     <RuleGroup name="Include_MalwareDrop_Server" groupRelation="or">
       <FileBlockExecutable onmatch="include">
         <Rule groupRelation="and">
           <TargetFilename condition="begin with">C:\Users\</TargetFilename>
-          <TargetFilename condition="contains any">\Documents\;
-            \Pictures\;
-            \Videos\;
-            \Music\;
-            \Favorites\;
-            \Client_Contracts\</TargetFilename>
+          <TargetFilename condition="contains any">\Documents\;\Pictures\;\Videos\;\Music\;\Favorites\;\Client_Contracts\</TargetFilename>
         </Rule>
         <TargetFilename condition="begin with">C:\Temp\</TargetFilename>
         <TargetFilename condition="begin with">C:\Windows\Temp\</TargetFilename>
         <Rule groupRelation="and">
-          <Image condition="contains any">WINWORD.exe;
-            POWERPNT.exe;
-            EXCEL.exe;
-            VISIO.exe;
-            MSACCESS.exe;
-            MSPUB.exe;
-            EQNEDT32.exe;
-            TEAMS.exe;
-            LYNC.exe</Image>
-          <TargetFilename condition="contains any">\Temp\;
-            \AppData\Local\Temp\;
-            \AppData\Roaming\</TargetFilename>
+          <Image condition="contains any">WINWORD.exe;POWERPNT.exe;EXCEL.exe;VISIO.exe;MSACCESS.exe;MSPUB.exe;EQNEDT32.exe;TEAMS.exe;LYNC.exe</Image>
+          <TargetFilename condition="contains any">\Temp\;\AppData\Local\Temp\;\AppData\Roaming\</TargetFilename>
         </Rule>
         <Rule groupRelation="and">
           <Image condition="end with">7z.exe</Image>
@@ -75,6 +61,7 @@
         </Rule>
       </FileBlockExecutable>
     </RuleGroup>
+	
     <RuleGroup name="Include_LOLBAS_FileBlock_Server_Curated" groupRelation="or">
       <FileBlockExecutable onmatch="include">
         <Rule groupRelation="and">
@@ -195,6 +182,7 @@
         </Rule>
       </FileBlockExecutable>
     </RuleGroup>
+	
     <RuleGroup name="Exclude_LegitActivity_Server" groupRelation="or">
       <FileBlockExecutable onmatch="exclude">
         <TargetFilename condition="contains">Content.Outlook\</TargetFilename>
@@ -220,27 +208,18 @@
         <Image condition="is">C:\Windows\System32\wermgr.exe</Image>
         <Image condition="is">C:\Windows\System32\makecab.exe</Image>
         <Image condition="is">C:\Windows\System32\iexpress.exe</Image>
-        <Image condition="contains any">C:\ProgramData\Microsoft\Windows Defender\Platform\;
-          MsMpEng.exe</Image>
+        <Image condition="contains any">C:\ProgramData\Microsoft\Windows Defender\Platform\;MsMpEng.exe</Image>
         <Image condition="end with">MpSigStub.exe</Image>
         <Image condition="end with">NisSrv.exe</Image>
         <Image condition="end with">Sysmon.exe</Image>
         <Image condition="contains">\venv\Scripts\python.exe</Image>
         <Image condition="contains">\python.exe</Image>
         <Image condition="contains">\pip.exe</Image>
-        <Image condition="contains any">msedge.exe;
-          Squirrel.exe;
-          Update.exe;
-          Discord.exe;
-          Teams.exe;
-          Zoom.exe</Image>
+        <Image condition="contains any">msedge.exe;Squirrel.exe;Update.exe;Discord.exe;Teams.exe;Zoom.exe</Image>
         <Rule groupRelation="and">
           <Image condition="is">C:\Program Files\Google\Chrome\Application\chrome.exe</Image>
         </Rule>
-        <Image condition="contains any">agent;
-          updater;
-          backup;
-          monitor</Image>
+        <Image condition="contains any">agent;updater;backup;monitor</Image>
         <Image condition="end with">OneDrive.exe</Image>
         <Rule groupRelation="and">
           <Image condition="is">C:\Windows\System32\taskhostw.exe</Image>
@@ -367,29 +346,8 @@
         <!-- 1) IIS(웹쉘) 프로세스가 LoLBin/스크립트 엔진을 spawn -->
         <Rule groupRelation="and">
           <ParentImage condition="end with">\w3wp.exe</ParentImage>
-          <Rule groupRelation="or">
-            <Image condition="end with">\cmd.exe</Image>
-            <Image condition="end with">\powershell.exe</Image>
-            <Image condition="end with">\pwsh.exe</Image>
-            <Image condition="end with">\wscript.exe</Image>
-            <Image condition="end with">\cscript.exe</Image>
-            <Image condition="end with">\mshta.exe</Image>
-            <Image condition="end with">\rundll32.exe</Image>
-            <Image condition="end with">\regsvr32.exe</Image>
-            <Image condition="end with">\certutil.exe</Image>
-            <Image condition="end with">\bitsadmin.exe</Image>
-            <Image condition="end with">\curl.exe</Image>
-            <Image condition="end with">\wget.exe</Image>
-            <Image condition="end with">\wmic.exe</Image>
-            <Image condition="end with">\schtasks.exe</Image>
-            <Image condition="end with">\sc.exe</Image>
-            <Image condition="end with">\reg.exe</Image>
-            <Image condition="end with">\wevtutil.exe</Image>
-            <Image condition="end with">\net.exe</Image>
-            <Image condition="end with">\net1.exe</Image>
-            <Image condition="end with">\netsh.exe</Image>
-          </Rule>
-        </Rule>
+		  <Image condition="contains any">\cmd.exe;\powershell.exe;\pwsh.exe;\wscript.exe;\cscript.exe;\mshta.exe;\rundll32.exe;\regsvr32.exe;\certutil.exe;\bitsadmin.exe;\curl.exe;\wget.exe;\wmic.exe;\schtasks.exe;\sc.exe;\reg.exe;\wevtutil.exe;\net.exe;\net1.exe;\netsh.exe</Image>
+		</Rule>
 
         <!-- 2) Temp/Webroot/Public에서 실행(드롭퍼/웹쉘 드랍 실행) -->
         <Rule groupRelation="or">
@@ -401,11 +359,13 @@
 
         <!-- 3) PowerShell 인코딩/다운로드/은닉 플래그(고신호) -->
         <Rule groupRelation="and">
-          <Rule groupRelation="or">
             <Image condition="end with">\powershell.exe</Image>
+			<CommandLine condition="contains any">-enc;-encodedcommand;FromBase64String;DownloadString;Invoke-WebRequest;IEX;Invoke-Expression;New-Object Net.WebClient;Start-BitsTransfer;-ExecutionPolicy Bypass;-ep bypass;-windowstyle hidden;-w hidden</CommandLine>
+        </Rule>
+		
+        <Rule groupRelation="and">
             <Image condition="end with">\pwsh.exe</Image>
-          </Rule>
-          <CommandLine condition="contains any">-enc;-encodedcommand;FromBase64String;DownloadString;Invoke-WebRequest;IEX;Invoke-Expression;New-Object Net.WebClient;Start-BitsTransfer;-ExecutionPolicy Bypass;-ep bypass;-windowstyle hidden;-w hidden</CommandLine>
+			<CommandLine condition="contains any">-enc;-encodedcommand;FromBase64String;DownloadString;Invoke-WebRequest;IEX;Invoke-Expression;New-Object Net.WebClient;Start-BitsTransfer;-ExecutionPolicy Bypass;-ep bypass;-windowstyle hidden;-w hidden</CommandLine>
         </Rule>
       </ProcessCreate>
     </RuleGroup>
@@ -414,27 +374,20 @@
       <!-- 의심 툴이 Lateral Movement 포트로 연결(저노이즈/고신호) -->
       <NetworkConnect onmatch="include">
         <Rule groupRelation="and">
-          <Rule groupRelation="or">
-            <Image condition="end with">\powershell.exe</Image>
-            <Image condition="end with">\pwsh.exe</Image>
-            <Image condition="end with">\cmd.exe</Image>
-            <Image condition="end with">\wscript.exe</Image>
-            <Image condition="end with">\cscript.exe</Image>
-            <Image condition="end with">\mshta.exe</Image>
-            <Image condition="end with">\rundll32.exe</Image>
-            <Image condition="end with">\regsvr32.exe</Image>
-            <Image condition="end with">\certutil.exe</Image>
-            <Image condition="end with">\bitsadmin.exe</Image>
-            <Image condition="end with">\curl.exe</Image>
-            <Image condition="end with">\wget.exe</Image>
-            <Image condition="end with">\wmic.exe</Image>
-          </Rule>
-          <Rule groupRelation="or">
+            <Image condition="contains any">\powershell.exe;\pwsh.exe;\cmd.exe;\wscript.exe;\cscript.exe;\mshta.exe;\rundll32.exe;\regsvr32.exe;\certutil.exe;\bitsadmin.exe;\curl.exe;\wget.exe;\wmic.exe</Image>
             <DestinationPort condition="is">3389</DestinationPort>
+        </Rule>
+		<Rule groupRelation="and">
+            <Image condition="contains any">\powershell.exe;\pwsh.exe;\cmd.exe;\wscript.exe;\cscript.exe;\mshta.exe;\rundll32.exe;\regsvr32.exe;\certutil.exe;\bitsadmin.exe;\curl.exe;\wget.exe;\wmic.exe</Image>
             <DestinationPort condition="is">445</DestinationPort>
+        </Rule>
+		<Rule groupRelation="and">
+            <Image condition="contains any">\powershell.exe;\pwsh.exe;\cmd.exe;\wscript.exe;\cscript.exe;\mshta.exe;\rundll32.exe;\regsvr32.exe;\certutil.exe;\bitsadmin.exe;\curl.exe;\wget.exe;\wmic.exe</Image>
             <DestinationPort condition="is">5985</DestinationPort>
+        </Rule>
+		<Rule groupRelation="and">
+            <Image condition="contains any">\powershell.exe;\pwsh.exe;\cmd.exe;\wscript.exe;\cscript.exe;\mshta.exe;\rundll32.exe;\regsvr32.exe;\certutil.exe;\bitsadmin.exe;\curl.exe;\wget.exe;\wmic.exe</Image>
             <DestinationPort condition="is">5986</DestinationPort>
-          </Rule>
         </Rule>
       </NetworkConnect>
     </RuleGroup>
@@ -444,50 +397,53 @@
         <!-- 1) IIS Webroot: 웹쉘/설정 드랍 -->
         <Rule groupRelation="and">
           <TargetFilename condition="begin with">C:\inetpub\wwwroot\</TargetFilename>
-          <Rule groupRelation="or">
-            <TargetFilename condition="end with">web.config</TargetFilename>
-            <TargetFilename condition="end with">.aspx</TargetFilename>
-            <TargetFilename condition="end with">.ashx</TargetFilename>
-            <TargetFilename condition="end with">.asmx</TargetFilename>
-            <TargetFilename condition="end with">.ps1</TargetFilename>
-          </Rule>
-        </Rule>
+		  <TargetFilename condition="end with">web.config</TargetFilename>
+		</Rule>
+        <Rule groupRelation="and">
+          <TargetFilename condition="begin with">C:\inetpub\wwwroot\</TargetFilename>
+		  <TargetFilename condition="end with">.aspx</TargetFilename>
+		</Rule>
+        <Rule groupRelation="and">
+          <TargetFilename condition="begin with">C:\inetpub\wwwroot\</TargetFilename>
+		  <TargetFilename condition="end with">.ashx</TargetFilename>
+		</Rule>
+        <Rule groupRelation="and">
+          <TargetFilename condition="begin with">C:\inetpub\wwwroot\</TargetFilename>
+		  <TargetFilename condition="end with">.asmx</TargetFilename>
+		</Rule>
+        <Rule groupRelation="and">
+          <TargetFilename condition="begin with">C:\inetpub\wwwroot\</TargetFilename>
+		  <TargetFilename condition="end with">.ps1</TargetFilename>
+		</Rule>
 
         <!-- 2) 스케줄 작업 파일 생성(지속성) -->
         <TargetFilename condition="begin with">C:\Windows\System32\Tasks\</TargetFilename>
 
         <!-- 3) Temp 계열에 스크립트/바이너리 드랍 -->
         <Rule groupRelation="and">
-          <Rule groupRelation="or">
-            <TargetFilename condition="begin with">C:\Windows\Temp\</TargetFilename>
-            <TargetFilename condition="begin with">C:\Temp\</TargetFilename>
-          </Rule>
-          <Rule groupRelation="or">
-            <TargetFilename condition="end with">.exe</TargetFilename>
-            <TargetFilename condition="end with">.dll</TargetFilename>
-            <TargetFilename condition="end with">.ps1</TargetFilename>
-            <TargetFilename condition="end with">.vbs</TargetFilename>
-            <TargetFilename condition="end with">.js</TargetFilename>
-            <TargetFilename condition="end with">.bat</TargetFilename>
-            <TargetFilename condition="end with">.cmd</TargetFilename>
-            <TargetFilename condition="end with">.hta</TargetFilename>
-          </Rule>
+          <TargetFilename condition="begin with">C:\Windows\Temp\</TargetFilename>
+		  <TargetFilename condition="contains any">.exe;.dll;.ps1;.vbs;.js;.bat;.cmd;.hta</TargetFilename>
+		</Rule>
+        <Rule groupRelation="and">
+          <TargetFilename condition="begin with">C:\Temp\</TargetFilename>
+		  <TargetFilename condition="contains any">.exe;.dll;.ps1;.vbs;.js;.bat;.cmd;.hta</TargetFilename>
         </Rule>
       </FileCreate>
     </RuleGroup>
 
-    <RuleGroup name="ImageLoad-PowerShell" groupRelation="and">
+    <RuleGroup name="ImageLoad-PowerShell-Include" groupRelation="or">
       <!-- 비-PowerShell 프로세스에서 SMA(System.Management.Automation) 로드 탐지 -->
       <ImageLoad onmatch="include">
         <ImageLoaded condition="contains">System.Management.Automation</ImageLoaded>
       </ImageLoad>
+	</RuleGroup>
+	
+	<RuleGroup name="ImageLoad-PowerShell-Exclude" groupRelation="or">
       <ImageLoad onmatch="exclude">
-        <Rule groupRelation="or">
-          <Image condition="end with">\Windows\SysWOW64\WindowsPowerShell\v1.0\powershell.exe</Image>
-          <Image condition="end with">\Windows\System32\WindowsPowerShell\v1.0\powershell.exe</Image>
-          <Image condition="end with">\Windows\System32\WindowsPowerShell\v1.0\powershell_ise.exe</Image>
-          <Image condition="end with">\pwsh.exe</Image>
-        </Rule>
+        <Image condition="end with">\Windows\SysWOW64\WindowsPowerShell\v1.0\powershell.exe</Image>
+        <Image condition="end with">\Windows\System32\WindowsPowerShell\v1.0\powershell.exe</Image>
+        <Image condition="end with">\Windows\System32\WindowsPowerShell\v1.0\powershell_ise.exe</Image>
+        <Image condition="end with">\pwsh.exe</Image>
       </ImageLoad>
     </RuleGroup>
   </EventFiltering>
