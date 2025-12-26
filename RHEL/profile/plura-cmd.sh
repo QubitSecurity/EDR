@@ -1,9 +1,8 @@
 # /etc/plura/plura-cmd.sh
-#
-# This file is intended to be sourced by Bash (e.g., from /etc/profile.d).
+# This file is intended to be sourced by Bash.
 # It logs each interactive Bash command to syslog (local0.notice) via logger.
 
-# Avoid double-loading in the same shell.
+# Prevent re-loading in the same shell.
 if [ -n "${__PLURA_CMD_LOADED:-}" ]; then
   return 0 2>/dev/null || exit 0
 fi
@@ -13,13 +12,18 @@ __PLURA_CMD_LOADED=1
 if [ -z "${BASH_VERSION:-}" ]; then
   return 0 2>/dev/null || exit 0
 fi
-
 case "$-" in
   *i*) : ;;
   *) return 0 ;;
 esac
 
 plura_log2syslog() {
+  # Re-entry guard (helps avoid edge-case recursion).
+  if [ -n "${__PLURA_CMD_IN_LOG:-}" ]; then
+    return 0
+  fi
+  __PLURA_CMD_IN_LOG=1
+
   local cmd="${BASH_COMMAND:-}"
 
   # Minimal control-character escaping (mitigates log poisoning).
@@ -45,6 +49,8 @@ plura_log2syslog() {
 
   logger -p local0.notice -t plura-cmd -i -- \
     "user=${user} uid=${UID} src=${src} tty=${tty} pwd=${pwd} cmd=${cmd}"
+
+  __PLURA_CMD_IN_LOG=""
 }
 
 trap 'plura_log2syslog' DEBUG
