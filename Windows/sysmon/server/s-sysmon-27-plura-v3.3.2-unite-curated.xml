@@ -174,11 +174,7 @@
             wbadmin.exe;
             wbemtest.exe;
             wuauclt.exe</Image>
-          <TargetFilename condition="contains any">C:\Users\;
-            C:\Users\Public\;
-            C:\ProgramData\;
-            C:\Windows\Temp\;
-            C:\Temp\;</TargetFilename>
+          <TargetFilename condition="contains any">C:\Users\;C:\Users\Public\;C:\ProgramData\;C:\Windows\Temp\;C:\Temp\;</TargetFilename>
         </Rule>
       </FileBlockExecutable>
     </RuleGroup>
