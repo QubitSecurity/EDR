@@ -1,24 +1,28 @@
-# Desktop/Server File/Folder auditing rules
+# Server File/Folder auditing rules
 # For: win-forgery.ps1  (Apply to "This folder and files" / no subfolders)
 # Format: id|path|perm|note
-# - path can use $env:VAR or %VAR%
-# - perm is FileSystemRights (comma-separated)
-# - Comments start with # or ;
-# - Include supported: @include <other.rules>
+#
+# IMPORTANT (multi-profile coverage):
+#  - On servers there can be many local profiles.
+#  - Use wildcard paths like "%SystemDrive%\Users\*\Desktop".
+#  - win-forgery.ps1 v4 expands wildcards to existing paths before applying SACL.
 
 file_hosts|$env:SystemRoot\System32\drivers\etc\hosts|CreateFiles,Delete|hosts tamper
 file_winevt_logs|$env:SystemRoot\System32\winevt\Logs|Delete|event log files delete (anti-forensics)
 file_sam|$env:SystemRoot\System32\config\SAM|ReadAttributes|SAM access attempt
 
+# Startup folders (All Users + ALL profiles)
 file_startup_allusers|$env:ProgramData\Microsoft\Windows\Start Menu\Programs\Startup|CreateFiles,Delete|All Users Startup folder
-file_startup_currentuser|$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup|CreateFiles,Delete|Current User Startup folder
+file_startup_allprofiles|$env:SystemDrive\Users\*\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup|CreateFiles,Delete|Per-user Startup (all profiles)
 
 file_tasks|$env:SystemRoot\System32\Tasks|CreateFiles,Delete|Scheduled Tasks folder (file traces)
 
-file_honeypot|$env:USERPROFILE\Documents\PLURA-Honeypot|CreateFiles,Delete,AppendData,WriteData|PLURA honeypot (high signal)
+# Honeypot (all profiles) - only applies if folders exist
+file_honeypot_allprofiles|$env:SystemDrive\Users\*\Documents\PLURA-Honeypot|CreateFiles,Delete,AppendData,WriteData|PLURA honeypot (all profiles)
 
-# --- Recommended on servers (usually high-signal / low-noise) ---
-file_user_desktop|$env:USERPROFILE\Desktop|CreateFiles,Delete|User Desktop (server: high-signal)
-file_roaming_appdata|$env:APPDATA|CreateFiles,Delete|Roaming AppData (server: high-signal)
-file_recyclebin|C:\$Recycle.Bin|FullControl|Recycle Bin (server: suspicious activity)
+# High-signal on servers
+file_desktop_allprofiles|$env:SystemDrive\Users\*\Desktop|CreateFiles,Delete|All profile Desktops (server: high-signal)
+file_roaming_allprofiles|$env:SystemDrive\Users\*\AppData\Roaming|CreateFiles,Delete|Roaming AppData roots (server: suspicious)
+file_recyclebin|$env:SystemDrive\$Recycle.Bin|FullControl|Recycle Bin (server: suspicious)
+
 file_oledb|$env:ProgramFiles\Common Files\System\Ole DB|CreateFiles|Ole DB folder (rare on servers)
