@@ -1,0 +1,24 @@
+# Desktop/Server File/Folder auditing rules
+# For: win-forgery.ps1  (Apply to "This folder and files" / no subfolders)
+# Format: id|path|perm|note
+# - path can use $env:VAR or %VAR%
+# - perm is FileSystemRights (comma-separated)
+# - Comments start with # or ;
+# - Include supported: @include <other.rules>
+
+file_hosts|$env:SystemRoot\System32\drivers\etc\hosts|CreateFiles,Delete|hosts tamper
+file_winevt_logs|$env:SystemRoot\System32\winevt\Logs|Delete|event log files delete (anti-forensics)
+file_sam|$env:SystemRoot\System32\config\SAM|ReadAttributes|SAM access attempt
+
+file_startup_allusers|$env:ProgramData\Microsoft\Windows\Start Menu\Programs\Startup|CreateFiles,Delete|All Users Startup folder
+file_startup_currentuser|$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup|CreateFiles,Delete|Current User Startup folder
+
+file_tasks|$env:SystemRoot\System32\Tasks|CreateFiles,Delete|Scheduled Tasks folder (file traces)
+
+file_honeypot|$env:USERPROFILE\Documents\PLURA-Honeypot|CreateFiles,Delete,AppendData,WriteData|PLURA honeypot (high signal)
+
+# --- Recommended on servers (usually high-signal / low-noise) ---
+file_user_desktop|$env:USERPROFILE\Desktop|CreateFiles,Delete|User Desktop (server: high-signal)
+file_roaming_appdata|$env:APPDATA|CreateFiles,Delete|Roaming AppData (server: high-signal)
+file_recyclebin|C:\$Recycle.Bin|FullControl|Recycle Bin (server: suspicious activity)
+file_oledb|$env:ProgramFiles\Common Files\System\Ole DB|CreateFiles|Ole DB folder (rare on servers)
