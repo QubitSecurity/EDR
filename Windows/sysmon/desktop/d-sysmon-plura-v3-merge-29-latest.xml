@@ -1,5 +1,5 @@
 <!-- PLURA_CONFIG_VERSION: d-sysmon-plura-v3-merge-29-latest.xml -->
-<!-- BASE URL: d-sysmon-29-plura-v3.2.7-unite-strict.xml -->
+<!-- BASE URL: d-sysmon-29-plura-v3.2.7-unite-curated.xml -->
 <!-- PLURA_SCHEMA_TARGET: 4.90 -->
 
 <Sysmon schemaversion="4.90">
