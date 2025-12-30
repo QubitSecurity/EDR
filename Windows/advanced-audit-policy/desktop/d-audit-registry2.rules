@@ -1,0 +1,12 @@
+# Desktop Registry auditing rules (Registry2)
+# For: win-registry2.ps1  (Apply to "Subkeys only")
+# Format: id|path|perm|note
+
+reg2_portproxy|HKLM:\SYSTEM\CurrentControlSet\Services\PortProxy|SetValue|PortProxy (subkeys only)
+
+# Insider / collection signals (desktop-focused)
+reg2_usbstor|HKLM:\SYSTEM\CurrentControlSet\Services\USBSTOR|SetValue,Delete,QueryValues|USB storage usage (subkeys only)
+reg2_mic|HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\microphone|SetValue|Microphone consent (subkeys)
+reg2_webcam|HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\webcam|SetValue|Webcam consent (subkeys)
+reg2_mic_np|HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\microphone\NonPackaged|SetValue|Microphone NonPackaged (subkeys)
+reg2_webcam_np|HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\webcam\NonPackaged|SetValue|Webcam NonPackaged (subkeys)
