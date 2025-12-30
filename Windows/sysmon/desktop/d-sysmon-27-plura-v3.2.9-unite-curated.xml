@@ -680,6 +680,10 @@
           <Image condition="contains">\AppData\Local\Temp\</Image>
           <Image condition="end with">.exe.sample</Image>
         </Rule>
+        <Rule groupRelation="and">
+          <Image condition="end with">\PluraService.exe</Image>
+          <TargetFilename condition="end with">\PluraSetup.exe</TargetFilename>
+        </Rule>
       </FileBlockExecutable>
     </RuleGroup>
     <RuleGroup name="Exclude_MSSHelper_Desktop" groupRelation="or">
