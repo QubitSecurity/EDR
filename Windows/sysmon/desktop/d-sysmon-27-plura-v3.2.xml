@@ -334,13 +334,16 @@
           <Image condition="contains any">\chrome.exe;\firefox.exe;\whale.exe;\msedge.exe;\brave.exe</Image>
           <TargetFilename condition="begin with">C:\Users\</TargetFilename>
           <TargetFilename condition="contains">\Downloads\</TargetFilename>
-        </Rule>
-
-		<!-- (29) MSS Helper-->
-		<Image condition="end with">\SOC_2.1.0.exe</Image>
-        <Image condition="end with">\SOC_2.1.1.exe</Image>
-        <Image condition="end with">\UAENA.exe</Image>
+        </Rule>		
       </FileBlockExecutable>
     </RuleGroup>
+	  <RuleGroup name="Exclude_MSS_Desktop" groupRelation="or">
+		  <FileBlockExecutable onmatch="exclude">
+			  <!-- (29) MSS Helper-->
+			  <Image condition="end with">\SOC_2.1.0.exe</Image>
+			  <Image condition="end with">\SOC_2.1.1.exe</Image>
+			  <Image condition="end with">\UAENA.exe</Image>
+		  </FileBlockExecutable>
+	  </RuleGroup>
   </EventFiltering>
 </Sysmon>
