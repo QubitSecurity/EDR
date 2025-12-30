@@ -1,4 +1,4 @@
-<!-- PLURA_CONFIG_VERSION: d-sysmon-plura-v3-merge-27-latest.xml --> 
+<!-- PLURA_CONFIG_VERSION: d-sysmon-plura-v3.1-merge-27-latest.xml --> 
 <!-- PLURA_SCHEMA_TARGET: 4.90 -->
 
 <Sysmon schemaversion="4.90">
@@ -365,6 +365,7 @@
         <Rule groupRelation="and"><Image condition="contains">\ProgramData\Microsoft\Windows Defender\Platform\</Image><TargetFilename condition="contains">\ProgramData\Microsoft\Windows Defender\Definition Updates\</TargetFilename></Rule>
         <Rule groupRelation="and"><Image condition="contains">\ChromeSetup.exe</Image><TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename></Rule>
         <Rule groupRelation="and"><Image condition="contains">\AppData\Local\Programs\Microsoft VS Code\</Image><TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename></Rule>
+        <Rule groupRelation="and"><Image condition="contains all">\AppData\Local\Temp\vscode-stable-user;\CodeSetup-stable-</Image><TargetFilename condition="contains all">\AppData\Local\Temp\;\CodeSetup-stable-</TargetFilename></Rule>
         <Rule groupRelation="and"><Image condition="contains">\JetBrains\Toolbox\</Image><TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename></Rule>
         <Rule groupRelation="and"><Image condition="contains">\Steam\</Image><TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename></Rule>
         <Rule groupRelation="and"><Image condition="contains">\NVIDIA\</Image><TargetFilename condition="contains">\Program Files\NVIDIA Corporation\Installer2\</TargetFilename></Rule>
@@ -379,10 +380,28 @@
         <Rule groupRelation="and"><Image condition="begin with">C:\Program Files\WindowsApps\Microsoft.BingWallpaper</Image><Image condition="end with">BingWallpaper.exe</Image><TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename></Rule>
         <Rule groupRelation="and"><Image condition="contains">\AppData\Local\Microsoft\OneDrive\</Image><Image condition="end with">\OneDrivePatcher.exe</Image><TargetFilename condition="contains all">\AppData\Local\Temp\;\OneDriveDeltaPatch\</TargetFilename></Rule>
         <Rule groupRelation="and"><Image condition="is">C:\Program Files (x86)\ESTsoft\ALToolsManager\ALToolsManager.exe</Image><TargetFilename condition="contains">\AppData\Roaming\ESTsoft\ALToolsManager\</TargetFilename></Rule>
+        <Rule groupRelation="and"><Image condition="contains">\AppData\Roaming\ESTsoft\ALToolsManager\</Image><TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename></Rule>
+        <Rule groupRelation="and"><Image condition="begin with">C:\Program Files\ESTsoft\</Image><Image condition="end with">unins000.exe</Image><TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename></Rule>
+        <Rule groupRelation="and"><Image condition="is">C:\Program Files\Bandizip\Bandizip.exe</Image><Image condition="contains">\AppData\Local\Temp\</Image><Image condition="end with">.exe.sample</Image></Rule>
         <Rule groupRelation="and"><Image condition="begin with">C:\WINDOWS\SoftwareDistribution\Download\</Image><Image condition="end with">\InstallUpdatePlatform.amd64fre.exe</Image><TargetFilename condition="begin with">C:\Windows\Temp\</TargetFilename></Rule>
         <Rule groupRelation="and"><Image condition="is">C:\Program Files\PLURA\Sysmon.exe</Image><Image condition="end with">\AppData\Local\Temp\Sysmon.exe</Image></Rule>
+        <Rule groupRelation="and"><Image condition="contains">\PluraService</Image><Image condition="end with">.exe</Image><TargetFilename condition="contains">\PluraSetup</TargetFilename><TargetFilename condition="end with">.exe</TargetFilename></Rule>
+        <Rule groupRelation="and"><Image condition="contains">\PluraSetup</Image><Image condition="end with">.exe</Image><TargetFilename condition="contains">\PluraService</TargetFilename><TargetFilename condition="end with">.exe</TargetFilename></Rule>
+        <Rule groupRelation="and"><Image condition="contains">\PluraSetup</Image><Image condition="end with">.exe</Image><TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename></Rule>
+        <Rule groupRelation="and"><Image condition="contains">\PluraSetup</Image><Image condition="end with">.exe</Image><TargetFilename condition="begin with">C:\Program Files\PLURA\</TargetFilename><TargetFilename condition="contains any">\Plura.exe;\Sysmon.exe;\Sysmon64.exe;\PluraUninstall.exe</TargetFilename></Rule>
+        <Rule groupRelation="and"><Image condition="contains any">\chrome.exe;\firefox.exe;\whale.exe;\msedge.exe;\brave.exe</Image><TargetFilename condition="begin with">C:\Users\</TargetFilename><TargetFilename condition="contains">\Downloads\</TargetFilename></Rule>
       </FileBlockExecutable>
     </RuleGroup>
-
+    	  
+        <RuleGroup name="Exclude_MSS_Desktop" groupRelation="or">
+    		  <FileBlockExecutable onmatch="exclude">
+    			  <!-- (29) MSS Helper-->
+    			  <Image condition="end with">\SOC_2.1.0.exe</Image>
+    			  <Image condition="end with">\SOC_2.1.1.exe</Image>
+    			  <Image condition="end with">\UAENA.exe</Image>
+    		  </FileBlockExecutable>
+    	  </RuleGroup>
+      </FileBlockExecutable>
+    </RuleGroup>
   </EventFiltering>
 </Sysmon>
