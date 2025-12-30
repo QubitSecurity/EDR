@@ -1,10 +1,6 @@
-# Desktop/Server File/Folder auditing rules
+# Desktop File/Folder auditing rules
 # For: win-forgery.ps1  (Apply to "This folder and files" / no subfolders)
 # Format: id|path|perm|note
-# - path can use $env:VAR or %VAR%
-# - perm is FileSystemRights (comma-separated)
-# - Comments start with # or ;
-# - Include supported: @include <other.rules>
 
 file_hosts|$env:SystemRoot\System32\drivers\etc\hosts|CreateFiles,Delete|hosts tamper
 file_winevt_logs|$env:SystemRoot\System32\winevt\Logs|Delete|event log files delete (anti-forensics)
@@ -20,4 +16,4 @@ file_honeypot|$env:USERPROFILE\Documents\PLURA-Honeypot|CreateFiles,Delete,Appen
 # --- Optional (NOISY on desktops) ---
 #file_user_desktop|$env:USERPROFILE\Desktop|CreateFiles,Delete|User Desktop (noisy on desktop)
 #file_roaming_appdata|$env:APPDATA|CreateFiles,Delete|Roaming AppData (noisy on desktop)
-#file_recyclebin|C:\$Recycle.Bin|FullControl|Recycle Bin (very noisy on desktop)
+#file_recyclebin|$env:SystemDrive\$Recycle.Bin|FullControl|Recycle Bin (very noisy on desktop)

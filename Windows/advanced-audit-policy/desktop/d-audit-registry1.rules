@@ -1,4 +1,4 @@
-# Desktop/Server Registry auditing rules (Registry1)
+# Desktop Registry auditing rules (Registry1)
 # For: win-registry.ps1  (Apply to "This key only")
 # Format: id|path|perm|note
 # - perm is RegistryRights (comma-separated), e.g. SetValue,Delete
@@ -11,7 +11,7 @@ reg_runservices_hklm|HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\RunServices
 reg_runservicesonce_hklm|HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\RunServicesOnce|SetValue,Delete|RunServicesOnce (HKLM)
 reg_run_wow6432|HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Run|SetValue,Delete|Run WOW6432 (HKLM)
 
-# Run family (HKCU)
+# Run family (HKCU) - desktop는 보통 단일 사용자 환경이라 포함
 reg_run_hkcu|HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run|SetValue,Delete|Run (HKCU)
 reg_runonce_hkcu|HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce|SetValue,Delete|RunOnce (HKCU)
 reg_runservices_hkcu|HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\RunServices|SetValue,Delete|RunServices (HKCU)
