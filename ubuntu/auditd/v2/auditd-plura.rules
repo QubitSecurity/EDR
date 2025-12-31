@@ -1,0 +1,46 @@
+# VNC 및 원격 접속 도구 (NO 218, 217, 216, 215, 214)
+auditctl -w /usr/bin/vncserver -p x -k qubit-vnc
+auditctl -w /usr/bin/x11vnc -p x -k qubit-vnc
+auditctl -w /usr/bin/Xvnc -p x -k qubit-vnc
+auditctl -w /usr/bin/sftp -p x -k qubit-sftp
+auditctl -w /usr/bin/rsync -p x -k qubit-rsync
+# Socket(17) 호출 (NO 207, 205)
+# (OFF된 NO 206은 제외됨)
+auditctl -a always,exit -F arch=b64 -S socket -F a0=17 -k qubit-socket-17
+auditctl -a always,exit -F arch=b32 -S socket -F a0=17 -k qubit-socket-17
+# IPTables 방화벽 설정 (NO 204, 203, 202, 201)
+auditctl -w /etc/iptables -p wa -k qubit-iptables
+auditctl -w /etc/sysconfig/iptables -p wa -k qubit-iptables
+auditctl -w /usr/sbin/iptables -p x -k qubit-iptables
+auditctl -w /sbin/iptables -p x -k qubit-iptables
+# 파일 조작 및 전송 명령어 (NO 199, 198, 197)
+auditctl -w /usr/bin/rm -p x -k qubit-rm
+auditctl -w /usr/bin/scp -p x -k qubit-scp
+auditctl -w /usr/bin/cp -p x -k qubit-cp
+# 주요 런타임 디렉토리 감시 (NO 196, 195, 194, 193)
+auditctl -w /run -p x -k qubit-dir-/run
+auditctl -w /dev/shm -p x -k qubit-dir-/dev/shm
+auditctl -w /var/run -p x -k qubit-dir-/var/run
+auditctl -w /var/lock -p x -k qubit-dir-/var/lock
+# 권한 및 소유권 변경 (NO 162, 161)
+auditctl -w /usr/bin/chown -p x -k qubit-chown
+auditctl -w /usr/bin/chmod -p x -k qubit-perm
+# 컴파일러 및 네트워크 도구 (NO 160, 45, 44, 43, 42, 41)
+auditctl -w /usr/bin/gcc -p x -k qubit-gcc
+auditctl -w /usr/bin/ncat -p x -k qubit-nc
+auditctl -w /usr/bin/nc -p x -k qubit-nc
+auditctl -w /usr/bin/base64 -p x -k qubit-base64
+auditctl -w /usr/bin/curl -p x -k qubit-curl
+auditctl -w /usr/bin/wget -p x -k qubit-wget
+# 시스템 설정 파일 및 시간 변경 (NO 40, 39, 38, 36)
+auditctl -w /etc/sysctl.conf -p wa -k qubit-kernel
+auditctl -w /etc/selinux/ -p wa -k qubit-selinux
+auditctl -w /etc/hosts -p wa -k qubit-host
+auditctl -w /etc/localtime -p wa -k qubit-time
+# 계정 관리 및 정보 (NO 52, 50, 35, 32, 31, 30)
+auditctl -w /usr/bin/whoami -p x -k qubit-recon
+auditctl -w /usr/sbin/userdel -p x -k qubit-userdel
+auditctl -w /usr/bin/w -p x -k qubit-recon
+auditctl -w /usr/sbin/useradd -p x -k qubit-useradd
+auditctl -w /etc/shadow -p wa -k qubit-shadow
+auditctl -w /etc/passwd -p wa -k qubit-passwd
