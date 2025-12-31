@@ -1,0 +1,261 @@
+<!-- PLURA Sysmon 27 Desktop -->
+
+<Sysmon schemaversion="4.90">
+  <EventFiltering>
+
+    <!-- SYSMON EVENT ID 27 : FILE BLOCK EXECUTABLE [FileBlockExecutable] - Desktop (강화 버전) -->
+
+    <!-- INCLUDE: 악성 Drop/Run 경로 + PowerShell/LOLBin까지 강하게 차단 -->
+    <RuleGroup name="Include_MalwareDrop_Desktop" groupRelation="or">
+      <FileBlockExecutable onmatch="include">
+
+        <!-- (A) 사용자 데이터 보호 (Honeypot) -->
+        <Rule groupRelation="and">
+          <TargetFilename condition="begin with">C:\Users\</TargetFilename>
+          <TargetFilename condition="contains any">
+            \Documents\;
+            \Pictures\;
+            \Videos\;
+            \Music\;
+            \Favorites\;
+            \Client_Contracts\
+          </TargetFilename>
+        </Rule>
+
+        <!-- (B) 공격자 임시 Drop & Run 경로 -->
+        <TargetFilename condition="begin with">C:\Temp\</TargetFilename>
+        <TargetFilename condition="begin with">C:\Windows\Temp\</TargetFilename>
+
+        <!-- (C) User Local Temp -->
+        <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+
+        <!-- (D) User Roaming -->
+        <TargetFilename condition="contains">\AppData\Roaming\</TargetFilename>
+
+        <!-- (E) ProgramData 내부 임시 폴더 -->
+        <TargetFilename condition="contains any">
+          C:\ProgramData\Temp\;
+          C:\ProgramData\Updater\;
+          C:\ProgramData\Random\
+        </TargetFilename>
+
+        <!-- (F) Office 체인 → Temp/Roaming EXE 생성 시 차단 -->
+        <Rule groupRelation="and">
+          <Image condition="contains any">
+            OUTLOOK.exe;
+            WINWORD.exe;
+            POWERPNT.exe;
+            EXCEL.exe;
+            VISIO.exe;
+            MSACCESS.exe;
+            MSPUB.exe;
+            EQNEDT32.exe;
+            TEAMS.exe;
+            LYNC.exe
+          </Image>
+          <TargetFilename condition="contains any">
+            \Temp\;
+            \AppData\Local\Temp\;
+            \AppData\Roaming\
+          </TargetFilename>
+        </Rule>
+
+        <!-- (G) ZIP 기반 랜섬웨어 Drop (7z.exe 사용) -->
+        <Rule groupRelation="and">
+          <Image condition="end with">7z.exe</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+
+        <!-- (H) PowerShell → Temp/LocalTemp/Roaming/ProgramData EXE/DLL 생성 차단 -->
+        <Rule groupRelation="and">
+          <Image condition="end with">powershell.exe</Image>
+          <TargetFilename condition="contains any">
+            \Temp\;
+            \AppData\Local\Temp\;
+            \AppData\Roaming\;
+            C:\ProgramData\
+          </TargetFilename>
+        </Rule>
+
+        <!-- (I) LOLBin(mshta) → Drop 차단 -->
+        <Rule groupRelation="and">
+          <Image condition="end with">mshta.exe</Image>
+          <TargetFilename condition="contains any">
+            \Temp\;
+            \AppData\Local\Temp\;
+            \AppData\Roaming\;
+            C:\ProgramData\
+          </TargetFilename>
+        </Rule>
+
+        <!-- (J) LOLBin(regsvr32) → Drop 차단 -->
+        <Rule groupRelation="and">
+          <Image condition="end with">regsvr32.exe</Image>
+          <TargetFilename condition="contains any">
+            \Temp\;
+            \AppData\Local\Temp\;
+            \AppData\Roaming\;
+            C:\ProgramData\
+          </TargetFilename>
+        </Rule>
+
+        <!-- (선택) 필요 시 추가 막고 싶을 때 주석 해제
+        <Rule groupRelation="and">
+          <Image condition="end with">wscript.exe</Image>
+          <TargetFilename condition="contains any">
+            \Temp\;
+            \AppData\Local\Temp\;
+            \AppData\Roaming\;
+            C:\ProgramData\
+          </TargetFilename>
+        </Rule>
+
+        <Rule groupRelation="and">
+          <Image condition="end with">rundll32.exe</Image>
+          <TargetFilename condition="contains any">
+            \Temp\;
+            \AppData\Local\Temp\;
+            \AppData\Roaming\;
+            C:\ProgramData\
+          </TargetFilename>
+        </Rule>
+        -->
+
+      </FileBlockExecutable>
+    </RuleGroup>
+
+    <!-- EXCLUDE: 정상 설치/업데이트/보안솔루션/개발 환경 예외 -->
+    <RuleGroup name="Exclude_LegitActivity_Desktop" groupRelation="or">
+      <FileBlockExecutable onmatch="exclude">
+
+        <!-- (1) Outlook/Office 정상 임시 파일 -->
+        <TargetFilename condition="contains">Content.Outlook\</TargetFilename>
+        <TargetFilename condition="contains">Content.MSO\</TargetFilename>
+        <TargetFilename condition="end with">MSForms.exd</TargetFilename>
+        <TargetFilename condition="contains">~$</TargetFilename>
+
+        <!-- (2) 정상 다운로드 폴더 -->
+        <Rule groupRelation="and">
+          <TargetFilename condition="begin with">C:\Users\</TargetFilename>
+          <TargetFilename condition="contains">\Downloads\</TargetFilename>
+        </Rule>
+
+        <!-- (3) PowerShell Profile 업데이트 -->
+        <Rule groupRelation="and">
+          <TargetFilename condition="begin with">C:\Users\</TargetFilename>
+          <TargetFilename condition="contains">\Documents\WindowsPowerShell\</TargetFilename>
+        </Rule>
+
+        <!-- (4) Windows Installer / Update -->
+        <Image condition="is">C:\Windows\System32\msiexec.exe</Image>
+        <Image condition="is">C:\Windows\servicing\TrustedInstaller.exe</Image>
+        <Image condition="is">C:\Windows\System32\TiWorker.exe</Image>
+        <Image condition="is">C:\Windows\System32\dism.exe</Image>
+        <Image condition="is">C:\Windows\System32\wusa.exe</Image>
+        <Image condition="is">C:\Windows\System32\cleanmgr.exe</Image>
+        <Image condition="is">C:\Windows\System32\wuauclt.exe</Image>
+
+        <!-- (5) Windows 오류보고/진단 -->
+        <Image condition="is">C:\Windows\System32\werfault.exe</Image>
+        <Image condition="is">C:\Windows\System32\wermgr.exe</Image>
+
+        <!-- (6) Windows CAB/압축 관련 -->
+        <Image condition="is">C:\Windows\System32\makecab.exe</Image>
+        <Image condition="is">C:\Windows\System32\iexpress.exe</Image>
+
+        <!-- (7) 보안 솔루션 필수 예외 -->
+        <Rule groupRelation="and">
+          <Image condition="begin with">C:\ProgramData\Microsoft\Windows Defender\Platform\</Image>
+          <Image condition="end with">\MsMpEng.exe</Image>
+        </Rule>
+        <Image condition="end with">MpSigStub.exe</Image>
+        <Image condition="end with">NisSrv.exe</Image>
+        <Image condition="end with">Sysmon.exe</Image>
+
+        <!-- (8) Python 개발 환경 (개발 PC 고려) -->
+        <Image condition="contains">\venv\Scripts\python.exe</Image>
+        <Image condition="contains">\python.exe</Image>
+        <Image condition="contains">\pip.exe</Image>
+
+        <!-- (9) 브라우저/전자회의/Electron 업데이트 -->
+        <Image condition="contains any">
+          msedge.exe;
+          Squirrel.exe;
+          Update.exe;
+          Discord.exe;
+          Teams.exe;
+          Zoom.exe
+        </Image>
+        <Rule groupRelation="and">
+          <Image condition="is">C:\Program Files\Google\Chrome\Application\chrome.exe</Image>
+        </Rule>
+
+        <!-- (10) RMM / 백업 / 모니터링 에이전트 -->
+        <Image condition="contains any">
+          agent;
+          updater;
+          backup;
+          monitor
+        </Image>
+
+        <!-- (11) OneDrive -->
+        <Image condition="end with">OneDrive.exe</Image>
+
+        <!-- (12) Windows Troubleshooter -->
+        <Rule groupRelation="and">
+          <Image condition="is">C:\Windows\System32\taskhostw.exe</Image>
+          <TargetFilename condition="begin with">C:\Windows\Temp\SDIAG_</TargetFilename>
+          <TargetFilename condition="contains any">.dll;.dll.mui</TargetFilename>
+        </Rule>
+
+        <!-- (13) DISM 핵심 DLL -->
+        <Rule groupRelation="and">
+          <Image condition="is">C:\Windows\system32\wbem\wmiprvse.exe</Image>
+          <TargetFilename condition="contains">\Windows\Temp\</TargetFilename>
+        </Rule>
+    
+        <!-- (14) MSS Helper -->
+        <Rule groupRelation="and">
+          <Image condition="end with">\SOC_2.1.1.exe</Image>
+        </Rule>
+    
+        <!-- (15) Canon MF642C 프린터 -->
+        <Image condition="end with">\MF642C\MFDriver\UFRII\Setup.exe</Image>
+    
+        <!-- (16) Edge WebView2 Unpacker -->
+        <Rule groupRelation="and">
+          <Image condition="end with">\msedgewebview2.exe</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\chrome_Unpacker_BeginUnzipping</TargetFilename>
+        </Rule>
+    
+        <!-- (17) WinREAgent → dismhost -->
+        <Rule groupRelation="and">
+          <Image condition="begin with">C:\$WinREAgent\</Image>
+          <Image condition="end with">\dismhost.exe</Image>
+          <TargetFilename condition="contains">\Windows\Temp\</TargetFilename>
+        </Rule>
+    
+        <!-- (18) CefSharp Unpacking -->
+        <Rule groupRelation="and">
+          <Image condition="end with">CefSharp.BrowserSubprocess.exe</Image>
+          <TargetFilename condition="contains">\chrome_Unpacker_BeginUnzipping</TargetFilename>
+        </Rule>
+    
+        <!-- (19) Visual Studio Installer -->
+        <Rule groupRelation="and">
+          <Image condition="begin with">C:\Program Files (x86)\Microsoft Visual Studio\Installer\</Image>
+          <Image condition="end with">\Microsoft.VisualStudio.Setup.ServiceBackgroundDownload.exe</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+          <TargetFilename condition="end with">vs_setup_bootstrapper.exe</TargetFilename>
+        </Rule>
+    
+        <!-- (20) BITS tmp 파일 -->
+        <Rule groupRelation="and">
+          <Image condition="is">C:\WINDOWS\System32\svchost.exe</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\BIT\</TargetFilename>
+        </Rule>
+          </FileBlockExecutable>
+        </RuleGroup>
+
+  </EventFiltering>
+</Sysmon>

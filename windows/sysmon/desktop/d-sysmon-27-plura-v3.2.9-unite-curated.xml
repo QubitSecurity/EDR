@@ -1,0 +1,699 @@
+<!-- PLURA_CONFIG_VERSION: d-sysmon-27-plura-v3.2.9-unite-curated.xml -->
+<!-- PLURA_SCHEMA_TARGET: 4.90 -->
+<Sysmon schemaversion="4.90">
+  <HashAlgorithms>*</HashAlgorithms>
+  <CheckRevocation>False</CheckRevocation>
+  <DnsLookup>False</DnsLookup>
+  <ArchiveDirectory>Sysmon</ArchiveDirectory>
+  <EventFiltering>
+    <RuleGroup name="ProcessCreate-Exclude-Noise" groupRelation="or">
+      <ProcessCreate onmatch="exclude">
+        <ParentImage condition="end with">\Program Files (x86)\PLURA\PLURAService.exe</ParentImage>
+        <ParentImage condition="end with">\Program Files (x86)\PLURA\PLURASControl.exe</ParentImage>
+        <ParentImage condition="end with">\Program Files (x86)\PLURA\PLURAConfig.exe</ParentImage>
+        <ParentImage condition="end with">\Program Files (x86)\PLURA\PLURATray.exe</ParentImage>
+        <Image condition="end with">\Windows\System32\RuntimeBroker.exe</Image>
+        <Image condition="end with">\Windows\System32\backgroundTaskHost.exe</Image>
+        <CommandLine condition="begin with">C:\Windows\Microsoft.NET\Framework\v4.0.30319\ngen.exe</CommandLine>
+        <Image condition="is">C:\Windows\Microsoft.NET\Framework64\v4.0.30319\mscorsvw.exe</Image>
+        <Image condition="is">C:\Windows\Microsoft.NET\Framework\v4.0.30319\mscorsvw.exe</Image>
+      </ProcessCreate>
+    </RuleGroup>
+    <RuleGroup name="ProcessCreate-Include-Desktop" groupRelation="or">
+      <ProcessCreate onmatch="include">
+        <Image condition="end with">\Windows\System32\WindowsPowerShell\v1.0\powershell.exe</Image>
+        <Image condition="end with">\Windows\SysWOW64\WindowsPowerShell\v1.0\powershell.exe</Image>
+        <Image condition="end with">\Windows\System32\pwsh.exe</Image>
+        <Image condition="end with">\Windows\System32\cmd.exe</Image>
+        <Image condition="end with">\Windows\System32\cscript.exe</Image>
+        <Image condition="end with">\Windows\System32\wscript.exe</Image>
+        <Image condition="end with">\Windows\System32\mshta.exe</Image>
+        <Image condition="end with">\Windows\System32\rundll32.exe</Image>
+        <Image condition="end with">\Windows\System32\regsvr32.exe</Image>
+        <Image condition="end with">\Windows\System32\certutil.exe</Image>
+        <Image condition="end with">\Windows\System32\bitsadmin.exe</Image>
+        <Image condition="end with">\Windows\System32\curl.exe</Image>
+        <Image condition="end with">\Windows\System32\wget.exe</Image>
+        <Image condition="end with">\WINWORD.EXE</Image>
+        <Image condition="end with">\EXCEL.EXE</Image>
+        <Image condition="end with">\POWERPNT.EXE</Image>
+        <Image condition="end with">\OUTLOOK.EXE</Image>
+        <Image condition="end with">\chrome.exe</Image>
+        <Image condition="end with">\msedge.exe</Image>
+        <Image condition="end with">\firefox.exe</Image>
+        <Image condition="end with">\Windows\System32\vssadmin.exe</Image>
+        <Image condition="end with">\Windows\SysWOW64\vssadmin.exe</Image>
+        <Image condition="end with">\Windows\System32\wbadmin.exe</Image>
+        <Image condition="end with">\Windows\SysWOW64\wbadmin.exe</Image>
+        <Image condition="end with">\Windows\System32\bcdedit.exe</Image>
+        <Image condition="end with">\Windows\SysWOW64\bcdedit.exe</Image>
+        <Image condition="end with">\Windows\System32\wevtutil.exe</Image>
+        <Image condition="end with">\Windows\SysWOW64\wevtutil.exe</Image>
+        <Rule groupRelation="and">
+          <Image condition="contains">\Users\</Image>
+          <Image condition="contains any">\AppData\;\Downloads\;\Desktop\;</Image>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="contains">\AppData\Local\Temp\</Image>
+        </Rule>
+      </ProcessCreate>
+    </RuleGroup>
+    <RuleGroup name="NetworkConnect-Exclude-Noise" groupRelation="or">
+      <NetworkConnect onmatch="exclude">
+        <Image condition="contains">:\Program Files (x86)\PLURA\</Image>
+        <SourceIp condition="begin with">224.0.0.</SourceIp>
+        <SourceIp condition="begin with">ff02:0:0:0:0:0:1:</SourceIp>
+        <SourceIp condition="is">239.255.255.250</SourceIp>
+        <SourceIp condition="is">0:0:0:0:0:0:0:1</SourceIp>
+        <DestinationIp condition="is">239.255.255.250</DestinationIp>
+        <DestinationIp condition="is">0:0:0:0:0:0:0:1</DestinationIp>
+      </NetworkConnect>
+    </RuleGroup>
+    <RuleGroup name="NetworkConnect-Include-Desktop" groupRelation="or">
+      <NetworkConnect onmatch="include">
+        <Image condition="end with">\Windows\System32\WindowsPowerShell\v1.0\powershell.exe</Image>
+        <Image condition="end with">\Windows\SysWOW64\WindowsPowerShell\v1.0\powershell.exe</Image>
+        <Image condition="end with">\Windows\System32\pwsh.exe</Image>
+        <Image condition="end with">\Windows\System32\wscript.exe</Image>
+        <Image condition="end with">\Windows\SysWOW64\wscript.exe</Image>
+        <Image condition="end with">\Windows\System32\cscript.exe</Image>
+        <Image condition="end with">\Windows\SysWOW64\cscript.exe</Image>
+        <Image condition="end with">\Windows\System32\mshta.exe</Image>
+        <Image condition="end with">\Windows\SysWOW64\mshta.exe</Image>
+        <Image condition="end with">\Windows\System32\rundll32.exe</Image>
+        <Image condition="end with">\Windows\SysWOW64\rundll32.exe</Image>
+        <Image condition="end with">\Windows\System32\regsvr32.exe</Image>
+        <Image condition="end with">\Windows\SysWOW64\regsvr32.exe</Image>
+        <Image condition="end with">\Windows\System32\wmic.exe</Image>
+        <Image condition="end with">\Windows\SysWOW64\wmic.exe</Image>
+        <Image condition="end with">\Windows\System32\certutil.exe</Image>
+        <Image condition="end with">\Windows\System32\bitsadmin.exe</Image>
+        <Image condition="end with">\Windows\System32\curl.exe</Image>
+        <Image condition="end with">\Windows\System32\wget.exe</Image>
+        <DestinationPort condition="is">3389</DestinationPort>
+        <DestinationPort condition="is">445</DestinationPort>
+        <DestinationPort condition="is">5985</DestinationPort>
+        <DestinationPort condition="is">5986</DestinationPort>
+      </NetworkConnect>
+    </RuleGroup>
+    <RuleGroup name="ProcessTerminate-Exclude-Noise" groupRelation="or">
+      <ProcessTerminate onmatch="exclude">
+        <Image condition="end with">\Windows\System32\backgroundTaskHost.exe</Image>
+        <Image condition="end with">\Windows\System32\RuntimeBroker.exe</Image>
+        <Image condition="end with">\Sysmon\Sysmon64.exe</Image>
+        <Image condition="end with">\Sysmon\Sysmon.exe</Image>
+      </ProcessTerminate>
+    </RuleGroup>
+    <RuleGroup name="ImageLoad-PowerShell" groupRelation="and">
+      <ImageLoad onmatch="include">
+        <Rule groupRelation="or">
+          <ImageLoaded condition="contains">System.Management.Automation</ImageLoaded>
+          <ImageLoaded condition="contains">System.Reflection</ImageLoaded>
+          <ImageLoaded condition="contains">sspisrv.dll</ImageLoaded>
+        </Rule>
+      </ImageLoad>
+      <ImageLoad onmatch="exclude">
+        <Rule groupRelation="or">
+          <Image condition="end with">\Windows\SysWOW64\WindowsPowerShell\v1.0\powershell.exe</Image>
+          <Image condition="end with">\Windows\System32\WindowsPowerShell\v1.0\powershell.exe</Image>
+          <Image condition="end with">\Windows\System32\WindowsPowerShell\v1.0\powershell_ise.exe</Image>
+        </Rule>
+      </ImageLoad>
+    </RuleGroup>
+    <RuleGroup name="RawAccessRead-Desktop" groupRelation="and">
+      <RawAccessRead onmatch="include">
+        <Device condition="contains">\Device\Harddisk0\DR0</Device>
+      </RawAccessRead>
+      <RawAccessRead onmatch="exclude">
+        <Rule groupRelation="or">
+          <Image condition="contains all">\ProgramData\Microsoft\Windows Defender\platform\;\MsMpEng.exe</Image>
+          <Image condition="contains">\Windows\System32\</Image>
+          <Image condition="contains">\Windows\SysWOW64\</Image>
+        </Rule>
+      </RawAccessRead>
+    </RuleGroup>
+    <RuleGroup name="ProcessAccess-Exclude-Legit" groupRelation="or">
+      <ProcessAccess onmatch="exclude">
+        <SourceImage condition="is">C:\Program Files\Windows Defender\MsMpEng.exe</SourceImage>
+        <SourceImage condition="is">C:\Program Files\Microsoft Defender\MsMpEng.exe</SourceImage>
+        <SourceImage condition="is">C:\Windows\System32\Taskmgr.exe</SourceImage>
+        <SourceImage condition="is">C:\Sysinternals\procexp.exe</SourceImage>
+        <SourceImage condition="is">C:\Sysinternals\procmon.exe</SourceImage>
+        <SourceImage condition="end with">\Program Files (x86)\PLURA\PLURAService.exe</SourceImage>
+        <SourceImage condition="end with">\Program Files (x86)\PLURA\PLURASControl.exe</SourceImage>
+        <SourceImage condition="end with">\Program Files (x86)\PLURA\PLURAConfig.exe</SourceImage>
+        <SourceImage condition="end with">\Program Files (x86)\PLURA\PLURATray.exe</SourceImage>
+      </ProcessAccess>
+    </RuleGroup>
+    <RuleGroup name="ProcessAccess-Include-HighSignal" groupRelation="or">
+      <ProcessAccess onmatch="include">
+        <Rule groupRelation="and">
+          <TargetImage condition="end with">\lsass.exe</TargetImage>
+          <GrantedAccess condition="contains any">0x1fffff;0x1f3fff;0x1410;0x143a;0x1438;0x1430;0x1010</GrantedAccess>
+          <SourceImage condition="contains any">\powershell.exe;\pwsh.exe;\cmd.exe;\wscript.exe;\cscript.exe;\rundll32.exe;\regsvr32.exe;\mshta.exe;\wmic.exe;\bitsadmin.exe;\certutil.exe;\msbuild.exe;\python.exe;\perl.exe;\ruby.exe;\node.exe;\java.exe</SourceImage>
+		</Rule>
+        <Rule groupRelation="and">
+          <TargetImage condition="end with">\winlogon.exe</TargetImage>
+          <GrantedAccess condition="contains any">0x1fffff;0x1f3fff;0x1410;0x143a;0x1438;0x1430</GrantedAccess>
+        </Rule>
+        <Rule groupRelation="and">
+          <TargetImage condition="end with">\lsaiso.exe</TargetImage>
+          <GrantedAccess condition="contains any">0x1fffff;0x1f3fff;0x1410;0x143a;0x1438;0x1430</GrantedAccess>
+        </Rule>
+      </ProcessAccess>
+    </RuleGroup>
+    <RuleGroup name="FileCreate-Include-DesktopCore" groupRelation="or">
+      <FileCreate onmatch="include">
+        <TargetFilename condition="contains">\Start Menu</TargetFilename>
+        <TargetFilename condition="contains">\Startup\</TargetFilename>
+        <Rule groupRelation="and">
+          <TargetFilename condition="contains any">\Downloads\;\Desktop\;\AppData\Local\Temp\;</TargetFilename>
+          <TargetFilename condition="contains any">.exe;.dll;.ps1;.vbs;.js;.jse;.hta;.bat;.cmd;.scr;.msi;.lnk</TargetFilename>
+        </Rule>
+        <TargetFilename condition="contains">\Content.Outlook\</TargetFilename>
+        <TargetFilename condition="contains">\INetCache\Content.Outlook\</TargetFilename>
+        <TargetFilename condition="contains any">.docm;.xlsm;.pptm;.rtf;.lnk;.iso;.img</TargetFilename>
+        <TargetFilename condition="begin with">C:\Windows\System32\drivers\etc\hosts</TargetFilename>
+        <TargetFilename condition="begin with">C:\Windows\Tasks\</TargetFilename>
+        <TargetFilename condition="begin with">C:\Windows\System32\Tasks\</TargetFilename>
+        <TargetFilename condition="begin with">C:\Windows\SysWOW64\Tasks\</TargetFilename>
+        <TargetFilename condition="begin with">C:\Windows\System32\GroupPolicy\Machine\Scripts</TargetFilename>
+        <TargetFilename condition="begin with">C:\Windows\System32\GroupPolicy\User\Scripts</TargetFilename>
+        <TargetFilename condition="contains">\AppData\Local\Google\Chrome\User Data\Default\Extensions\</TargetFilename>
+        <TargetFilename condition="contains">\AppData\Local\Microsoft\Edge\User Data\Default\Extensions\</TargetFilename>
+      </FileCreate>
+    </RuleGroup>
+    <RuleGroup name="FileCreate-Exclude-PLURA" groupRelation="or">
+      <FileCreate onmatch="exclude">
+        <Image condition="end with">\Program Files (x86)\PLURA\PLURAService.exe</Image>
+        <Image condition="end with">\Program Files (x86)\PLURA\PLURASControl.exe</Image>
+        <Image condition="end with">\Program Files (x86)\PLURA\PLURAConfig.exe</Image>
+        <Image condition="end with">\Program Files (x86)\PLURA\PLURATray.exe</Image>
+      </FileCreate>
+    </RuleGroup>
+    <RuleGroup name="RegistryEvent-Include-DesktopCore" groupRelation="or">
+      <RegistryEvent onmatch="include">
+        <TargetObject condition="contains">\CurrentVersion\Run</TargetObject>
+        <TargetObject condition="contains">\Policies\Explorer\Run</TargetObject>
+        <TargetObject condition="contains">Explorer\User Shell Folders\Startup</TargetObject>
+        <TargetObject condition="contains">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon</TargetObject>
+        <TargetObject condition="begin with">HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options</TargetObject>
+        <TargetObject condition="contains">HKLM\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging</TargetObject>
+        <TargetObject condition="contains">HKLM\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ModuleLogging</TargetObject>
+        <TargetObject condition="contains">HKLM\SOFTWARE\Policies\Microsoft\Windows\PowerShell\Transcription</TargetObject>
+        <TargetObject condition="contains">HKLM\SOFTWARE\Policies\Microsoft\Windows Defender</TargetObject>
+      </RegistryEvent>
+    </RuleGroup>
+    <RuleGroup name="RegistryEvent-Exclude-PLURA-Noise" groupRelation="or">
+      <RegistryEvent onmatch="exclude">
+        <Image condition="begin with">C:\Program Files (x86)\PLURA\</Image>
+        <Image condition="begin with">C:\Program Files\PLURA\</Image>
+      </RegistryEvent>
+    </RuleGroup>
+    <RuleGroup name="FileCreateStreamHash-Desktop" groupRelation="or">
+      <FileCreateStreamHash onmatch="include">
+        <Rule name="ZoneIdentifier" groupRelation="and">
+          <TargetFilename condition="end with">:Zone.Identifier</TargetFilename>
+          <Contents condition="contains any">about:internet;blob:</Contents>
+        </Rule>
+        <TargetFilename condition="end with">.ps1</TargetFilename>
+        <TargetFilename condition="end with">.psm1</TargetFilename>
+        <TargetFilename condition="end with">.vbs</TargetFilename>
+        <TargetFilename condition="end with">.js</TargetFilename>
+      </FileCreateStreamHash>
+    </RuleGroup>
+    <RuleGroup name="DnsQuery-IOC" groupRelation="or">
+      <DnsQuery onmatch="include">
+        <QueryName condition="end with">tcjst.com</QueryName>
+      </DnsQuery>
+    </RuleGroup>
+    <RuleGroup name="DnsQuery-Include-SuspiciousTools" groupRelation="or">
+      <DnsQuery onmatch="include">
+        <Image condition="end with">\Windows\System32\WindowsPowerShell\v1.0\powershell.exe</Image>
+        <Image condition="end with">\Windows\SysWOW64\WindowsPowerShell\v1.0\powershell.exe</Image>
+        <Image condition="end with">\Windows\System32\pwsh.exe</Image>
+        <Image condition="end with">\Windows\System32\cmd.exe</Image>
+        <Image condition="end with">\Windows\System32\cscript.exe</Image>
+        <Image condition="end with">\Windows\System32\wscript.exe</Image>
+        <Image condition="end with">\Windows\System32\mshta.exe</Image>
+        <Image condition="end with">\Windows\System32\rundll32.exe</Image>
+        <Image condition="end with">\Windows\System32\regsvr32.exe</Image>
+        <Image condition="end with">\Windows\System32\wmic.exe</Image>
+        <Image condition="end with">\Windows\System32\certutil.exe</Image>
+        <Image condition="end with">\Windows\System32\bitsadmin.exe</Image>
+        <Image condition="end with">\Windows\System32\curl.exe</Image>
+        <Image condition="end with">\Windows\System32\wget.exe</Image>
+      </DnsQuery>
+    </RuleGroup>
+    <RuleGroup name="FileDelete-ArchivedCopy-Disabled" groupRelation="or">
+      <FileDelete onmatch="exclude" />
+    </RuleGroup>
+    <RuleGroup name="FileDeleteDetected-Include-DesktopCore" groupRelation="or">
+      <FileDeleteDetected onmatch="include">
+        <Rule groupRelation="and">
+          <TargetFilename condition="contains">\Downloads\</TargetFilename>
+          <TargetFilename condition="contains any">.exe;.dll;.ps1;.vbs;.js;.jse;.hta;.bat;.cmd;.scr;.msi;.lnk</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+          <TargetFilename condition="contains any">.exe;.dll;.ps1;.vbs;.js;.jse;.hta;.bat;.cmd;.scr;.msi;.lnk</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <TargetFilename condition="contains">\INetCache\Content.Outlook\</TargetFilename>
+          <TargetFilename condition="contains any">.exe;.dll;.ps1;.vbs;.js;.jse;.hta;.bat;.cmd;.scr;.msi;.lnk;.docm;.xlsm;.pptm;.rtf</TargetFilename>
+        </Rule>
+      </FileDeleteDetected>
+    </RuleGroup>
+    <RuleGroup name="FileDeleteDetected-Exclude-CommonNoise" groupRelation="or">
+      <FileDeleteDetected onmatch="exclude">
+        <Image condition="contains all">\appdata\local\google\chrome\user data\swreporter\;software_reporter_tool.exe</Image>
+        <User condition="contains any">NETWORK SERVICE;LOCAL SERVICE</User>
+      </FileDeleteDetected>
+    </RuleGroup>
+    <RuleGroup name="CreateRemoteThread-Include" groupRelation="or">
+      <CreateRemoteThread onmatch="include">
+        <SourceImage condition="begin with">C:\</SourceImage>
+        <SourceImage condition="begin with">\\</SourceImage>
+      </CreateRemoteThread>
+    </RuleGroup>
+
+    <!-- SYSMON EVENT ID 27 : FILE BLOCK EXECUTABLE -->
+    <RuleGroup name="Include_LOLBAS_FileBlock_Desktop_Curated" groupRelation="or">
+      <FileBlockExecutable onmatch="include">
+        <Rule groupRelation="and">
+          <Image condition="contains any">AddinUtil.exe;
+            Aspnet_Compiler.exe;
+            At.exe;
+            Atbroker.exe;
+            Bash.exe;
+            Bitsadmin.exe;
+            CertOC.exe;
+            CertReq.exe;
+            Certutil.exe;
+            Change.exe;
+            Cipher.exe;
+            Cmdkey.exe;
+            Cmstp.exe;
+            Colorcpl.exe;
+            ComputerDefaults.exe;
+            ConfigSecurityPolicy.exe;
+            Control.exe;
+            DataSvcUtil.exe;
+            Desktopimgdownldr.exe;
+            DeviceCredentialDeployment.exe;
+            Dfsvc.exe;
+            Diantz.exe;
+            Diskshadow.exe;
+            Dnscmd.exe;
+            Esentutl.exe;
+            Eudcedit.exe;
+            Eventvwr.exe;
+            Expand.exe;
+            Explorer.exe;
+            Extexport.exe;
+            Extrac32.exe;
+            Findstr.exe;
+            Finger.exe;
+            Forfiles.exe;
+            Fsutil.exe;
+            Ftp.exe;
+            Gpscript.exe;
+            Hh.exe;
+            IMEWDBLD.exe;
+            Ie4uinit.exe;
+            Ieexec.exe;
+            Infdefaultinstall.exe;
+            Installutil.exe;
+            Ldifde.exe;
+            Makecab.exe;
+            Mavinject.exe;
+            Microsoft.Workflow.Compiler.exe;
+            Mmc.exe;
+            MpCmdRun.exe;
+            Msconfig.exe;
+            Msdt.exe;
+            Mshta.exe;
+            Netsh.exe;
+            Ngen.exe;
+            Odbcconf.exe;
+            OfflineScannerShell.exe;
+            Pcalua.exe;
+            Pcwrun.exe;
+            Pktmon.exe;
+            Pnputil.exe;
+            Presentationhost.exe;
+            Print.exe;
+            PrintBrm.exe;
+            Provlaunch.exe;
+            Psr.exe;
+            Query.exe;
+            Rasautou.exe;
+            Reg.exe;
+            Regasm.exe;
+            Regedit.exe;
+            Regini.exe;
+            Register-cimprovider.exe;
+            Regsvcs.exe;
+            Regsvr32.exe;
+            Replace.exe;
+            Reset.exe;
+            Rpcping.exe;
+            Rundll32.exe;
+            Runexehelper.exe;
+            Runonce.exe;
+            Runscripthelper.exe;
+            Sc.exe;
+            Schtasks.exe;
+            Scriptrunner.exe;
+            Setres.exe;
+            SettingSyncHost.exe;
+            Sftp.exe;
+            Stordiag.exe;
+            SyncAppvPublishingServer.exe;
+            Tar.exe;
+            Ttdinject.exe;
+            Tttracer.exe;
+            Unregmp2.exe;
+            Verclsid.exe;
+            Wab.exe;
+            Wlrmdr.exe;
+            Wmic.exe;
+            WorkFolders.exe;
+            Wsreset.exe;
+            Xwizard.exe;
+            cmdl32.exe;
+            fltMC.exe;
+            iediagcmd.exe;
+            iscsicpl.exe;
+            rdrleakdiag.exe;
+            ssh.exe;
+            wbadmin.exe;
+            wbemtest.exe;
+            wuauclt.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;
+            C:\Users\Public\;
+            C:\ProgramData\;
+            C:\Windows\Temp\;
+            C:\Temp\;</TargetFilename>
+        </Rule>
+      </FileBlockExecutable>
+    </RuleGroup>
+
+    <RuleGroup name="Include_PLURA_HONEYPOT_Desktop" groupRelation="or">
+      <FileBlockExecutable onmatch="include">
+        <Rule groupRelation="and">
+          <TargetFilename condition="begin with">C:\Users\</TargetFilename>
+          <TargetFilename condition="contains any">
+            \Documents\;
+            \Pictures\;
+            \Videos\;
+            \Music\;
+            \Favorites\;
+            \Client_Contracts\
+          </TargetFilename>
+        </Rule>
+      </FileBlockExecutable>
+    </RuleGroup>
+
+    <RuleGroup name="Include_Temp_Desktop" groupRelation="or">
+      <FileBlockExecutable onmatch="include">
+        <Rule groupRelation="or">
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+          <TargetFilename condition="contains">\Windows\Temp\</TargetFilename>
+        </Rule>
+      </FileBlockExecutable>
+    </RuleGroup>
+
+    <RuleGroup name="Include_ProgramData_Desktop" groupRelation="or">
+      <FileBlockExecutable onmatch="include">
+        <Rule groupRelation="and">
+          <TargetFilename condition="begin with">C:\ProgramData\</TargetFilename>
+        </Rule>
+      </FileBlockExecutable>
+    </RuleGroup>
+
+    <RuleGroup name="Include_Public_Desktop" groupRelation="or">
+      <FileBlockExecutable onmatch="include">
+        <Rule groupRelation="and">
+          <TargetFilename condition="begin with">C:\Users\Public\</TargetFilename>
+        </Rule>
+      </FileBlockExecutable>
+    </RuleGroup>
+
+    <RuleGroup name="Include_PowerShell_Script_Desktop" groupRelation="or">
+      <FileBlockExecutable onmatch="include">
+        <Rule groupRelation="or">
+          <TargetFilename condition="end with">.ps1</TargetFilename>
+          <TargetFilename condition="end with">.psm1</TargetFilename>
+          <TargetFilename condition="end with">.psd1</TargetFilename>
+        </Rule>
+      </FileBlockExecutable>
+    </RuleGroup>
+
+    <RuleGroup name="Include_MalwareDrop_Desktop" groupRelation="or">
+      <FileBlockExecutable onmatch="include">
+        <Rule groupRelation="and">
+          <Image condition="contains any">\WINWORD.EXE;\EXCEL.EXE;\POWERPNT.EXE;\OUTLOOK.EXE;\ONENOTE.EXE;\MSACCESS.EXE;\HWP.EXE;\HCELL.EXE;\HSHOW.EXE;\ACRORD32.EXE;\ACROBAT.EXE;\FOXITREADER.EXE;\SUMATRAPDF.EXE;\PDFXEDIT.EXE;\PDFXEDIT64.EXE;\HANCOMPDF.EXE;</Image>
+          <TargetFilename condition="contains any">C:\Users\;
+            C:\Users\Public\;
+            C:\ProgramData\;
+            C:\Windows\Temp\;
+            C:\Temp\;</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="end with">\msedge.exe</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="end with">\msedge.exe</Image>
+          <TargetFilename condition="contains">\AppData\Roaming\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="end with">\msedge.exe</Image>
+          <TargetFilename condition="contains">\Windows\Temp\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="end with">\msedge.exe</Image>
+          <TargetFilename condition="begin with">C:\ProgramData\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="end with">\msedge.exe</Image>
+          <TargetFilename condition="begin with">C:\Users\Public\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="end with">\msedge.exe</Image>
+          <TargetFilename condition="begin with">C:\Temp\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <TargetFilename condition="contains any">C:\Users\;
+            C:\Users\Public\;
+            C:\ProgramData\;
+            C:\Windows\Temp\;
+            C:\Temp\;</TargetFilename>
+          <TargetFilename condition="end with">\certutil.exe</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <TargetFilename condition="contains any">C:\Users\;
+            C:\Users\Public\;
+            C:\ProgramData\;
+            C:\Windows\Temp\;
+            C:\Temp\;</TargetFilename>
+          <TargetFilename condition="end with">\bitsadmin.exe</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <TargetFilename condition="contains any">C:\Users\;
+            C:\Users\Public\;
+            C:\ProgramData\;
+            C:\Windows\Temp\;
+            C:\Temp\;</TargetFilename>
+          <TargetFilename condition="end with">\powershell.exe</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <TargetFilename condition="contains any">C:\Users\;
+            C:\Users\Public\;
+            C:\ProgramData\;
+            C:\Windows\Temp\;
+            C:\Temp\;</TargetFilename>
+          <TargetFilename condition="end with">\pwsh.exe</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <TargetFilename condition="contains any">C:\Users\;
+            C:\Users\Public\;
+            C:\ProgramData\;
+            C:\Windows\Temp\;
+            C:\Temp\;</TargetFilename>
+          <TargetFilename condition="end with">\regsvr32.exe</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <TargetFilename condition="contains any">C:\Users\;
+            C:\Users\Public\;
+            C:\ProgramData\;
+            C:\Windows\Temp\;
+            C:\Temp\;</TargetFilename>
+          <TargetFilename condition="end with">\rundll32.exe</TargetFilename>
+        </Rule>
+      </FileBlockExecutable>
+    </RuleGroup>
+    <RuleGroup name="Exclude_LegitActivity_Desktop" groupRelation="or">
+      <FileBlockExecutable onmatch="exclude">
+        <Rule groupRelation="and">
+          <Image condition="contains">\Office\setup.exe</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+          <TargetFilename condition="end with">.exe</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="contains">\Adobe\</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="contains any">\Google\Update\;\Google\Chrome\</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="contains">\Microsoft\EdgeUpdate\</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="contains">\zoom\</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="contains">\Slack\</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="contains">\Microsoft Visual Studio\</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="end with">msiexec.exe</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="contains">\ProgramData\Microsoft\Windows Defender\Platform\</Image>
+          <TargetFilename condition="contains">\ProgramData\Microsoft\Windows Defender\</TargetFilename>
+          <TargetFilename condition="contains any">\Definition Updates\;\Platform\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="is">C:\WINDOWS\system32\MpSigStub.exe</Image>
+          <TargetFilename condition="begin with">C:\Windows\Temp\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="contains">\ChromeSetup.exe</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="contains">\AppData\Local\Programs\Microsoft VS Code\</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="contains">\JetBrains\Toolbox\</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="contains">\Steam\</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="contains">\NVIDIA\</Image>
+          <TargetFilename condition="contains">\Program Files\NVIDIA Corporation\Installer2\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="end with">wuauclt.exe</Image>
+          <TargetFilename condition="contains">\SoftwareDistribution\Download\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="contains">\chocolatey\</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="contains">\App Installer\</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="end with">CefSharp.BrowserSubprocess.exe</Image>
+          <TargetFilename condition="contains">\chrome_Unpacker_BeginUnzipping</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="begin with">C:\Program Files (x86)\Microsoft Visual Studio\Installer\</Image>
+          <Image condition="end with">\Microsoft.VisualStudio.Setup.ServiceBackgroundDownload.exe</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+          <TargetFilename condition="end with">vs_setup_bootstrapper.exe</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="end with">\AppData\Local\Programs\Microsoft VS Code\Code.exe</Image>
+          <TargetFilename condition="contains all">\AppData\Local\Temp\vscode-stable-user;\CodeSetup-stable-</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="contains all">\AppData\Local\Temp\vscode-stable-user;\CodeSetup-stable-</Image>
+          <TargetFilename condition="contains all">\AppData\Local\Temp\;\CodeSetup-stable-</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="is">C:\WINDOWS\System32\svchost.exe</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\BIT</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="end with">WinSCP-6.5.5-Setup.exe</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="contains">WinSCP</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\is-</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="begin with">C:\Program Files\WindowsApps\Microsoft.BingWallpaper</Image>
+          <Image condition="end with">BingWallpaper.exe</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="contains">\AppData\Local\Microsoft\OneDrive\</Image>
+          <Image condition="end with">\OneDrivePatcher.exe</Image>
+          <TargetFilename condition="contains all">\AppData\Local\Temp\;\OneDriveDeltaPatch\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="is">C:\Program Files (x86)\ESTsoft\ALToolsManager\ALToolsManager.exe</Image>
+          <TargetFilename condition="contains">\AppData\Roaming\ESTsoft\ALToolsManager\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="begin with">C:\Program Files\ESTsoft\</Image>
+          <Image condition="end with">unins000.exe</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="contains">\AppData\Roaming\ESTsoft\ALToolsManager\</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="begin with">C:\WINDOWS\SoftwareDistribution\Download\</Image>
+          <Image condition="end with">\InstallUpdatePlatform.amd64fre.exe</Image>
+          <TargetFilename condition="begin with">C:\Windows\Temp\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="is">C:\Program Files\PLURA\Sysmon.exe</Image>
+          <Image condition="end with">\AppData\Local\Temp\Sysmon.exe</Image>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="is">C:\Program Files\Bandizip\Bandizip.exe</Image>
+          <Image condition="contains">\AppData\Local\Temp\</Image>
+          <Image condition="end with">.exe.sample</Image>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="end with">\PluraService.exe</Image>
+          <TargetFilename condition="end with">\PluraSetup.exe</TargetFilename>
+        </Rule>
+      </FileBlockExecutable>
+    </RuleGroup>
+    <RuleGroup name="Exclude_MSSHelper_Desktop" groupRelation="or">
+      <FileBlockExecutable onmatch="exclude">
+        <Rule groupRelation="or">
+          <Image condition="end with">\SOC_2.1.0.exe</Image>
+          <Image condition="end with">\SOC_2.1.1.exe</Image>
+          <Image condition="end with">\UAENA.exe</Image>
+        </Rule>
+      </FileBlockExecutable>
+    </RuleGroup>
+  </EventFiltering>
+</Sysmon>

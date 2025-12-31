@@ -1,0 +1,107 @@
+<!-- PLURA_CONFIG_VERSION: s-sysmon-plura-v3.1.1-rnd-curated.xml --> 
+<!-- PLURA_SCHEMA_TARGET: 4.90 -->
+
+<Sysmon schemaversion="4.90">
+  <HashAlgorithms>*</HashAlgorithms>
+  <CheckRevocation>False</CheckRevocation>
+  <DnsLookup>False</DnsLookup>
+  <ArchiveDirectory>Sysmon</ArchiveDirectory>
+
+  <EventFiltering>
+    <!-- Disable other high-volume events for focused RnD -->
+    <ProcessCreate onmatch="include" />
+    <NetworkConnect onmatch="include" />
+    <ProcessTerminate onmatch="include" />
+    <FileCreate onmatch="include" />
+    <FileDelete onmatch="include" />
+    <RawAccessRead onmatch="include" />
+    <ProcessAccess onmatch="include" />
+    <ImageLoad onmatch="include" />
+
+    <!-- Event ID 12/13/14: Persistence -->
+    <RuleGroup name="RegistryEvent-Include-Persistence-Core" groupRelation="or">
+      <RegistryEvent onmatch="include">
+        <TargetObject condition="begin with">HKCU\Software\Microsoft\Windows\CurrentVersion\Run</TargetObject>
+        <TargetObject condition="begin with">HKCU\Software\Microsoft\Windows\CurrentVersion\RunOnce</TargetObject>
+        <TargetObject condition="begin with">HKLM\Software\Microsoft\Windows\CurrentVersion\Run</TargetObject>
+        <TargetObject condition="begin with">HKLM\Software\Microsoft\Windows\CurrentVersion\RunOnce</TargetObject>
+        <TargetObject condition="begin with">HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Run</TargetObject>
+        <TargetObject condition="begin with">HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnce</TargetObject>
+
+        <!-- Service persistence -->
+        <TargetObject condition="contains">HKLM\SYSTEM\CurrentControlSet\Services\</TargetObject>
+        <TargetObject condition="end with">\ImagePath</TargetObject>
+
+        <!-- Scheduled Task persistence -->
+        <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\</TargetObject>
+        <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tasks\</TargetObject>
+      </RegistryEvent>
+    </RuleGroup>
+
+    <!-- Event ID 8: Injection -->
+    <RuleGroup name="CreateRemoteThread-Include-HighSignal" groupRelation="or">
+      <CreateRemoteThread onmatch="include">
+        <!-- High-value targets -->
+        <TargetImage condition="end with">\lsass.exe</TargetImage>
+        <TargetImage condition="end with">\winlogon.exe</TargetImage>
+        <TargetImage condition="end with">\lsaiso.exe</TargetImage>
+
+        <!-- Scripting/LOLBins as source -->
+        <SourceImage condition="end with">\powershell.exe</SourceImage>
+        <SourceImage condition="end with">\pwsh.exe</SourceImage>
+        <SourceImage condition="end with">\wscript.exe</SourceImage>
+        <SourceImage condition="end with">\cscript.exe</SourceImage>
+        <SourceImage condition="end with">\mshta.exe</SourceImage>
+        <SourceImage condition="end with">\rundll32.exe</SourceImage>
+        <SourceImage condition="end with">\regsvr32.exe</SourceImage>
+      </CreateRemoteThread>
+    </RuleGroup>
+
+    <!-- Event ID 22: DNS Query -->
+    <RuleGroup name="DnsQuery-Include-SuspiciousTools" groupRelation="or">
+      <DnsQuery onmatch="include">
+        <Image condition="end with">\powershell.exe</Image>
+        <Image condition="end with">\pwsh.exe</Image>
+        <Image condition="end with">\cmd.exe</Image>
+        <Image condition="end with">\wscript.exe</Image>
+        <Image condition="end with">\cscript.exe</Image>
+        <Image condition="end with">\mshta.exe</Image>
+        <Image condition="end with">\rundll32.exe</Image>
+        <Image condition="end with">\regsvr32.exe</Image>
+        <Image condition="end with">\bitsadmin.exe</Image>
+        <Image condition="end with">\certutil.exe</Image>
+        <Image condition="end with">\msbuild.exe</Image>
+      </DnsQuery>
+    </RuleGroup>
+
+    <!-- Event ID 26: FileDeleteDetected -->
+    <RuleGroup name="FileDeleteDetected-Include-HighSignal" groupRelation="or">
+      <FileDeleteDetected onmatch="include">
+        <TargetFilename condition="begin with">C:\Users\</TargetFilename>
+        <TargetFilename condition="end with">.doc</TargetFilename>
+        <TargetFilename condition="end with">.docx</TargetFilename>
+        <TargetFilename condition="end with">.xls</TargetFilename>
+        <TargetFilename condition="end with">.xlsx</TargetFilename>
+        <TargetFilename condition="end with">.ppt</TargetFilename>
+        <TargetFilename condition="end with">.pptx</TargetFilename>
+        <TargetFilename condition="end with">.pdf</TargetFilename>
+        <TargetFilename condition="end with">.hwp</TargetFilename>
+        <TargetFilename condition="end with">.txt</TargetFilename>
+
+        <!-- Evidence/identity artifacts -->
+        <TargetFilename condition="end with">\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt</TargetFilename>
+        <TargetFilename condition="end with">\NTUSER.DAT</TargetFilename>
+      </FileDeleteDetected>
+    </RuleGroup>
+
+    <RuleGroup name="Exclude-Legit-Minimal" groupRelation="or">
+      <CreateRemoteThread onmatch="exclude">
+        <SourceImage condition="end with">\MsMpEng.exe</SourceImage>
+        <SourceImage condition="end with">\Taskmgr.exe</SourceImage>
+      </CreateRemoteThread>
+      <DnsQuery onmatch="exclude">
+        <Image condition="end with">\svchost.exe</Image>
+      </DnsQuery>
+    </RuleGroup>
+  </EventFiltering>
+</Sysmon>
