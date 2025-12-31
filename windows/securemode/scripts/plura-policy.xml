@@ -1,0 +1,46 @@
+<SiPolicy xmlns="urn:schemas-microsoft-com:sipolicy">
+  <PolicyID>{F9EFC6D7-0A39-4C96-AB5E-B95A2D227E77}</PolicyID>
+  <VersionNumber>1.0.0.0</VersionNumber>
+  <Name>PLURA SecureMode Policy</Name>
+  <PolicyType>Base Policy</PolicyType>
+  <RuleOptions>
+    <Option>Enabled:Enforce</Option>
+    <Option>Enabled:UMCI</Option>
+  </RuleOptions>
+
+  <!-- Publisher-based allow rules -->
+  <FileRules>
+    <FilePublisherRule Id="Allow_Microsoft" Action="Allow"
+      PublisherName="O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+      ProductName="*" BinaryName="*" />
+    <FilePublisherRule Id="Allow_Google" Action="Allow"
+      PublisherName="O=Google LLC, L=Mountain View, S=California, C=US"
+      ProductName="*" BinaryName="*" />
+    <FilePublisherRule Id="Allow_Adobe" Action="Allow"
+      PublisherName="O=Adobe Inc., L=San Jose, S=California, C=US"
+      ProductName="*" BinaryName="*" />
+    
+    <!-- LOLBins Deny Rules -->
+    <FileRule Id="Deny_wscript" Action="Deny" Path="C:\Windows\System32\wscript.exe" />
+    <FileRule Id="Deny_cscript" Action="Deny" Path="C:\Windows\System32\cscript.exe" />
+    <FileRule Id="Deny_mshta"   Action="Deny" Path="C:\Windows\System32\mshta.exe" />
+    <FileRule Id="Deny_regsvr32" Action="Deny" Path="C:\Windows\System32\regsvr32.exe" />
+    <FileRule Id="Deny_rundll32" Action="Deny" Path="C:\Windows\System32\rundll32.exe" />
+  </FileRules>
+
+  <!-- Path-based allow rules -->
+  <FilePathRules>
+    <FilePathRule Id="Path_ProgramFiles" Action="Allow" Path="C:\Program Files\*" />
+    <FilePathRule Id="Path_ProgramFiles86" Action="Allow" Path="C:\Program Files (x86)\*" />
+    <FilePathRule Id="Path_UserAppData" Action="Allow" Path="C:\Users\*\AppData\*" />
+  </FilePathRules>
+
+  <Signers />
+  <SigningScenarios>
+    <SigningScenario ID="0" FriendlyName="Default">
+      <ProductSigners>
+        <AllowedSigners />
+      </ProductSigners>
+    </SigningScenario>
+  </SigningScenarios>
+</SiPolicy>
