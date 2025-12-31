@@ -1,12 +1,16 @@
 <#
 PLURA-Forensic
-File/Folder auditing (SACL) applier for PLURA (all profiles)
+Audit SACL remover (DEL) for PLURA
+
+Purpose:
+- Removes auditing (SACL) entries for specific file/folder/registry targets listed in a rules file.
+- Typical use: apply baseline rules first, then remove (exclude) noisy/undesired targets.
 
 Key behavior (sysmon-install.ps1 style):
 - Determines OS role (DESKTOP vs SERVER) via Win32_OperatingSystem.ProductType
-- Downloads the proper rules from repo.plura.io if needed
-  * SERVER : https://repo.plura.io/edr/windows/advanced-audit-policy/server/s-audit-core.rules
-  * DESKTOP: https://repo.plura.io/edr/windows/advanced-audit-policy/desktop/d-audit-core.rules
+- Downloads the proper DEL rules from repo.plura.io if needed
+  * SERVER : https://repo.plura.io/edr/windows/advanced-audit-policy/server/s-audit-del.rules
+  * DESKTOP: https://repo.plura.io/edr/windows/advanced-audit-policy/desktop/d-audit-del.rules
 - Local rules priority:
   1) Use the given local path if it exists (absolute or relative to current dir)
   2) If not found, try relative to script dir
@@ -17,17 +21,24 @@ Key behavior (sysmon-install.ps1 style):
 - Uses Write-Output (stdout) + file log under C:\Program Files\PLURA\logs\
 - PS 5.1 safe.
 
-Rule format (recommended): id|path|perm|note
-Also accepted:
-  path|perm
-  id|path|perm
+Rule format:
+- Preferred: id|path|perm|note
+- Also accepted:
+    path
+    path|perm
+    id|path|perm
 Directives:
   @include <file>
 Comments:
   # ...   or  ; ...
 
+Deletion behavior:
+- If perm is empty (or '*' / 'ALL'): remove ALL audit rules for the given Account on that target (PurgeAuditRules).
+- If perm is specified: remove audit rules that match Identity + Rights exactly for that target.
+  (If you want force-remove everything for the account, use '*' or omit perm.)
+
 Notes:
-- This script does NOT enable Advanced Audit Policy subcategories (File System). The OS policy must be enabled separately.
+- This script does NOT enable/disable Advanced Audit Policy subcategories.
 - Requires Administrator or SYSTEM privileges.
 #>
 
@@ -40,12 +51,13 @@ param(
     [string]$Action = 'Apply',
 
     # Single-target mode (optional)
-    [string]$Path,
+    [string]$Target,
+
+    # If provided, remove only audit rules matching this rights set.
+    # If empty or '*' or 'ALL', remove all audit rules for the account.
     [string]$Perm,
 
     [string]$Account = 'Everyone',
-    [string]$AuditFlags = 'Success,Failure',
-    [bool]$ReplaceExisting = $true,
 
     # RULES filter (optional)
     [string[]]$Id,
@@ -60,10 +72,10 @@ $PluraRoot  = 'C:\Program Files\PLURA'
 $DesktopDir = Join-Path $PluraRoot 'desktop'
 $ServerDir  = Join-Path $PluraRoot 'server'
 $LogDir     = Join-Path $PluraRoot 'logs'
-$LogFile    = Join-Path $LogDir  'file-folder-all-profiles.log'
+$LogFile    = Join-Path $LogDir  'win-audit-del.log'
 
-$RepoDesktopRuleUrl = 'https://repo.plura.io/edr/windows/advanced-audit-policy/desktop/d-audit-core.rules'
-$RepoServerRuleUrl  = 'https://repo.plura.io/edr/windows/advanced-audit-policy/server/s-audit-core.rules'
+$RepoDesktopRuleUrl = 'https://repo.plura.io/edr/windows/advanced-audit-policy/desktop/d-audit-del.rules'
+$RepoServerRuleUrl  = 'https://repo.plura.io/edr/windows/advanced-audit-policy/server/s-audit-del.rules'
 $RepoBaseDesktop    = 'https://repo.plura.io/edr/windows/advanced-audit-policy/desktop/'
 $RepoBaseServer     = 'https://repo.plura.io/edr/windows/advanced-audit-policy/server/'
 
@@ -80,10 +92,8 @@ function Write-Log {
     $ts   = (Get-Date).ToString('yyyy-MM-dd HH:mm:ss')
     $line = '[{0}] [{1}] {2}' -f $ts, $Level, $Message
 
-    # Agent consoles usually capture stdout.
     Write-Output $Message
 
-    # Best-effort file log.
     try {
         if (-not (Test-Path $LogDir)) {
             New-Item -Path $LogDir -ItemType Directory -Force | Out-Null
@@ -133,7 +143,6 @@ function Normalize-ProxyUri {
     $t = $Text.Trim()
     if ([string]::IsNullOrWhiteSpace($t)) { return $null }
 
-    # Accept "host:port" and "http://host:port"
     if ($t -notmatch '^[a-zA-Z][a-zA-Z0-9+\-.]*://') {
         $t = "http://$t"
     }
@@ -142,9 +151,6 @@ function Normalize-ProxyUri {
 }
 
 function Get-ProxyFromPluraRegistry {
-    # Reads HKLM\SOFTWARE\QubitSecurity\PLURA -> Proxy
-    # Tries both 64-bit and 32-bit registry views.
-
     $subKey = 'SOFTWARE\\QubitSecurity\\PLURA'
     $valueName = 'Proxy'
 
@@ -163,13 +169,11 @@ function Get-ProxyFromPluraRegistry {
                 $val = $key.GetValue($valueName, $null)
                 if ($null -ne $val) {
                     $s = [string]$val
-                    if (-not [string]::IsNullOrWhiteSpace($s)) {
-                        return $s.Trim()
-                    }
+                    if (-not [string]::IsNullOrWhiteSpace($s)) { return $s.Trim() }
                 }
             }
         } catch {
-            # ignore and continue to next view
+            # ignore
         } finally {
             if ($key)  { $key.Dispose() }
             if ($base) { $base.Dispose() }
@@ -194,22 +198,17 @@ function Download-File {
             ErrorAction = 'Stop'
         }
 
-        if ($iwr.Parameters.ContainsKey('UseBasicParsing')) {
-            $params.UseBasicParsing = $true
-        }
+        if ($iwr.Parameters.ContainsKey('UseBasicParsing')) { $params.UseBasicParsing = $true }
 
         if ($Proxy) {
             $params.Proxy = $Proxy.AbsoluteUri
-            if ($iwr.Parameters.ContainsKey('ProxyUseDefaultCredentials')) {
-                $params.ProxyUseDefaultCredentials = $true
-            }
+            if ($iwr.Parameters.ContainsKey('ProxyUseDefaultCredentials')) { $params.ProxyUseDefaultCredentials = $true }
         }
 
         Invoke-WebRequest @params
         return
     }
 
-    # Fallback for environments without Invoke-WebRequest
     $wc = New-Object System.Net.WebClient
     try {
         if ($Proxy) {
@@ -228,12 +227,10 @@ function Normalize-InputPath {
 
     $p = $Path.Trim()
 
-    # remove surrounding quotes repeatedly
     while (($p.StartsWith("'") -and $p.EndsWith("'")) -or ($p.StartsWith('"') -and $p.EndsWith('"'))) {
         $p = $p.Substring(1, $p.Length - 2).Trim()
     }
 
-    # Expand $env:NAME occurrences only (safe for paths like C:\$Recycle.Bin)
     $p = [regex]::Replace($p, '\$env:([A-Za-z_][A-Za-z0-9_]*)', {
         param($m)
         $name = $m.Groups[1].Value
@@ -241,19 +238,11 @@ function Normalize-InputPath {
         if ([string]::IsNullOrEmpty($val)) { $m.Value } else { $val }
     })
 
-    # Expand %NAME% environment variables
     $p = [Environment]::ExpandEnvironmentVariables($p)
-
     return $p
 }
 
 function Resolve-LocalFilePath {
-    <#
-      Local file priority:
-        1) as provided (absolute) or relative to current dir
-        2) script dir
-        3) WorkDir
-    #>
     param(
         [Parameter(Mandatory=$true)][string]$InputPath,
         [Parameter(Mandatory=$true)][string]$WorkDir
@@ -287,12 +276,7 @@ function Resolve-RulesFile {
         [Parameter(Mandatory=$false)][Uri]$Proxy
     )
 
-    $source = $null
-    if ([string]::IsNullOrWhiteSpace($RuleFileName)) {
-        $source = $DefaultUrl
-    } else {
-        $source = $RuleFileName.Trim()
-    }
+    $source = if ([string]::IsNullOrWhiteSpace($RuleFileName)) { $DefaultUrl } else { $RuleFileName.Trim() }
 
     if (Is-HttpUrl -Text $source) {
         $uri = $null
@@ -300,7 +284,7 @@ function Resolve-RulesFile {
         if (-not $uri) { throw "Invalid rules URL: $source" }
 
         $fileName = [System.IO.Path]::GetFileName($uri.AbsolutePath)
-        if ([string]::IsNullOrWhiteSpace($fileName)) { $fileName = 'audit.rules' }
+        if ([string]::IsNullOrWhiteSpace($fileName)) { $fileName = 'audit-del.rules' }
 
         $dest = Join-Path $WorkDir $fileName
         Write-Log -Level 'INFO' -Message ("Downloading rules: {0} -> {1}" -f $source, $dest)
@@ -309,11 +293,9 @@ function Resolve-RulesFile {
         return $dest
     }
 
-    # Local file path resolution (priority)
     $local = Resolve-LocalFilePath -InputPath $source -WorkDir $WorkDir
     if ($local) { return $local }
 
-    # If missing: try map by filename prefix d-/s- and download
     $fileName2 = [System.IO.Path]::GetFileName($source)
     if ([string]::IsNullOrWhiteSpace($fileName2)) { throw "Rule file not found: $source" }
 
@@ -334,7 +316,6 @@ function Resolve-RulesFile {
 }
 
 function Enable-SeSecurityPrivilege {
-    # SACL 수정에 필요한 SeSecurityPrivilege를 토큰에서 활성화합니다.
     if (-not ("PluraPrivilege" -as [type])) {
         Add-Type -TypeDefinition @"
 using System;
@@ -386,7 +367,7 @@ public static class PluraPrivilege {
     }
 
     try {
-        [PluraPrivilege]::EnablePrivilege("SeSecurityPrivilege")
+        [PluraPrivilege]::EnablePrivilege('SeSecurityPrivilege')
     } catch {
         Write-Log -Level 'WARN' -Message ("Failed to enable SeSecurityPrivilege: {0}" -f $_.Exception.Message)
     }
@@ -403,22 +384,13 @@ function Contains-Wildcards {
 }
 
 function Expand-FileTargets {
-    <#
-      Expand file-system wildcard patterns into concrete existing paths.
-      - Used only for file-system paths (NOT registry).
-    #>
     param([Parameter(Mandatory)][string]$PathPattern)
 
     $p = Normalize-InputPath -Path $PathPattern
 
-    if (Is-RegistryPath -Path $p) {
-        # file-folder script: ignore registry paths
-        return @($p)
-    }
+    if (Is-RegistryPath -Path $p) { return @($p) }
 
-    if (-not (Contains-Wildcards -Path $p)) {
-        return @($p)
-    }
+    if (-not (Contains-Wildcards -Path $p)) { return @($p) }
 
     $matches = @()
     try {
@@ -430,16 +402,11 @@ function Expand-FileTargets {
                 }
             }
         }
-    } catch {
-        # ignore
-    }
+    } catch {}
 
-    # de-dup (case-insensitive)
     $unique = New-Object 'System.Collections.Generic.HashSet[string]' ([StringComparer]::OrdinalIgnoreCase)
     $out = New-Object System.Collections.Generic.List[string]
-    foreach ($m in $matches) {
-        if ($unique.Add($m)) { $out.Add($m) | Out-Null }
-    }
+    foreach ($m in $matches) { if ($unique.Add($m)) { $out.Add($m) | Out-Null } }
 
     if ($out.Count -eq 0) {
         Write-Log -Level 'WARN' -Message ("Wildcard pattern matched nothing: {0}" -f $p)
@@ -462,7 +429,7 @@ function Resolve-RulePath {
     return (Join-Path -Path (Split-Path -Parent $BaseFile) -ChildPath $c)
 }
 
-function Read-Rules {
+function Read-DelRules {
     param([Parameter(Mandatory)][string]$RuleFilePath)
 
     if (-not (Test-Path -LiteralPath $RuleFilePath)) {
@@ -491,17 +458,16 @@ function Read-Rules {
             }
 
             $parts = $line.Split('|')
-            if ($parts.Count -lt 2) {
-                Write-Log -Level 'WARN' -Message ("Invalid rule line (skip): {0}:{1} : {2}" -f $full, $ln, $line)
-                continue
-            }
 
             $id   = $null
             $path = $null
-            $perm = $null
+            $perm = ''
             $note = ''
 
-            if ($parts.Count -eq 2) {
+            if ($parts.Count -eq 1) {
+                $path = $parts[0].Trim()
+                $id = ("rule_{0:0000}" -f $items.Count)
+            } elseif ($parts.Count -eq 2) {
                 $path = $parts[0].Trim()
                 $perm = $parts[1].Trim()
                 $id = ("rule_{0:0000}" -f $items.Count)
@@ -516,8 +482,8 @@ function Read-Rules {
                 $note = ($parts[3..($parts.Count-1)] -join '|').Trim()
             }
 
-            if ([string]::IsNullOrWhiteSpace($path) -or [string]::IsNullOrWhiteSpace($perm)) {
-                Write-Log -Level 'WARN' -Message ("Invalid rule line (missing path/perm): {0}:{1} : {2}" -f $full, $ln, $line)
+            if ([string]::IsNullOrWhiteSpace($path)) {
+                Write-Log -Level 'WARN' -Message ("Invalid rule line (missing path): {0}:{1} : {2}" -f $full, $ln, $line)
                 continue
             }
 
@@ -536,108 +502,76 @@ function Read-Rules {
     return $items
 }
 
-function Parse-AuditFlags {
-    param([string]$AuditFlags = 'Success,Failure')
-    $flags = 0
-    foreach ($t in ($AuditFlags -split ',')) {
-        $tok = $t.Trim()
-        if ([string]::IsNullOrWhiteSpace($tok)) { continue }
-        try {
-            $v = [Enum]::Parse([System.Security.AccessControl.AuditFlags], $tok, $true)
-            $flags = $flags -bor [int]$v
-        } catch {
-            throw "Invalid AuditFlags token: '$tok'. Use Success, Failure, or Success,Failure."
-        }
-    }
-    return [System.Security.AccessControl.AuditFlags]$flags
-}
-
 function Parse-FileSystemRights {
     param([Parameter(Mandatory)][string]$Perm)
     $rights = 0
     foreach ($t in ($Perm -split ',')) {
         $tok = $t.Trim()
         if ([string]::IsNullOrWhiteSpace($tok)) { continue }
-        try {
-            $v = [Enum]::Parse([System.Security.AccessControl.FileSystemRights], $tok, $true)
-            $rights = $rights -bor [int]$v
-        } catch {
-            throw "Invalid FileSystemRights token: '$tok'."
-        }
+        $v = [Enum]::Parse([System.Security.AccessControl.FileSystemRights], $tok, $true)
+        $rights = $rights -bor [int]$v
     }
     return [System.Security.AccessControl.FileSystemRights]$rights
 }
 
-function Test-IsAccessDenied {
-  <#
-    Robust AccessDenied detection (safe on non-English OS):
-      - Walks exception chain
-      - Checks UnauthorizedAccess/SecurityException
-      - Checks HResult == E_ACCESSDENIED (0x80070005)
-      - Checks Win32Exception NativeErrorCode == 5
-  #>
-  param([Parameter(Mandatory)]$ErrorRecord)
-
-  try {
-    $e = $ErrorRecord.Exception
-    while ($e) {
-      if ($e -is [System.UnauthorizedAccessException]) { return $true }
-      if ($e -is [System.Security.SecurityException]) { return $true }
-
-      try {
-        if ($e -is [System.ComponentModel.Win32Exception]) {
-          if ($e.NativeErrorCode -eq 5) { return $true }
-        }
-      } catch {}
-
-      try {
-        if ($e.HResult -eq -2147024891) { return $true } # 0x80070005
-      } catch {}
-
-      $e = $e.InnerException
+function Parse-RegistryRights {
+    param([Parameter(Mandatory)][string]$Perm)
+    $rights = 0
+    foreach ($t in ($Perm -split ',')) {
+        $tok = $t.Trim()
+        if ([string]::IsNullOrWhiteSpace($tok)) { continue }
+        $v = [Enum]::Parse([System.Security.AccessControl.RegistryRights], $tok, $true)
+        $rights = $rights -bor [int]$v
     }
-  } catch {}
-
-  return $false
+    return [System.Security.AccessControl.RegistryRights]$rights
 }
 
-function Apply-FileAuditRule {
+function Test-IsAccessDenied {
+    param([Parameter(Mandatory)]$ErrorRecord)
+
+    try {
+        $e = $ErrorRecord.Exception
+        while ($e) {
+            if ($e -is [System.UnauthorizedAccessException]) { return $true }
+            if ($e -is [System.Security.SecurityException]) { return $true }
+
+            try {
+                if ($e -is [System.ComponentModel.Win32Exception]) {
+                    if ($e.NativeErrorCode -eq 5) { return $true }
+                }
+            } catch {}
+
+            try {
+                if ($e.HResult -eq -2147024891) { return $true } # 0x80070005
+            } catch {}
+
+            $e = $e.InnerException
+        }
+    } catch {}
+
+    return $false
+}
+
+function Is-PurgePerm {
+    param([string]$Perm)
+    if ([string]::IsNullOrWhiteSpace($Perm)) { return $true }
+    $p = $Perm.Trim()
+    return ($p -eq '*') -or ($p -match '^(?i)all$')
+}
+
+function Remove-AuditRules_FileSystem {
     param(
         [Parameter(Mandatory)][string]$TargetPath,
-        [Parameter(Mandatory)][string]$Perm
+        [Parameter(Mandatory=$false)][string]$Perm
     )
 
     $t = Normalize-InputPath -Path $TargetPath
+    if (-not (Test-Path -LiteralPath $t)) { throw ("File/Folder not found: {0}" -f $t) }
 
-    if (Is-RegistryPath -Path $t) {
-        throw ("file-folder-all-profiles.ps1 is file/folder only. registry path found: {0}" -f $t)
-    }
+    $acct = New-Object System.Security.Principal.NTAccount($Account)
+    $acl  = Get-Acl -LiteralPath $t -Audit
 
-    if (-not (Test-Path -LiteralPath $t)) {
-        throw ("File/Folder not found: {0}" -f $t)
-    }
-
-    $item = Get-Item -LiteralPath $t -ErrorAction Stop
-    $isContainer = $item.PSIsContainer
-
-    $rights = Parse-FileSystemRights -Perm $Perm
-    $aFlags = Parse-AuditFlags -AuditFlags $AuditFlags
-    $acct   = New-Object System.Security.Principal.NTAccount($Account)
-
-    # "이 폴더 및 파일"(서브폴더 제외):
-    # - Folder itself + Files inherit(ObjectInherit)
-    # - Subfolder inheritance disabled (ContainerInherit not used)
-    $inherit = [System.Security.AccessControl.InheritanceFlags]::None
-    if ($isContainer) { $inherit = [System.Security.AccessControl.InheritanceFlags]::ObjectInherit }
-    $prop = [System.Security.AccessControl.PropagationFlags]::None
-
-    $rule = New-Object System.Security.AccessControl.FileSystemAuditRule(
-        $acct, $rights, $inherit, $prop, $aFlags
-    )
-
-    $acl = Get-Acl -LiteralPath $t -Audit
-
-    if ($ReplaceExisting) {
+    if (Is-PurgePerm -Perm $Perm) {
         try {
             $acl.PurgeAuditRules($acct)
         } catch {
@@ -645,15 +579,55 @@ function Apply-FileAuditRule {
                         Where-Object { $_.IdentityReference -eq $acct }
             foreach ($r in $existing) { [void]$acl.RemoveAuditRuleSpecific($r) }
         }
+        Set-Acl -LiteralPath $t -AclObject $acl
+        return
     }
 
-    $acl.AddAuditRule($rule) | Out-Null
+    $want = Parse-FileSystemRights -Perm $Perm
+    $existing2 = $acl.GetAuditRules($true, $false, [System.Security.Principal.NTAccount]) |
+                 Where-Object { $_.IdentityReference -eq $acct }
+
+    $matched = $existing2 | Where-Object { $_.FileSystemRights -eq $want }
+    foreach ($r in $matched) { [void]$acl.RemoveAuditRuleSpecific($r) }
+
     Set-Acl -LiteralPath $t -AclObject $acl
 }
 
-# ---- Start ----
+function Remove-AuditRules_Registry {
+    param(
+        [Parameter(Mandatory)][string]$TargetPath,
+        [Parameter(Mandatory=$false)][string]$Perm
+    )
 
-# TLS 1.2 (common requirement)
+    $t = Normalize-InputPath -Path $TargetPath
+    if (-not (Test-Path -Path $t)) { throw ("Registry key not found: {0}" -f $t) }
+
+    $acct = New-Object System.Security.Principal.NTAccount($Account)
+    $acl  = Get-Acl -Path $t -Audit
+
+    if (Is-PurgePerm -Perm $Perm) {
+        try {
+            $acl.PurgeAuditRules($acct)
+        } catch {
+            $existing = $acl.GetAuditRules($true, $false, [System.Security.Principal.NTAccount]) |
+                        Where-Object { $_.IdentityReference -eq $acct }
+            foreach ($r in $existing) { [void]$acl.RemoveAuditRuleSpecific($r) }
+        }
+        Set-Acl -Path $t -AclObject $acl
+        return
+    }
+
+    $want = Parse-RegistryRights -Perm $Perm
+    $existing2 = $acl.GetAuditRules($true, $false, [System.Security.Principal.NTAccount]) |
+                 Where-Object { $_.IdentityReference -eq $acct }
+
+    $matched = $existing2 | Where-Object { $_.RegistryRights -eq $want }
+    foreach ($r in $matched) { [void]$acl.RemoveAuditRuleSpecific($r) }
+
+    Set-Acl -Path $t -AclObject $acl
+}
+
+# ---- Start ----
 try { [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 } catch {}
 
 Assert-Privileged
@@ -664,10 +638,9 @@ if ($osRole -eq 'UNKNOWN') {
     exit 2
 }
 
-$WorkDir  = if ($osRole -eq 'SERVER') { $ServerDir } else { $DesktopDir }
+$WorkDir    = if ($osRole -eq 'SERVER') { $ServerDir } else { $DesktopDir }
 $DefaultUrl = if ($osRole -eq 'SERVER') { $RepoServerRuleUrl } else { $RepoDesktopRuleUrl }
 
-# Ensure working directory exists
 try {
     if (-not (Test-Path $WorkDir)) {
         New-Item -Path $WorkDir -ItemType Directory -Force | Out-Null
@@ -680,7 +653,6 @@ try {
 Write-Log -Level 'INFO' -Message ("OS Role : {0}" -f $osRole)
 Write-Log -Level 'INFO' -Message ("WorkDir : {0}" -f $WorkDir)
 
-# Determine proxy (PLURA registry)
 $proxyRaw = $null
 $proxyUri = $null
 try { $proxyRaw = Get-ProxyFromPluraRegistry } catch { $proxyRaw = $null }
@@ -699,11 +671,9 @@ if (-not [string]::IsNullOrWhiteSpace($proxyRaw)) {
 Enable-SeSecurityPrivilege
 
 try {
-    # RULES mode vs single-target mode
     $useRules = $true
     if ([string]::IsNullOrWhiteSpace($RuleFileName)) {
-        # If explicit single-target args exist, prefer single-target mode
-        if (-not [string]::IsNullOrWhiteSpace($Path) -and -not [string]::IsNullOrWhiteSpace($Perm)) {
+        if (-not [string]::IsNullOrWhiteSpace($Target)) {
             $useRules = $false
         }
     }
@@ -711,14 +681,12 @@ try {
     if ($useRules) {
         $rulesPath = Resolve-RulesFile -RuleFileName $RuleFileName -DefaultUrl $DefaultUrl -WorkDir $WorkDir -Proxy $proxyUri
 
-        Write-Log -Level 'INFO' -Message 'Applying File/Folder auditing (SACL)'
-        Write-Log -Level 'INFO' -Message ("Rules file      : {0}" -f $rulesPath)
-        Write-Log -Level 'INFO' -Message ("Action          : {0}" -f $Action)
-        Write-Log -Level 'INFO' -Message ("Account         : {0}" -f $Account)
-        Write-Log -Level 'INFO' -Message ("AuditFlags      : {0}" -f $AuditFlags)
-        Write-Log -Level 'INFO' -Message ("ReplaceExisting : {0}" -f $ReplaceExisting)
+        Write-Log -Level 'INFO' -Message 'Removing auditing (SACL) by rules (win-audit-del.ps1)'
+        Write-Log -Level 'INFO' -Message ("Rules file : {0}" -f $rulesPath)
+        Write-Log -Level 'INFO' -Message ("Action     : {0}" -f $Action)
+        Write-Log -Level 'INFO' -Message ("Account    : {0}" -f $Account)
 
-        $items = Read-Rules -RuleFilePath $rulesPath
+        $items = Read-DelRules -RuleFilePath $rulesPath
 
         if ($Id) {
             $idset = New-Object 'System.Collections.Generic.HashSet[string]'
@@ -736,11 +704,10 @@ try {
         }
 
         $ruleCount = 0
-        $appliedCount = 0
+        $removedCount = 0
         $missingCount = 0
         $accessDeniedCount = 0
         $failedCount = 0
-        $skippedRegistryCount = 0
 
         foreach ($it in $items) {
             $ruleCount++
@@ -748,46 +715,55 @@ try {
 
             foreach ($t in $targets) {
                 $tt = Normalize-InputPath -Path $t
-
-                if (Is-RegistryPath -Path $tt) {
-                    $skippedRegistryCount++
-                    Write-Log -Level 'WARN' -Message ("Skip registry path (file/folder script): {0}" -f $tt)
-                    continue
-                }
-
-                if (-not (Test-Path -LiteralPath $tt)) {
-                    $missingCount++
-                    Write-Log -Level 'WARN' -Message ("File/Folder not found: {0}" -f $tt)
-                    continue
-                }
+                $isReg = Is-RegistryPath -Path $tt
 
                 try {
-                    Apply-FileAuditRule -TargetPath $tt -Perm $it.Perm
-                    $appliedCount++
-                } catch {
+                    if ($isReg) {
+                        if (-not (Test-Path -Path $tt)) {
+                            $missingCount++
+                            Write-Log -Level 'WARN' -Message ("Registry key not found: {0}" -f $tt)
+                            continue
+                        }
+                        Remove-AuditRules_Registry -TargetPath $tt -Perm $it.Perm
+                    } else {
+                        if (-not (Test-Path -LiteralPath $tt)) {
+                            $missingCount++
+                            Write-Log -Level 'WARN' -Message ("File/Folder not found: {0}" -f $tt)
+                            continue
+                        }
+                        Remove-AuditRules_FileSystem -TargetPath $tt -Perm $it.Perm
+                    }
+                    $removedCount++
+                }
+                catch {
                     if (Test-IsAccessDenied -ErrorRecord $_) {
                         $accessDeniedCount++
-                        Write-Log -Level 'WARN' -Message ("Access denied applying rule '{0}' target '{1}' : {2}" -f $it.Id, $tt, $_.Exception.Message)
+                        Write-Log -Level 'WARN' -Message ("Access denied removing rule '{0}' target '{1}' : {2}" -f $it.Id, $tt, $_.Exception.Message)
                     } else {
                         $failedCount++
-                        Write-Log -Level 'WARN' -Message ("Failed applying rule '{0}' target '{1}' : {2}" -f $it.Id, $tt, $_.Exception.Message)
+                        Write-Log -Level 'WARN' -Message ("Failed removing rule '{0}' target '{1}' : {2}" -f $it.Id, $tt, $_.Exception.Message)
                     }
                 }
             }
         }
 
-        Write-Log -Level 'INFO' -Message ("Completed. Rules={0} Applied={1} Missing={2} SkipRegistry={3} AccessDenied={4} Failed={5}" -f $ruleCount, $appliedCount, $missingCount, $skippedRegistryCount, $accessDeniedCount, $failedCount)
+        Write-Log -Level 'INFO' -Message ("Completed. Rules={0} Removed={1} Missing={2} AccessDenied={3} Failed={4}" -f $ruleCount, $removedCount, $missingCount, $accessDeniedCount, $failedCount)
         if (($accessDeniedCount + $failedCount) -gt 0) { exit 1 } else { exit 0 }
     }
 
     # Single-target mode
-    Write-Log -Level 'INFO' -Message 'Applying File/Folder auditing (SACL) - single target'
-    Write-Log -Level 'INFO' -Message ("Target Path : {0}" -f $Path)
-    Write-Log -Level 'INFO' -Message ("Permissions : {0}" -f $Perm)
-    Write-Log -Level 'INFO' -Message ("Account     : {0}" -f $Account)
-    Write-Log -Level 'INFO' -Message ("AuditFlags  : {0}" -f $AuditFlags)
+    $tgt = Normalize-InputPath -Path $Target
+    Write-Log -Level 'INFO' -Message 'Removing auditing (SACL) - single target'
+    Write-Log -Level 'INFO' -Message ("Target  : {0}" -f $tgt)
+    Write-Log -Level 'INFO' -Message ("Account : {0}" -f $Account)
+    Write-Log -Level 'INFO' -Message ("Perm    : {0}" -f $Perm)
 
-    Apply-FileAuditRule -TargetPath $Path -Perm $Perm
+    if (Is-RegistryPath -Path $tgt) {
+        Remove-AuditRules_Registry -TargetPath $tgt -Perm $Perm
+    } else {
+        Remove-AuditRules_FileSystem -TargetPath $tgt -Perm $Perm
+    }
+
     Write-Log -Level 'INFO' -Message 'Completed successfully.'
     exit 0
 }

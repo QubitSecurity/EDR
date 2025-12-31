@@ -1,54 +1,45 @@
 <#
 PLURA-Forensic
-Windows Registry SACL(Audit ACL) applier for PLURA - Registry3 (This key and subkeys)
+Registry auditing (SACL) applier for PLURA - Registry3 (This key and subkeys)
 
-- RULES 파일(텍스트)을 입력 받아 레지스트리 키에 SACL(Audit ACL)을 적용/조회합니다.
-- 이 스크립트는 "고급 감사 정책(Advanced Audit Policy)" 자체를 켜지 않습니다.
-  (Registry 서브카테고리 감사가 켜져 있어야 실제 이벤트가 생성됩니다.)
-- Administrator 또는 SYSTEM 권한 실행을 전제로 합니다.
-
-Key behavior (sysmon-install.ps1 스타일):
-- OS role(Desktop vs Server)를 Win32_OperatingSystem.ProductType로 판별
-- RuleFileName을 지정하지 않으면 OS 역할에 맞는 rules 파일을 repo.plura.io에서 다운로드 후 적용
+Key behavior (sysmon-install.ps1 style):
+- Determines OS role (DESKTOP vs SERVER) via Win32_OperatingSystem.ProductType
+- Downloads the proper rules from repo.plura.io if needed
   * SERVER : https://repo.plura.io/edr/windows/advanced-audit-policy/server/s-audit-registry3.rules
   * DESKTOP: https://repo.plura.io/edr/windows/advanced-audit-policy/desktop/d-audit-registry3.rules
-- RuleFileName이 URL(http/https)이면 다운로드 후 적용
-- RuleFileName이 로컬 파일이면 로컬 파일 적용
-- 로컬 파일이 없는데 파일명이 'd-audit-registry3.rules' 또는 's-audit-registry3.rules' 이면 해당 rules를 자동 다운로드 후 적용
-- Proxy 지원:
+- Local rules priority:
+  1) Use the given local path if it exists (absolute or relative to current dir)
+  2) If not found, try relative to script dir
+  3) If not found, try WorkDir (C:\Program Files\PLURA\desktop|server)
+  4) If still not found and filename begins with d- or s-, download from repo
+- Proxy support:
   HKLM\SOFTWARE\QubitSecurity\PLURA\Proxy
-- 출력은 Write-Output(stdout) + 파일 로그(C:\Program Files\PLURA\logs\win-registry3.log)
+- Uses Write-Output (stdout) + file log under C:\Program Files\PLURA\logs\
+- PS 5.1 safe.
 
-Examples:
-  # (권장) RuleFileName 생략: OS에 맞는 rules를 자동 다운로드 후 적용
-  .\win-registry3.ps1
+Rule format (recommended): id|path|perm|note
+Also accepted:
+  path|perm
+  id|path|perm
+Directives:
+  @include <file>
+Comments:
+  # ...   or  ; ...
 
-  # 로컬 rules 파일 지정(예)
-  .\win-registry3.ps1 .\d-audit-registry3.rules
-
-  # URL 지정(예)
-  .\win-registry3.ps1 https://repo.plura.io/edr/windows/advanced-audit-policy/desktop/d-audit-registry3.rules
-
-  # rules 목록만 출력
-  .\win-registry3.ps1 .\d-audit-registry3.rules List
+Notes:
+- This script does NOT enable Advanced Audit Policy subcategories (Registry). The OS policy must be enabled separately.
+- Requires Administrator or SYSTEM privileges.
 #>
 
 [CmdletBinding()]
 param(
-    # Optional override.
-    # - If empty: auto-select OS-specific repo URL above and download.
-    # - If starts with http/https: treated as URL and downloaded.
-    # - Otherwise: treated as local path.
-    [Parameter(Mandatory=$false, Position=0)]
+    [Parameter(Mandatory=$false)]
     [string]$RuleFileName,
 
-    # 두 번째 인자로 List/Apply 지정 가능
-    #   .\win-registry3.ps1 .\d-audit-registry3.rules List
-    [Parameter(Mandatory=$false, Position=1)]
     [ValidateSet('Apply','List')]
     [string]$Action = 'Apply',
 
-    # 단일 모드(필요 시 사용)
+    # Single-target mode (optional)
     [string]$Path,
     [string]$Perm,
 
@@ -56,7 +47,7 @@ param(
     [string]$AuditFlags = 'Success,Failure',
     [bool]$ReplaceExisting = $true,
 
-    # RULES 모드 필터(선택)
+    # RULES filter (optional)
     [string[]]$Id,
     [string]$Match
 )
@@ -65,15 +56,19 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
 # ---- Constants ----
-$PluraRoot       = 'C:\Program Files\PLURA'
-$DesktopDir      = Join-Path $PluraRoot 'desktop'
-$ServerDir       = Join-Path $PluraRoot 'server'
-$DesktopRulesUrl = 'https://repo.plura.io/edr/windows/advanced-audit-policy/desktop/d-audit-registry3.rules'
-$ServerRulesUrl  = 'https://repo.plura.io/edr/windows/advanced-audit-policy/server/s-audit-registry3.rules'
-$DesktopRuleName = 'd-audit-registry3.rules'
-$ServerRuleName  = 's-audit-registry3.rules'
-$LogDir          = Join-Path $PluraRoot 'logs'
-$LogFile         = Join-Path $LogDir 'win-registry3.log'
+$PluraRoot  = 'C:\Program Files\PLURA'
+$DesktopDir = Join-Path $PluraRoot 'desktop'
+$ServerDir  = Join-Path $PluraRoot 'server'
+$LogDir     = Join-Path $PluraRoot 'logs'
+$LogFile    = Join-Path $LogDir  'win-registry3.log'
+
+$RepoDesktopRuleUrl = 'https://repo.plura.io/edr/windows/advanced-audit-policy/desktop/d-audit-registry3.rules'
+$RepoServerRuleUrl  = 'https://repo.plura.io/edr/windows/advanced-audit-policy/server/s-audit-registry3.rules'
+$RepoBaseDesktop    = 'https://repo.plura.io/edr/windows/advanced-audit-policy/desktop/'
+$RepoBaseServer     = 'https://repo.plura.io/edr/windows/advanced-audit-policy/server/'
+
+# --- Script root (safe in functions under StrictMode) ---
+$script:PLURA_SCRIPT_DIR = if ($PSScriptRoot) { $PSScriptRoot } elseif ($PSCommandPath) { Split-Path -Parent $PSCommandPath } else { Split-Path -Parent $MyInvocation.MyCommand.Path }
 
 # ---- Output helper (stdout + file) ----
 function Write-Log {
@@ -82,13 +77,13 @@ function Write-Log {
         [Parameter(Mandatory=$true)][string]$Message
     )
 
-    $ts = (Get-Date).ToString('yyyy-MM-dd HH:mm:ss')
+    $ts   = (Get-Date).ToString('yyyy-MM-dd HH:mm:ss')
     $line = '[{0}] [{1}] {2}' -f $ts, $Level, $Message
 
-    # Agent consoles usually capture stdout.
+    # stdout
     Write-Output $Message
 
-    # Best-effort file log.
+    # file log (best effort)
     try {
         if (-not (Test-Path $LogDir)) {
             New-Item -Path $LogDir -ItemType Directory -Force | Out-Null
@@ -112,19 +107,8 @@ function Assert-Privileged {
     }
 }
 
-function Get-ScriptDir {
-    if ($PSScriptRoot) { return $PSScriptRoot }
-    if ($PSCommandPath) { return (Split-Path -Parent $PSCommandPath) }
-    return (Split-Path -Parent $MyInvocation.MyCommand.Path)
-}
-
 function Get-OsRole {
-    <#
-      Returns: DESKTOP | SERVER | UNKNOWN
-      Based on Win32_OperatingSystem.ProductType:
-        1 = Workstation, 2 = Domain Controller, 3 = Server
-      DC는 SERVER로 취급합니다.
-    #>
+    # 1=Client(Desktop), 2=Domain Controller(Server), 3=Server
     try {
         $os = Get-CimInstance -ClassName Win32_OperatingSystem -ErrorAction Stop
         switch ([int]$os.ProductType) {
@@ -149,7 +133,6 @@ function Normalize-ProxyUri {
     $t = $Text.Trim()
     if ([string]::IsNullOrWhiteSpace($t)) { return $null }
 
-    # Accept "host:port" and "http://host:port"
     if ($t -notmatch '^[a-zA-Z][a-zA-Z0-9+\-.]*://') {
         $t = "http://$t"
     }
@@ -158,9 +141,6 @@ function Normalize-ProxyUri {
 }
 
 function Get-ProxyFromPluraRegistry {
-    # Reads HKLM\SOFTWARE\QubitSecurity\PLURA -> Proxy
-    # Tries both 64-bit and 32-bit registry views.
-
     $subKey = 'SOFTWARE\\QubitSecurity\\PLURA'
     $valueName = 'Proxy'
 
@@ -179,13 +159,11 @@ function Get-ProxyFromPluraRegistry {
                 $val = $key.GetValue($valueName, $null)
                 if ($null -ne $val) {
                     $s = [string]$val
-                    if (-not [string]::IsNullOrWhiteSpace($s)) {
-                        return $s.Trim()
-                    }
+                    if (-not [string]::IsNullOrWhiteSpace($s)) { return $s.Trim() }
                 }
             }
         } catch {
-            # ignore and continue to next view
+            # ignore
         } finally {
             if ($key)  { $key.Dispose() }
             if ($base) { $base.Dispose() }
@@ -210,22 +188,17 @@ function Download-File {
             ErrorAction = 'Stop'
         }
 
-        if ($iwr.Parameters.ContainsKey('UseBasicParsing')) {
-            $params.UseBasicParsing = $true
-        }
+        if ($iwr.Parameters.ContainsKey('UseBasicParsing')) { $params.UseBasicParsing = $true }
 
         if ($Proxy) {
             $params.Proxy = $Proxy.AbsoluteUri
-            if ($iwr.Parameters.ContainsKey('ProxyUseDefaultCredentials')) {
-                $params.ProxyUseDefaultCredentials = $true
-            }
+            if ($iwr.Parameters.ContainsKey('ProxyUseDefaultCredentials')) { $params.ProxyUseDefaultCredentials = $true }
         }
 
         Invoke-WebRequest @params
         return
     }
 
-    # Fallback for environments without Invoke-WebRequest
     $wc = New-Object System.Net.WebClient
     try {
         if ($Proxy) {
@@ -239,8 +212,100 @@ function Download-File {
     }
 }
 
+function Normalize-InputPath {
+    param([Parameter(Mandatory)][string]$Path)
+
+    $p = $Path.Trim()
+
+    while (($p.StartsWith("'") -and $p.EndsWith("'")) -or ($p.StartsWith('"') -and $p.EndsWith('"'))) {
+        $p = $p.Substring(1, $p.Length - 2).Trim()
+    }
+
+    $p = [regex]::Replace($p, '\$env:([A-Za-z_][A-Za-z0-9_]*)', {
+        param($m)
+        $name = $m.Groups[1].Value
+        $val  = [Environment]::GetEnvironmentVariable($name)
+        if ([string]::IsNullOrEmpty($val)) { $m.Value } else { $val }
+    })
+
+    $p = [Environment]::ExpandEnvironmentVariables($p)
+    return $p
+}
+
+function Resolve-LocalFilePath {
+    param(
+        [Parameter(Mandatory=$true)][string]$InputPath,
+        [Parameter(Mandatory=$true)][string]$WorkDir
+    )
+
+    $s = Normalize-InputPath -Path $InputPath
+
+    if ([System.IO.Path]::IsPathRooted($s)) {
+        if (Test-Path -LiteralPath $s) { return $s }
+        return $null
+    }
+
+    $cands = @(
+        (Join-Path (Get-Location).Path $s),
+        (Join-Path $script:PLURA_SCRIPT_DIR $s),
+        (Join-Path $WorkDir $s)
+    ) | Select-Object -Unique
+
+    foreach ($c in $cands) {
+        if ($c -and (Test-Path -LiteralPath $c)) { return $c }
+    }
+
+    return $null
+}
+
+function Resolve-RulesFile {
+    param(
+        [Parameter(Mandatory=$false)][string]$RuleFileName,
+        [Parameter(Mandatory=$true)][string]$DefaultUrl,
+        [Parameter(Mandatory=$true)][string]$WorkDir,
+        [Parameter(Mandatory=$false)][Uri]$Proxy
+    )
+
+    $source = if ([string]::IsNullOrWhiteSpace($RuleFileName)) { $DefaultUrl } else { $RuleFileName.Trim() }
+
+    if (Is-HttpUrl -Text $source) {
+        $uri = $null
+        try { $uri = [Uri]$source } catch { $uri = $null }
+        if (-not $uri) { throw "Invalid rules URL: $source" }
+
+        $fileName = [System.IO.Path]::GetFileName($uri.AbsolutePath)
+        if ([string]::IsNullOrWhiteSpace($fileName)) { $fileName = 'audit.rules' }
+
+        $dest = Join-Path $WorkDir $fileName
+        Write-Log -Level 'INFO' -Message ("Downloading rules: {0} -> {1}" -f $source, $dest)
+
+        if ($Proxy) { Download-File -Url $source -OutFile $dest -Proxy $Proxy } else { Download-File -Url $source -OutFile $dest }
+        return $dest
+    }
+
+    $local = Resolve-LocalFilePath -InputPath $source -WorkDir $WorkDir
+    if ($local) { return $local }
+
+    $fileName2 = [System.IO.Path]::GetFileName($source)
+    if ([string]::IsNullOrWhiteSpace($fileName2)) { throw "Rule file not found: $source" }
+
+    $url = $null
+    if ($fileName2 -match '^(?i)d-') {
+        $url = $RepoBaseDesktop + $fileName2
+    } elseif ($fileName2 -match '^(?i)s-') {
+        $url = $RepoBaseServer + $fileName2
+    } else {
+        throw ("Rule file not found: {0}. If you intended to download, pass an URL or use d-/s- prefixed filename." -f $source)
+    }
+
+    $dest2 = Join-Path $WorkDir $fileName2
+    Write-Log -Level 'INFO' -Message ("Rules file not found locally. Downloading: {0} -> {1}" -f $url, $dest2)
+
+    if ($Proxy) { Download-File -Url $url -OutFile $dest2 -Proxy $Proxy } else { Download-File -Url $url -OutFile $dest2 }
+    return $dest2
+}
+
 function Enable-SeSecurityPrivilege {
-    # SACL 수정에 필요한 SeSecurityPrivilege를 토큰에서 활성화합니다.
     if (-not ("PluraPrivilege" -as [type])) {
         Add-Type -TypeDefinition @"
 using System;
@@ -292,150 +357,10 @@ public static class PluraPrivilege {
     }
 
     try {
-        [PluraPrivilege]::EnablePrivilege("SeSecurityPrivilege")
+        [PluraPrivilege]::EnablePrivilege('SeSecurityPrivilege')
     } catch {
         Write-Log -Level 'WARN' -Message ("Failed to enable SeSecurityPrivilege: {0}" -f $_.Exception.Message)
     }
-}
-
-function Normalize-InputPath {
-    param([Parameter(Mandatory)][string]$Path)
-
-    $p = $Path.Trim()
-
-    # remove surrounding quotes repeatedly
-    while (($p.StartsWith("'") -and $p.EndsWith("'")) -or ($p.StartsWith('"') -and $p.EndsWith('"'))) {
-        $p = $p.Substring(1, $p.Length - 2).Trim()
-    }
-
-    # Expand $env:NAME occurrences only (safe for paths like C:\$Recycle.Bin)
-    $p = [regex]::Replace($p, '\$env:([A-Za-z_][A-Za-z0-9_]*)', {
-        param($m)
-        $name = $m.Groups[1].Value
-        $val  = [Environment]::GetEnvironmentVariable($name)
-        if ([string]::IsNullOrEmpty($val)) { $m.Value } else { $val }
-    })
-
-    # Expand %NAME% environment variables
-    $p = [Environment]::ExpandEnvironmentVariables($p)
-
-    return $p
-}
-
-function Resolve-ExistingRuleFile {
-    <#
-      Resolve local rules path in a robust way:
-        1) As provided (current directory)
-        2) Script directory
-        3) PLURA OS work directory (desktop/server)
-      Returns: full path or $null
-    #>
-    param(
-        [Parameter(Mandatory)][string]$RuleFileName,
-        [Parameter(Mandatory)][string]$WorkDir
-    )
-
-    $rf = Normalize-InputPath -Path $RuleFileName
-
-    try {
-        if (Test-Path -LiteralPath $rf) {
-            return (Resolve-Path -LiteralPath $rf).Path
-        }
-    } catch {}
-
-    # If not rooted, try script dir
-    try {
-        if (-not [System.IO.Path]::IsPathRooted($rf)) {
-            $sd = Get-ScriptDir
-            $c2 = Join-Path -Path $sd -ChildPath $rf
-            if (Test-Path -LiteralPath $c2) {
-                return (Resolve-Path -LiteralPath $c2).Path
-            }
-        }
-    } catch {}
-
-    # Try WorkDir by basename
-    try {
-        $base = [System.IO.Path]::GetFileName($rf)
-        if (-not [string]::IsNullOrWhiteSpace($base)) {
-            $c3 = Join-Path -Path $WorkDir -ChildPath $base
-            if (Test-Path -LiteralPath $c3) {
-                return (Resolve-Path -LiteralPath $c3).Path
-            }
-        }
-    } catch {}
-
-    return $null
-}
-
-function Prepare-RuleFile {
-    <#
-      Ensures the rules file exists locally.
-      Returns: absolute path to the rules file.
-    #>
-    param(
-        [Parameter(Mandatory=$false)][string]$RuleFileName,
-        [Parameter(Mandatory)][string]$OsRole,
-        [Parameter(Mandatory=$false)][Uri]$Proxy
-    )
-
-    $WorkDir = if ($OsRole -eq 'SERVER') { $ServerDir } else { $DesktopDir }
-    if (-not (Test-Path $WorkDir)) {
-        try { New-Item -Path $WorkDir -ItemType Directory -Force | Out-Null } catch {}
-    }
-
-    # 1) RuleFileName empty => download default for OS role
-    if ([string]::IsNullOrWhiteSpace($RuleFileName)) {
-        $url = if ($OsRole -eq 'SERVER') { $ServerRulesUrl } else { $DesktopRulesUrl }
-        $out = Join-Path -Path $WorkDir -ChildPath ([System.IO.Path]::GetFileName($url))
-        Write-Log -Level 'INFO' -Message ("Downloading default rules for OS({0}): {1}" -f $OsRole, $url)
-        Download-File -Url $url -OutFile $out -Proxy $Proxy
-        return $out
-    }
-
-    # 2) If URL => download
-    if (Is-HttpUrl -Text $RuleFileName) {
-        $url = $RuleFileName.Trim()
-        try {
-            $u = [Uri]$url
-            $name = [System.IO.Path]::GetFileName($u.AbsolutePath)
-            if ([string]::IsNullOrWhiteSpace($name)) {
-                $name = if ($OsRole -eq 'SERVER') { $ServerRuleName } else { $DesktopRuleName }
-            }
-        } catch {
-            $name = if ($OsRole -eq 'SERVER') { $ServerRuleName } else { $DesktopRuleName }
-        }
-        $out = Join-Path -Path $WorkDir -ChildPath $name
-        Write-Log -Level 'INFO' -Message ("Downloading rules from URL: {0}" -f $url)
-        Download-File -Url $url -OutFile $out -Proxy $Proxy
-        return $out
-    }
-
-    # 3) Local file if exists
-    $local = Resolve-ExistingRuleFile -RuleFileName $RuleFileName -WorkDir $WorkDir
-    if ($local) {
-        return $local
-    }
-
-    # 4) If file missing but basename matches expected, download
-    $baseName = [System.IO.Path]::GetFileName((Normalize-InputPath -Path $RuleFileName))
-    $urlToUse = $null
-
-    if ($baseName -ieq $DesktopRuleName) {
-        $urlToUse = $DesktopRulesUrl
-    } elseif ($baseName -ieq $ServerRuleName) {
-        $urlToUse = $ServerRulesUrl
-    } else {
-        # fallback to OS role default
-        $urlToUse = if ($OsRole -eq 'SERVER') { $ServerRulesUrl } else { $DesktopRulesUrl }
-        # also set output name to OS default
-        $baseName = [System.IO.Path]::GetFileName($urlToUse)
-    }
-
-    $out = Join-Path -Path $WorkDir -ChildPath $baseName
-    Write-Log -Level 'WARN' -Message ("Local rules file not found. Downloading: {0}" -f $urlToUse)
-    Download-File -Url $urlToUse -OutFile $out -Proxy $Proxy
-    return $out
 }
 
 function Is-RegistryPath {
@@ -457,20 +382,10 @@ function Resolve-RulePath {
 }
 
 function Read-Rules {
-    <#
-      Rule format (recommended): id|path|perm|note
-      Also accepted:
-        path|perm
-        id|path|perm
-      Directives:
-        @include <file>
-      Comments:
-        # ...   or  ; ...
-    #>
-    param([Parameter(Mandatory)][string]$Rulefile)
+    param([Parameter(Mandatory)][string]$RuleFilePath)
 
-    if (-not (Test-Path -LiteralPath $Rulefile)) {
-        throw "Rule file not found: $Rulefile"
+    if (-not (Test-Path -LiteralPath $RuleFilePath)) {
+        throw "Rule file not found: $RuleFilePath"
     }
 
     $items = New-Object System.Collections.Generic.List[object]
@@ -536,7 +451,7 @@ function Read-Rules {
         }
     }
 
-    _read $Rulefile
+    _read $RuleFilePath
     return $items
 }
 
@@ -573,40 +488,29 @@ function Parse-RegistryRights {
 }
 
 function Test-IsAccessDenied {
-  <#
-    Robust AccessDenied detection (safe on non-English OS):
-      - Walks exception chain
-      - Checks UnauthorizedAccess/SecurityException
-      - Checks HResult == E_ACCESSDENIED (0x80070005)
-      - Checks Win32Exception NativeErrorCode == 5
-  #>
-  param([Parameter(Mandatory)]$ErrorRecord)
+    param([Parameter(Mandatory)]$ErrorRecord)
 
-  try {
-    $e = $ErrorRecord.Exception
-    while ($e) {
-      if ($e -is [System.UnauthorizedAccessException]) { return $true }
-      if ($e -is [System.Security.SecurityException]) { return $true }
+    try {
+        $e = $ErrorRecord.Exception
+        while ($e) {
+            if ($e -is [System.UnauthorizedAccessException]) { return $true }
+            if ($e -is [System.Security.SecurityException]) { return $true }
 
-      try {
-        if ($e -is [System.ComponentModel.Win32Exception]) {
-          if ($e.NativeErrorCode -eq 5) { return $true }
+            try {
+                if ($e -is [System.ComponentModel.Win32Exception]) {
+                    if ($e.NativeErrorCode -eq 5) { return $true }
+                }
+            } catch {}
+
+            try {
+                if ($e.HResult -eq -2147024891) { return $true } # 0x80070005
+            } catch {}
+
+            $e = $e.InnerException
         }
-      } catch {}
+    } catch {}
 
-      try {
-        if ($e.HResult -eq -2147024891) { return $true } # 0x80070005
-      } catch {}
-
-      $e = $e.InnerException
-    }
-  } catch {}
-
-  try {
-    if ($ErrorRecord.FullyQualifiedErrorId -match '(?i)unauthorized|accessdenied') { return $true }
-  } catch {}
-
-  return $false
+    return $false
 }
 
 function Apply-RegistryAuditRule_KeyAndSubkeys {
@@ -617,21 +521,19 @@ function Apply-RegistryAuditRule_KeyAndSubkeys {
 
     $t = Normalize-InputPath -Path $TargetPath
     if (-not (Is-RegistryPath -Path $t)) {
-        throw "win-registry3.ps1는 레지스트리 전용입니다: $t"
+        throw ("Registry path required: {0}" -f $t)
     }
 
     if (-not (Test-Path -Path $t)) {
-        Write-Log -Level 'WARN' -Message ("Registry key not found: {0}" -f $t)
-        return
+        throw ("Registry key not found: {0}" -f $t)
     }
 
     $rights = Parse-RegistryRights -Perm $Perm
     $aFlags = Parse-AuditFlags -AuditFlags $AuditFlags
     $acct   = New-Object System.Security.Principal.NTAccount($Account)
 
-# This key and subkeys
-$inherit = [System.Security.AccessControl.InheritanceFlags]::ContainerInherit
-$prop    = [System.Security.AccessControl.PropagationFlags]::None
+    $inherit = [System.Security.AccessControl.InheritanceFlags]::ContainerInherit
+    $prop    = [System.Security.AccessControl.PropagationFlags]::None
 
     $rule = New-Object System.Security.AccessControl.RegistryAuditRule(
         $acct, $rights, $inherit, $prop, $aFlags
@@ -654,111 +556,135 @@ $prop    = [System.Security.AccessControl.PropagationFlags]::None
 }
 
 # ---- Start ----
+try { [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 } catch {}
+
+Assert-Privileged
+
+$osRole = Get-OsRole
+if ($osRole -eq 'UNKNOWN') {
+    Write-Log -Level 'ERROR' -Message 'OS Role is UNKNOWN (failed to determine Win32_OperatingSystem.ProductType). Aborting.'
+    exit 2
+}
+
+$WorkDir    = if ($osRole -eq 'SERVER') { $ServerDir } else { $DesktopDir }
+$DefaultUrl = if ($osRole -eq 'SERVER') { $RepoServerRuleUrl } else { $RepoDesktopRuleUrl }
+
 try {
-    try {
-        Write-Log -Level 'INFO' -Message ("PowerShell: {0}" -f $PSVersionTable.PSVersion)
-    } catch {}
-
-    # TLS 1.2 (common requirement)
-    try { [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 } catch {}
-
-    Assert-Privileged
-    Enable-SeSecurityPrivilege
-
-    $osRole = Get-OsRole
-    if ($osRole -eq 'UNKNOWN') {
-        Write-Log -Level 'ERROR' -Message 'OS Role is UNKNOWN (failed to determine Win32_OperatingSystem.ProductType). Aborting.'
-        exit 2
+    if (-not (Test-Path $WorkDir)) {
+        New-Item -Path $WorkDir -ItemType Directory -Force | Out-Null
     }
+} catch {
+    Write-Log -Level 'ERROR' -Message ("Failed to create/access WorkDir: {0}" -f $WorkDir)
+    exit 3
+}
 
-    $proxyText = Get-ProxyFromPluraRegistry
-    $proxyUri = $null
-    if ($proxyText) {
-        $proxyUri = Normalize-ProxyUri -Text $proxyText
-        if ($proxyUri) {
-            Write-Log -Level 'INFO' -Message ("Proxy detected: {0}" -f $proxyUri.AbsoluteUri)
+Write-Log -Level 'INFO' -Message ("OS Role : {0}" -f $osRole)
+Write-Log -Level 'INFO' -Message ("WorkDir : {0}" -f $WorkDir)
+
+$proxyRaw = $null
+$proxyUri = $null
+try { $proxyRaw = Get-ProxyFromPluraRegistry } catch { $proxyRaw = $null }
+
+if (-not [string]::IsNullOrWhiteSpace($proxyRaw)) {
+    $proxyUri = Normalize-ProxyUri -Text $proxyRaw
+    if ($proxyUri) {
+        Write-Log -Level 'INFO' -Message ("Proxy detected: {0}" -f $proxyUri.AbsoluteUri)
+    } else {
+        Write-Log -Level 'WARN' -Message ("Proxy value exists but is invalid. Value='{0}'. Using direct connection." -f $proxyRaw)
+    }
+} else {
+    Write-Log -Level 'INFO' -Message "No proxy configured in HKLM\SOFTWARE\QubitSecurity\PLURA (value 'Proxy')."
+}
+
+Enable-SeSecurityPrivilege
+
+try {
+    $useRules = $true
+    if ([string]::IsNullOrWhiteSpace($RuleFileName)) {
+        if (-not [string]::IsNullOrWhiteSpace($Path) -and -not [string]::IsNullOrWhiteSpace($Perm)) {
+            $useRules = $false
         }
     }
 
-    # If RuleFileName is empty AND Path+Perm provided => single mode
-    $isSingleMode = ([string]::IsNullOrWhiteSpace($RuleFileName) -and -not [string]::IsNullOrWhiteSpace($Path) -and -not [string]::IsNullOrWhiteSpace($Perm))
+    if ($useRules) {
+        $rulesPath = Resolve-RulesFile -RuleFileName $RuleFileName -DefaultUrl $DefaultUrl -WorkDir $WorkDir -Proxy $proxyUri
 
-    if ($isSingleMode) {
-        Write-Log -Level 'INFO' -Message ("Applying Registry auditing (SACL) - This key and subkeys (single target)")
-        Write-Log -Level 'INFO' -Message ("Target Path     : {0}" -f $Path)
-        Write-Log -Level 'INFO' -Message ("Permissions     : {0}" -f $Perm)
+        Write-Log -Level 'INFO' -Message "Applying Registry auditing (SACL) - Registry3 (This key and subkeys)"
+        Write-Log -Level 'INFO' -Message ("Rules file      : {0}" -f $rulesPath)
+        Write-Log -Level 'INFO' -Message ("Action          : {0}" -f $Action)
         Write-Log -Level 'INFO' -Message ("Account         : {0}" -f $Account)
         Write-Log -Level 'INFO' -Message ("AuditFlags      : {0}" -f $AuditFlags)
+        Write-Log -Level 'INFO' -Message ("ReplaceExisting : {0}" -f $ReplaceExisting)
 
-        Apply-RegistryAuditRule_KeyAndSubkeys -TargetPath $Path -Perm $Perm
-        Write-Log -Level 'INFO' -Message "Completed successfully."
-        exit 0
-    }
+        $items = Read-Rules -RuleFilePath $rulesPath
 
-    # RULES mode
-    $rulePath = Prepare-RuleFile -RuleFileName $RuleFileName -OsRole $osRole -Proxy $proxyUri
-
-    Write-Log -Level 'INFO' -Message ("Applying Registry auditing (SACL) - This key and subkeys")
-    Write-Log -Level 'INFO' -Message ("OS Role         : {0}" -f $osRole)
-    Write-Log -Level 'INFO' -Message ("Rules file      : {0}" -f $rulePath)
-    Write-Log -Level 'INFO' -Message ("Action          : {0}" -f $Action)
-    Write-Log -Level 'INFO' -Message ("Account         : {0}" -f $Account)
-    Write-Log -Level 'INFO' -Message ("AuditFlags      : {0}" -f $AuditFlags)
-    Write-Log -Level 'INFO' -Message ("ReplaceExisting : {0}" -f $ReplaceExisting)
-
-    $items = Read-Rules -Rulefile $rulePath
-
-    if ($Id) {
-        $idset = New-Object 'System.Collections.Generic.HashSet[string]'
-        foreach ($x in $Id) { [void]$idset.Add($x) }
-        $items = $items | Where-Object { $idset.Contains($_.Id) }
-    }
-    if ($Match) {
-        $rx = [regex]::new($Match)
-        $items = $items | Where-Object { $rx.IsMatch(("{0}|{1}|{2}|{3}" -f $_.Id,$_.Path,$_.Perm,$_.Note)) }
-    }
-
-    if ($Action -eq 'List') {
-        $items | Select-Object Id, Path, Perm, Note, SourceFile, SourceLine | Format-Table -AutoSize
-        exit 0
-    }
-
-    $ruleCount = 0
-    $appliedCount = 0
-    $missingCount = 0
-    $accessDeniedCount = 0
-    $failedCount = 0
-
-    foreach ($it in $items) {
-        $ruleCount++
-        $t = Normalize-InputPath -Path $it.Path
-
-        if (-not (Test-Path -Path $t)) {
-            $missingCount++
-            Write-Log -Level 'WARN' -Message ("Registry key not found: {0}" -f $t)
-            continue
+        if ($Id) {
+            $idset = New-Object 'System.Collections.Generic.HashSet[string]'
+            foreach ($x in $Id) { [void]$idset.Add($x) }
+            $items = $items | Where-Object { $idset.Contains($_.Id) }
+        }
+        if ($Match) {
+            $rx = [regex]::new($Match)
+            $items = $items | Where-Object { $rx.IsMatch(("{0}|{1}|{2}|{3}" -f $_.Id,$_.Path,$_.Perm,$_.Note)) }
         }
 
-        try {
-            Apply-RegistryAuditRule_KeyAndSubkeys -TargetPath $t -Perm $it.Perm
-            $appliedCount++
+        if ($Action -eq 'List') {
+            $items | Select-Object Id, Path, Perm, Note, SourceFile, SourceLine | Format-Table -AutoSize
+            exit 0
         }
-        catch {
-            if (Test-IsAccessDenied -ErrorRecord $_) {
-                $accessDeniedCount++
-                Write-Log -Level 'WARN' -Message ("Access denied applying rule '{0}' key '{1}' : {2}" -f $it.Id, $t, $_.Exception.Message)
-            } else {
-                $failedCount++
-                Write-Log -Level 'WARN' -Message ("Failed applying rule '{0}' key '{1}' : {2}" -f $it.Id, $t, $_.Exception.Message)
+
+        $ruleCount = 0
+        $appliedCount = 0
+        $missingCount = 0
+        $accessDeniedCount = 0
+        $failedCount = 0
+        $skippedNonRegistryCount = 0
+
+        foreach ($it in $items) {
+            $ruleCount++
+
+            $t = Normalize-InputPath -Path $it.Path
+            if (-not (Is-RegistryPath -Path $t)) {
+                $skippedNonRegistryCount++
+                Write-Log -Level 'WARN' -Message ("Skip non-registry path: {0}" -f $t)
+                continue
             }
-            continue
+
+            if (-not (Test-Path -Path $t)) {
+                $missingCount++
+                Write-Log -Level 'WARN' -Message ("Registry key not found: {0}" -f $t)
+                continue
+            }
+
+            try {
+                Apply-RegistryAuditRule_KeyAndSubkeys -TargetPath $t -Perm $it.Perm
+                $appliedCount++
+            } catch {
+                if (Test-IsAccessDenied -ErrorRecord $_) {
+                    $accessDeniedCount++
+                    Write-Log -Level 'WARN' -Message ("Access denied applying rule '{0}' key '{1}' : {2}" -f $it.Id, $t, $_.Exception.Message)
+                } else {
+                    $failedCount++
+                    Write-Log -Level 'WARN' -Message ("Failed applying rule '{0}' key '{1}' : {2}" -f $it.Id, $t, $_.Exception.Message)
+                }
+            }
         }
+
+        Write-Log -Level 'INFO' -Message ("Completed. Rules={0} Applied={1} Missing={2} SkipNonRegistry={3} AccessDenied={4} Failed={5}" -f $ruleCount, $appliedCount, $missingCount, $skippedNonRegistryCount, $accessDeniedCount, $failedCount)
+        if (($accessDeniedCount + $failedCount) -gt 0) { exit 1 } else { exit 0 }
     }
 
-    Write-Log -Level 'INFO' -Message ("Completed. Rules={0} Applied={1} Missing={2} AccessDenied={3} Failed={4}" -f $ruleCount, $appliedCount, $missingCount, $accessDeniedCount, $failedCount)
-    if (($accessDeniedCount + $failedCount) -gt 0) { exit 1 } else { exit 0 }
+    Write-Log -Level 'INFO' -Message "Applying Registry auditing (SACL) - Registry3 (This key and subkeys) - single target"
+    Write-Log -Level 'INFO' -Message ("Target Path : {0}" -f $Path)
+    Write-Log -Level 'INFO' -Message ("Permissions : {0}" -f $Perm)
+    Write-Log -Level 'INFO' -Message ("Account     : {0}" -f $Account)
+    Write-Log -Level 'INFO' -Message ("AuditFlags  : {0}" -f $AuditFlags)
+
+    Apply-RegistryAuditRule_KeyAndSubkeys -TargetPath $Path -Perm $Perm
+    Write-Log -Level 'INFO' -Message 'Completed successfully.'
+    exit 0
 }
 catch {
-    Write-Error $_
+    Write-Log -Level 'ERROR' -Message ("Unhandled error: {0}" -f $_.Exception.Message)
     exit 1
 }
