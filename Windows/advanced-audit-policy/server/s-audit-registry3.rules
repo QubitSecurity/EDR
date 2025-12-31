@@ -1,5 +1,0 @@
-# Server Registry auditing rules (Registry3)
-# For: win-registry3.ps1  (Apply to "This key and subkeys")
-# Format: id|path|perm|note
-#
-# (현재 Server 기본 세트에서는 비워둡니다. 필요한 항목을 추가해 사용하세요.)
