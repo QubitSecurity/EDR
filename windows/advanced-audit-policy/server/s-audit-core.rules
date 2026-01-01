@@ -18,7 +18,7 @@ file_startup_allprofiles|$env:SystemDrive\Users\*\AppData\Roaming\Microsoft\Wind
 file_tasks|$env:SystemRoot\System32\Tasks|CreateFiles,Delete|Scheduled Tasks folder (file traces)
 
 # Honeypot (all profiles) - only applies if folders exist
-file_honeypot_allprofiles|$env:SystemDrive\Users\*\Documents\PLURA-Honeypot|CreateFiles,Delete,AppendData,WriteData|PLURA honeypot (all profiles)
+file_honeypot_allprofiles|$env:SystemDrive\Users\*\Documents\Client_Contracts|CreateFiles,Delete,AppendData,WriteData|PLURA honeypot (all profiles)
 
 # High-signal on servers
 file_desktop_allprofiles|$env:SystemDrive\Users\*\Desktop|CreateFiles,Delete|All profile Desktops (server: high-signal)
@@ -26,3 +26,4 @@ file_roaming_allprofiles|$env:SystemDrive\Users\*\AppData\Roaming|CreateFiles,De
 file_recyclebin|$env:SystemDrive\$Recycle.Bin|FullControl|Recycle Bin (server: suspicious)
 
 file_oledb|$env:ProgramFiles\Common Files\System\Ole DB|CreateFiles|Ole DB folder (rare on servers)
+
