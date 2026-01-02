@@ -23,7 +23,8 @@ file_honeypot_allprofiles|$env:SystemDrive\Users\*\Documents\Client_Contracts|Cr
 # High-signal on servers
 file_desktop_allprofiles|$env:SystemDrive\Users\*\Desktop|CreateFiles,Delete|All profile Desktops (server: high-signal)
 file_roaming_allprofiles|$env:SystemDrive\Users\*\AppData\Roaming|CreateFiles,Delete|Roaming AppData roots (server: suspicious)
-file_recyclebin|$env:SystemDrive\$Recycle.Bin|FullControl|Recycle Bin (server: suspicious)
+file_recyclebin_sid|%SystemDrive%\$Recycle.Bin\*|FullControl|Recycle Bin SID folders (server: important)
 
 file_oledb|$env:ProgramFiles\Common Files\System\Ole DB|CreateFiles|Ole DB folder (rare on servers)
+
 
