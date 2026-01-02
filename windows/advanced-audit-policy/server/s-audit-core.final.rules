@@ -1,0 +1,41 @@
+﻿# Server File/Folder auditing rules (SYSTEM-safe, multi-profile)
+# Target script: file-folder-all-profiles.ps1  (or win-forgery.ps1)
+# Applies SACL to "This folder and files" (no subfolders).
+#
+# Rule format: id|path|perm|note
+# - path: supports %ENV% and wildcards like %SystemDrive%\Users\*\...
+# - perm: FileSystemRights (comma-separated)
+#
+# Notes:
+# - PLURA agent runs as SYSTEM.
+# - Avoid $env:USERPROFILE / $env:APPDATA for per-user locations (SYSTEM -> systemprofile).
+# - On servers, Desktop/AppData/RecycleBin are high-signal locations (but can increase audit volume).
+
+# --- Core (recommended) ---
+file_hosts|%SystemRoot%\System32\drivers\etc\hosts|WriteData,AppendData,Delete|hosts tamper
+file_winevt_logs|%SystemRoot%\System32\winevt\Logs|Delete|event log files delete (anti-forensics)
+file_sam|%SystemRoot%\System32\config\SAM|ReadAttributes|SAM access attempt (high-value)
+
+# Startup folders (persistence)
+file_startup_allusers|%ProgramData%\Microsoft\Windows\Start Menu\Programs\Startup|CreateFiles,WriteData,AppendData,Delete|All Users Startup
+# legacy id kept for compatibility (covers all user profiles)
+file_startup_currentuser|%SystemDrive%\Users\*\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup|CreateFiles,WriteData,AppendData,Delete|Per-user Startup (all profiles)
+
+# Scheduled Tasks folder (file traces)
+file_tasks|%SystemRoot%\System32\Tasks|CreateFiles,WriteData,AppendData,Delete|Scheduled Tasks folder (file traces)
+
+# PLURA Honeypot (high signal if folder exists; create folder if you want always-on)
+# legacy id kept for compatibility (covers all user profiles)
+file_honeypot|%SystemDrive%\Users\*\Documents\PLURA-Honeypot|CreateFiles,Delete,AppendData,WriteData|PLURA honeypot (all profiles)
+
+# --- Server-important (high-signal locations; can be noisy depending on usage) ---
+# legacy ids kept for compatibility (covers all user profiles)
+file_user_desktop|%SystemDrive%\Users\*\Desktop|CreateFiles,WriteData,AppendData,Delete|User Desktops (server: high-signal)
+file_roaming_appdata|%SystemDrive%\Users\*\AppData\Roaming|CreateFiles,WriteData,AppendData,Delete|Roaming AppData (server: high-signal)
+
+# Recycle Bin (SID folders). Important on servers; may not exist until first use.
+# (SID folder monitoring is required because the script applies "This folder and files" only.)
+file_recyclebin|%SystemDrive%\$Recycle.Bin\*|CreateFiles,WriteData,AppendData,Delete,DeleteSubdirectoriesAndFiles|Recycle Bin SID folders (server: suspicious)
+
+# Rare / high-signal system folders
+file_oledb|%ProgramFiles%\Common Files\System\Ole DB|CreateFiles,WriteData,AppendData,Delete|Ole DB folder (rare on servers)
