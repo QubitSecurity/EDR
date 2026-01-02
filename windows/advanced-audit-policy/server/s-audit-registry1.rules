@@ -27,7 +27,7 @@ reg_winlogon_wow6432|HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVers
 reg_windows_hklm|HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows|SetValue|Windows key (HKLM)
 
 # ms-settings (HKLM)
-reg_mssettings_hklm|HKLM:\SOFTWARE\Classes\ms-settings\Shell\Open\Command|SetValue|ms-settings UAC bypass (HKLM)
+#reg_mssettings_hklm|HKLM:\SOFTWARE\Classes\ms-settings\Shell\Open\Command|SetValue|ms-settings UAC bypass (HKLM)
 
 # UAC policy
 reg_uac_policy|HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System|SetValue|UAC policy
@@ -50,3 +50,4 @@ reg_fw_standard|HKLM:\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\
 #reg_run_hkcu|HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run|SetValue,Delete|Run (HKCU)
 #reg_runonce_hkcu|HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce|SetValue,Delete|RunOnce (HKCU)
 #reg_startupapproved_hkcu|HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run|SetValue,Delete|StartupApproved Run (HKCU)
+
