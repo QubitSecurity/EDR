@@ -39,3 +39,4 @@ file_recyclebin|%SystemDrive%\$Recycle.Bin\*|CreateFiles,WriteData,AppendData,De
 
 # Rare / high-signal system folders
 file_oledb|%ProgramFiles%\Common Files\System\Ole DB|CreateFiles,WriteData,AppendData,Delete|Ole DB folder (rare on servers)
+
