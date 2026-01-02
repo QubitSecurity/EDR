@@ -1,0 +1,40 @@
+# auditpolicy.rules
+# Rule format: id|subcategory_guid|success|failure|note
+# - success/failure: enable|disable|keep (aliases: on/off, 1/0, yes/no, true/false, -)
+# - note: optional; for humans
+#
+# This ruleset replicates the original AuditPolicy.cpp behavior:
+#   - Enable SUCCESS auditing for 30 subcategories
+#   - Enable FAILURE auditing for 5 subcategories (subset)
+#   - All other settings remain unchanged (keep)
+
+ap_0CCE9212|{0CCE9212-69AE-11D9-BED3-505054503030}|enable|enable|시스템/시스템 무결성
+ap_0CCE9214|{0CCE9214-69AE-11D9-BED3-505054503030}|enable|enable|시스템/기타 시스템 이벤트
+ap_0CCE9210|{0CCE9210-69AE-11D9-BED3-505054503030}|enable|keep|시스템/보안 상태 변경
+ap_0CCE9215|{0CCE9215-69AE-11D9-BED3-505054503030}|enable|enable|시스템/로그온
+ap_0CCE9216|{0CCE9216-69AE-11D9-BED3-505054503030}|enable|keep|시스템/로그오프
+ap_0CCE9217|{0CCE9217-69AE-11D9-BED3-505054503030}|enable|keep|시스템/계정 잠금
+ap_0CCE921B|{0CCE921B-69AE-11D9-BED3-505054503030}|enable|keep|시스템/특수 로그온
+ap_0CCE9243|{0CCE9243-69AE-11D9-BED3-505054503030}|enable|enable|시스템/네트워크 정책 서버
+ap_0CCE922F|{0CCE922F-69AE-11D9-BED3-505054503030}|enable|keep|시스템/감사 정책 변경
+ap_0CCE9230|{0CCE9230-69AE-11D9-BED3-505054503030}|enable|keep|시스템/인증 정책 변경
+ap_0CCE9235|{0CCE9235-69AE-11D9-BED3-505054503030}|enable|keep|시스템/사용자 계정 관리
+ap_0CCE9236|{0CCE9236-69AE-11D9-BED3-505054503030}|enable|keep|시스템/컴퓨터 계정 관리
+ap_0CCE9237|{0CCE9237-69AE-11D9-BED3-505054503030}|enable|keep|시스템/보안 그룹 관리
+ap_0CCE923B|{0CCE923B-69AE-11D9-BED3-505054503030}|enable|keep|시스템/디렉터리 서비스 액세스
+ap_0CCE9240|{0CCE9240-69AE-11D9-BED3-505054503030}|enable|keep|시스템/Kerberos 서비스 티켓 작업
+ap_0CCE9242|{0CCE9242-69AE-11D9-BED3-505054503030}|enable|keep|시스템/Kerberos 인증 서비스
+ap_0CCE923F|{0CCE923F-69AE-11D9-BED3-505054503030}|enable|keep|시스템/자격 증명 유효성 검사
+ap_0CCE921D|{0CCE921D-69AE-11D9-BED3-505054503030}|enable|keep|시스템/파일 시스템
+ap_0CCE921E|{0CCE921E-69AE-11D9-BED3-505054503030}|enable|keep|시스템/레지스트리
+ap_0CCE921F|{0CCE921F-69AE-11D9-BED3-505054503030}|enable|keep|시스템/커널 개체
+ap_0CCE9224|{0CCE9224-69AE-11D9-BED3-505054503030}|enable|keep|시스템/파일 공유
+ap_0CCE9226|{0CCE9226-69AE-11D9-BED3-505054503030}|enable|enable|시스템/필터링 플랫폼 연결
+ap_0CCE922C|{0CCE922C-69AE-11D9-BED3-505054503030}|enable|keep|시스템/프로세스 종료
+ap_0CCE922B|{0CCE922B-69AE-11D9-BED3-505054503030}|enable|keep|시스템/프로세스 만들기
+ap_0CCE9232|{0CCE9232-69AE-11D9-BED3-505054503030}|enable|keep|시스템/MPSSVC 규칙 수준 정책 변경
+ap_0CCE9223|{0CCE9223-69AE-11D9-BED3-505054503030}|enable|keep|시스템/핸들 조작
+ap_0CCE9227|{0CCE9227-69AE-11D9-BED3-505054503030}|enable|keep|시스템/기타 개체 액세스 이벤트
+ap_0CCE923C|{0CCE923C-69AE-11D9-BED3-505054503030}|enable|keep|시스템/디렉터리 서비스 변경
+ap_0CCE923D|{0CCE923D-69AE-11D9-BED3-505054503030}|enable|keep|시스템/디렉터리 서비스 복제
+ap_0CCE923E|{0CCE923E-69AE-11D9-BED3-505054503030}|enable|keep|시스템/세부 디렉터리 서비스 복제
