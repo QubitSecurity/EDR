@@ -1,0 +1,86 @@
+﻿# auditpolicy.<profile>.rules
+# Declarative Windows Advanced Audit Policy (Subcategory GUID-based)
+# Profile: server
+#
+# Record formats:
+#   option|<key>|<value>|<note?>
+#   <id>|{GUID}|<success>|<failure>|<note?>
+#
+# Notes:
+#  - This file is language-neutral (GUID-based) and safe for multilingual Windows.
+#  - Values: enable|disable (strict desired-state).
+#  - If some GUIDs are missing on older OS/patch levels, the script can WARN+SKIP them (missing_subcategory=warn).
+
+option|profile|server|OS profile
+option|enforcement|strict|Apply enable/disable exactly as declared (drift prevention)
+option|backup|once|Create backup\auditpolicy.backup.csv once (restore point)
+option|verify|true|Verify current state matches this ruleset after apply
+option|evidence_export|enable|Export applied state to evidence CSV
+option|evidence_dir|evidence\server|Separate evidence per profile
+option|force_subcategory_override|enable|Set SCENoApplyLegacyAuditPolicy=1 (prefer Advanced Audit Policy)
+option|missing_subcategory|warn|If a subcategory GUID is not present on this OS, warn and continue
+option|auditpol.option.CrashOnAuditFail|disable|Safer default (do not bugcheck if audit cannot be logged)
+option|auditpol.option.FullPrivilegeAuditing|disable|Avoid excessive privilege noise (can be tuned per org)
+option|auditpol.option.AuditBaseObjects|disable|Avoid global base-object auditing noise
+option|auditpol.option.AuditBaseDirectories|disable|Avoid global base-directory auditing noise
+
+ap_0cce9211|{0CCE9211-69AE-11D9-BED3-505054503030}|enable|enable|시스템/보안 시스템 확장
+ap_0cce9213|{0CCE9213-69AE-11D9-BED3-505054503030}|enable|enable|시스템/IPsec 드라이버
+ap_0cce9212|{0CCE9212-69AE-11D9-BED3-505054503030}|enable|enable|시스템/시스템 무결성
+ap_0cce9210|{0CCE9210-69AE-11D9-BED3-505054503030}|enable|disable|시스템/보안 상태 변경
+ap_0cce9214|{0CCE9214-69AE-11D9-BED3-505054503030}|enable|enable|시스템/기타 시스템 이벤트
+ap_0cce9215|{0CCE9215-69AE-11D9-BED3-505054503030}|enable|enable|시스템/로그온
+ap_0cce9218|{0CCE9218-69AE-11D9-BED3-505054503030}|enable|enable|시스템/IPsec 주 모드
+ap_0cce9216|{0CCE9216-69AE-11D9-BED3-505054503030}|enable|disable|시스템/로그오프
+ap_0cce921a|{0CCE921A-69AE-11D9-BED3-505054503030}|enable|enable|시스템/IPsec 확장 모드
+ap_0cce921b|{0CCE921B-69AE-11D9-BED3-505054503030}|enable|disable|시스템/특수 로그온
+ap_0cce9247|{0CCE9247-69AE-11D9-BED3-505054503030}|disable|disable|시스템/사용자/장치 클레임
+ap_0cce9249|{0CCE9249-69AE-11D9-BED3-505054503030}|enable|disable|시스템/그룹 구성원
+ap_0cce924b|{0CCE924B-69AE-11D9-BED3-505054503030}|enable|enable|시스템/액세스 권한
+ap_0cce9219|{0CCE9219-69AE-11D9-BED3-505054503030}|enable|enable|시스템/IPsec 빠른 모드
+ap_0cce921c|{0CCE921C-69AE-11D9-BED3-505054503030}|enable|enable|시스템/기타 로그온/로그오프 이벤트
+ap_0cce9243|{0CCE9243-69AE-11D9-BED3-505054503030}|enable|enable|시스템/네트워크 정책 서버
+ap_0cce9217|{0CCE9217-69AE-11D9-BED3-505054503030}|enable|disable|시스템/계정 잠금
+ap_0cce9245|{0CCE9245-69AE-11D9-BED3-505054503030}|disable|disable|시스템/이동식 저장소
+ap_0cce9244|{0CCE9244-69AE-11D9-BED3-505054503030}|enable|enable|시스템/세부 파일 공유
+ap_0cce9227|{0CCE9227-69AE-11D9-BED3-505054503030}|enable|disable|시스템/기타 개체 액세스 이벤트
+ap_0cce9226|{0CCE9226-69AE-11D9-BED3-505054503030}|enable|enable|시스템/필터링 플랫폼 연결
+ap_0cce9225|{0CCE9225-69AE-11D9-BED3-505054503030}|enable|enable|시스템/필터링 플랫폼 패킷 삭제
+ap_0cce9224|{0CCE9224-69AE-11D9-BED3-505054503030}|enable|enable|시스템/파일 공유
+ap_0cce921d|{0CCE921D-69AE-11D9-BED3-505054503030}|enable|disable|시스템/파일 시스템
+ap_0cce9223|{0CCE9223-69AE-11D9-BED3-505054503030}|enable|disable|시스템/핸들 조작
+ap_0cce9222|{0CCE9222-69AE-11D9-BED3-505054503030}|enable|enable|시스템/응용 프로그램 생성됨
+ap_0cce9221|{0CCE9221-69AE-11D9-BED3-505054503030}|enable|enable|시스템/인증 서비스
+ap_0cce9220|{0CCE9220-69AE-11D9-BED3-505054503030}|enable|enable|시스템/SAM
+ap_0cce921e|{0CCE921E-69AE-11D9-BED3-505054503030}|enable|disable|시스템/레지스트리
+ap_0cce921f|{0CCE921F-69AE-11D9-BED3-505054503030}|enable|disable|시스템/커널 개체
+ap_0cce9246|{0CCE9246-69AE-11D9-BED3-505054503030}|disable|disable|시스템/중앙 정책 준비
+ap_0cce922a|{0CCE922A-69AE-11D9-BED3-505054503030}|disable|disable|시스템/기타 권한 사용 이벤트
+ap_0cce9228|{0CCE9228-69AE-11D9-BED3-505054503030}|enable|enable|시스템/중요한 권한 사용
+ap_0cce9229|{0CCE9229-69AE-11D9-BED3-505054503030}|disable|disable|시스템/중요하지 않은 권한 사용
+ap_0cce922d|{0CCE922D-69AE-11D9-BED3-505054503030}|enable|disable|시스템/DPAPI 작업
+ap_0cce922e|{0CCE922E-69AE-11D9-BED3-505054503030}|enable|enable|시스템/RPC 이벤트
+ap_0cce9248|{0CCE9248-69AE-11D9-BED3-505054503030}|disable|disable|시스템/플러그 앤 플레이 이벤트
+ap_0cce924a|{0CCE924A-69AE-11D9-BED3-505054503030}|enable|disable|시스템/토큰 권한 조정 이벤트
+ap_0cce922b|{0CCE922B-69AE-11D9-BED3-505054503030}|enable|disable|시스템/프로세스 만들기
+ap_0cce922c|{0CCE922C-69AE-11D9-BED3-505054503030}|enable|disable|시스템/프로세스 종료
+ap_0cce9232|{0CCE9232-69AE-11D9-BED3-505054503030}|enable|enable|시스템/MPSSVC 규칙 수준 정책 변경
+ap_0cce9233|{0CCE9233-69AE-11D9-BED3-505054503030}|enable|enable|시스템/필터링 플랫폼 정책 변경
+ap_0cce922f|{0CCE922F-69AE-11D9-BED3-505054503030}|enable|enable|시스템/감사 정책 변경
+ap_0cce9230|{0CCE9230-69AE-11D9-BED3-505054503030}|enable|enable|시스템/인증 정책 변경
+ap_0cce9231|{0CCE9231-69AE-11D9-BED3-505054503030}|enable|enable|시스템/권한 부여 정책 변경
+ap_0cce9234|{0CCE9234-69AE-11D9-BED3-505054503030}|enable|enable|시스템/기타 정책 변경 이벤트
+ap_0cce9237|{0CCE9237-69AE-11D9-BED3-505054503030}|enable|enable|시스템/보안 그룹 관리
+ap_0cce9236|{0CCE9236-69AE-11D9-BED3-505054503030}|enable|enable|시스템/컴퓨터 계정 관리
+ap_0cce9238|{0CCE9238-69AE-11D9-BED3-505054503030}|enable|enable|시스템/메일 그룹 관리
+ap_0cce9239|{0CCE9239-69AE-11D9-BED3-505054503030}|enable|enable|시스템/응용 프로그램 그룹 관리
+ap_0cce923a|{0CCE923A-69AE-11D9-BED3-505054503030}|enable|enable|시스템/기타 계정 관리 이벤트
+ap_0cce9235|{0CCE9235-69AE-11D9-BED3-505054503030}|enable|enable|시스템/사용자 계정 관리
+ap_0cce923b|{0CCE923B-69AE-11D9-BED3-505054503030}|enable|enable|시스템/디렉터리 서비스 액세스
+ap_0cce923c|{0CCE923C-69AE-11D9-BED3-505054503030}|enable|enable|시스템/디렉터리 서비스 변경
+ap_0cce923d|{0CCE923D-69AE-11D9-BED3-505054503030}|enable|enable|시스템/디렉터리 서비스 복제
+ap_0cce923e|{0CCE923E-69AE-11D9-BED3-505054503030}|enable|enable|시스템/세부 디렉터리 서비스 복제
+ap_0cce9240|{0CCE9240-69AE-11D9-BED3-505054503030}|enable|enable|시스템/Kerberos 서비스 티켓 작업
+ap_0cce9241|{0CCE9241-69AE-11D9-BED3-505054503030}|enable|enable|시스템/기타 계정 로그온 이벤트
+ap_0cce9242|{0CCE9242-69AE-11D9-BED3-505054503030}|enable|enable|시스템/Kerberos 인증 서비스
+ap_0cce923f|{0CCE923F-69AE-11D9-BED3-505054503030}|enable|enable|시스템/자격 증명 유효성 검사
