@@ -6,6 +6,10 @@
   <DnsLookup>False</DnsLookup>
   <ArchiveDirectory>Sysmon</ArchiveDirectory>
   <EventFiltering>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 1: Process Create (Desktop) -->
+    <!-- ============================================================ -->
     <RuleGroup name="ProcessCreate-Exclude-Noise" groupRelation="or">
       <ProcessCreate onmatch="exclude">
         <ParentImage condition="end with">\Program Files (x86)\PLURA\PLURAService.exe</ParentImage>
@@ -19,6 +23,7 @@
         <Image condition="is">C:\Windows\Microsoft.NET\Framework\v4.0.30319\mscorsvw.exe</Image>
       </ProcessCreate>
     </RuleGroup>
+	  
     <RuleGroup name="ProcessCreate-Include-Desktop" groupRelation="or">
       <ProcessCreate onmatch="include">
         <Image condition="end with">\Windows\System32\WindowsPowerShell\v1.0\powershell.exe</Image>
@@ -58,6 +63,10 @@
         </Rule>
       </ProcessCreate>
     </RuleGroup>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 3: Network Connect (Desktop) -->
+    <!-- ============================================================ -->
     <RuleGroup name="NetworkConnect-Exclude-Noise" groupRelation="or">
       <NetworkConnect onmatch="exclude">
         <Image condition="contains">:\Program Files (x86)\PLURA\</Image>
@@ -69,6 +78,7 @@
         <DestinationIp condition="is">0:0:0:0:0:0:0:1</DestinationIp>
       </NetworkConnect>
     </RuleGroup>
+	  
     <RuleGroup name="NetworkConnect-Include-Desktop" groupRelation="or">
       <NetworkConnect onmatch="include">
         <Image condition="end with">\Windows\System32\WindowsPowerShell\v1.0\powershell.exe</Image>
@@ -96,6 +106,10 @@
         <DestinationPort condition="is">5986</DestinationPort>
       </NetworkConnect>
     </RuleGroup>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 5: Process Terminate -->
+    <!-- ============================================================ -->
     <RuleGroup name="ProcessTerminate-Exclude-Noise" groupRelation="or">
       <ProcessTerminate onmatch="exclude">
         <Image condition="end with">\Windows\System32\backgroundTaskHost.exe</Image>
@@ -104,6 +118,10 @@
         <Image condition="end with">\Sysmon\Sysmon.exe</Image>
       </ProcessTerminate>
     </RuleGroup>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 7: ImageLoad (PowerShell) -->
+    <!-- ============================================================ -->
     <RuleGroup name="ImageLoad-PowerShell" groupRelation="and">
       <ImageLoad onmatch="include">
         <Rule groupRelation="or">
@@ -112,6 +130,7 @@
           <ImageLoaded condition="contains">sspisrv.dll</ImageLoaded>
         </Rule>
       </ImageLoad>
+		
       <ImageLoad onmatch="exclude">
         <Rule groupRelation="or">
           <Image condition="end with">\Windows\SysWOW64\WindowsPowerShell\v1.0\powershell.exe</Image>
@@ -120,10 +139,25 @@
         </Rule>
       </ImageLoad>
     </RuleGroup>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 8: CreateRemoteThread (Desktop) -->
+    <!-- ============================================================ -->
+    <RuleGroup name="CreateRemoteThread-Include" groupRelation="or">
+      <CreateRemoteThread onmatch="include">
+        <SourceImage condition="begin with">C:\</SourceImage>
+        <SourceImage condition="begin with">\\</SourceImage>
+      </CreateRemoteThread>
+    </RuleGroup>
+	  
+    <!-- ============================================================ -->
+    <!-- Event ID 9: RawAccessRead -->
+    <!-- ============================================================ -->
     <RuleGroup name="RawAccessRead-Desktop" groupRelation="and">
       <RawAccessRead onmatch="include">
         <Device condition="contains">\Device\Harddisk0\DR0</Device>
       </RawAccessRead>
+		
       <RawAccessRead onmatch="exclude">
         <Rule groupRelation="or">
           <Image condition="contains all">\ProgramData\Microsoft\Windows Defender\platform\;\MsMpEng.exe</Image>
@@ -132,6 +166,10 @@
         </Rule>
       </RawAccessRead>
     </RuleGroup>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 10: Process Access (Desktop) -->
+    <!-- ============================================================ -->
     <RuleGroup name="ProcessAccess-Exclude-Legit" groupRelation="or">
       <ProcessAccess onmatch="exclude">
         <SourceImage condition="is">C:\Program Files\Windows Defender\MsMpEng.exe</SourceImage>
@@ -145,6 +183,7 @@
         <SourceImage condition="end with">\Program Files (x86)\PLURA\PLURATray.exe</SourceImage>
       </ProcessAccess>
     </RuleGroup>
+	  
     <RuleGroup name="ProcessAccess-Include-HighSignal" groupRelation="or">
       <ProcessAccess onmatch="include">
         <Rule groupRelation="and">
@@ -162,6 +201,10 @@
         </Rule>
       </ProcessAccess>
     </RuleGroup>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 11: FileCreate (Desktop) -->
+    <!-- ============================================================ -->
     <RuleGroup name="FileCreate-Include-DesktopCore" groupRelation="or">
       <FileCreate onmatch="include">
         <TargetFilename condition="contains">\Start Menu</TargetFilename>
@@ -183,6 +226,7 @@
         <TargetFilename condition="contains">\AppData\Local\Microsoft\Edge\User Data\Default\Extensions\</TargetFilename>
       </FileCreate>
     </RuleGroup>
+	  
     <RuleGroup name="FileCreate-Exclude-PLURA" groupRelation="or">
       <FileCreate onmatch="exclude">
         <Image condition="end with">\Program Files (x86)\PLURA\PLURAService.exe</Image>
@@ -191,6 +235,10 @@
         <Image condition="end with">\Program Files (x86)\PLURA\PLURATray.exe</Image>
       </FileCreate>
     </RuleGroup>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 12/13/14: RegistryEvent (Desktop) -->
+    <!-- ============================================================ -->
     <RuleGroup name="RegistryEvent-Include-DesktopCore" groupRelation="or">
       <RegistryEvent onmatch="include">
         <TargetObject condition="contains">\CurrentVersion\Run</TargetObject>
@@ -204,12 +252,17 @@
         <TargetObject condition="contains">HKLM\SOFTWARE\Policies\Microsoft\Windows Defender</TargetObject>
       </RegistryEvent>
     </RuleGroup>
+	  
     <RuleGroup name="RegistryEvent-Exclude-PLURA-Noise" groupRelation="or">
       <RegistryEvent onmatch="exclude">
         <Image condition="begin with">C:\Program Files (x86)\PLURA\</Image>
         <Image condition="begin with">C:\Program Files\PLURA\</Image>
       </RegistryEvent>
     </RuleGroup>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 15: FileCreateStreamHash (Desktop) -->
+    <!-- ============================================================ -->
     <RuleGroup name="FileCreateStreamHash-Desktop" groupRelation="or">
       <FileCreateStreamHash onmatch="include">
         <Rule name="ZoneIdentifier" groupRelation="and">
@@ -222,6 +275,10 @@
         <TargetFilename condition="end with">.js</TargetFilename>
       </FileCreateStreamHash>
     </RuleGroup>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 22: DNS Query (IOC) (Desktop) -->
+    <!-- ============================================================ -->
     <RuleGroup name="DnsQuery-IOC" groupRelation="or">
       <DnsQuery onmatch="include">
         <QueryName condition="end with">tcjst.com</QueryName>
@@ -245,9 +302,14 @@
         <Image condition="end with">\Windows\System32\wget.exe</Image>
       </DnsQuery>
     </RuleGroup>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 23/26: FileDelete / FileDeleteDetected (Desktop) -->
+    <!-- ============================================================ -->
     <RuleGroup name="FileDelete-ArchivedCopy-Disabled" groupRelation="or">
       <FileDelete onmatch="exclude" />
     </RuleGroup>
+	  
     <RuleGroup name="FileDeleteDetected-Include-DesktopCore" groupRelation="or">
       <FileDeleteDetected onmatch="include">
         <Rule groupRelation="and">
@@ -264,20 +326,17 @@
         </Rule>
       </FileDeleteDetected>
     </RuleGroup>
+	  
     <RuleGroup name="FileDeleteDetected-Exclude-CommonNoise" groupRelation="or">
       <FileDeleteDetected onmatch="exclude">
         <Image condition="contains all">\appdata\local\google\chrome\user data\swreporter\;software_reporter_tool.exe</Image>
         <User condition="contains any">NETWORK SERVICE;LOCAL SERVICE</User>
       </FileDeleteDetected>
     </RuleGroup>
-    <RuleGroup name="CreateRemoteThread-Include" groupRelation="or">
-      <CreateRemoteThread onmatch="include">
-        <SourceImage condition="begin with">C:\</SourceImage>
-        <SourceImage condition="begin with">\\</SourceImage>
-      </CreateRemoteThread>
-    </RuleGroup>
 
-    <!-- SYSMON EVENT ID 27 : FILE BLOCK EXECUTABLE -->
+    <!-- ============================================================ -->
+    <!-- Event ID 27: FileBlockExecutable (Merged) (Desktop) -->
+    <!-- ============================================================ -->
     <RuleGroup name="Include_LOLBAS_FileBlock_Desktop_Curated" groupRelation="or">
       <FileBlockExecutable onmatch="include">
         <Rule groupRelation="and">
