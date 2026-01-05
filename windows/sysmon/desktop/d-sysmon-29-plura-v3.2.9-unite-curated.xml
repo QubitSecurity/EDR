@@ -690,7 +690,7 @@
         <Image condition="end with">\SOC_2.1.1.exe</Image>
         <Image condition="end with">\UAENA.exe</Image>
 		
-		<!-- 1/2 추가 -->
+		<!-- 01/05 추가 -->
 		<!-- svchost.exe(SYSTEM)가 Microsoft Defender 정의(시그니처) 델타 업데이트 적용한 정상적인 Windows Update 행위 -->
         <Rule groupRelation="and">
           <Image condition="is">C:\WINDOWS\system32\svchost.exe</Image>
@@ -740,7 +740,6 @@
           <TargetFilename condition="end with">.tmp</TargetFilename>
         </Rule>
 		
-		<!-- 01/05 추가 -->
 		<!-- Selenium 자동화 도구가 브라우저 제어를 위해 chromedriver.exe를 정상적으로 다운로드·생성하는 동작에 대한 예외 -->
 		<Rule groupRelation="and">
           <Image condition="end with">selenium-manager.exe</Image>
