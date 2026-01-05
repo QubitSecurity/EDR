@@ -740,7 +740,7 @@
           <Image condition="end with">.exe.sample</Image>
         </Rule>
         <Rule groupRelation="and">
-          <Image condition="contains">\PluraService</Image>
+          <Image condition="contains any">\PluraService;\Explorer</Image>
           <Image condition="end with">.exe</Image>
           <TargetFilename condition="contains">\PluraSetup</TargetFilename>
           <TargetFilename condition="end with">.exe</TargetFilename>
