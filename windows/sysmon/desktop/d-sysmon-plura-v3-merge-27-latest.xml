@@ -1,7 +1,6 @@
 <!-- PLURA_CONFIG_VERSION: d-sysmon-plura-v3-merge-27-latest.xml -->
-<!-- BASE URL: d-sysmon-27-plura-v3.2.7-unite-curated.xml -->
+<!-- BASE URL: d-sysmon-27-plura-v3.2.9-unite-curated.xml -->
 <!-- PLURA_SCHEMA_TARGET: 4.90 -->
-
 <Sysmon schemaversion="4.90">
   <HashAlgorithms>*</HashAlgorithms>
   <CheckRevocation>False</CheckRevocation>
@@ -153,7 +152,7 @@
           <TargetImage condition="end with">\lsass.exe</TargetImage>
           <GrantedAccess condition="contains any">0x1fffff;0x1f3fff;0x1410;0x143a;0x1438;0x1430;0x1010</GrantedAccess>
           <SourceImage condition="contains any">\powershell.exe;\pwsh.exe;\cmd.exe;\wscript.exe;\cscript.exe;\rundll32.exe;\regsvr32.exe;\mshta.exe;\wmic.exe;\bitsadmin.exe;\certutil.exe;\msbuild.exe;\python.exe;\perl.exe;\ruby.exe;\node.exe;\java.exe</SourceImage>
-		    </Rule>
+		</Rule>
         <Rule groupRelation="and">
           <TargetImage condition="end with">\winlogon.exe</TargetImage>
           <GrantedAccess condition="contains any">0x1fffff;0x1f3fff;0x1410;0x143a;0x1438;0x1430</GrantedAccess>
@@ -278,6 +277,8 @@
         <SourceImage condition="begin with">\\</SourceImage>
       </CreateRemoteThread>
     </RuleGroup>
+
+    <!-- SYSMON EVENT ID 27 : FILE BLOCK EXECUTABLE -->
     <RuleGroup name="Include_LOLBAS_FileBlock_Desktop_Curated" groupRelation="or">
       <FileBlockExecutable onmatch="include">
         <Rule groupRelation="and">
@@ -398,6 +399,58 @@
         </Rule>
       </FileBlockExecutable>
     </RuleGroup>
+
+    <RuleGroup name="Include_PLURA_HONEYPOT_Desktop" groupRelation="or">
+      <FileBlockExecutable onmatch="include">
+        <Rule groupRelation="and">
+          <TargetFilename condition="begin with">C:\Users\</TargetFilename>
+          <TargetFilename condition="contains any">
+            \Documents\;
+            \Pictures\;
+            \Videos\;
+            \Music\;
+            \Favorites\;
+            \Client_Contracts\
+          </TargetFilename>
+        </Rule>
+      </FileBlockExecutable>
+    </RuleGroup>
+
+    <RuleGroup name="Include_Temp_Desktop" groupRelation="or">
+      <FileBlockExecutable onmatch="include">
+        <Rule groupRelation="or">
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+          <TargetFilename condition="contains">\Windows\Temp\</TargetFilename>
+        </Rule>
+      </FileBlockExecutable>
+    </RuleGroup>
+
+    <RuleGroup name="Include_ProgramData_Desktop" groupRelation="or">
+      <FileBlockExecutable onmatch="include">
+        <Rule groupRelation="and">
+          <TargetFilename condition="begin with">C:\ProgramData\</TargetFilename>
+        </Rule>
+      </FileBlockExecutable>
+    </RuleGroup>
+
+    <RuleGroup name="Include_Public_Desktop" groupRelation="or">
+      <FileBlockExecutable onmatch="include">
+        <Rule groupRelation="and">
+          <TargetFilename condition="begin with">C:\Users\Public\</TargetFilename>
+        </Rule>
+      </FileBlockExecutable>
+    </RuleGroup>
+
+    <RuleGroup name="Include_PowerShell_Script_Desktop" groupRelation="or">
+      <FileBlockExecutable onmatch="include">
+        <Rule groupRelation="or">
+          <TargetFilename condition="end with">.ps1</TargetFilename>
+          <TargetFilename condition="end with">.psm1</TargetFilename>
+          <TargetFilename condition="end with">.psd1</TargetFilename>
+        </Rule>
+      </FileBlockExecutable>
+    </RuleGroup>
+
     <RuleGroup name="Include_MalwareDrop_Desktop" groupRelation="or">
       <FileBlockExecutable onmatch="include">
         <Rule groupRelation="and">
@@ -489,6 +542,10 @@
           <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
         </Rule>
         <Rule groupRelation="and">
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+          <TargetFilename condition="end with">.exe</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
           <Image condition="contains">\Adobe\</Image>
           <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
         </Rule>
@@ -572,6 +629,10 @@
           <TargetFilename condition="contains all">\AppData\Local\Temp\vscode-stable-user;\CodeSetup-stable-</TargetFilename>
         </Rule>
         <Rule groupRelation="and">
+          <Image condition="contains all">\AppData\Local\Temp\vscode-stable-user;\CodeSetup-stable-</Image>
+          <TargetFilename condition="contains all">\AppData\Local\Temp\;\CodeSetup-stable-</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
           <Image condition="is">C:\WINDOWS\System32\svchost.exe</Image>
           <TargetFilename condition="contains">\AppData\Local\Temp\BIT</TargetFilename>
         </Rule>
@@ -598,6 +659,15 @@
           <TargetFilename condition="contains">\AppData\Roaming\ESTsoft\ALToolsManager\</TargetFilename>
         </Rule>
         <Rule groupRelation="and">
+          <Image condition="begin with">C:\Program Files\ESTsoft\</Image>
+          <Image condition="end with">unins000.exe</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="contains">\AppData\Roaming\ESTsoft\ALToolsManager\</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
           <Image condition="begin with">C:\WINDOWS\SoftwareDistribution\Download\</Image>
           <Image condition="end with">\InstallUpdatePlatform.amd64fre.exe</Image>
           <TargetFilename condition="begin with">C:\Windows\Temp\</TargetFilename>
@@ -605,6 +675,24 @@
         <Rule groupRelation="and">
           <Image condition="is">C:\Program Files\PLURA\Sysmon.exe</Image>
           <Image condition="end with">\AppData\Local\Temp\Sysmon.exe</Image>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="is">C:\Program Files\Bandizip\Bandizip.exe</Image>
+          <Image condition="contains">\AppData\Local\Temp\</Image>
+          <Image condition="end with">.exe.sample</Image>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="end with">\PluraService.exe</Image>
+          <TargetFilename condition="end with">\PluraSetup.exe</TargetFilename>
+        </Rule>
+      </FileBlockExecutable>
+    </RuleGroup>
+    <RuleGroup name="Exclude_MSSHelper_Desktop" groupRelation="or">
+      <FileBlockExecutable onmatch="exclude">
+        <Rule groupRelation="or">
+          <Image condition="end with">\SOC_2.1.0.exe</Image>
+          <Image condition="end with">\SOC_2.1.1.exe</Image>
+          <Image condition="end with">\UAENA.exe</Image>
         </Rule>
       </FileBlockExecutable>
     </RuleGroup>
