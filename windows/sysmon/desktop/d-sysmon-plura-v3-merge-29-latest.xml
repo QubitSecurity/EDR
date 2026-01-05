@@ -1,5 +1,5 @@
 <!-- PLURA_CONFIG_VERSION: d-sysmon-plura-v3-merge-29-latest.xml -->
-<!-- BASE URL: d-sysmon-29-plura-v3.2.7-unite-curated.xml -->
+<!-- BASE URL: d-sysmon-29-plura-v3.2.9-unite-curated.xml -->
 <!-- PLURA_SCHEMA_TARGET: 4.90 -->
 
 <Sysmon schemaversion="4.90">
@@ -8,6 +8,10 @@
   <DnsLookup>False</DnsLookup>
   <ArchiveDirectory>Sysmon</ArchiveDirectory>
   <EventFiltering>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 1: Process Create (Desktop) -->
+    <!-- ============================================================ -->
     <RuleGroup name="ProcessCreate-Exclude-Noise" groupRelation="or">
       <ProcessCreate onmatch="exclude">
         <ParentImage condition="end with">\Program Files (x86)\PLURA\PLURAService.exe</ParentImage>
@@ -21,6 +25,7 @@
         <Image condition="is">C:\Windows\Microsoft.NET\Framework\v4.0.30319\mscorsvw.exe</Image>
       </ProcessCreate>
     </RuleGroup>
+	  
     <RuleGroup name="ProcessCreate-Include-Desktop" groupRelation="or">
       <ProcessCreate onmatch="include">
         <Image condition="end with">\Windows\System32\WindowsPowerShell\v1.0\powershell.exe</Image>
@@ -60,6 +65,10 @@
         </Rule>
       </ProcessCreate>
     </RuleGroup>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 3: Network Connect (Desktop) -->
+    <!-- ============================================================ -->
     <RuleGroup name="NetworkConnect-Exclude-Noise" groupRelation="or">
       <NetworkConnect onmatch="exclude">
         <Image condition="contains">:\Program Files (x86)\PLURA\</Image>
@@ -71,6 +80,7 @@
         <DestinationIp condition="is">0:0:0:0:0:0:0:1</DestinationIp>
       </NetworkConnect>
     </RuleGroup>
+	  
     <RuleGroup name="NetworkConnect-Include-Desktop" groupRelation="or">
       <NetworkConnect onmatch="include">
         <Image condition="end with">\Windows\System32\WindowsPowerShell\v1.0\powershell.exe</Image>
@@ -98,6 +108,10 @@
         <DestinationPort condition="is">5986</DestinationPort>
       </NetworkConnect>
     </RuleGroup>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 5: Process Terminate -->
+    <!-- ============================================================ -->
     <RuleGroup name="ProcessTerminate-Exclude-Noise" groupRelation="or">
       <ProcessTerminate onmatch="exclude">
         <Image condition="end with">\Windows\System32\backgroundTaskHost.exe</Image>
@@ -106,6 +120,10 @@
         <Image condition="end with">\Sysmon\Sysmon.exe</Image>
       </ProcessTerminate>
     </RuleGroup>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 7: ImageLoad (PowerShell) -->
+    <!-- ============================================================ -->
     <RuleGroup name="ImageLoad-PowerShell" groupRelation="and">
       <ImageLoad onmatch="include">
         <Rule groupRelation="or">
@@ -114,6 +132,7 @@
           <ImageLoaded condition="contains">sspisrv.dll</ImageLoaded>
         </Rule>
       </ImageLoad>
+		
       <ImageLoad onmatch="exclude">
         <Rule groupRelation="or">
           <Image condition="end with">\Windows\SysWOW64\WindowsPowerShell\v1.0\powershell.exe</Image>
@@ -122,10 +141,25 @@
         </Rule>
       </ImageLoad>
     </RuleGroup>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 8: CreateRemoteThread -->
+    <!-- ============================================================ -->
+    <RuleGroup name="CreateRemoteThread-Include" groupRelation="or">
+      <CreateRemoteThread onmatch="include">
+        <SourceImage condition="begin with">C:\</SourceImage>
+        <SourceImage condition="begin with">\\</SourceImage>
+      </CreateRemoteThread>
+    </RuleGroup>
+	  
+    <!-- ============================================================ -->
+    <!-- Event ID 9: RawAccessRead -->
+    <!-- ============================================================ -->
     <RuleGroup name="RawAccessRead-Desktop" groupRelation="and">
       <RawAccessRead onmatch="include">
         <Device condition="contains">\Device\Harddisk0\DR0</Device>
       </RawAccessRead>
+		
       <RawAccessRead onmatch="exclude">
         <Rule groupRelation="or">
           <Image condition="contains all">\ProgramData\Microsoft\Windows Defender\platform\;\MsMpEng.exe</Image>
@@ -134,6 +168,10 @@
         </Rule>
       </RawAccessRead>
     </RuleGroup>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 10: Process Access (Desktop) -->
+    <!-- ============================================================ -->
     <RuleGroup name="ProcessAccess-Exclude-Legit" groupRelation="or">
       <ProcessAccess onmatch="exclude">
         <SourceImage condition="is">C:\Program Files\Windows Defender\MsMpEng.exe</SourceImage>
@@ -147,6 +185,7 @@
         <SourceImage condition="end with">\Program Files (x86)\PLURA\PLURATray.exe</SourceImage>
       </ProcessAccess>
     </RuleGroup>
+	  
     <RuleGroup name="ProcessAccess-Include-HighSignal" groupRelation="or">
       <ProcessAccess onmatch="include">
         <Rule groupRelation="and">
@@ -164,6 +203,10 @@
         </Rule>
       </ProcessAccess>
     </RuleGroup>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 11: FileCreate (Desktop) -->
+    <!-- ============================================================ -->
     <RuleGroup name="FileCreate-Include-DesktopCore" groupRelation="or">
       <FileCreate onmatch="include">
         <TargetFilename condition="contains">\Start Menu</TargetFilename>
@@ -185,6 +228,7 @@
         <TargetFilename condition="contains">\AppData\Local\Microsoft\Edge\User Data\Default\Extensions\</TargetFilename>
       </FileCreate>
     </RuleGroup>
+
     <RuleGroup name="FileCreate-Exclude-PLURA" groupRelation="or">
       <FileCreate onmatch="exclude">
         <Image condition="end with">\Program Files (x86)\PLURA\PLURAService.exe</Image>
@@ -193,6 +237,10 @@
         <Image condition="end with">\Program Files (x86)\PLURA\PLURATray.exe</Image>
       </FileCreate>
     </RuleGroup>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 12/13/14: RegistryEvent (Desktop) -->
+    <!-- ============================================================ -->
     <RuleGroup name="RegistryEvent-Include-DesktopCore" groupRelation="or">
       <RegistryEvent onmatch="include">
         <TargetObject condition="contains">\CurrentVersion\Run</TargetObject>
@@ -206,12 +254,17 @@
         <TargetObject condition="contains">HKLM\SOFTWARE\Policies\Microsoft\Windows Defender</TargetObject>
       </RegistryEvent>
     </RuleGroup>
+	  
     <RuleGroup name="RegistryEvent-Exclude-PLURA-Noise" groupRelation="or">
       <RegistryEvent onmatch="exclude">
         <Image condition="begin with">C:\Program Files (x86)\PLURA\</Image>
         <Image condition="begin with">C:\Program Files\PLURA\</Image>
       </RegistryEvent>
     </RuleGroup>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 15: FileCreateStreamHash (Desktop) -->
+    <!-- ============================================================ -->
     <RuleGroup name="FileCreateStreamHash-Desktop" groupRelation="or">
       <FileCreateStreamHash onmatch="include">
         <Rule name="ZoneIdentifier" groupRelation="and">
@@ -224,6 +277,10 @@
         <TargetFilename condition="end with">.js</TargetFilename>
       </FileCreateStreamHash>
     </RuleGroup>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 22: DNS Query (IOC) (Desktop) -->
+    <!-- ============================================================ -->
     <RuleGroup name="DnsQuery-IOC" groupRelation="or">
       <DnsQuery onmatch="include">
         <QueryName condition="end with">tcjst.com</QueryName>
@@ -247,9 +304,14 @@
         <Image condition="end with">\Windows\System32\wget.exe</Image>
       </DnsQuery>
     </RuleGroup>
+
+    <!-- ============================================================ -->
+    <!-- Event ID 23/26: FileDelete / FileDeleteDetected (Desktop) -->
+    <!-- ============================================================ -->
     <RuleGroup name="FileDelete-ArchivedCopy-Disabled" groupRelation="or">
       <FileDelete onmatch="exclude" />
     </RuleGroup>
+	  
     <RuleGroup name="FileDeleteDetected-Include-DesktopCore" groupRelation="or">
       <FileDeleteDetected onmatch="include">
         <Rule groupRelation="and">
@@ -266,18 +328,17 @@
         </Rule>
       </FileDeleteDetected>
     </RuleGroup>
+	  
     <RuleGroup name="FileDeleteDetected-Exclude-CommonNoise" groupRelation="or">
       <FileDeleteDetected onmatch="exclude">
         <Image condition="contains all">\appdata\local\google\chrome\user data\swreporter\;software_reporter_tool.exe</Image>
         <User condition="contains any">NETWORK SERVICE;LOCAL SERVICE</User>
       </FileDeleteDetected>
     </RuleGroup>
-    <RuleGroup name="CreateRemoteThread-Include" groupRelation="or">
-      <CreateRemoteThread onmatch="include">
-        <SourceImage condition="begin with">C:\</SourceImage>
-        <SourceImage condition="begin with">\\</SourceImage>
-      </CreateRemoteThread>
-    </RuleGroup>
+	  
+    <!-- ============================================================ -->
+    <!-- Event ID 29: FileExecutableDetected (Merged) (Desktop) -->
+    <!-- ============================================================ -->
     <RuleGroup name="Include_LOLBAS_FileExecutableDetected_Desktop_Curated" groupRelation="or">
       <FileExecutableDetected onmatch="include">
         <Rule groupRelation="and">
@@ -398,6 +459,7 @@
         </Rule>
       </FileExecutableDetected>
     </RuleGroup>
+	  
     <RuleGroup name="Include_MalwareDrop_Desktop" groupRelation="or">
       <FileExecutableDetected onmatch="include">
         <Rule groupRelation="and">
@@ -409,6 +471,7 @@
             C:\Users\Public\;
             C:\Temp\;</TargetFilename>
         </Rule>
+		  
         <Rule groupRelation="and">
           <TargetFilename condition="begin with">C:\Users\</TargetFilename>
           <TargetFilename condition="contains any">
@@ -585,6 +648,104 @@
         <Rule groupRelation="and">
           <Image condition="is">C:\Program Files\PLURA\Sysmon.exe</Image>
           <Image condition="end with">\AppData\Local\Temp\Sysmon.exe</Image>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="is">C:\Program Files\Bandizip\Bandizip.exe</Image>
+          <Image condition="contains">\AppData\Local\Temp\</Image>
+          <Image condition="end with">.exe.sample</Image>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="contains">\PluraService</Image>
+          <Image condition="end with">.exe</Image>
+          <TargetFilename condition="contains">\PluraSetup</TargetFilename>
+          <TargetFilename condition="end with">.exe</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="contains">\PluraSetup</Image>
+          <Image condition="end with">.exe</Image>
+          <TargetFilename condition="contains">\PluraService</TargetFilename>
+          <TargetFilename condition="end with">.exe</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="contains">\PluraSetup</Image>
+          <Image condition="end with">.exe</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="contains">\PluraSetup</Image>
+          <Image condition="end with">.exe</Image>
+          <TargetFilename condition="begin with">C:\Program Files\PLURA\</TargetFilename>
+          <TargetFilename condition="contains any">\Plura.exe;\Sysmon.exe;\Sysmon64.exe;\PluraUninstall.exe</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="contains">\AppData\Local\Temp\</Image>
+          <Image condition="end with">\Un.exe</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <Image condition="contains any">\chrome.exe;\firefox.exe;\whale.exe;\msedge.exe;\brave.exe</Image>
+          <TargetFilename condition="begin with">C:\Users\</TargetFilename>
+          <TargetFilename condition="contains">\Downloads\</TargetFilename>
+        </Rule>
+		<Image condition="end with">\SOC_2.1.0.exe</Image>
+        <Image condition="end with">\SOC_2.1.1.exe</Image>
+        <Image condition="end with">\UAENA.exe</Image>
+		
+		<!-- 1/2 추가 -->
+		<!-- svchost.exe(SYSTEM)가 Microsoft Defender 정의(시그니처) 델타 업데이트 적용한 정상적인 Windows Update 행위 -->
+        <Rule groupRelation="and">
+          <Image condition="is">C:\WINDOWS\system32\svchost.exe</Image>
+          <TargetFilename condition="begin with">C:\Windows\SoftwareDistribution\Download\</TargetFilename>
+          <TargetFilename condition="contains any">\AM_Delta.exe;\AM_Delta_Patch.exe;\InstallAM_Delta_Patch.exe;\MpAM_Delta.exe;\MpAM_Delta_Patch.exe</TargetFilename>
+        </Rule>
+		
+		<!-- AhnLab Safe Transaction 서비스 프로세스가 자체 업데이트 과정에서 파일 생성 -->
+        <Rule groupRelation="and">
+          <Image condition="is">C:\Program Files\AhnLab\Safe Transaction\ASDSvc.exe</Image>
+          <TargetFilename condition="begin with">C:\Program Files\AhnLab\Safe Transaction\</TargetFilename>
+          <TargetFilename condition="contains">\ASDTEMP\</TargetFilename>
+        </Rule>
+		
+		<!-- Windows 자동 유지관리/디스크 정리 과정에서 cleanmgr.exe가 Temp 경로에 정상적으로 파일을 생성하는 행위 제외 -->
+        <Rule groupRelation="and">
+          <Image condition="is">C:\Windows\System32\cleanmgr.exe</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+        </Rule>
+		
+		<!-- Google Chrome 자동 업데이트 과정에서 updater.exe가 SystemTemp 경로에 설치 파일을 생성하는 정상 행위 제외 -->
+		<Rule groupRelation="and">
+          <Image condition="begin with">C:\Program Files (x86)\Google\GoogleUpdater\</Image>
+          <Image condition="end with">\updater.exe</Image>
+          <TargetFilename condition="contains">C:\Windows\SystemTemp\</TargetFilename>
+        </Rule>
+		
+		<!-- Edge WebView2(msedgewebview2.exe) DRM(Widevine) 모듈 초기화/업데이트 과정에서 Temp 경로에 DLL 생성하는 정상 행위 제외 -->
+		<Rule groupRelation="and">
+          <Image condition="begin with">C:\Program Files (x86)\Microsoft\EdgeWebView\Application\</Image>
+          <Image condition="end with">\msedgewebview2.exe</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\msedge_chrome_Unpacker_</TargetFilename>
+        </Rule>
+		
+		<!-- Windows Servicing Stack(TiWorker.exe) 업데이트 과정에서 SystemTemp 경로에 ssshim.dll을 생성하는 정상 행위 제외 -->
+		<Rule groupRelation="and">
+          <Image condition="begin with">C:\Windows\WinSxS\amd64_microsoft-windows-servicingstack_</Image>
+          <Image condition="end with">\TiWorker.exe</Image>
+          <TargetFilename condition="begin with">C:\Windows\SystemTemp\</TargetFilename>
+        </Rule>
+		
+		<!-- Windows Update/시스템 작업 중 svchost.exe가 SystemTemp 경로에 임시(tmp) 파일을 생성하는 정상 행위 제외 -->
+		<Rule groupRelation="and">
+          <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+          <TargetFilename condition="begin with">C:\Windows\SystemTemp\</TargetFilename>
+          <TargetFilename condition="contains">\UDD</TargetFilename>
+          <TargetFilename condition="end with">.tmp</TargetFilename>
+        </Rule>
+		
+		<!-- 01/05 추가 -->
+		<!-- Selenium 자동화 도구가 브라우저 제어를 위해 chromedriver.exe를 정상적으로 다운로드·생성하는 동작에 대한 예외 -->
+		<Rule groupRelation="and">
+          <Image condition="end with">selenium-manager.exe</Image>
+          <TargetFilename condition="end with">chromedriver.exe</TargetFilename>
         </Rule>
       </FileExecutableDetected>
     </RuleGroup>
