@@ -778,7 +778,8 @@
         <Rule groupRelation="and">
           <Image condition="is">C:\WINDOWS\system32\svchost.exe</Image>
           <TargetFilename condition="begin with">C:\Windows\SoftwareDistribution\Download\</TargetFilename>
-          <TargetFilename condition="contains any">\AM_Delta.exe;\AM_Delta_Patch.exe;\InstallAM_Delta_Patch.exe;\MpAM_Delta.exe;\MpAM_Delta_Patch.exe</TargetFilename>
+          <TargetFilename condition="contains any">\AM_Delta;\AM_Delta_Patch;\InstallAM_Delta_Patch;\MpAM_Delta;\MpAM_Delta_Patch</TargetFilename>
+          <TargetFilename condition="end with">.exe</TargetFilename>
         </Rule>
 		
 		<!-- AhnLab Safe Transaction 서비스 프로세스가 자체 업데이트 과정에서 파일 생성 -->
@@ -828,8 +829,51 @@
           <Image condition="end with">selenium-manager.exe</Image>
           <TargetFilename condition="end with">chromedriver.exe</TargetFilename>
         </Rule>
+
+		<!-- 01/06 추가 -->
+		<!-- Windows Defender 엔진/시그니처 업데이트 과정에서 MpCmdRun.exe가 임시 실행 파일(MpCommUmpam-*.exe)을 생성하는 정상 행위를 식별하기 위한 규칙 -->
+		<Rule groupRelation="and">
+          <Image condition="contains">\ProgramData\Microsoft\Windows Defender\Platform\</Image>
+          <Image condition="end with">\MpCmdRun.exe</Image>
+          <TargetFilename condition="begin with">C:\Windows\SystemTemp\</TargetFilename>
+          <TargetFilename condition="contains">\MpCommUmpam</TargetFilename>
+          <TargetFilename condition="end with">.exe</TargetFilename>
+        </Rule>
+		
+		<!-- AhnLab Safe Transaction 업데이트 모듈 -->
+		<Rule groupRelation="and">
+          <Image condition="contains">\AhnLab\Safe Transaction\MUpdate2\MUpdate2.exe</Image>
+          <TargetFilename condition="contains">\AhnLab\Safe Transaction\MUpdate2\Update\</TargetFilename>
+        </Rule>
+		
+		<!-- 01/06 -->
+		<!-- Microsoft Edge 자동 업데이트 -->
+		<Rule groupRelation="and">
+          <Image condition="is">C:\Program Files (x86)\Microsoft\EdgeUpdate\MicrosoftEdgeUpdate.exe</Image>
+          <TargetFilename condition="contains">C:\Program Files (x86)\Microsoft\EdgeUpdate\Download\</TargetFilename>
+          <TargetFilename condition="contains">\MicrosoftEdgeUpdateSetup</TargetFilename>
+          <TargetFilename condition="end with">.exe</TargetFilename>
+        </Rule>
+		
+		<!-- AhnLab Safe Transaction 보안 모듈 업데이트 -->
+		<Rule groupRelation="and">
+          <Image condition="is">C:\Program Files (x86)\Microsoft\EdgeUpdate\MicrosoftEdgeUpdate.exe</Image>
+          <TargetFilename condition="contains">C:\Program Files (x86)\Microsoft\EdgeUpdate\Download\</TargetFilename>
+          <TargetFilename condition="contains">\MicrosoftEdgeUpdateSetup</TargetFilename>
+          <TargetFilename condition="end with">.exe</TargetFilename>
+        </Rule>
+		
+		<!-- Google Chrome 업데이트 과정에서 압축 해제된 설치 프로그램이 임시 디렉터리에 setup.exe를 생성 -->
+		<Rule groupRelation="and">
+          <Image condition="contains">\updater_chrome_Unpacker_BeginUnzipping</Image>
+          <Image condition="contains">chrome_installer_uncompressed</Image>
+          <TargetFilename condition="begin with">C:\Windows\SystemTemp\updater_chrome_Unpacker_BeginUnzipping</TargetFilename>
+          <TargetFilename condition="contains">.tmp</TargetFilename>
+          <TargetFilename condition="end with">\setup.exe</TargetFilename>
+        </Rule>  
       </FileBlockExecutable>
     </RuleGroup>
+	  
     <RuleGroup name="Exclude_MSSHelper_Desktop" groupRelation="or">
       <FileBlockExecutable onmatch="exclude">
         <Rule groupRelation="or">
