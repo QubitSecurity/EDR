@@ -1,0 +1,49 @@
+# Server Registry auditing rules (Registry1)
+# For: win-registry.ps1  (Apply to "This key only")
+# Format: id|path|perm|note
+#
+# IMPORTANT:
+#  - HKCU entries affect ONLY the account running the script (e.g., Administrator),
+#    and do NOT automatically cover other users on a server.
+#  - Therefore, this server ruleset focuses on HKLM (system-wide) keys by default.
+#  - If you must cover per-user keys for many users, you need a separate approach
+#    (load each user's hive and set SACL), which is outside this script's scope.
+
+# Run family (HKLM)
+reg_run_hklm|HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run|SetValue,Delete|Run (HKLM)
+reg_runonce_hklm|HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce|SetValue,Delete|RunOnce (HKLM)
+reg_run_wow6432|HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Run|SetValue,Delete|Run WOW6432 (HKLM)
+
+# StartupApproved / Policies Explorer Run (HKLM)
+reg_startupapproved_hklm|HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run|SetValue,Delete|StartupApproved Run (HKLM)
+reg_policy_explorer_run_hklm|HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run|SetValue,Delete|Policies Explorer Run (HKLM)
+
+# Winlogon / Windows (HKLM)
+reg_winlogon_hklm|HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon|SetValue|Winlogon (HKLM)
+reg_winlogon_wow6432|HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Winlogon|SetValue|Winlogon WOW6432 (HKLM)
+reg_windows_hklm|HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows|SetValue|Windows key (HKLM)
+
+# ms-settings (HKLM)
+#reg_mssettings_hklm|HKLM:\SOFTWARE\Classes\ms-settings\Shell\Open\Command|SetValue|ms-settings UAC bypass (HKLM)
+
+# UAC policy
+reg_uac_policy|HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System|SetValue|UAC policy
+
+# Shim persistence
+reg_appcompat_custom|HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Custom|SetValue|AppCompat Custom
+reg_appcompat_installedsdb|HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\InstalledSDB|SetValue|InstalledSDB
+
+# LSA / Session Manager
+reg_lsa|HKLM:\SYSTEM\CurrentControlSet\Control\Lsa|SetValue|LSA
+reg_sessionmgr|HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager|SetValue|Session Manager
+
+# Net / Firewall
+reg_netsh|HKLM:\SOFTWARE\Microsoft\NetSh|SetValue|NetSh settings
+reg_fw_domain|HKLM:\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\DomainProfile|SetValue|Firewall DomainProfile
+reg_fw_public|HKLM:\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\PublicProfile|SetValue|Firewall PublicProfile
+reg_fw_standard|HKLM:\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\StandardProfile|SetValue|Firewall StandardProfile
+
+# --- Optional HKCU (NOT recommended by default on servers) ---
+#reg_run_hkcu|HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run|SetValue,Delete|Run (HKCU)
+#reg_runonce_hkcu|HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce|SetValue,Delete|RunOnce (HKCU)
+#reg_startupapproved_hkcu|HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run|SetValue,Delete|StartupApproved Run (HKCU)
