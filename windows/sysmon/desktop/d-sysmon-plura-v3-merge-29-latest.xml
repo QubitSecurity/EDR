@@ -812,7 +812,7 @@
           <TargetFilename condition="begin with">C:\Program Files\WindowsApps\MicrosoftWindows.CrossDevice_</TargetFilename>
           <TargetFilename condition="end with">.dll</TargetFilename>
         </Rule>
-      </FileBlockExecutable>
+      </FileExecutableDetected>
     </RuleGroup>
   </EventFiltering>
 </Sysmon>
