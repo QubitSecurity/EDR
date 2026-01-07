@@ -788,7 +788,30 @@
           <TargetFilename condition="begin with">C:\Windows\SystemTemp\updater_chrome_Unpacker_BeginUnzipping</TargetFilename>
           <TargetFilename condition="contains">.tmp</TargetFilename>
           <TargetFilename condition="end with">\setup.exe</TargetFilename>
-        </Rule>  
+        </Rule>
+
+		<!-- Windows Defender 엔진(MsMpEng.exe)이 Temp 경로에 파일을 생성/처리 -->
+		<Rule groupRelation="and">
+          <Image condition="begin with">C:\ProgramData\Microsoft\Windows Defender\Platform\</Image>
+          <Image condition="end with">\MsMpEng.exe</Image>
+          <TargetFilename condition="begin with">C:\Windows\Temp\</TargetFilename>
+          <TargetFilename condition="contains any">Provider;Dism</TargetFilename>
+          <TargetFilename condition="contains any">.dll;.mui;</TargetFilename>
+        </Rule>
+		
+		<Rule groupRelation="and">
+          <Image condition="begin with">C:\ProgramData\Microsoft\Windows Defender\Platform\</Image>
+          <Image condition="end with">\MsMpEng.exe</Image>
+          <TargetFilename condition="begin with">C:\Windows\Temp\</TargetFilename>
+          <TargetFilename condition="end with">\DismHost.exe</TargetFilename>
+        </Rule>
+		
+		<!-- Windows 서비스(svchost.exe)가 Microsoft CrossDevice(AppX/UWP) 패키지 구성요소 DLL을 생성 -->
+		<Rule groupRelation="and">
+          <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+          <TargetFilename condition="begin with">C:\Program Files\WindowsApps\MicrosoftWindows.CrossDevice_</TargetFilename>
+          <TargetFilename condition="end with">.dll</TargetFilename>
+        </Rule>
       </FileBlockExecutable>
     </RuleGroup>
   </EventFiltering>
