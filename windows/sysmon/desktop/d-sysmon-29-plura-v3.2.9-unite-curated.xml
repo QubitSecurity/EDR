@@ -703,7 +703,7 @@
         <Rule groupRelation="and">
           <Image condition="is">C:\Program Files\AhnLab\Safe Transaction\ASDSvc.exe</Image>
           <TargetFilename condition="begin with">C:\Program Files\AhnLab\Safe Transaction\</TargetFilename>
-          <TargetFilename condition="contains">\ASDTEMP\</TargetFilename>
+          <TargetFilename condition="contains any">\ASDTEMP\;\Nz32\;\Nz64\</TargetFilename>
         </Rule>
 		
 		<!-- Windows 자동 유지관리/디스크 정리 과정에서 cleanmgr.exe가 Temp 경로에 정상적으로 파일을 생성하는 행위 제외 -->
@@ -810,6 +810,76 @@
           <Image condition="is">C:\Windows\System32\svchost.exe</Image>
           <TargetFilename condition="begin with">C:\Program Files\WindowsApps\MicrosoftWindows.CrossDevice_</TargetFilename>
           <TargetFilename condition="end with">.dll</TargetFilename>
+        </Rule>
+
+		<!-- 01/08 추가 -->
+		<!-- Windows Update에서 업데이트 세션을 오케스트레이션하며 다운로드·설치·후처리 작업을 수행하는 USO(업데이트 관리) 핵심 워커 프로세스 -->
+		<Rule groupRelation="and">
+          <Image condition="is">:\WINDOWS\uus\AMD64\MoUsoCoreWorker.exe</Image>
+          <TargetFilename condition="begin with">C:\Windows\SystemTemp\</TargetFilename>
+        </Rule>
+		
+		<!-- Windows Update 메타데이터/구성 파일 생성 -->
+		<Rule groupRelation="and">
+          <Image condition="is">C:\WINDOWS\system32\svchost.exe</Image>
+          <TargetFilename condition="begin with">C:\Windows\SoftwareDistribution\Download\</TargetFilename>
+          <TargetFilename condition="contains">\Metadata\</TargetFilename>
+          <TargetFilename condition="end with">.dll</TargetFilename>
+        </Rule>
+		
+		<!-- VS Code 설치 과정 중 생성된 임시 설치 프로그램이 Temp 경로에 추가 설치 파일을 생성 -->
+		<Rule groupRelation="and">
+          <Image condition="contains all">\AppData\Local\Temp\is-;\CodeSetup-stable-;</Image>
+          <Image condition="end with">.tmp</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\is-</TargetFilename>
+          <TargetFilename condition="contains any">\_isetup\_setup64;\_isetup\_setup32</TargetFilename>
+          <TargetFilename condition="end with">.tmp</TargetFilename>
+        </Rule>
+		
+		<!-- VS Code 설치 시 임시 설치 프로그램(Inno Setup)이 임시 파일 생성 -->
+		<Rule groupRelation="and">
+          <Image condition="contains all">\AppData\Local\Temp\is-;.tmp\CodeSetup-stable-</Image>
+          <Image condition="end with">.tmp</Image>
+          <TargetFilename condition="contains">\AppData\Local\Programs\Microsoft VS Code\</TargetFilename>
+          <TargetFilename condition="contains any">\is-;\_\is-;\_\bin\is-;\_\resources\app\extensions\microsoft-authentication\dist\is-</TargetFilename>
+        </Rule>
+		
+		<!-- MobaXterm 내부 SCP 전송 기능 보조 실행 파일 -->
+		<Rule groupRelation="and">
+          <Image condition="is">C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe</Image>
+          <TargetFilename condition="contains">\AppData\Roaming\MobaXterm\slash\</TargetFilename>
+          <TargetFilename condition="contains any">\mx86_64b\;\mx86_32b\;\mx64\;\mx32\</TargetFilename>
+          <TargetFilename condition="end with">\MobaSCPTransfer.exe</TargetFilename>
+        </Rule>
+		
+		<!-- Windows의 Cross-Device(휴대폰 연결/연동) 기능에서 파일 전송·설정 동기화·스트리밍·백그라운드 통신을 담당하는 구성 서비스/호스트 프로세스들 -->
+		<Rule groupRelation="and">
+          <Image condition="is">C:\WINDOWS\system32\svchost.exe</Image>
+          <TargetFilename condition="begin with">C:\Program Files\WindowsApps\MicrosoftWindows.CrossDevice_</TargetFilename>
+          <TargetFilename condition="contains any">\CrossDeviceFilesHost.exe;\CrossDeviceSettingsHost.exe;\CrossDeviceStreamingHost.exe;\PhoneAgentMcpServer.exe</TargetFilename>
+        </Rule>
+		
+		<!-- Windows CrossDevice(AppRepository) 구성요소 등록/업데이트 -->
+		<Rule groupRelation="and">
+          <Image condition="is">C:\WINDOWS\system32\svchost.exe</Image>
+          <TargetFilename condition="begin with">C:\ProgramData\Microsoft\Windows\AppRepository\Packages\MicrosoftWindows.CrossDevice_</TargetFilename>
+          <TargetFilename condition="contains">\PackagedCom\</TargetFilename>
+          <TargetFilename condition="end with">ProxyStub.dll</TargetFilename>
+        </Rule>
+		
+		<!-- Windows Update 구성요소 배포 -->
+		<Rule groupRelation="and">
+          <Image condition="is">C:\WINDOWS\system32\svchost.exe</Image>
+          <TargetFilename condition="begin with">C:\Windows\SoftwareDistribution\Download\Install\</TargetFilename>
+          <TargetFilename condition="contains any">\UpdatePlatform.amd64fre.exe;\UpdatePlatform.x86fre.exe</TargetFilename>
+        </Rule>
+		
+		<!-- Chrome 업데이트/설치 과정 -->
+		<Rule groupRelation="and">
+          <Image condition="begin with">C:\WINDOWS\SystemTemp\updater_chrome_Unpacker_BeginUnzipping</Image>
+          <Image condition="end with">.tmp\setup.exe</Image>
+          <TargetFilename condition="begin with">C:\Program Files\Google\Chrome\Temp\source</TargetFilename>
+          <TargetFilename condition="contains">\Chrome-bin\</TargetFilename>
         </Rule>
       </FileExecutableDetected>
     </RuleGroup>
