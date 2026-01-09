@@ -306,9 +306,9 @@
     <!-- ============================================================ -->
     <!-- Event ID 23/26: FileDelete / FileDeleteDetected (Desktop) -->
     <!-- ============================================================ -->
-    <RuleGroup name="FileDelete-ArchivedCopy-Disabled" groupRelation="or">
+    <!--RuleGroup name="FileDelete-ArchivedCopy-Disabled" groupRelation="or">
       <FileDelete onmatch="exclude" />
-    </RuleGroup>
+    </RuleGroup-->
 	  
     <RuleGroup name="FileDeleteDetected-Include-DesktopCore" groupRelation="or">
       <FileDeleteDetected onmatch="include">
