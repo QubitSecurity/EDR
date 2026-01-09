@@ -1,5 +1,5 @@
-# PLURA_CONFIG_VERSION: s-auditd-deep-plura-v3.1-latest.rules
-# BASE VERSION: s-auditd-deep-plura-v3.1.rules
+# PLURA_CONFIG_VERSION: s-auditd-deep-plura-v3-latest.rules
+# BASE VERSION: s-auditd-deep-plura-v3.rules
 # PLURA_SCHEMA_TARGET: v3.1
 # Profile: DEEP (incident response / higher visibility)
 # Notes:
