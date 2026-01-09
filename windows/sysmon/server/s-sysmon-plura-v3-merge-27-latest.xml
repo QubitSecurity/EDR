@@ -301,9 +301,9 @@
     <!-- ============================================================ -->
 
     <!-- 23: Archive copy delete (disabled) -->
-    <RuleGroup name="FileDelete-ArchivedCopy-Disabled" groupRelation="or">
+    <!--RuleGroup name="FileDelete-ArchivedCopy-Disabled" groupRelation="or">
       <FileDelete onmatch="exclude" />
-    </RuleGroup>
+    </RuleGroup-->
 
     <!-- 26: FileDeleteDetected (서버 핵심 경로/덤프/임시폴더 중심) -->
     <RuleGroup name="FileDeleteDetected-Include-ServerCore" groupRelation="or">
