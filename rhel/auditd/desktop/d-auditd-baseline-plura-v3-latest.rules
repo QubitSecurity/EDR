@@ -1,5 +1,5 @@
 # PLURA_CONFIG_VERSION: d-auditd-baseline-plura-v3-latest.rules
-# BASE VERSION: d-auditd-baseline-plura-v3.rules
+# BASE VERSION: d-auditd-baseline-plura-v3.1.rules
 # PLURA_SCHEMA_TARGET: v3.1
 # Profile: DESKTOP-BASELINE (workstation / low-noise)
 # Generated: 2026-01-03
