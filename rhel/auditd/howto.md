@@ -83,13 +83,13 @@ fi
 삽입:
 
 ```bash
-cat <<'EOF' >> /etc/audit/auditd.conf
+grep -q '^dispatcher' /etc/audit/auditd.conf || cat <<'EOF' >> /etc/audit/auditd.conf
 
 # --- PLURA audit dispatcher ---
 dispatcher = /sbin/audispd
 disp_qos = lossy
+q_depth = 2000
 EOF
-
 ```
 
 확인:
