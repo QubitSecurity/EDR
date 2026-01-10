@@ -58,6 +58,40 @@ disp_qos = lossy
 q_depth = 2000
 ```
 
+삽입:
+
+```bash
+AUDIT_CONF="/etc/audit/auditd.conf"
+
+# dispatcher 설정
+if grep -qE '^[[:space:]]*dispatcher[[:space:]]*=' "$AUDIT_CONF"; then
+    sed -i 's|^[[:space:]]*dispatcher[[:space:]]*=.*|dispatcher = /sbin/audispd|' "$AUDIT_CONF"
+else
+    echo 'dispatcher = /sbin/audispd' >> "$AUDIT_CONF"
+fi
+
+# disp_qos 설정
+if grep -qE '^[[:space:]]*disp_qos[[:space:]]*=' "$AUDIT_CONF"; then
+    sed -i 's|^[[:space:]]*disp_qos[[:space:]]*=.*|disp_qos = lossy|' "$AUDIT_CONF"
+else
+    echo 'disp_qos = lossy' >> "$AUDIT_CONF"
+fi
+```
+
+또는
+
+삽입:
+
+```bash
+cat <<'EOF' >> /etc/audit/auditd.conf
+
+# --- PLURA audit dispatcher ---
+dispatcher = /sbin/audispd
+disp_qos = lossy
+EOF
+
+```
+
 확인:
 
 ```bash
