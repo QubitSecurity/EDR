@@ -46,6 +46,46 @@ format = string
 
 ---
 
+# 1️⃣ `/etc/audisp/plugins.d/` 디렉터리 생성
+
+Rocky Linux 9에서 **패키지 최소 설치 상태**면 이 디렉터리가 없는 게 정상입니다.
+먼저 디렉터리부터 만듭니다.
+
+```bash
+mkdir -p /etc/audisp/plugins.d
+chmod 755 /etc/audisp/plugins.d
+```
+
+---
+
+# 2️⃣ `/etc/audisp/plugins.d/syslog.conf` 생성 (핵심)
+
+아래를 **그대로 한 번에 실행**하세요.
+
+```bash
+cat <<'EOF' > /etc/audisp/plugins.d/syslog.conf
+# --- PLURA audisp syslog plugin ---
+active = yes
+direction = out
+path = /sbin/audisp-syslog
+type = always
+args = LOG_INFO
+format = string
+EOF
+```
+
+확인:
+
+```bash
+cat /etc/audisp/plugins.d/syslog.conf
+```
+
+---
+
+
+---
+
+
 ## 2️⃣ auditd dispatcher 활성화 확인
 
 ### 📄 `/etc/audit/auditd.conf`
