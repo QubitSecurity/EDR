@@ -641,9 +641,9 @@
           <TargetFilename condition="contains">\AppData\Roaming\ESTsoft\ALToolsManager\</TargetFilename>
         </Rule>
         <Rule groupRelation="and">
-          <Image condition="begin with">C:\WINDOWS\SoftwareDistribution\Download\</Image>
-          <Image condition="end with">\InstallUpdatePlatform.amd64fre.exe</Image>
-          <TargetFilename condition="begin with">C:\Windows\Temp\</TargetFilename>
+          <Image condition="begin with">C:\WINDOWS\SoftwareDistribution\Download\Install\</Image>
+          <Image condition="end with">\UpdatePlatform.amd64fre.exe</Image>
+          <TargetFilename condition="contains any">C:\Windows\Temp\;C:\Windows\SystemTemp\</TargetFilename>
         </Rule>
         <Rule groupRelation="and">
           <Image condition="is">C:\Program Files\PLURA\Sysmon.exe</Image>
@@ -691,65 +691,54 @@
         <Image condition="end with">\SOC_2.1.1.exe</Image>
         <Image condition="end with">\UAENA.exe</Image>
 		
-		<!-- 01/05 추가 -->
-		<!-- svchost.exe(SYSTEM)가 Microsoft Defender 정의(시그니처) 델타 업데이트 적용한 정상적인 Windows Update 행위 -->
         <Rule groupRelation="and">
           <Image condition="is">C:\WINDOWS\system32\svchost.exe</Image>
           <TargetFilename condition="begin with">C:\Windows\SoftwareDistribution\Download\</TargetFilename>
           <TargetFilename condition="contains any">\AM_Delta;\AM_Delta_Patch;\InstallAM_Delta_Patch;\MpAM_Delta;\MpAM_Delta_Patch</TargetFilename>
           <TargetFilename condition="end with">.exe</TargetFilename>
         </Rule>
-		
-		<!-- AhnLab Safe Transaction 서비스 프로세스가 자체 업데이트 과정에서 파일 생성 -->
+
         <Rule groupRelation="and">
           <Image condition="is">C:\Program Files\AhnLab\Safe Transaction\ASDSvc.exe</Image>
           <TargetFilename condition="begin with">C:\Program Files\AhnLab\Safe Transaction\</TargetFilename>
           <TargetFilename condition="contains any">\ASDTEMP\;\Nz32\;\Nz64\</TargetFilename>
         </Rule>
-		
-		<!-- Windows 자동 유지관리/디스크 정리 과정에서 cleanmgr.exe가 Temp 경로에 정상적으로 파일을 생성하는 행위 제외 -->
+
         <Rule groupRelation="and">
           <Image condition="is">C:\Windows\System32\cleanmgr.exe</Image>
           <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
         </Rule>
-		
-		<!-- Google Chrome 자동 업데이트 과정에서 updater.exe가 SystemTemp 경로에 설치 파일을 생성하는 정상 행위 제외 -->
+
 		<Rule groupRelation="and">
           <Image condition="begin with">C:\Program Files (x86)\Google\GoogleUpdater\</Image>
           <Image condition="end with">\updater.exe</Image>
-          <TargetFilename condition="contains">C:\Windows\SystemTemp\</TargetFilename>
+          <TargetFilename condition="begin with">C:\Windows\SystemTemp\</TargetFilename>
         </Rule>
-		
-		<!-- Edge WebView2(msedgewebview2.exe) DRM(Widevine) 모듈 초기화/업데이트 과정에서 Temp 경로에 DLL 생성하는 정상 행위 제외 -->
+
 		<Rule groupRelation="and">
           <Image condition="begin with">C:\Program Files (x86)\Microsoft\EdgeWebView\Application\</Image>
           <Image condition="end with">\msedgewebview2.exe</Image>
           <TargetFilename condition="contains">\AppData\Local\Temp\msedge_chrome_Unpacker_</TargetFilename>
         </Rule>
-		
-		<!-- Windows Servicing Stack(TiWorker.exe) 업데이트 과정에서 SystemTemp 경로에 ssshim.dll을 생성하는 정상 행위 제외 -->
+
 		<Rule groupRelation="and">
           <Image condition="begin with">C:\Windows\WinSxS\amd64_microsoft-windows-servicingstack_</Image>
           <Image condition="end with">\TiWorker.exe</Image>
           <TargetFilename condition="begin with">C:\Windows\SystemTemp\</TargetFilename>
         </Rule>
-		
-		<!-- Windows Update/시스템 작업 중 svchost.exe가 SystemTemp 경로에 임시(tmp) 파일을 생성하는 정상 행위 제외 -->
+
 		<Rule groupRelation="and">
           <Image condition="is">C:\Windows\System32\svchost.exe</Image>
           <TargetFilename condition="begin with">C:\Windows\SystemTemp\</TargetFilename>
           <TargetFilename condition="contains">\UDD</TargetFilename>
           <TargetFilename condition="end with">.tmp</TargetFilename>
         </Rule>
-		
-		<!-- Selenium 자동화 도구가 브라우저 제어를 위해 chromedriver.exe를 정상적으로 다운로드·생성하는 동작에 대한 예외 -->
+
 		<Rule groupRelation="and">
           <Image condition="end with">selenium-manager.exe</Image>
           <TargetFilename condition="end with">chromedriver.exe</TargetFilename>
         </Rule>
-		  
-		<!-- 01/06 추가 -->
-		<!-- Windows Defender 엔진/시그니처 업데이트 과정에서 MpCmdRun.exe가 임시 실행 파일(MpCommUmpam-*.exe)을 생성하는 정상 행위를 식별하기 위한 규칙 -->
+
 		<Rule groupRelation="and">
           <Image condition="contains">\ProgramData\Microsoft\Windows Defender\Platform\</Image>
           <Image condition="end with">\MpCmdRun.exe</Image>
@@ -757,31 +746,26 @@
           <TargetFilename condition="contains">\MpCommUmpam</TargetFilename>
           <TargetFilename condition="end with">.exe</TargetFilename>
         </Rule>
-		
-		<!-- AhnLab Safe Transaction 업데이트 모듈 -->
+
 		<Rule groupRelation="and">
           <Image condition="contains">\AhnLab\Safe Transaction\MUpdate2\MUpdate2.exe</Image>
           <TargetFilename condition="contains">\AhnLab\Safe Transaction\MUpdate2\Update\</TargetFilename>
         </Rule>
-		
-		<!-- 01/06 -->
-		<!-- Microsoft Edge 자동 업데이트 -->
+
 		<Rule groupRelation="and">
           <Image condition="is">C:\Program Files (x86)\Microsoft\EdgeUpdate\MicrosoftEdgeUpdate.exe</Image>
           <TargetFilename condition="contains">C:\Program Files (x86)\Microsoft\EdgeUpdate\Download\</TargetFilename>
           <TargetFilename condition="contains">\MicrosoftEdgeUpdateSetup</TargetFilename>
           <TargetFilename condition="end with">.exe</TargetFilename>
         </Rule>
-		
-		<!-- AhnLab Safe Transaction 보안 모듈 업데이트 -->
+
 		<Rule groupRelation="and">
           <Image condition="is">C:\Program Files (x86)\Microsoft\EdgeUpdate\MicrosoftEdgeUpdate.exe</Image>
           <TargetFilename condition="contains">C:\Program Files (x86)\Microsoft\EdgeUpdate\Download\</TargetFilename>
           <TargetFilename condition="contains">\MicrosoftEdgeUpdateSetup</TargetFilename>
           <TargetFilename condition="end with">.exe</TargetFilename>
         </Rule>
-		
-		<!-- Google Chrome 업데이트 과정에서 압축 해제된 설치 프로그램이 임시 디렉터리에 setup.exe를 생성 -->
+
 		<Rule groupRelation="and">
           <Image condition="contains">\updater_chrome_Unpacker_BeginUnzipping</Image>
           <Image condition="contains">chrome_installer_uncompressed</Image>
@@ -790,7 +774,6 @@
           <TargetFilename condition="end with">\setup.exe</TargetFilename>
         </Rule>
 
-		<!-- Windows Defender 엔진(MsMpEng.exe)이 Temp 경로에 파일을 생성/처리 -->
 		<Rule groupRelation="and">
           <Image condition="begin with">C:\ProgramData\Microsoft\Windows Defender\Platform\</Image>
           <Image condition="end with">\MsMpEng.exe</Image>
@@ -805,30 +788,25 @@
           <TargetFilename condition="begin with">C:\Windows\Temp\</TargetFilename>
           <TargetFilename condition="end with">\DismHost.exe</TargetFilename>
         </Rule>
-		
-		<!-- Windows 서비스(svchost.exe)가 Microsoft CrossDevice(AppX/UWP) 패키지 구성요소 DLL을 생성 -->
+
 		<Rule groupRelation="and">
           <Image condition="is">C:\Windows\System32\svchost.exe</Image>
           <TargetFilename condition="begin with">C:\Program Files\WindowsApps\MicrosoftWindows.CrossDevice_</TargetFilename>
           <TargetFilename condition="end with">.dll</TargetFilename>
         </Rule>
 
-		<!-- 01/08 추가 -->
-		<!-- Windows Update에서 업데이트 세션을 오케스트레이션하며 다운로드·설치·후처리 작업을 수행하는 USO(업데이트 관리) 핵심 워커 프로세스 -->
 		<Rule groupRelation="and">
-          <Image condition="is">:\WINDOWS\uus\AMD64\MoUsoCoreWorker.exe</Image>
+          <Image condition="is">C:\WINDOWS\uus\AMD64\MoUsoCoreWorker.exe</Image>
           <TargetFilename condition="begin with">C:\Windows\SystemTemp\</TargetFilename>
         </Rule>
-		
-		<!-- Windows Update 메타데이터/구성 파일 생성 -->
+
 		<Rule groupRelation="and">
           <Image condition="is">C:\WINDOWS\system32\svchost.exe</Image>
           <TargetFilename condition="begin with">C:\Windows\SoftwareDistribution\Download\</TargetFilename>
           <TargetFilename condition="contains">\Metadata\</TargetFilename>
           <TargetFilename condition="end with">.dll</TargetFilename>
         </Rule>
-		
-		<!-- VS Code 설치 과정 중 생성된 임시 설치 프로그램이 Temp 경로에 추가 설치 파일을 생성 -->
+
 		<Rule groupRelation="and">
           <Image condition="contains all">\AppData\Local\Temp\is-;\CodeSetup-stable-;</Image>
           <Image condition="end with">.tmp</Image>
@@ -836,51 +814,157 @@
           <TargetFilename condition="contains any">\_isetup\_setup64;\_isetup\_setup32</TargetFilename>
           <TargetFilename condition="end with">.tmp</TargetFilename>
         </Rule>
-		
-		<!-- VS Code 설치 시 임시 설치 프로그램(Inno Setup)이 임시 파일 생성 -->
+
 		<Rule groupRelation="and">
           <Image condition="contains all">\AppData\Local\Temp\is-;.tmp\CodeSetup-stable-</Image>
           <Image condition="end with">.tmp</Image>
           <TargetFilename condition="contains">\AppData\Local\Programs\Microsoft VS Code\</TargetFilename>
           <TargetFilename condition="contains any">\is-;\_\is-;\_\bin\is-;\_\resources\app\extensions\microsoft-authentication\dist\is-</TargetFilename>
         </Rule>
-		
-		<!-- MobaXterm 내부 SCP 전송 기능 보조 실행 파일 -->
+
 		<Rule groupRelation="and">
           <Image condition="is">C:\Program Files (x86)\Mobatek\MobaXterm\MobaXterm.exe</Image>
           <TargetFilename condition="contains">\AppData\Roaming\MobaXterm\slash\</TargetFilename>
           <TargetFilename condition="contains any">\mx86_64b\;\mx86_32b\;\mx64\;\mx32\</TargetFilename>
           <TargetFilename condition="end with">\MobaSCPTransfer.exe</TargetFilename>
         </Rule>
-		
-		<!-- Windows의 Cross-Device(휴대폰 연결/연동) 기능에서 파일 전송·설정 동기화·스트리밍·백그라운드 통신을 담당하는 구성 서비스/호스트 프로세스들 -->
+
 		<Rule groupRelation="and">
           <Image condition="is">C:\WINDOWS\system32\svchost.exe</Image>
           <TargetFilename condition="begin with">C:\Program Files\WindowsApps\MicrosoftWindows.CrossDevice_</TargetFilename>
           <TargetFilename condition="contains any">\CrossDeviceFilesHost.exe;\CrossDeviceSettingsHost.exe;\CrossDeviceStreamingHost.exe;\PhoneAgentMcpServer.exe</TargetFilename>
         </Rule>
-		
-		<!-- Windows CrossDevice(AppRepository) 구성요소 등록/업데이트 -->
+
 		<Rule groupRelation="and">
           <Image condition="is">C:\WINDOWS\system32\svchost.exe</Image>
           <TargetFilename condition="begin with">C:\ProgramData\Microsoft\Windows\AppRepository\Packages\MicrosoftWindows.CrossDevice_</TargetFilename>
           <TargetFilename condition="contains">\PackagedCom\</TargetFilename>
           <TargetFilename condition="end with">ProxyStub.dll</TargetFilename>
         </Rule>
-		
-		<!-- Windows Update 구성요소 배포 -->
+
 		<Rule groupRelation="and">
           <Image condition="is">C:\WINDOWS\system32\svchost.exe</Image>
           <TargetFilename condition="begin with">C:\Windows\SoftwareDistribution\Download\Install\</TargetFilename>
           <TargetFilename condition="contains any">\UpdatePlatform.amd64fre.exe;\UpdatePlatform.x86fre.exe</TargetFilename>
         </Rule>
-		
-		<!-- Chrome 업데이트/설치 과정 -->
+
 		<Rule groupRelation="and">
           <Image condition="begin with">C:\WINDOWS\SystemTemp\updater_chrome_Unpacker_BeginUnzipping</Image>
           <Image condition="end with">.tmp\setup.exe</Image>
           <TargetFilename condition="begin with">C:\Program Files\Google\Chrome\Temp\source</TargetFilename>
           <TargetFilename condition="contains">\Chrome-bin\</TargetFilename>
+        </Rule>
+
+		<!-- 01/12 추가 -->
+		<!-- Bandizip 설치 시 주요 실행 파일(EXE/SFX/관리도구) 생성 -->
+		<Rule groupRelation="and">
+          <Image condition="contains">\BANDIZIP-SETUP-STD</Image>
+          <Image condition="end with">.EXE</Image>
+          <TargetFilename condition="begin with">C:\Program Files\Bandizip\</TargetFilename>
+          <TargetFilename condition="end with">\Bandizip.exe;\bz.exe;\Updater.exe;\Uninstall.exe;\Arkview.x64.exe;\Amsiman.x64.exe;\RegPackage.x86.exe;\RegDll.x86.exe;\RegDll.x64.exe;\bdzsfx.x86.sfx</TargetFilename>
+        </Rule>
+		
+		<!-- Bandizip 설치 쉘확장/압축엔진/WebView2 관련 DLL 생성 -->
+		<Rule groupRelation="and">
+          <Image condition="contains">\BANDIZIP-SETUP-STD</Image>
+          <Image condition="end with">.EXE</Image>
+          <TargetFilename condition="begin with">C:\Program Files\Bandizip\</TargetFilename>
+          <TargetFilename condition="end with">\bdzshl.x86.dll;\bdzshl.x64.dll;\ark.x86.dll;\ark.x86.lgpl.dll;\ark.x64.dll;\ark.x64.lgpl.dll;\WebView2.x64.dll;\webview.x86.dll;\lm.x64.dll;\bzshell.x64.dll</TargetFilename>
+        </Rule>
+		
+		<!-- WebView2 런타임이 Microsoft Store 앱 컨텍스트에서 임시 언패커 DLL 생성 -->
+		<Rule groupRelation="and">
+          <Image condition="begin with">C:\Program Files (x86)\Microsoft\EdgeWebView\Application\</Image>
+          <Image condition="end with">\msedgewebview2.exe</Image>
+          <TargetFilename condition="contains">\AppData\Local\Packages\Microsoft.WindowsStore_8wekyb3d8bbwe\AC\Temp\msedge_chrome_Unpacker_</TargetFilename>
+          <TargetFilename condition="end with">.dll</TargetFilename>
+        </Rule>		
+
+		<!-- Everything 설치 시 옵션/언어/시스템 DLL 전개 -->
+		<Rule groupRelation="and">
+          <Image condition="begin with">C:\Users\</Image>
+          <Image condition="contains">\Downloads\Everything-</Image>
+          <Image condition="end with">-Setup.exe</Image>
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+          <TargetFilename condition="contains any">\InstallOptions.dll;\LangDLL.dll;\System.dll</TargetFilename>
+        </Rule>		
+
+		<!-- Everything 설치 시 Temp의 본 실행 파일과 언인스톨러 생성 -->
+		<Rule groupRelation="and">
+          <Image condition="contains">\AppData\Local\Temp\</Image>
+          <Image condition="end with">\Everything\Everything.exe</Image>
+          <TargetFilename condition="begin with">C:\Program Files\Everything\</TargetFilename>
+          <TargetFilename condition="end with">\Everything.exe;\Uninstall.exe</TargetFilename>
+        </Rule>		
+		
+		<!-- chrome 업데이트 중 기존 chrome 바이너리 교체를 위해 임시 새 실행 파일 생성 -->
+		<Rule groupRelation="and">
+          <Image condition="begin with">C:\WINDOWS\SystemTemp\updater_chrome_Unpacker_BeginUnzipping</Image>
+          <Image condition="end with">.tmp\setup.exe</Image>
+          <TargetFilename condition="is">C:\Program Files\Google\Chrome\Application\new_chrome.exe</TargetFilename>
+        </Rule>
+
+		<!-- Edge 업데이트 핵심 실행 파일 (업데이트 엔진 / 흐름 제어) -->
+		<Rule groupRelation="and">
+          <Image condition="begin with">C:\Program Files (x86)\Microsoft\EdgeUpdate\Install\</Image>
+          <Image condition="contains">\MicrosoftEdgeUpdateSetup</Image>
+          <Image condition="end with">.exe</Image>
+          <TargetFilename condition="begin with">C:\Program Files (x86)\Microsoft\Temp\</TargetFilename>
+          <TargetFilename condition="contains any">\MicrosoftEdgeUpdate.exe;\MicrosoftEdgeUpdateCore.exe;\MicrosoftEdgeUpdateBroker.exe;\MicrosoftEdgeUpdateOnDemand.exe</TargetFilename>
+        </Rule>		
+
+		<!-- Edge 업데이트 - 설치/초기화/등록 유틸리티 (일회성 실행) -->
+		<Rule groupRelation="and">
+          <Image condition="begin with">C:\Program Files (x86)\Microsoft\EdgeUpdate\Install\</Image>
+          <Image condition="contains">\MicrosoftEdgeUpdateSetup</Image>
+          <Image condition="end with">.exe</Image>
+          <TargetFilename condition="begin with">C:\Program Files (x86)\Microsoft\Temp\</TargetFilename>
+          <TargetFilename condition="contains any">\MicrosoftEdgeUpdateSetup.exe;\MicrosoftEdgeUpdateComRegisterShell64.exe;\MicrosoftEdgeComRegisterShellARM64.exe</TargetFilename>
+        </Rule>		
+
+		<!-- Edge 업데이트 - PowerShell 기반 업데이트 보조 모듈 -->
+		<Rule groupRelation="and">
+          <Image condition="begin with">C:\Program Files (x86)\Microsoft\EdgeUpdate\Install\</Image>
+          <Image condition="contains">\MicrosoftEdgeUpdateSetup</Image>
+          <Image condition="end with">.exe</Image>
+          <TargetFilename condition="begin with">C:\Program Files (x86)\Microsoft\Temp\</TargetFilename>
+          <TargetFilename condition="contains any">\psmachine.dll;\psmachine_64.dll;\psmachine_arm64.dll;\psuser.dll;\psuser_64.dll;\psuser_arm64.dll</TargetFilename>
+        </Rule>	
+
+		<!-- Edge 업데이트 - 공통 라이브러리 -->
+		<Rule groupRelation="and">
+          <Image condition="begin with">C:\Program Files (x86)\Microsoft\EdgeUpdate\Install\</Image>
+          <Image condition="contains">\MicrosoftEdgeUpdateSetup</Image>
+          <Image condition="end with">.exe</Image>
+          <TargetFilename condition="begin with">C:\Program Files (x86)\Microsoft\Temp\</TargetFilename>
+          <TargetFilename condition="end with">\msedgeupdate.dll</TargetFilename>
+        </Rule>	
+
+		<!-- Edge 업데이트 - 다국어 리소스 DLL (UI / 메시지 문자열) -->
+		<Rule groupRelation="and">
+          <Image condition="begin with">C:\Program Files (x86)\Microsoft\EdgeUpdate\Install\</Image>
+          <Image condition="contains">\MicrosoftEdgeUpdateSetup</Image>
+          <Image condition="end with">.exe</Image>
+          <TargetFilename condition="begin with">C:\Program Files (x86)\Microsoft\Temp\</TargetFilename>
+          <TargetFilename condition="contains">msedgeupdateres_</TargetFilename>
+          <TargetFilename condition="end with">.dll</TargetFilename>
+        </Rule>		
+
+		<!-- Edge 업데이트 - 부가 기능 업데이트 구성 요소 -->
+		<Rule groupRelation="and">
+          <Image condition="begin with">C:\Program Files (x86)\Microsoft\EdgeUpdate\Install\</Image>
+          <Image condition="contains">\MicrosoftEdgeUpdateSetup</Image>
+          <Image condition="end with">.exe</Image>
+          <TargetFilename condition="begin with">C:\Program Files (x86)\Microsoft\Temp\</TargetFilename>
+          <TargetFilename condition="end with">\CopilotUpdate.exe</TargetFilename>
+        </Rule>	
+
+		<!-- Windows Update가 누적 업데이트(RollupFix) 적용하기 위해 전개하는 패키지 처리 -->
+		<Rule groupRelation="and">
+          <Image condition="is">C:\WINDOWS\system32\svchost.exe</Image>
+          <Image condition="begin with">C:\Windows\SoftwareDistribution\Download\</Image>
+          <Image condition="contains">\Package_for_RollupFix</Image>
+          <TargetFilename condition="end with">.dll</TargetFilename>
         </Rule>
       </FileExecutableDetected>
     </RuleGroup>
