@@ -95,7 +95,7 @@ plura_log2syslog() {
     tty=$(tty 2>/dev/null || echo notty)
   fi
 
-  logger -p local0.notice -t plura-cmd -i -- \
+  logger -p local0.notice -t bash -i -- \
     "user=${user} uid=${UID:-} euid=${EUID:-} src=${src} tty=${tty} pwd=${pwd} cmd=${cmd_sanitized}"
 
   __PLURA_CMD_IN_LOG=
