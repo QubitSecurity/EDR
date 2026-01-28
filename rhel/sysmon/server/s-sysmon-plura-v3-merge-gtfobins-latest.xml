@@ -1,5 +1,5 @@
 <!-- PLURA_CONFIG_VERSION: s-sysmon-plura-v3-merge-gtfobins-latest.xml -->
-<!-- PLURA_SCHEMA_TARGET: 4.90 -->
+<!-- BASE URL: s-sysmon-plura-v3.1-merge-gtfobins-curated.xml -->
 <!-- DISTRO_TARGET: RHEL -->
 
 <Sysmon schemaversion="4.90">
