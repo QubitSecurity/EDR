@@ -800,14 +800,6 @@
           <TargetFilename condition="begin with">C:\ProgramData\Microsoft\ClickToRun\</TargetFilename>
           <TargetFilename condition="end with">\integrator.exe</TargetFilename>
         </Rule>
-		
-		<!-- AhnLab Safe Transaction -->
-		<Rule groupRelation="and">
-          <Image condition="is">C:\WINDOWS\system32\svchost.exe</Image>
-          <Image condition="begin with">C:\Windows\SoftwareDistribution\Download\</Image>
-          <Image condition="contains">\Package_for_RollupFix</Image>
-          <TargetFilename condition="end with">.dll</TargetFilename>
-        </Rule>		
       </FileBlockExecutable>
     </RuleGroup>
 	  
