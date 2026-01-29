@@ -338,193 +338,7 @@
     <!-- ============================================================ -->
     <!-- Event ID 29: FileExecutableDetected (Merged) (Desktop) -->
     <!-- ============================================================ -->
-    <RuleGroup name="Include_LOLBAS_FileExecutableDetected_Desktop_Curated" groupRelation="or">
-      <FileExecutableDetected onmatch="include">
-        <Rule groupRelation="and">
-          <Image condition="contains any">AddinUtil.exe;
-            Aspnet_Compiler.exe;
-            At.exe;
-            Atbroker.exe;
-            Bash.exe;
-            Bitsadmin.exe;
-            CertOC.exe;
-            CertReq.exe;
-            Certutil.exe;
-            Change.exe;
-            Cipher.exe;
-            Cmdkey.exe;
-            Cmstp.exe;
-            Colorcpl.exe;
-            ComputerDefaults.exe;
-            ConfigSecurityPolicy.exe;
-            Control.exe;
-            DataSvcUtil.exe;
-            Desktopimgdownldr.exe;
-            DeviceCredentialDeployment.exe;
-            Dfsvc.exe;
-            Diantz.exe;
-            Diskshadow.exe;
-            Dnscmd.exe;
-            Esentutl.exe;
-            Eudcedit.exe;
-            Eventvwr.exe;
-            Expand.exe;
-            Explorer.exe;
-            Extexport.exe;
-            Extrac32.exe;
-            Findstr.exe;
-            Finger.exe;
-            Forfiles.exe;
-            Fsutil.exe;
-            Ftp.exe;
-            Gpscript.exe;
-            Hh.exe;
-            IMEWDBLD.exe;
-            Ie4uinit.exe;
-            Ieexec.exe;
-            Infdefaultinstall.exe;
-            Installutil.exe;
-            Ldifde.exe;
-            Makecab.exe;
-            Mavinject.exe;
-            Microsoft.Workflow.Compiler.exe;
-            Mmc.exe;
-            MpCmdRun.exe;
-            Msconfig.exe;
-            Msdt.exe;
-            Mshta.exe;
-            Netsh.exe;
-            Ngen.exe;
-            Odbcconf.exe;
-            OfflineScannerShell.exe;
-            Pcalua.exe;
-            Pcwrun.exe;
-            Pktmon.exe;
-            Pnputil.exe;
-            Presentationhost.exe;
-            Print.exe;
-            PrintBrm.exe;
-            Provlaunch.exe;
-            Psr.exe;
-            Query.exe;
-            Rasautou.exe;
-            Reg.exe;
-            Regasm.exe;
-            Regedit.exe;
-            Regini.exe;
-            Register-cimprovider.exe;
-            Regsvcs.exe;
-            Regsvr32.exe;
-            Replace.exe;
-            Reset.exe;
-            Rpcping.exe;
-            Rundll32.exe;
-            Runexehelper.exe;
-            Runonce.exe;
-            Runscripthelper.exe;
-            Sc.exe;
-            Schtasks.exe;
-            Scriptrunner.exe;
-            Setres.exe;
-            SettingSyncHost.exe;
-            Sftp.exe;
-            Stordiag.exe;
-            SyncAppvPublishingServer.exe;
-            Tar.exe;
-            Ttdinject.exe;
-            Tttracer.exe;
-            Unregmp2.exe;
-            Verclsid.exe;
-            Wab.exe;
-            Wlrmdr.exe;
-            Wmic.exe;
-            WorkFolders.exe;
-            Wsreset.exe;
-            Xwizard.exe;
-            cmdl32.exe;
-            fltMC.exe;
-            iediagcmd.exe;
-            iscsicpl.exe;
-            rdrleakdiag.exe;
-            ssh.exe;
-            wbadmin.exe;
-            wbemtest.exe;
-            wuauclt.exe</Image>
-          <TargetFilename condition="contains any">C:\Users\;
-            C:\Users\Public\;
-            C:\ProgramData\;
-            C:\Windows\Temp\;
-            C:\Temp\;</TargetFilename>
-        </Rule>
-      </FileExecutableDetected>
-    </RuleGroup>
-	  
-    <RuleGroup name="Include_MalwareDrop_Desktop" groupRelation="or">
-      <FileExecutableDetected onmatch="include">
-        <Rule groupRelation="and">
-          <Image condition="contains any">\WINWORD.EXE;\EXCEL.EXE;\POWERPNT.EXE;\OUTLOOK.EXE;\ONENOTE.EXE;\MSACCESS.EXE;\HWP.EXE;\HCELL.EXE;\HSHOW.EXE;\ACRORD32.EXE;\ACROBAT.EXE;\FOXITREADER.EXE;\SUMATRAPDF.EXE;\PDFXEDIT.EXE;\PDFXEDIT64.EXE;\HANCOMPDF.EXE;\msedge.exe;</Image>
-          <TargetFilename condition="contains any">\AppData\Local\Temp\;
-            \AppData\Roaming\;
-            \Windows\Temp\;
-            C:\ProgramData\;
-            C:\Users\Public\;
-            C:\Temp\;</TargetFilename>
-        </Rule>
-		  
-        <Rule groupRelation="and">
-          <TargetFilename condition="begin with">C:\Users\</TargetFilename>
-          <TargetFilename condition="contains any">
-            \Documents\;
-            \Pictures\;
-            \Videos\;
-            \Music\;
-            \Favorites\;
-            \Client_Contracts\
-          </TargetFilename>
-        </Rule>
-        <Rule groupRelation="or">
-          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
-          <TargetFilename condition="contains">\Windows\Temp\</TargetFilename>
-          <TargetFilename condition="contains">\Downloads\</TargetFilename>
-        </Rule>
-        <Rule groupRelation="or">
-          <TargetFilename condition="begin with">C:\ProgramData\</TargetFilename>
-          <TargetFilename condition="begin with">C:\Users\Public\</TargetFilename>
-        </Rule>
-        <Rule groupRelation="or">
-          <TargetFilename condition="end with">.ps1</TargetFilename>
-          <TargetFilename condition="end with">.psm1</TargetFilename>
-          <TargetFilename condition="end with">.psd1</TargetFilename>
-        </Rule>
-        <Rule groupRelation="or">
-          <TargetFilename condition="end with">\certutil.exe</TargetFilename>
-          <TargetFilename condition="end with">\bitsadmin.exe</TargetFilename>
-          <TargetFilename condition="end with">\mshta.exe</TargetFilename>
-          <TargetFilename condition="end with">\wscript.exe</TargetFilename>
-          <TargetFilename condition="end with">\cscript.exe</TargetFilename>
-          <TargetFilename condition="end with">\powershell.exe</TargetFilename>
-          <TargetFilename condition="end with">\pwsh.exe</TargetFilename>
-          <TargetFilename condition="end with">\regsvr32.exe</TargetFilename>
-        </Rule>
-        <Rule groupRelation="and">
-          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
-          <TargetFilename condition="end with">.exe</TargetFilename>
-        </Rule>
-        <Rule groupRelation="and">
-          <TargetFilename condition="contains">\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\</TargetFilename>
-          <TargetFilename condition="end with">.lnk</TargetFilename>
-        </Rule>
-        <Rule groupRelation="and">
-          <TargetFilename condition="begin with">C:\Users\</TargetFilename>
-          <TargetFilename condition="contains any">
-            \AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\;
-            \AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\;
-            \AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\
-          </TargetFilename>
-        </Rule>
-      </FileExecutableDetected>
-    </RuleGroup>
-    <RuleGroup name="Exclude_LegitActivity_Desktop" groupRelation="or">
+	    <RuleGroup name="Exclude_LegitActivity_Desktop" groupRelation="or">
       <FileExecutableDetected onmatch="exclude">
         <Rule groupRelation="and">
           <Image condition="contains">\Office\setup.exe</Image>
@@ -854,24 +668,20 @@
           <TargetFilename condition="contains">\Chrome-bin\</TargetFilename>
         </Rule>
 
-		<!-- 01/12 추가 -->
-		<!-- Bandizip 설치 시 주요 실행 파일(EXE/SFX/관리도구) 생성 -->
 		<Rule groupRelation="and">
           <Image condition="contains">\BANDIZIP-SETUP-STD</Image>
           <Image condition="end with">.EXE</Image>
           <TargetFilename condition="begin with">C:\Program Files\Bandizip\</TargetFilename>
           <TargetFilename condition="end with">\Bandizip.exe;\bz.exe;\Updater.exe;\Uninstall.exe;\Arkview.x64.exe;\Amsiman.x64.exe;\RegPackage.x86.exe;\RegDll.x86.exe;\RegDll.x64.exe;\bdzsfx.x86.sfx</TargetFilename>
         </Rule>
-		
-		<!-- Bandizip 설치 쉘확장/압축엔진/WebView2 관련 DLL 생성 -->
+
 		<Rule groupRelation="and">
           <Image condition="contains">\BANDIZIP-SETUP-STD</Image>
           <Image condition="end with">.EXE</Image>
           <TargetFilename condition="begin with">C:\Program Files\Bandizip\</TargetFilename>
           <TargetFilename condition="end with">\bdzshl.x86.dll;\bdzshl.x64.dll;\ark.x86.dll;\ark.x86.lgpl.dll;\ark.x64.dll;\ark.x64.lgpl.dll;\WebView2.x64.dll;\webview.x86.dll;\lm.x64.dll;\bzshell.x64.dll</TargetFilename>
         </Rule>
-		
-		<!-- WebView2 런타임이 Microsoft Store 앱 컨텍스트에서 임시 언패커 DLL 생성 -->
+
 		<Rule groupRelation="and">
           <Image condition="begin with">C:\Program Files (x86)\Microsoft\EdgeWebView\Application\</Image>
           <Image condition="end with">\msedgewebview2.exe</Image>
@@ -879,7 +689,6 @@
           <TargetFilename condition="end with">.dll</TargetFilename>
         </Rule>		
 
-		<!-- Everything 설치 시 옵션/언어/시스템 DLL 전개 -->
 		<Rule groupRelation="and">
           <Image condition="begin with">C:\Users\</Image>
           <Image condition="contains">\Downloads\Everything-</Image>
@@ -888,22 +697,19 @@
           <TargetFilename condition="contains any">\InstallOptions.dll;\LangDLL.dll;\System.dll</TargetFilename>
         </Rule>		
 
-		<!-- Everything 설치 시 Temp의 본 실행 파일과 언인스톨러 생성 -->
 		<Rule groupRelation="and">
           <Image condition="contains">\AppData\Local\Temp\</Image>
           <Image condition="end with">\Everything\Everything.exe</Image>
           <TargetFilename condition="begin with">C:\Program Files\Everything\</TargetFilename>
           <TargetFilename condition="end with">\Everything.exe;\Uninstall.exe</TargetFilename>
         </Rule>		
-		
-		<!-- chrome 업데이트 중 기존 chrome 바이너리 교체를 위해 임시 새 실행 파일 생성 -->
+
 		<Rule groupRelation="and">
           <Image condition="begin with">C:\WINDOWS\SystemTemp\updater_chrome_Unpacker_BeginUnzipping</Image>
           <Image condition="end with">.tmp\setup.exe</Image>
           <TargetFilename condition="is">C:\Program Files\Google\Chrome\Application\new_chrome.exe</TargetFilename>
         </Rule>
 
-		<!-- Edge 업데이트 핵심 실행 파일 (업데이트 엔진 / 흐름 제어) -->
 		<Rule groupRelation="and">
           <Image condition="begin with">C:\Program Files (x86)\Microsoft\EdgeUpdate\Install\</Image>
           <Image condition="contains">\MicrosoftEdgeUpdateSetup</Image>
@@ -912,7 +718,6 @@
           <TargetFilename condition="contains any">\MicrosoftEdgeUpdate.exe;\MicrosoftEdgeUpdateCore.exe;\MicrosoftEdgeUpdateBroker.exe;\MicrosoftEdgeUpdateOnDemand.exe</TargetFilename>
         </Rule>		
 
-		<!-- Edge 업데이트 - 설치/초기화/등록 유틸리티 (일회성 실행) -->
 		<Rule groupRelation="and">
           <Image condition="begin with">C:\Program Files (x86)\Microsoft\EdgeUpdate\Install\</Image>
           <Image condition="contains">\MicrosoftEdgeUpdateSetup</Image>
@@ -921,7 +726,6 @@
           <TargetFilename condition="contains any">\MicrosoftEdgeUpdateSetup.exe;\MicrosoftEdgeUpdateComRegisterShell64.exe;\MicrosoftEdgeComRegisterShellARM64.exe</TargetFilename>
         </Rule>		
 
-		<!-- Edge 업데이트 - PowerShell 기반 업데이트 보조 모듈 -->
 		<Rule groupRelation="and">
           <Image condition="begin with">C:\Program Files (x86)\Microsoft\EdgeUpdate\Install\</Image>
           <Image condition="contains">\MicrosoftEdgeUpdateSetup</Image>
@@ -930,7 +734,6 @@
           <TargetFilename condition="contains any">\psmachine.dll;\psmachine_64.dll;\psmachine_arm64.dll;\psuser.dll;\psuser_64.dll;\psuser_arm64.dll</TargetFilename>
         </Rule>	
 
-		<!-- Edge 업데이트 - 공통 라이브러리 -->
 		<Rule groupRelation="and">
           <Image condition="begin with">C:\Program Files (x86)\Microsoft\EdgeUpdate\Install\</Image>
           <Image condition="contains">\MicrosoftEdgeUpdateSetup</Image>
@@ -939,7 +742,6 @@
           <TargetFilename condition="end with">\msedgeupdate.dll</TargetFilename>
         </Rule>	
 
-		<!-- Edge 업데이트 - 다국어 리소스 DLL (UI / 메시지 문자열) -->
 		<Rule groupRelation="and">
           <Image condition="begin with">C:\Program Files (x86)\Microsoft\EdgeUpdate\Install\</Image>
           <Image condition="contains">\MicrosoftEdgeUpdateSetup</Image>
@@ -949,7 +751,6 @@
           <TargetFilename condition="end with">.dll</TargetFilename>
         </Rule>		
 
-		<!-- Edge 업데이트 - 부가 기능 업데이트 구성 요소 -->
 		<Rule groupRelation="and">
           <Image condition="begin with">C:\Program Files (x86)\Microsoft\EdgeUpdate\Install\</Image>
           <Image condition="contains">\MicrosoftEdgeUpdateSetup</Image>
@@ -958,12 +759,214 @@
           <TargetFilename condition="end with">\CopilotUpdate.exe</TargetFilename>
         </Rule>	
 
-		<!-- Windows Update가 누적 업데이트(RollupFix) 적용하기 위해 전개하는 패키지 처리 -->
 		<Rule groupRelation="and">
           <Image condition="is">C:\WINDOWS\system32\svchost.exe</Image>
           <Image condition="begin with">C:\Windows\SoftwareDistribution\Download\</Image>
           <Image condition="contains">\Package_for_RollupFix</Image>
           <TargetFilename condition="end with">.dll</TargetFilename>
+        </Rule>
+
+		<!-- 01/29 추가 -->
+		<!-- Office 업데이트 과정에서 구성 파일 생성 -->
+		<Rule groupRelation="and">
+          <Image condition="is">C:\Program Files\Common Files\Microsoft Shared\ClickToRun\OfficeClickToRun.exe</Image>
+          <TargetFilename condition="begin with">C:\Program Files\Microsoft Office\Updates\Download\PackageFiles\</TargetFilename>
+          <TargetFilename condition="contains">\root\Client\</TargetFilename>
+          <TargetFilename condition="contains any">\AppVDllSurrogate.exe;\AppVLP.exe;.dll</TargetFilename>
+        </Rule>
+		
+		<!-- Office 통합 구성요소(integrator.exe)가 Click-to-Run 업데이트 -->
+		<Rule groupRelation="and">
+          <Image condition="is">C:\Program Files\Microsoft Office\root\integration\integrator.exe</Image>
+          <TargetFilename condition="begin with">C:\ProgramData\Microsoft\ClickToRun\</TargetFilename>
+          <TargetFilename condition="end with">\integrator.exe</TargetFilename>
+        </Rule>
+      </FileExecutableDetected>
+    </RuleGroup>
+	  
+    <RuleGroup name="Include_LOLBAS_FileExecutableDetected_Desktop_Curated" groupRelation="or">
+      <FileExecutableDetected onmatch="include">
+        <Rule groupRelation="and">
+          <Image condition="contains any">AddinUtil.exe;
+            Aspnet_Compiler.exe;
+            At.exe;
+            Atbroker.exe;
+            Bash.exe;
+            Bitsadmin.exe;
+            CertOC.exe;
+            CertReq.exe;
+            Certutil.exe;
+            Change.exe;
+            Cipher.exe;
+            Cmdkey.exe;
+            Cmstp.exe;
+            Colorcpl.exe;
+            ComputerDefaults.exe;
+            ConfigSecurityPolicy.exe;
+            Control.exe;
+            DataSvcUtil.exe;
+            Desktopimgdownldr.exe;
+            DeviceCredentialDeployment.exe;
+            Dfsvc.exe;
+            Diantz.exe;
+            Diskshadow.exe;
+            Dnscmd.exe;
+            Esentutl.exe;
+            Eudcedit.exe;
+            Eventvwr.exe;
+            Expand.exe;
+            Explorer.exe;
+            Extexport.exe;
+            Extrac32.exe;
+            Findstr.exe;
+            Finger.exe;
+            Forfiles.exe;
+            Fsutil.exe;
+            Ftp.exe;
+            Gpscript.exe;
+            Hh.exe;
+            IMEWDBLD.exe;
+            Ie4uinit.exe;
+            Ieexec.exe;
+            Infdefaultinstall.exe;
+            Installutil.exe;
+            Ldifde.exe;
+            Makecab.exe;
+            Mavinject.exe;
+            Microsoft.Workflow.Compiler.exe;
+            Mmc.exe;
+            MpCmdRun.exe;
+            Msconfig.exe;
+            Msdt.exe;
+            Mshta.exe;
+            Netsh.exe;
+            Ngen.exe;
+            Odbcconf.exe;
+            OfflineScannerShell.exe;
+            Pcalua.exe;
+            Pcwrun.exe;
+            Pktmon.exe;
+            Pnputil.exe;
+            Presentationhost.exe;
+            Print.exe;
+            PrintBrm.exe;
+            Provlaunch.exe;
+            Psr.exe;
+            Query.exe;
+            Rasautou.exe;
+            Reg.exe;
+            Regasm.exe;
+            Regedit.exe;
+            Regini.exe;
+            Register-cimprovider.exe;
+            Regsvcs.exe;
+            Regsvr32.exe;
+            Replace.exe;
+            Reset.exe;
+            Rpcping.exe;
+            Rundll32.exe;
+            Runexehelper.exe;
+            Runonce.exe;
+            Runscripthelper.exe;
+            Sc.exe;
+            Schtasks.exe;
+            Scriptrunner.exe;
+            Setres.exe;
+            SettingSyncHost.exe;
+            Sftp.exe;
+            Stordiag.exe;
+            SyncAppvPublishingServer.exe;
+            Tar.exe;
+            Ttdinject.exe;
+            Tttracer.exe;
+            Unregmp2.exe;
+            Verclsid.exe;
+            Wab.exe;
+            Wlrmdr.exe;
+            Wmic.exe;
+            WorkFolders.exe;
+            Wsreset.exe;
+            Xwizard.exe;
+            cmdl32.exe;
+            fltMC.exe;
+            iediagcmd.exe;
+            iscsicpl.exe;
+            rdrleakdiag.exe;
+            ssh.exe;
+            wbadmin.exe;
+            wbemtest.exe;
+            wuauclt.exe</Image>
+          <TargetFilename condition="contains any">C:\Users\;
+            C:\Users\Public\;
+            C:\ProgramData\;
+            C:\Windows\Temp\;
+            C:\Temp\;</TargetFilename>
+        </Rule>
+      </FileExecutableDetected>
+    </RuleGroup>
+	  
+    <RuleGroup name="Include_MalwareDrop_Desktop" groupRelation="or">
+      <FileExecutableDetected onmatch="include">
+        <Rule groupRelation="and">
+          <Image condition="contains any">\WINWORD.EXE;\EXCEL.EXE;\POWERPNT.EXE;\OUTLOOK.EXE;\ONENOTE.EXE;\MSACCESS.EXE;\HWP.EXE;\HCELL.EXE;\HSHOW.EXE;\ACRORD32.EXE;\ACROBAT.EXE;\FOXITREADER.EXE;\SUMATRAPDF.EXE;\PDFXEDIT.EXE;\PDFXEDIT64.EXE;\HANCOMPDF.EXE;\msedge.exe;</Image>
+          <TargetFilename condition="contains any">\AppData\Local\Temp\;
+            \AppData\Roaming\;
+            \Windows\Temp\;
+            C:\ProgramData\;
+            C:\Users\Public\;
+            C:\Temp\;</TargetFilename>
+        </Rule>
+		  
+        <Rule groupRelation="and">
+          <TargetFilename condition="begin with">C:\Users\</TargetFilename>
+          <TargetFilename condition="contains any">
+            \Documents\;
+            \Pictures\;
+            \Videos\;
+            \Music\;
+            \Favorites\;
+            \Client_Contracts\
+          </TargetFilename>
+        </Rule>
+        <Rule groupRelation="or">
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+          <TargetFilename condition="contains">\Windows\Temp\</TargetFilename>
+          <TargetFilename condition="contains">\Downloads\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="or">
+          <TargetFilename condition="begin with">C:\ProgramData\</TargetFilename>
+          <TargetFilename condition="begin with">C:\Users\Public\</TargetFilename>
+        </Rule>
+        <Rule groupRelation="or">
+          <TargetFilename condition="end with">.ps1</TargetFilename>
+          <TargetFilename condition="end with">.psm1</TargetFilename>
+          <TargetFilename condition="end with">.psd1</TargetFilename>
+        </Rule>
+        <Rule groupRelation="or">
+          <TargetFilename condition="end with">\certutil.exe</TargetFilename>
+          <TargetFilename condition="end with">\bitsadmin.exe</TargetFilename>
+          <TargetFilename condition="end with">\mshta.exe</TargetFilename>
+          <TargetFilename condition="end with">\wscript.exe</TargetFilename>
+          <TargetFilename condition="end with">\cscript.exe</TargetFilename>
+          <TargetFilename condition="end with">\powershell.exe</TargetFilename>
+          <TargetFilename condition="end with">\pwsh.exe</TargetFilename>
+          <TargetFilename condition="end with">\regsvr32.exe</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
+          <TargetFilename condition="end with">.exe</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <TargetFilename condition="contains">\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\</TargetFilename>
+          <TargetFilename condition="end with">.lnk</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <TargetFilename condition="begin with">C:\Users\</TargetFilename>
+          <TargetFilename condition="contains any">
+            \AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\;
+            \AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\;
+            \AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\
+          </TargetFilename>
         </Rule>
       </FileExecutableDetected>
     </RuleGroup>
