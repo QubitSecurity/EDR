@@ -116,7 +116,11 @@ $outList = New-Object System.Collections.Generic.List[object]
 function Add-Row {
   param($sample, $parentCategory, $parentCreated)
 
-  $tag = Get-DictValue $sample @("tag","Tag","Filename","FileName","Name","name")
+  $tag = Get-DictValue $sample @(
+  "OriginalFilename","originalFilename","original_filename",
+  "tag","Tag","Filename","FileName","Name","name"
+  )
+
   $sha = Get-DictValue $sample @("sha256","SHA256","Sha256","Hash","hash")
 
   $cat = Get-DictValue $sample @("category","Category")
