@@ -1,222 +1,172 @@
-# 🐧 RHEL & Rocky Linux
+# 🐧 RHEL / Rocky Linux — Sysmon (Sysmon for Linux) 설치 가이드
 
-## Sysmon (Sysmon for Linux) 버전별 설치 가이드
-
-> 대상 OS
+> **목표**
 >
-> * **RHEL / Rocky Linux 7**
-> * **RHEL / Rocky Linux 8**
-> * **RHEL / Rocky Linux 9**
+> * 설치 전에는 “무엇을 준비해야 하는지 / 어떤 버전을 운영에 권장하는지”만 먼저 이해할 수 있도록 구성했습니다.
+> * **권장 디렉터리 구조 / 설정 파일 위치 표준화** 같은 운영 팁은 **설치 이후(후반부)** 에 정리했습니다.
 
 ---
 
-## 0️⃣ 공통 사전 조건
+## 0️⃣ 공통 사전 조건 (설치 전)
+
+아래 확인은 설치 전에 한 번만 점검하면 됩니다.
 
 ```bash
 # root 권한
 sudo -i
 
-# 커널 버전 확인
-uname -r
-
 # OS 버전 확인
 cat /etc/redhat-release
+
+# 커널 버전 확인
+uname -r
 ```
 
+### 네트워크/배포 환경
+* 인터넷에서 패키지를 내려받는다면 **HTTPS(443)로 GitHub 다운로드가 가능**해야 합니다.
+* 인터넷이 불가한 폐쇄망이면, 다른 PC에서 RPM을 내려받아 서버로 복사 후 설치하세요(아래 설치 단계 참고).
 
 ---
 
-## 0️⃣ 운영 권장: Sysmon 설정 파일 위치 표준화
+## 1️⃣ 운영 권장 (설치 전 의사결정)
 
-> 목표: **설정 원본은 `/etc`** 에 보관하고, **Sysmon 서비스는 `/opt/sysmon/config.xml`** 을 보도록 맞춥니다.  
-> 이렇게 해두면 운영자가 관리하는 “원본 설정”과 서비스가 실제로 읽는 “적용 설정”을 일관되게 유지할 수 있습니다.
+| OS 버전          | 권장도   | 설치 전 참고 |
+|----------------|---------|-------------|
+| RHEL / Rocky 7 | ❌       | eBPF 제약이 커서 **운영 비권장**, 테스트/PoC 용도 권장 |
+| RHEL / Rocky 8 | ⭐⭐⭐⭐⭐   | **운영 표준 권장** |
+| RHEL / Rocky 9 | ⭐⭐⭐     | 최신 커널/보안 정책 영향으로 **사전 PoC 권장** |
 
-### 권장 구조
-
-* 원본(관리/백업/형상관리): `/etc/sysmon/sysmon-config.xml`
-* 서비스 참조(기본 `sysmon.service`와 호환): `/opt/sysmon/config.xml` → `/etc/sysmon/sysmon-config.xml` (심볼릭 링크)
-
-### 적용 방법 (권장: 심볼릭 링크)
-
-```bash
-# 1) 설정 디렉터리 생성
-sudo mkdir -p /etc/sysmon
-
-# 2) (예) 현재 경로의 sysmon-config.xml을 표준 경로로 배치
-sudo install -o root -g root -m 0640 sysmon-config.xml /etc/sysmon/sysmon-config.xml
-
-# 3) Sysmon 기본 참조 경로로 링크
-#    (기본 sysmon.service가 /opt/sysmon/config.xml을 참고하는 경우가 많음)
-sudo mkdir -p /opt/sysmon
-sudo ln -sf /etc/sysmon/sysmon-config.xml /opt/sysmon/config.xml
-```
-
-### (선택) systemd 오버라이드로 `/etc` 경로를 직접 사용
-
-> 아래 예시는 `sysmon` 바이너리 경로가 `/opt/sysmon/sysmon`인 경우입니다.  
-> 만약 `command -v sysmon` 결과가 `/usr/bin/sysmon`이라면, drop-in의 `ExecStart=` 경로도 그에 맞게 바꿔 주세요.
-
-```bash
-# sysmon 바이너리 경로 확인
-command -v sysmon
-
-# drop-in 생성/편집
-sudo systemctl edit sysmon
-```
-
-편집기에 아래 입력:
-
-```ini
-[Service]
-ExecStart=
-ExecStart=/opt/sysmon/sysmon -i /etc/sysmon/sysmon-config.xml -service
-WorkingDirectory=/opt/sysmon
-```
-
-적용:
-
-```bash
-sudo systemctl daemon-reload
-sudo systemctl restart sysmon
-```
-
-### 설정 적용 여부 확인
-
-```bash
-# 링크/파일 존재 확인
-ls -l /etc/sysmon/sysmon-config.xml /opt/sysmon/config.xml
-
-# sysmon 서비스가 어떤 config를 물고 뜨는지 확인
-systemctl show -p ExecStart --value sysmon
-
-# Sysmon이 로딩한 현재 설정 덤프(길 수 있음)
-sysmon -c | head -n 40
-```
+> 실무 결론: **운영은 RHEL/Rocky 8을 기본값**, RHEL/Rocky 9는 **PoC → 검증 → 단계적 확대** 권장
 
 ---
 
-## 1️⃣ RHEL / Rocky Linux 7
+## 2️⃣ 설치 (버전별)
 
-### ⚠️ 주의
+> 패키지는 Microsoft SysmonForLinux 릴리스의 `sysmonforlinux.rpm`을 사용합니다.
 
-* **Sysmon for Linux 지원은 제한적**
-* eBPF 기능이 불완전 → **운영 환경 권장 ❌**
-* 테스트/PoC 용도로만 사용 권장
-
-### 설치
+### 2-1) RHEL / Rocky 8 (권장)
 
 ```bash
 curl -LO https://github.com/microsoft/SysmonForLinux/releases/latest/download/sysmonforlinux.rpm
-yum install -y sysmonforlinux.rpm
+dnf install -y ./sysmonforlinux.rpm
 ```
 
-### 서비스 시작
-
-```bash
-# 기본 설정 적용
-sysmon -i
-
-# (선택) 커스텀 설정 적용(표준 경로 사용 시)
-# sysmon -i /opt/sysmon/config.xml
-systemctl start sysmon
-systemctl enable sysmon
-```
-
----
-
-## 2️⃣ RHEL / Rocky Linux 8 (권장)
-
-### ✅ 특징
-
-* **가장 안정적인 운영 버전**
-* eBPF 지원 안정
-* Sysmon + SIEM/XDR 연계에 적합
-
-### 설치
+### 2-2) RHEL / Rocky 9
 
 ```bash
 curl -LO https://github.com/microsoft/SysmonForLinux/releases/latest/download/sysmonforlinux.rpm
-dnf install -y sysmonforlinux.rpm
+dnf install -y ./sysmonforlinux.rpm
 ```
 
-### 설정 적용 & 시작
-
-```bash
-# 기본 설정 적용
-sysmon -i
-
-# 또는 커스텀 설정 (권장: /etc/sysmon/sysmon-config.xml → /opt/sysmon/config.xml)
-sysmon -i /opt/sysmon/config.xml
-
-systemctl start sysmon
-systemctl enable sysmon
-```
-
-### 상태 확인
-
-```bash
-systemctl status sysmon
-```
-
----
-
-## 3️⃣ RHEL / Rocky Linux 9 (최신, 신중)
-
-### ⚠️ 특징
-
-* 최신 커널 + 강화된 eBPF 보안
-* 일부 환경에서 **eBPF 권한/정책 이슈 발생 가능**
-* **사전 테스트 필수**
-
-### 설치
-
-```bash
-curl -LO https://github.com/microsoft/SysmonForLinux/releases/latest/download/sysmonforlinux.rpm
-dnf install -y sysmonforlinux.rpm
-```
-
-### SELinux / eBPF 이슈 발생 시 점검
-
+**(선택) SELinux/eBPF 이슈 점검**
 ```bash
 getenforce
 ausearch -m avc -ts recent
 ```
 
-### 서비스 시작
+### 2-3) RHEL / Rocky 7 (테스트/PoC 권장)
 
 ```bash
-# (권장) 커스텀 설정 적용
+curl -LO https://github.com/microsoft/SysmonForLinux/releases/latest/download/sysmonforlinux.rpm
+yum install -y ./sysmonforlinux.rpm
+```
+
+---
+
+## 3️⃣ 설정 적용 & 서비스 시작
+
+### 3-1) 기본 설정으로 시작
+
+```bash
+sysmon -i
+systemctl enable --now sysmon
+```
+
+### 3-2) 커스텀 설정으로 시작 (권장)
+
+예: `sysmon-config.xml`을 현재 디렉터리에 두었다고 가정합니다.
+
+```bash
+sysmon -i sysmon-config.xml
+systemctl enable --now sysmon
+```
+
+---
+
+## 4️⃣ 설치 후 확인 (기본)
+
+### 4-1) 서비스 상태
+
+```bash
+systemctl status sysmon --no-pager
+```
+
+### 4-2) Sysmon이 실제로 어떤 설정 파일 경로로 기동되는지 확인
+
+> 설치 시점에 “어떤 파일을 -i로 물고 떠 있는지”를 확인하는 용도입니다.
+
+```bash
+systemctl show -p ExecStart --value sysmon
+```
+
+### 4-3) 현재 로딩된 설정 덤프(선택)
+
+```bash
+# 현재 적용된 설정(XML)을 출력합니다(길 수 있습니다)
+sysmon -c | head -n 40
+```
+
+---
+
+## 5️⃣ 로그 확인
+
+환경에 따라 journald 또는 syslog로 확인합니다.
+
+```bash
+# journald
+journalctl -u sysmon -n 200 --no-pager
+```
+
+```bash
+# syslog 계열(환경에 따라 존재)
+ls -l /var/log/messages /var/log/syslog 2>/dev/null
+```
+
+---
+
+## 6️⃣ 설치 후 운영 권장 (선택) — 설정 파일 위치 표준화
+
+> 이 섹션은 **설치가 끝난 뒤** 운영 편의/유지보수를 위해 적용합니다.
+
+### 권장 개념
+* **원본(관리/백업/형상관리)**: `/etc/sysmon/sysmon-config.xml`
+* **서비스가 보는 경로(호환성 목적)**: `/opt/sysmon/config.xml`
+* `/opt/sysmon/config.xml` → `/etc/sysmon/sysmon-config.xml`로 **심볼릭 링크**를 걸어 두면,
+  * 서비스 유닛을 크게 건드리지 않고
+  * 운영 표준 경로(`/etc`)에 원본을 유지할 수 있습니다.
+
+### 적용 예시
+
+```bash
+# 원본 보관 경로 준비
+mkdir -p /etc/sysmon
+install -o root -g root -m 0640 sysmon-config.xml /etc/sysmon/sysmon-config.xml
+
+# Sysmon 기본 경로에 링크(기본 서비스 유닛과 호환)
+mkdir -p /opt/sysmon
+ln -sf /etc/sysmon/sysmon-config.xml /opt/sysmon/config.xml
+
+# 링크 경로로 설정 적용 후 재시작
 sysmon -i /opt/sysmon/config.xml
-systemctl start sysmon
-systemctl enable sysmon
+systemctl restart sysmon
 ```
 
----
-
-## 4️⃣ 로그 위치 (공통)
+### 적용 확인
 
 ```bash
-/var/log/syslog
-/var/log/messages
+ls -l /etc/sysmon/sysmon-config.xml /opt/sysmon/config.xml
+systemctl show -p ExecStart --value sysmon
 ```
 
-Sysmon 이벤트는 **journald / syslog** 를 통해 수집됨
-
 ---
 
-## 5️⃣ 운영 권장 요약 ✅
-
-| OS 버전          | 권장도   | 비고            |
-| -------------- | ----- | ------------- |
-| RHEL / Rocky 7 | ❌     | eBPF 미흡, 테스트용 |
-| RHEL / Rocky 8 | ⭐⭐⭐⭐⭐ | **운영 최적**     |
-| RHEL / Rocky 9 | ⭐⭐⭐   | 최신, 사전 검증 필수  |
-
----
-
-## ✔️ 실무 한 줄 결론
-
-> **운영 환경에서는 RHEL/Rocky 8 + Sysmon (curated 설정) 조합을 기본으로 사용**  
-> RHEL/Rocky 9는 **PoC → 검증 후 단계적 적용** 권장
-
----
