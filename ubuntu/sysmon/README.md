@@ -1,209 +1,164 @@
-# 🐧 Ubuntu
+# 🐧 Ubuntu — Sysmon (Sysmon for Linux) 설치 가이드
 
-## Sysmon (Sysmon for Linux) 버전별 설치 가이드
-
-> 대상 OS
+> **목표**
 >
-> * **Ubuntu 20.04 LTS**
-> * **Ubuntu 22.04 LTS**
-> * **Ubuntu 24.04 LTS**
+> * 설치 전에는 “무엇을 준비해야 하는지 / 어떤 버전을 운영에 권장하는지”만 먼저 이해할 수 있도록 구성했습니다.
+> * **권장 디렉터리 구조 / 설정 파일 위치 표준화** 같은 운영 팁은 **설치 이후(후반부)** 에 정리했습니다.
 
 ---
 
-## 0️⃣ 공통 사전 조건
+## 0️⃣ 공통 사전 조건 (설치 전)
 
 ```bash
 # root 권한
 sudo -i
 
-# OS / 커널 확인
+# OS 확인
 lsb_release -a
+
+# 커널 확인
 uname -r
 ```
 
+### 네트워크/배포 환경
+* 인터넷에서 패키지를 내려받는다면 **HTTPS(443)로 GitHub 다운로드가 가능**해야 합니다.
+* 인터넷이 불가한 폐쇄망이면, 다른 PC에서 DEB를 내려받아 서버로 복사 후 설치하세요(아래 설치 단계 참고).
 
 ---
 
-## 0️⃣ 운영 권장: Sysmon 설정 파일 위치 표준화
+## 1️⃣ 운영 권장 (설치 전 의사결정)
 
-> 목표: **설정 원본은 `/etc`** 에 보관하고, **Sysmon 서비스는 `/opt/sysmon/config.xml`** 을 보도록 맞춥니다.  
-> Ubuntu에서도 기본 `sysmon.service`가 `/opt/sysmon/config.xml`을 참조하는 경우가 많아, 표준 경로를 정해두면 운영이 편해집니다.
+| Ubuntu 버전 | 권장도   | 설치 전 참고 |
+|-----------|---------|-------------|
+| 20.04 LTS | ⭐⭐      | 제한적 운영 가능, 환경에 따라 제약/튜닝 필요 |
+| 22.04 LTS | ⭐⭐⭐⭐⭐   | **운영 표준 권장** |
+| 24.04 LTS | ⭐⭐⭐     | 최신 커널/보안 정책 영향으로 **사전 PoC 권장** |
 
-### 권장 구조
+> 실무 결론: **운영은 Ubuntu 22.04 LTS를 기본값**, 24.04 LTS는 **PoC → 검증 → 단계적 확대** 권장
 
-* 원본(관리/백업/형상관리): `/etc/sysmon/sysmon-config.xml`
-* 서비스 참조(기본 `sysmon.service`와 호환): `/opt/sysmon/config.xml` → `/etc/sysmon/sysmon-config.xml` (심볼릭 링크)
+---
 
-### 적용 방법 (권장: 심볼릭 링크)
+## 2️⃣ 설치 (버전별)
 
-```bash
-sudo mkdir -p /etc/sysmon
-sudo install -o root -g root -m 0640 sysmon-config.xml /etc/sysmon/sysmon-config.xml
+> 패키지는 Microsoft SysmonForLinux 릴리스의 `sysmonforlinux.deb`를 사용합니다.
 
-# (기본 sysmon.service가 /opt/sysmon/config.xml을 참고하는 경우가 많음)
-sudo mkdir -p /opt/sysmon
-sudo ln -sf /etc/sysmon/sysmon-config.xml /opt/sysmon/config.xml
-```
-
-### (선택) systemd 오버라이드로 `/etc` 경로를 직접 사용
-
-> 아래 예시는 `sysmon` 바이너리 경로가 `/opt/sysmon/sysmon`인 경우입니다.  
-> 만약 `command -v sysmon` 결과가 `/usr/bin/sysmon`이라면, drop-in의 `ExecStart=` 경로도 그에 맞게 바꿔 주세요.
+### 2-1) Ubuntu 22.04 LTS (권장 ⭐)
 
 ```bash
-command -v sysmon
-sudo systemctl edit sysmon
+curl -LO https://github.com/microsoft/SysmonForLinux/releases/latest/download/sysmonforlinux.deb
+apt update
+apt install -y ./sysmonforlinux.deb
 ```
 
-편집기에 아래 입력:
-
-```ini
-[Service]
-ExecStart=
-ExecStart=/opt/sysmon/sysmon -i /etc/sysmon/sysmon-config.xml -service
-WorkingDirectory=/opt/sysmon
-```
-
-적용:
+### 2-2) Ubuntu 24.04 LTS
 
 ```bash
-sudo systemctl daemon-reload
-sudo systemctl restart sysmon
+curl -LO https://github.com/microsoft/SysmonForLinux/releases/latest/download/sysmonforlinux.deb
+apt update
+apt install -y ./sysmonforlinux.deb
 ```
 
-### 설정 적용 여부 확인
+**(선택) 문제 발생 시 점검**
+```bash
+aa-status
+dmesg | tail
+```
+
+### 2-3) Ubuntu 20.04 LTS
 
 ```bash
-ls -l /etc/sysmon/sysmon-config.xml /opt/sysmon/config.xml
+curl -LO https://github.com/microsoft/SysmonForLinux/releases/latest/download/sysmonforlinux.deb
+apt update
+apt install -y ./sysmonforlinux.deb
+```
+
+---
+
+## 3️⃣ 설정 적용 & 서비스 시작
+
+### 3-1) 기본 설정으로 시작
+
+```bash
+sysmon -i
+systemctl enable --now sysmon
+```
+
+### 3-2) 커스텀 설정으로 시작 (권장)
+
+예: `sysmon-config.xml`을 현재 디렉터리에 두었다고 가정합니다.
+
+```bash
+sysmon -i sysmon-config.xml
+systemctl enable --now sysmon
+```
+
+---
+
+## 4️⃣ 설치 후 확인 (기본)
+
+### 4-1) 서비스 상태
+
+```bash
+systemctl status sysmon --no-pager
+```
+
+### 4-2) Sysmon이 실제로 어떤 설정 파일 경로로 기동되는지 확인
+
+```bash
 systemctl show -p ExecStart --value sysmon
+```
+
+### 4-3) 현재 로딩된 설정 덤프(선택)
+
+```bash
 sysmon -c | head -n 40
 ```
 
 ---
 
-## 1️⃣ Ubuntu 20.04 LTS
-
-### ⚠️ 특징
-
-* eBPF 초기 안정화 단계
-* **운영 가능하나 성능·기능 제한 존재**
-* 테스트 또는 제한적 운영 권장
-
-### 설치
-
-```bash
-curl -LO https://github.com/microsoft/SysmonForLinux/releases/latest/download/sysmonforlinux.deb
-apt install -y ./sysmonforlinux.deb
-```
-
-### 설정 적용 & 시작
-
-```bash
-# 기본 설정
-sysmon -i
-
-# 또는 커스텀 설정 (권장: /etc/sysmon/sysmon-config.xml → /opt/sysmon/config.xml)
-sysmon -i /opt/sysmon/config.xml
-
-systemctl start sysmon
-systemctl enable sysmon
-```
-
----
-
-## 2️⃣ Ubuntu 22.04 LTS (권장 ⭐)
-
-### ✅ 특징
-
-* eBPF 성숙 단계
-* **운영 안정성·성능 균형 최적**
-* Sysmon + SIEM/XDR 연계에 가장 적합
-
-### 설치
-
-```bash
-curl -LO https://github.com/microsoft/SysmonForLinux/releases/latest/download/sysmonforlinux.deb
-apt install -y ./sysmonforlinux.deb
-```
-
-### 설정 적용 & 시작
-
-```bash
-# (권장) 커스텀 설정 적용
-sysmon -i /opt/sysmon/config.xml
-systemctl start sysmon
-systemctl enable sysmon
-```
-
-### 상태 확인
-
-```bash
-systemctl status sysmon
-```
-
----
-
-## 3️⃣ Ubuntu 24.04 LTS (최신, 주의)
-
-### ⚠️ 특징
-
-* 최신 커널 + 강화된 eBPF 보안 정책
-* 환경에 따라 **eBPF 권한/제약 이슈 발생 가능**
-* **운영 전 PoC 필수**
-
-### 설치
-
-```bash
-curl -LO https://github.com/microsoft/SysmonForLinux/releases/latest/download/sysmonforlinux.deb
-apt install -y ./sysmonforlinux.deb
-```
-
-### 문제 발생 시 점검 포인트
-
-```bash
-# AppArmor 상태
-aa-status
-
-# 커널 메시지
-dmesg | tail
-```
-
-### 서비스 시작
-
-```bash
-# (권장) 커스텀 설정 적용
-sysmon -i /opt/sysmon/config.xml
-systemctl start sysmon
-systemctl enable sysmon
-```
-
----
-
-## 4️⃣ 로그 위치 (Ubuntu 공통)
+## 5️⃣ 로그 확인
 
 ```bash
 # journald
-journalctl -u sysmon
+journalctl -u sysmon -n 200 --no-pager
+```
 
+```bash
 # rsyslog 사용 시
-/var/log/syslog
+ls -l /var/log/syslog 2>/dev/null
 ```
 
 ---
 
-## 5️⃣ 운영 권장 요약 ✅
+## 6️⃣ 설치 후 운영 권장 (선택) — 설정 파일 위치 표준화
 
-| Ubuntu 버전 | 권장도   | 비고           |
-| --------- | ----- | ------------ |
-| 20.04 LTS | ⭐⭐    | 제한적 운영       |
-| 22.04 LTS | ⭐⭐⭐⭐⭐ | **운영 표준**    |
-| 24.04 LTS | ⭐⭐⭐   | 최신, 사전 검증 필수 |
+> 이 섹션은 **설치가 끝난 뒤** 운영 편의/유지보수를 위해 적용합니다.
 
----
+### 권장 개념
+* **원본(관리/백업/형상관리)**: `/etc/sysmon/sysmon-config.xml`
+* **서비스가 보는 경로(호환성 목적)**: `/opt/sysmon/config.xml`
+* `/opt/sysmon/config.xml` → `/etc/sysmon/sysmon-config.xml`로 **심볼릭 링크**를 걸어 두면,
+  * 서비스 유닛을 크게 건드리지 않고
+  * 운영 표준 경로(`/etc`)에 원본을 유지할 수 있습니다.
 
-## ✔️ 실무 한 줄 결론
+### 적용 예시
 
-> **Ubuntu 운영 환경에서는 22.04 LTS + Sysmon (curated 설정) 조합을 기본값으로 사용**  
-> 24.04 LTS는 **PoC → 검증 → 단계적 확대 적용**이 안전
+```bash
+mkdir -p /etc/sysmon
+install -o root -g root -m 0640 sysmon-config.xml /etc/sysmon/sysmon-config.xml
+
+mkdir -p /opt/sysmon
+ln -sf /etc/sysmon/sysmon-config.xml /opt/sysmon/config.xml
+
+sysmon -i /opt/sysmon/config.xml
+systemctl restart sysmon
+```
+
+### 적용 확인
+
+```bash
+ls -l /etc/sysmon/sysmon-config.xml /opt/sysmon/config.xml
+systemctl show -p ExecStart --value sysmon
+```
 
 ---
