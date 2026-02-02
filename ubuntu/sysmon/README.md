@@ -21,6 +21,64 @@ lsb_release -a
 uname -r
 ```
 
+
+---
+
+## 0️⃣-1 운영 권장: Sysmon 설정 파일 위치 표준화
+
+> 목표: **설정 원본은 `/etc`** 에 보관하고, **Sysmon 서비스는 `/opt/sysmon/config.xml`** 을 보도록 맞춥니다.  
+> Ubuntu에서도 기본 `sysmon.service`가 `/opt/sysmon/config.xml`을 참조하는 경우가 많아, 표준 경로를 정해두면 운영이 편해집니다.
+
+### 권장 구조
+
+* 원본(관리/백업/형상관리): `/etc/sysmon/sysmon-config.xml`
+* 서비스 참조(기본 `sysmon.service`와 호환): `/opt/sysmon/config.xml` → `/etc/sysmon/sysmon-config.xml` (심볼릭 링크)
+
+### 적용 방법 (권장: 심볼릭 링크)
+
+```bash
+sudo mkdir -p /etc/sysmon
+sudo install -o root -g root -m 0640 sysmon-config.xml /etc/sysmon/sysmon-config.xml
+
+# (기본 sysmon.service가 /opt/sysmon/config.xml을 참고하는 경우가 많음)
+sudo mkdir -p /opt/sysmon
+sudo ln -sf /etc/sysmon/sysmon-config.xml /opt/sysmon/config.xml
+```
+
+### (선택) systemd 오버라이드로 `/etc` 경로를 직접 사용
+
+> 아래 예시는 `sysmon` 바이너리 경로가 `/opt/sysmon/sysmon`인 경우입니다.  
+> 만약 `command -v sysmon` 결과가 `/usr/bin/sysmon`이라면, drop-in의 `ExecStart=` 경로도 그에 맞게 바꿔 주세요.
+
+```bash
+command -v sysmon
+sudo systemctl edit sysmon
+```
+
+편집기에 아래 입력:
+
+```ini
+[Service]
+ExecStart=
+ExecStart=/opt/sysmon/sysmon -i /etc/sysmon/sysmon-config.xml -service
+WorkingDirectory=/opt/sysmon
+```
+
+적용:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl restart sysmon
+```
+
+### 설정 적용 여부 확인
+
+```bash
+ls -l /etc/sysmon/sysmon-config.xml /opt/sysmon/config.xml
+systemctl show -p ExecStart --value sysmon
+sysmon -c | head -n 40
+```
+
 ---
 
 ## 1️⃣ Ubuntu 20.04 LTS
@@ -44,8 +102,8 @@ apt install -y ./sysmonforlinux.deb
 # 기본 설정
 sysmon -i
 
-# 또는 커스텀 설정
-sysmon -i sysmon-config.xml
+# 또는 커스텀 설정 (권장: /etc/sysmon/sysmon-config.xml → /opt/sysmon/config.xml)
+sysmon -i /opt/sysmon/config.xml
 
 systemctl start sysmon
 systemctl enable sysmon
@@ -71,7 +129,8 @@ apt install -y ./sysmonforlinux.deb
 ### 설정 적용 & 시작
 
 ```bash
-sysmon -i sysmon-config.xml
+# (권장) 커스텀 설정 적용
+sysmon -i /opt/sysmon/config.xml
 systemctl start sysmon
 systemctl enable sysmon
 ```
@@ -112,7 +171,8 @@ dmesg | tail
 ### 서비스 시작
 
 ```bash
-sysmon -i sysmon-config.xml
+# (권장) 커스텀 설정 적용
+sysmon -i /opt/sysmon/config.xml
 systemctl start sysmon
 systemctl enable sysmon
 ```
