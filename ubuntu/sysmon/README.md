@@ -24,7 +24,7 @@ uname -r
 
 ---
 
-## 0️⃣-1 운영 권장: Sysmon 설정 파일 위치 표준화
+## 0️⃣ 운영 권장: Sysmon 설정 파일 위치 표준화
 
 > 목표: **설정 원본은 `/etc`** 에 보관하고, **Sysmon 서비스는 `/opt/sysmon/config.xml`** 을 보도록 맞춥니다.  
 > Ubuntu에서도 기본 `sysmon.service`가 `/opt/sysmon/config.xml`을 참조하는 경우가 많아, 표준 경로를 정해두면 운영이 편해집니다.
