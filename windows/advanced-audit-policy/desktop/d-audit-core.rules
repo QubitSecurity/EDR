@@ -17,3 +17,10 @@ file_honeypot_allprofiles|%SystemDrive%\Users\*\Documents\Client_Contracts|Creat
 #file_user_desktop|$env:USERPROFILE\Desktop|CreateFiles,Delete|User Desktop (noisy on desktop)
 #file_roaming_appdata|$env:APPDATA|CreateFiles,Delete|Roaming AppData (noisy on desktop)
 #file_recyclebin|$env:SystemDrive\$Recycle.Bin|FullControl|Recycle Bin (very noisy on desktop)
+
+# ===============================
+# File / Folder Audit Targets
+# ===============================
+
+#file_programdata_root|C:\ProgramData|CreateFiles,WriteData,AppendData|ProgramData root exe drop monitor
+file_programdata_root|C:\ProgramData|CreateFiles|ProgramData root exe drop monitor
