@@ -16,7 +16,7 @@ option|auditpol.option.FullPrivilegeAuditing|0
 option|auditpol.option.AuditBaseObjects|0
 option|auditpol.option.AuditBaseDirectories|0
 
-{0CCE9211-69AE-11D9-BED3-505054503030}|3
+{0CCE9211-69AE-11D9-BED3-505054503030}|1
 {0CCE9213-69AE-11D9-BED3-505054503030}|0
 {0CCE9212-69AE-11D9-BED3-505054503030}|3
 {0CCE9210-69AE-11D9-BED3-505054503030}|1
