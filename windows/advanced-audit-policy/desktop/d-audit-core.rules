@@ -22,5 +22,5 @@ file_honeypot_allprofiles|%SystemDrive%\Users\*\Documents\Client_Contracts|Creat
 # File / Folder Audit Targets
 # ===============================
 
-#file_programdata_root|C:\ProgramData|CreateFiles,WriteData,AppendData|ProgramData root exe drop monitor
-file_programdata_root|C:\ProgramData|CreateFiles|ProgramData root exe drop monitor
+file_programdata_root|C:\ProgramData|CreateFiles,WriteData,AppendData|ProgramData root exe drop monitor
+#file_programdata_root|C:\ProgramData|CreateFiles|ProgramData root exe drop monitor
