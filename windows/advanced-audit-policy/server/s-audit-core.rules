@@ -40,3 +40,10 @@ file_recyclebin|%SystemDrive%\$Recycle.Bin\*|CreateFiles,WriteData,AppendData,De
 # Rare / high-signal system folders
 file_oledb|%ProgramFiles%\Common Files\System\Ole DB|CreateFiles,WriteData,AppendData,Delete|Ole DB folder (rare on servers)
 
+# ===============================
+# File / Folder Audit Targets
+# ===============================
+
+#file_programdata_root|C:\ProgramData|CreateFiles,WriteData,AppendData|ProgramData root exe drop monitor
+file_programdata_root|C:\ProgramData|CreateFiles|ProgramData root exe drop monitor
+
