@@ -1,4 +1,4 @@
-<!-- PLURA_CONFIG_VERSION: d-sysmon-29-plura-v3.2.9-unite-curated.xml -->
+<!-- PLURA_CONFIG_VERSION: d-sysmon-29-plura-v3.2.10-unite-curated-tamper.xml -->
 <!-- PLURA_SCHEMA_TARGET: 4.90 -->
 
 <Sysmon schemaversion="4.90">
@@ -225,6 +225,16 @@
         <TargetFilename condition="begin with">C:\Windows\System32\GroupPolicy\User\Scripts</TargetFilename>
         <TargetFilename condition="contains">\AppData\Local\Google\Chrome\User Data\Default\Extensions\</TargetFilename>
         <TargetFilename condition="contains">\AppData\Local\Microsoft\Edge\User Data\Default\Extensions\</TargetFilename>
+
+		<!-- Suspicious common drop locations -->
+        <Rule groupRelation="and">
+          <TargetFilename condition="contains">\Windows\Temp\</TargetFilename>
+          <TargetFilename condition="end with">.sys</TargetFilename>
+        </Rule>
+        <Rule groupRelation="and">
+          <TargetFilename condition="contains">\ProgramData\</TargetFilename>
+          <TargetFilename condition="end with">.sys</TargetFilename>
+        </Rule>
       </FileCreate>
     </RuleGroup>
 
@@ -251,6 +261,8 @@
         <TargetObject condition="contains">HKLM\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ModuleLogging</TargetObject>
         <TargetObject condition="contains">HKLM\SOFTWARE\Policies\Microsoft\Windows\PowerShell\Transcription</TargetObject>
         <TargetObject condition="contains">HKLM\SOFTWARE\Policies\Microsoft\Windows Defender</TargetObject>
+		<TargetObject condition="end with">HKLM\SOFTWARE\Microsoft\Windows Defender\Features\TamperProtection</TargetObject>
+        <TargetObject condition="end with">HKLM\SOFTWARE\Microsoft\Windows Defender\Features\TamperProtectionSource</TargetObject>
       </RegistryEvent>
     </RuleGroup>
 	  
