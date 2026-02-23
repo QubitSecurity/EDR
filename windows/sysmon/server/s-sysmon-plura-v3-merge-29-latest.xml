@@ -1,5 +1,5 @@
 <!-- PLURA_CONFIG_VERSION: s-sysmon-plura-v3-merge-29-latest.xml -->
-<!-- BASE URL: s-sysmon-29-plura-v3.4-lolbas-curated.xml -->
+<!-- BASE URL: s-sysmon-29-plura-v3.4.1-lolbas-curated-tamper.xml -->
 <!-- PLURA_SCHEMA_TARGET: 4.90 -->
 
 <Sysmon schemaversion="4.90">
@@ -256,6 +256,9 @@
         <TargetObject condition="contains all">\SYSTEM\;\Service\EventLog;Retention</TargetObject>
         <TargetObject condition="contains all">\SYSTEM\;\Service\EventLog;MaxSize</TargetObject>
 
+        <!-- Windows Defender Tamper Protection -->
+        <TargetObject condition="end with">HKLM\SOFTWARE\Microsoft\Windows Defender\Features\TamperProtection</TargetObject>
+        <TargetObject condition="end with">HKLM\SOFTWARE\Microsoft\Windows Defender\Features\TamperProtectionSource</TargetObject>
       </RegistryEvent>
     </RuleGroup>
 
