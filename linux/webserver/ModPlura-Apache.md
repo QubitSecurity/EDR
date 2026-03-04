@@ -8,10 +8,12 @@
 - 마스터 프로세스의 사용자 → root가 아닌 경우도 있음
 - 마스터 프로세스의 실행 파일 → 실행 중인 프로세스의 실행 파일, ex) /usr/ local/apache/bin/httpd
 
+
+### 1. 프로세스 이름으로 PID 찾기
+### 2. 부모 PID($3)가 1(init/systemd)인 것 필터링
+### 3. 만약 일반 사용자가 실행했다면 해당 사용자 이름이 나올 것임
+
 ```bash
-# 1. 프로세스 이름으로 PID 찾기
-# 2. 부모 PID($3)가 1(init/systemd)인 것 필터링
-# 3. 만약 일반 사용자가 실행했다면 해당 사용자 이름이 나올 것임
 ps -ef | grep -E 'httpd|apache2' | awk '$3 == 1 {print "Master PID:", $2, " | User:", $1, " | Command:", $8}'
 ```
 
