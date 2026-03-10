@@ -1,7 +1,7 @@
 [
     {
         "filename": "Ftp.exe",
-        "reename": "svc-ftp-48m4e0k4.exe",
+        "rename": "svc-ftp-48m4e0k4.exe",
         "category": "1",
         "tool": "ftp",
         "path32": "C:\\Windows\\System32",
@@ -10,7 +10,7 @@
     },
     {
         "filename": "Msdt.exe",
-        "reename": "svc-msdt-82ggrgtr.exe",
+        "rename": "svc-msdt-82ggrgtr.exe",
         "category": "1",
         "tool": "msdt",
         "path32": "C:\\Windows\\System32",
@@ -19,7 +19,7 @@
     },
     {
         "filename": "sftp.exe",
-        "reename": "svc-sftp-5kdy5cq2.exe",
+        "rename": "svc-sftp-5kdy5cq2.exe",
         "category": "1",
         "tool": "sftp",
         "path32": "C:\\Windows\\System32\\OpenSSH",
@@ -28,7 +28,7 @@
     },
     {
         "filename": "Wmic.exe",
-        "reename": "svc-wmi-3a38p5pe.exe",
+        "rename": "svc-wmi-3a38p5pe.exe",
         "category": "1",
         "tool": "wmi",
         "path32": "C:\\Windows\\System32\\wbem",
@@ -37,7 +37,7 @@
     },
     {
         "filename": "DeviceCredentialDeployment.exe",
-        "reename": "svc-devicecredentialdeployment-a7uehs0j.exe",
+        "rename": "svc-devicecredentialdeployment-a7uehs0j.exe",
         "category": "1",
         "tool": "devicecredentialdeployment",
         "path32": "C:\\Windows\\System32",
@@ -46,7 +46,7 @@
     },
     {
         "filename": "ECMangen.exe",
-        "reename": "svc-ecmangen-esn0x8wu.exe",
+        "rename": "svc-ecmangen-esn0x8wu.exe",
         "category": "1",
         "tool": "ecmangen",
         "path32": "C:\\Windows\\System32",
@@ -55,7 +55,7 @@
     },
     {
         "filename": "Finger.exe",
-        "reename": "svc-finger-cft9f89u.exe",
+        "rename": "svc-finger-cft9f89u.exe",
         "category": "1",
         "tool": "finger",
         "path32": "C:\\Windows\\System32",
@@ -64,7 +64,7 @@
     },
     {
         "filename": "cmdl32.exe",
-        "reename": "svc-cmdl32-ci8m531n.exe",
+        "rename": "svc-cmdl32-ci8m531n.exe",
         "category": "1",
         "tool": "cmdl32",
         "path32": "C:\\Windows\\System32",
@@ -73,7 +73,7 @@
     },
     {
         "filename": "Colorcpl.exe",
-        "reename": "svc-colorcpl-nxhd5caj.exe",
+        "rename": "svc-colorcpl-nxhd5caj.exe",
         "category": "1",
         "tool": "colorcpl",
         "path32": "C:\\Windows\\System32",
@@ -82,7 +82,7 @@
     },
     {
         "filename": "Wab.exe",
-        "reename": "svc-wab-6z83cdma.exe",
+        "rename": "svc-wab-6z83cdma.exe",
         "category": "1",
         "tool": "wab",
         "path32": "C:\\Program Files\\Windows Mail",
@@ -91,7 +91,7 @@
     },
     {
         "filename": "Wlrmdr.exe",
-        "reename": "svc-wlrmdr-18oas936.exe",
+        "rename": "svc-wlrmdr-18oas936.exe",
         "category": "1",
         "tool": "wlrmdr",
         "path32": "C:\\Program Files\\Windows Live",
@@ -100,7 +100,7 @@
     },
     {
         "filename": "winfile.exe",
-        "reename": "svc-winfile-d2sav1w9.exe",
+        "rename": "svc-winfile-d2sav1w9.exe",
         "category": "1",
         "tool": "winfile",
         "path32": "C:\\Program Files\\WinFile",
@@ -109,7 +109,7 @@
     },
     {
         "filename": "Atbroker.exe",
-        "reename": "svc-atbroker-o2dhusxb.exe",
+        "rename": "svc-atbroker-o2dhusxb.exe",
         "category": "2",
         "tool": "atbroker",
         "path32": "C:\\Windows\\System32",
@@ -118,7 +118,7 @@
     },
     {
         "filename": "cmstp.exe",
-        "reename": "svc-cmstp-wcbys99f.exe",
+        "rename": "svc-cmstp-wcbys99f.exe",
         "category": "2",
         "tool": "cmstp",
         "path32": "C:\\Windows\\System32",
@@ -127,7 +127,7 @@
     },
     {
         "filename": "ComputerDefaults.exe",
-        "reename": "svc-computerdefaults-msihobtg.exe",
+        "rename": "svc-computerdefaults-msihobtg.exe",
         "category": "2",
         "tool": "computerdefaults",
         "path32": "C:\\Windows\\System32",
@@ -136,7 +136,7 @@
     },
     {
         "filename": "mshta.exe",
-        "reename": "svc-hta-06zig4k9.exe",
+        "rename": "svc-hta-06zig4k9.exe",
         "category": "2",
         "tool": "hta",
         "path32": "C:\\Windows\\System32",
@@ -145,7 +145,7 @@
     },
     {
         "filename": "Pcalua.exe",
-        "reename": "svc-pcalua-wvlvgmad.exe",
+        "rename": "svc-pcalua-wvlvgmad.exe",
         "category": "2",
         "tool": "pcalua",
         "path32": "C:\\Windows\\System32",
@@ -154,7 +154,7 @@
     },
     {
         "filename": "certutil.exe",
-        "reename": "svc-certutil-sni5coji.exe",
+        "rename": "svc-certutil-sni5coji.exe",
         "category": "2",
         "tool": "certutil",
         "path32": "C:\\Windows\\System32",
@@ -163,7 +163,7 @@
     },
     {
         "filename": "cscript.exe",
-        "reename": "svc-cscript-ar7d102c.exe",
+        "rename": "svc-cscript-ar7d102c.exe",
         "category": "2",
         "tool": "cscript",
         "path32": "C:\\Windows\\System32",
@@ -172,7 +172,7 @@
     },
     {
         "filename": "Dfsvc.exe",
-        "reename": "svc-dfsvc-gtsruby0.exe",
+        "rename": "svc-dfsvc-gtsruby0.exe",
         "category": "2",
         "tool": "dfsvc",
         "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
@@ -181,7 +181,7 @@
     },
     {
         "filename": "powershell.exe",
-        "reename": "svc-psh-pc9fbyil.exe",
+        "rename": "svc-psh-pc9fbyil.exe",
         "category": "2",
         "tool": "psh",
         "path32": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0",
@@ -190,7 +190,7 @@
     },
     {
         "filename": "pwsh.exe",
-        "reename": "svc-pwsh-z9g7b2ft.exe",
+        "rename": "svc-pwsh-z9g7b2ft.exe",
         "category": "2",
         "tool": "pwsh",
         "path32": "C:\\Program Files\\PowerShell\\7",
@@ -199,7 +199,7 @@
     },
     {
         "filename": "wscript.exe",
-        "reename": "svc-wscript-c4tv8g61.exe",
+        "rename": "svc-wscript-c4tv8g61.exe",
         "category": "2",
         "tool": "wscript",
         "path32": "C:\\Windows\\System32",
@@ -208,7 +208,7 @@
     },
     {
         "filename": "regsvr32.exe",
-        "reename": "svc-regsvr32-gbth0dwo.exe",
+        "rename": "svc-regsvr32-gbth0dwo.exe",
         "category": "2",
         "tool": "regsvr32",
         "path32": "C:\\Windows\\System32",
@@ -217,7 +217,7 @@
     },
     {
         "filename": "rundll32.exe",
-        "reename": "svc-rundll32-8lq3jayc.exe",
+        "rename": "svc-rundll32-8lq3jayc.exe",
         "category": "2",
         "tool": "rundll32",
         "path32": "C:\\Windows\\System32",
@@ -226,7 +226,7 @@
     },
     {
         "filename": "CustomShellHost.exe",
-        "reename": "svc-customshellhost-ljyd0oy4.exe",
+        "rename": "svc-customshellhost-ljyd0oy4.exe",
         "category": "2",
         "tool": "customshellhost",
         "path32": "C:\\Windows\\System32",
@@ -235,7 +235,7 @@
     },
     {
         "filename": "hh.exe",
-        "reename": "svc-hh-r5re6d16.exe",
+        "rename": "svc-hh-r5re6d16.exe",
         "category": "2",
         "tool": "hh",
         "path32": "C:\\Windows\\System32",
@@ -244,7 +244,7 @@
     },
     {
         "filename": "mavinject.exe",
-        "reename": "svc-mavinject-pxj3wmnc.exe",
+        "rename": "svc-mavinject-pxj3wmnc.exe",
         "category": "2",
         "tool": "mavinject",
         "path32": "C:\\Windows\\System32",
@@ -253,7 +253,7 @@
     },
     {
         "filename": "powershell_ise.exe",
-        "reename": "svc-powershellise-c29bxp90.exe",
+        "rename": "svc-powershellise-c29bxp90.exe",
         "category": "2",
         "tool": "powershellise",
         "path32": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0",
@@ -262,7 +262,7 @@
     },
     {
         "filename": "msxsl.exe",
-        "reename": "svc-msxsl-5eblq7qe.exe",
+        "rename": "svc-msxsl-5eblq7qe.exe",
         "category": "2",
         "tool": "msxsl",
         "path32": "C:\\Windows\\System32",
@@ -271,7 +271,7 @@
     },
     {
         "filename": "odbcconf.exe",
-        "reename": "svc-odbcconf-0p5udtlo.exe",
+        "rename": "svc-odbcconf-0p5udtlo.exe",
         "category": "2",
         "tool": "odbcconf",
         "path32": "C:\\Windows\\System32",
@@ -280,7 +280,7 @@
     },
     {
         "filename": "OfflineScannerShell.exe",
-        "reename": "svc-offlinescannershell-polik3pt.exe",
+        "rename": "svc-offlinescannershell-polik3pt.exe",
         "category": "2",
         "tool": "offlinescannershell",
         "path32": "C:\\Windows\\System32",
@@ -289,7 +289,7 @@
     },
     {
         "filename": "Pcwrun.exe",
-        "reename": "svc-pcwrun-6uti19j7.exe",
+        "rename": "svc-pcwrun-6uti19j7.exe",
         "category": "2",
         "tool": "pcwrun",
         "path32": "C:\\Windows\\System32",
@@ -298,7 +298,7 @@
     },
     {
         "filename": "Provlaunch.exe",
-        "reename": "svc-provlaunch-brfw6p14.exe",
+        "rename": "svc-provlaunch-brfw6p14.exe",
         "category": "2",
         "tool": "provlaunch",
         "path32": "C:\\Windows\\System32",
@@ -307,7 +307,7 @@
     },
     {
         "filename": "Rasautou.exe",
-        "reename": "svc-rasautou-q93b4qf8.exe",
+        "rename": "svc-rasautou-q93b4qf8.exe",
         "category": "2",
         "tool": "rasautou",
         "path32": "C:\\Windows\\System32",
@@ -316,7 +316,7 @@
     },
     {
         "filename": "Scriptrunner.exe",
-        "reename": "svc-scriptrunner-hu4u7ksa.exe",
+        "rename": "svc-scriptrunner-hu4u7ksa.exe",
         "category": "2",
         "tool": "scriptrunner",
         "path32": "C:\\Windows\\System32",
@@ -325,7 +325,7 @@
     },
     {
         "filename": "SettingSyncHost.exe",
-        "reename": "svc-settingsynchost-vnnnlp7f.exe",
+        "rename": "svc-settingsynchost-vnnnlp7f.exe",
         "category": "2",
         "tool": "settingsynchost",
         "path32": "C:\\Windows\\System32",
@@ -334,7 +334,7 @@
     },
     {
         "filename": "Unregmp2.exe",
-        "reename": "svc-unregmp2-qhgr8k1r.exe",
+        "rename": "svc-unregmp2-qhgr8k1r.exe",
         "category": "2",
         "tool": "unregmp2",
         "path32": "C:\\Windows\\System32",
@@ -343,7 +343,7 @@
     },
     {
         "filename": "Verclsid.exe",
-        "reename": "svc-verclsid-k377ii2e.exe",
+        "rename": "svc-verclsid-k377ii2e.exe",
         "category": "2",
         "tool": "verclsid",
         "path32": "C:\\Windows\\System32",
@@ -352,7 +352,7 @@
     },
     {
         "filename": "Wsreset.exe",
-        "reename": "svc-wsreset-zm3kgo9p.exe",
+        "rename": "svc-wsreset-zm3kgo9p.exe",
         "category": "2",
         "tool": "wsreset",
         "path32": "C:\\Windows\\System32",
@@ -361,7 +361,7 @@
     },
     {
         "filename": "wuauclt.exe",
-        "reename": "svc-wuauclt-8goxbcvx.exe",
+        "rename": "svc-wuauclt-8goxbcvx.exe",
         "category": "2",
         "tool": "wuauclt",
         "path32": "C:\\Windows\\System32",
@@ -370,7 +370,7 @@
     },
     {
         "filename": "bitsadmin.exe",
-        "reename": "svc-bitsadmin-q366zhjn.exe",
+        "rename": "svc-bitsadmin-q366zhjn.exe",
         "category": "2",
         "tool": "bitsadmin",
         "path32": "C:\\Windows\\System32",
@@ -379,7 +379,7 @@
     },
     {
         "filename": "eventvwr.exe",
-        "reename": "svc-eventvwr-dhc1n2ry.exe",
+        "rename": "svc-eventvwr-dhc1n2ry.exe",
         "category": "2",
         "tool": "eventvwr",
         "path32": "C:\\Windows\\System32",
@@ -388,7 +388,7 @@
     },
     {
         "filename": "regasm.exe",
-        "reename": "svc-regasm-jpe8dpmx.exe",
+        "rename": "svc-regasm-jpe8dpmx.exe",
         "category": "2",
         "tool": "regasm",
         "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
@@ -397,7 +397,7 @@
     },
     {
         "filename": "regsvcs.exe",
-        "reename": "svc-regsvcs-ww8ap1mx.exe",
+        "rename": "svc-regsvcs-ww8ap1mx.exe",
         "category": "2",
         "tool": "regsvcs",
         "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
@@ -406,7 +406,7 @@
     },
     {
         "filename": "Eudcedit.exe",
-        "reename": "svc-eudcedit-bchzylgu.exe",
+        "rename": "svc-eudcedit-bchzylgu.exe",
         "category": "2",
         "tool": "eudcedit",
         "path32": "C:\\Windows\\System32",
@@ -415,7 +415,7 @@
     },
     {
         "filename": "expand.exe",
-        "reename": "svc-expand-v8vl4uds.exe",
+        "rename": "svc-expand-v8vl4uds.exe",
         "category": "2",
         "tool": "expand",
         "path32": "C:\\Windows\\System32",
@@ -424,7 +424,7 @@
     },
     {
         "filename": "forfiles.exe",
-        "reename": "svc-forfiles-447qk4xm.exe",
+        "rename": "svc-forfiles-447qk4xm.exe",
         "category": "2",
         "tool": "forfiles",
         "path32": "C:\\Windows\\System32",
@@ -433,7 +433,7 @@
     },
     {
         "filename": "ieexec.exe",
-        "reename": "svc-ieexec-jvobzjhv.exe",
+        "rename": "svc-ieexec-jvobzjhv.exe",
         "category": "2",
         "tool": "ieexec",
         "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
@@ -442,7 +442,7 @@
     },
     {
         "filename": "makecab.exe",
-        "reename": "svc-makecab-fnhf9qpy.exe",
+        "rename": "svc-makecab-fnhf9qpy.exe",
         "category": "2",
         "tool": "makecab",
         "path32": "C:\\Windows\\System32",
@@ -451,7 +451,7 @@
     },
     {
         "filename": "Msconfig.exe",
-        "reename": "svc-msconfig-c7krfs6l.exe",
+        "rename": "svc-msconfig-c7krfs6l.exe",
         "category": "2",
         "tool": "msconfig",
         "path32": "C:\\Windows\\System32",
@@ -460,7 +460,7 @@
     },
     {
         "filename": "presentationhost.exe",
-        "reename": "svc-presentationhost-n8e5u0n0.exe",
+        "rename": "svc-presentationhost-n8e5u0n0.exe",
         "category": "2",
         "tool": "presentationhost",
         "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
@@ -469,7 +469,7 @@
     },
     {
         "filename": "syncappvpublishingserver.exe",
-        "reename": "svc-syncappvpublishingserver-myfk44tg.exe",
+        "rename": "svc-syncappvpublishingserver-myfk44tg.exe",
         "category": "2",
         "tool": "syncappvpublishingserver",
         "path32": "C:\\Program Files\\Microsoft Application Virtualization\\Client",
@@ -478,7 +478,7 @@
     },
     {
         "filename": "dsdbutil.exe",
-        "reename": "svc-dsdbutil-y0sympxc.exe",
+        "rename": "svc-dsdbutil-y0sympxc.exe",
         "category": "3",
         "tool": "dsdbutil",
         "path32": "C:\\Windows\\System32",
@@ -487,7 +487,7 @@
     },
     {
         "filename": "ntdsutil.exe",
-        "reename": "svc-ntdsutil-od0vasdv.exe",
+        "rename": "svc-ntdsutil-od0vasdv.exe",
         "category": "3",
         "tool": "ntdsutil",
         "path32": "C:\\Windows\\System32",
@@ -496,7 +496,7 @@
     },
     {
         "filename": "cmdkey.exe",
-        "reename": "svc-cmdkey-ntck6yoy.exe",
+        "rename": "svc-cmdkey-ntck6yoy.exe",
         "category": "3",
         "tool": "cmdkey",
         "path32": "C:\\Windows\\System32",
@@ -505,7 +505,7 @@
     },
     {
         "filename": "createdump.exe",
-        "reename": "svc-createdump-08bgaqqd.exe",
+        "rename": "svc-createdump-08bgaqqd.exe",
         "category": "3",
         "tool": "createdump",
         "path32": "C:\\Program Files\\dotnet",
@@ -514,7 +514,7 @@
     },
     {
         "filename": "dump64.exe",
-        "reename": "svc-dump64-hdy9k81a.exe",
+        "rename": "svc-dump64-hdy9k81a.exe",
         "category": "3",
         "tool": "dump64",
         "path32": "C:\\Program Files\\Debugging Tools for Windows",
@@ -523,7 +523,7 @@
     },
     {
         "filename": "dumpminitool.exe",
-        "reename": "svc-dumpminitool-71bh8608.exe",
+        "rename": "svc-dumpminitool-71bh8608.exe",
         "category": "3",
         "tool": "dumpminitool",
         "path32": "C:\\Program Files\\Debugging Tools for Windows",
@@ -532,7 +532,7 @@
     },
     {
         "filename": "procdump.exe",
-        "reename": "svc-procdump-b0pu8q8x.exe",
+        "rename": "svc-procdump-b0pu8q8x.exe",
         "category": "3",
         "tool": "procdump",
         "path32": "C:\\Program Files\\Sysinternals",
@@ -541,7 +541,7 @@
     },
     {
         "filename": "diskshadow.exe",
-        "reename": "svc-diskshadow-1hqzdtlw.exe",
+        "rename": "svc-diskshadow-1hqzdtlw.exe",
         "category": "3",
         "tool": "diskshadow",
         "path32": "C:\\Windows\\System32",
@@ -550,7 +550,7 @@
     },
     {
         "filename": "esentutl.exe",
-        "reename": "svc-esentutl-c38va3b7.exe",
+        "rename": "svc-esentutl-c38va3b7.exe",
         "category": "3",
         "tool": "esentutl",
         "path32": "C:\\Windows\\System32",
@@ -559,7 +559,7 @@
     },
     {
         "filename": "vshadow.exe",
-        "reename": "svc-vshadow-qutowcv1.exe",
+        "rename": "svc-vshadow-qutowcv1.exe",
         "category": "3",
         "tool": "vshadow",
         "path32": "C:\\Program Files\\Microsoft SDKs",
@@ -568,7 +568,7 @@
     },
     {
         "filename": "adplus.exe",
-        "reename": "svc-adplus-crgwcu4l.exe",
+        "rename": "svc-adplus-crgwcu4l.exe",
         "category": "3",
         "tool": "adplus",
         "path32": "C:\\Program Files\\Debugging Tools for Windows",
@@ -577,7 +577,7 @@
     },
     {
         "filename": "Psr.exe",
-        "reename": "svc-psr-413jkxmh.exe",
+        "rename": "svc-psr-413jkxmh.exe",
         "category": "3",
         "tool": "psr",
         "path32": "C:\\Windows\\System32",
@@ -586,7 +586,7 @@
     },
     {
         "filename": "rdrleakdiag.exe",
-        "reename": "svc-rdrleakdiag-gat3ists.exe",
+        "rename": "svc-rdrleakdiag-gat3ists.exe",
         "category": "3",
         "tool": "rdrleakdiag",
         "path32": "C:\\Program Files\\Debugging Tools for Windows",
@@ -595,7 +595,7 @@
     },
     {
         "filename": "rpcping.exe",
-        "reename": "svc-rpcping-wawbod0u.exe",
+        "rename": "svc-rpcping-wawbod0u.exe",
         "category": "3",
         "tool": "rpcping",
         "path32": "C:\\Windows\\System32",
@@ -604,7 +604,7 @@
     },
     {
         "filename": "sqldumper.exe",
-        "reename": "svc-sqldumper-tmeplxbz.exe",
+        "rename": "svc-sqldumper-tmeplxbz.exe",
         "category": "3",
         "tool": "sqldumper",
         "path32": "C:\\Program Files\\Microsoft SQL Server",
@@ -613,7 +613,7 @@
     },
     {
         "filename": "Tttracer.exe",
-        "reename": "svc-tttracer-071ywzhx.exe",
+        "rename": "svc-tttracer-071ywzhx.exe",
         "category": "3",
         "tool": "tttracer",
         "path32": "C:\\Windows\\System32",
@@ -622,7 +622,7 @@
     },
     {
         "filename": "wbadmin.exe",
-        "reename": "svc-wbadmin-5m473hrx.exe",
+        "rename": "svc-wbadmin-5m473hrx.exe",
         "category": "3",
         "tool": "wbadmin",
         "path32": "C:\\Windows\\System32",
@@ -631,7 +631,7 @@
     },
     {
         "filename": "AddinUtil.exe",
-        "reename": "svc-addinutil-8kysee5u.exe",
+        "rename": "svc-addinutil-8kysee5u.exe",
         "category": "4",
         "tool": "addinutil",
         "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
@@ -640,7 +640,7 @@
     },
     {
         "filename": "Aspnet_Compiler.exe",
-        "reename": "svc-aspnetcompiler-73zghdnt.exe",
+        "rename": "svc-aspnetcompiler-73zghdnt.exe",
         "category": "4",
         "tool": "aspnetcompiler",
         "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
@@ -649,7 +649,7 @@
     },
     {
         "filename": "csi.exe",
-        "reename": "svc-csi-lp26hnii.exe",
+        "rename": "svc-csi-lp26hnii.exe",
         "category": "4",
         "tool": "csi",
         "path32": "C:\\Program Files\\Microsoft Visual Studio",
@@ -658,7 +658,7 @@
     },
     {
         "filename": "Fsi.exe",
-        "reename": "svc-fsi-vc9p16ej.exe",
+        "rename": "svc-fsi-vc9p16ej.exe",
         "category": "4",
         "tool": "fsi",
         "path32": "C:\\Program Files\\Microsoft Visual Studio",
@@ -667,7 +667,7 @@
     },
     {
         "filename": "FsiAnyCpu.exe",
-        "reename": "svc-fsianycpu-i1zdjhsj.exe",
+        "rename": "svc-fsianycpu-i1zdjhsj.exe",
         "category": "4",
         "tool": "fsianycpu",
         "path32": "C:\\Program Files\\Microsoft Visual Studio",
@@ -676,7 +676,7 @@
     },
     {
         "filename": "te.exe",
-        "reename": "svc-te-yfgmc04n.exe",
+        "rename": "svc-te-yfgmc04n.exe",
         "category": "4",
         "tool": "te",
         "path32": "C:\\Program Files\\Microsoft SDKs",
@@ -685,7 +685,7 @@
     },
     {
         "filename": "installutil.exe",
-        "reename": "svc-installutil-c1jq9o8o.exe",
+        "rename": "svc-installutil-c1jq9o8o.exe",
         "category": "4",
         "tool": "installutil",
         "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
@@ -694,7 +694,7 @@
     },
     {
         "filename": "msbuild.exe",
-        "reename": "svc-msbuild-w80bucgj.exe",
+        "rename": "svc-msbuild-w80bucgj.exe",
         "category": "4",
         "tool": "msbuild",
         "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
@@ -703,7 +703,7 @@
     },
     {
         "filename": "Microsoft.Workflow.Compiler.exe",
-        "reename": "svc-microsoftworkflowcompiler-yzr636ku.exe",
+        "rename": "svc-microsoftworkflowcompiler-yzr636ku.exe",
         "category": "4",
         "tool": "microsoftworkflowcompiler",
         "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
@@ -712,7 +712,7 @@
     },
     {
         "filename": "AppCert.exe",
-        "reename": "svc-appcert-9ushqh2s.exe",
+        "rename": "svc-appcert-9ushqh2s.exe",
         "category": "4",
         "tool": "appcert",
         "path32": "C:\\Windows\\System32",
@@ -721,7 +721,7 @@
     },
     {
         "filename": "bash.exe",
-        "reename": "svc-bash-ypf62m5s.exe",
+        "rename": "svc-bash-ypf62m5s.exe",
         "category": "4",
         "tool": "bash",
         "path32": "C:\\Windows\\System32",
@@ -730,7 +730,7 @@
     },
     {
         "filename": "Dxcap.exe",
-        "reename": "svc-dxcap-u4sx5or0.exe",
+        "rename": "svc-dxcap-u4sx5or0.exe",
         "category": "4",
         "tool": "dxcap",
         "path32": "C:\\Program Files\\Microsoft SDKs",
@@ -739,7 +739,7 @@
     },
     {
         "filename": "VSDiagnostics.exe",
-        "reename": "svc-vsdiagnostics-x0caoo6q.exe",
+        "rename": "svc-vsdiagnostics-x0caoo6q.exe",
         "category": "4",
         "tool": "vsdiagnostics",
         "path32": "C:\\Program Files\\Microsoft Visual Studio",
@@ -748,7 +748,7 @@
     },
     {
         "filename": "VSIISExeLauncher.exe",
-        "reename": "svc-vsiisexelauncher-t7scd56b.exe",
+        "rename": "svc-vsiisexelauncher-t7scd56b.exe",
         "category": "4",
         "tool": "vsiisexelauncher",
         "path32": "C:\\Program Files\\Microsoft Visual Studio",
@@ -757,7 +757,7 @@
     },
     {
         "filename": "VSLaunchBrowser.exe",
-        "reename": "svc-vslaunchbrowser-2hub8jmv.exe",
+        "rename": "svc-vslaunchbrowser-2hub8jmv.exe",
         "category": "4",
         "tool": "vslaunchbrowser",
         "path32": "C:\\Program Files\\Microsoft Visual Studio",
@@ -766,7 +766,7 @@
     },
     {
         "filename": "VisualUiaVerifyNative.exe",
-        "reename": "svc-visualuiaverifynative-xz0lhlp3.exe",
+        "rename": "svc-visualuiaverifynative-xz0lhlp3.exe",
         "category": "4",
         "tool": "visualuiaverifynative",
         "path32": "C:\\Program Files\\Microsoft Visual Studio",
@@ -775,7 +775,7 @@
     },
     {
         "filename": "WFMFormat.exe",
-        "reename": "svc-wfmformat-w0ou76mh.exe",
+        "rename": "svc-wfmformat-w0ou76mh.exe",
         "category": "4",
         "tool": "wfmformat",
         "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
@@ -784,7 +784,7 @@
     },
     {
         "filename": "Wfc.exe",
-        "reename": "svc-wfc-ji0kpjdv.exe",
+        "rename": "svc-wfc-ji0kpjdv.exe",
         "category": "4",
         "tool": "wfc",
         "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
@@ -793,7 +793,7 @@
     },
     {
         "filename": "xsd.exe",
-        "reename": "svc-xsd-jlc2y0qj.exe",
+        "rename": "svc-xsd-jlc2y0qj.exe",
         "category": "4",
         "tool": "xsd",
         "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
@@ -802,7 +802,7 @@
     },
     {
         "filename": "csc.exe",
-        "reename": "svc-csc-1wy2wq0d.exe",
+        "rename": "svc-csc-1wy2wq0d.exe",
         "category": "4",
         "tool": "csc",
         "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
@@ -811,7 +811,7 @@
     },
     {
         "filename": "dotnet.exe",
-        "reename": "svc-dotnet-tk9xiwwp.exe",
+        "rename": "svc-dotnet-tk9xiwwp.exe",
         "category": "4",
         "tool": "dotnet",
         "path32": "C:\\Program Files\\dotnet",
@@ -820,7 +820,7 @@
     },
     {
         "filename": "vbc.exe",
-        "reename": "svc-vbc-cqbcojcc.exe",
+        "rename": "svc-vbc-cqbcojcc.exe",
         "category": "4",
         "tool": "vbc",
         "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
@@ -829,7 +829,7 @@
     },
     {
         "filename": "wsl.exe",
-        "reename": "svc-wsl-dhy0t6h8.exe",
+        "rename": "svc-wsl-dhy0t6h8.exe",
         "category": "4",
         "tool": "wsl",
         "path32": "C:\\Windows\\System32",
@@ -838,7 +838,7 @@
     },
     {
         "filename": "coregen.exe",
-        "reename": "svc-coregen-05jjsicp.exe",
+        "rename": "svc-coregen-05jjsicp.exe",
         "category": "4",
         "tool": "coregen",
         "path32": "C:\\Program Files\\dotnet",
@@ -847,7 +847,7 @@
     },
     {
         "filename": "dnx.exe",
-        "reename": "svc-dnx-w5o0tzuu.exe",
+        "rename": "svc-dnx-w5o0tzuu.exe",
         "category": "4",
         "tool": "dnx",
         "path32": "C:\\Program Files\\dotnet",
@@ -856,7 +856,7 @@
     },
     {
         "filename": "ilasm.exe",
-        "reename": "svc-ilasm-vbbxehr1.exe",
+        "rename": "svc-ilasm-vbbxehr1.exe",
         "category": "4",
         "tool": "ilasm",
         "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
@@ -865,7 +865,7 @@
     },
     {
         "filename": "jsc.exe",
-        "reename": "svc-jsc-pg2t9gem.exe",
+        "rename": "svc-jsc-pg2t9gem.exe",
         "category": "4",
         "tool": "jsc",
         "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
@@ -874,7 +874,7 @@
     },
     {
         "filename": "Launch-VsDevShell.ps1",
-        "reename": "svc-launchvsdevshell-oy1270z7.ps1",
+        "rename": "svc-launchvsdevshell-oy1270z7.ps1",
         "category": "4",
         "tool": "launchvsdevshell",
         "path32": "C:\\Program Files\\Microsoft Visual Studio",
@@ -883,7 +883,7 @@
     },
     {
         "filename": "UtilityFunctions.ps1",
-        "reename": "svc-utilityfunctions-055ajk6w.ps1",
+        "rename": "svc-utilityfunctions-055ajk6w.ps1",
         "category": "4",
         "tool": "utilityfunctions",
         "path32": "C:\\Program Files\\Microsoft Visual Studio",
@@ -892,7 +892,7 @@
     },
     {
         "filename": "CL_Invocation.ps1",
-        "reename": "svc-clinvocation-uev38zgs.ps1",
+        "rename": "svc-clinvocation-uev38zgs.ps1",
         "category": "4",
         "tool": "clinvocation",
         "path32": "C:\\Program Files\\Microsoft Visual Studio",
@@ -901,7 +901,7 @@
     },
     {
         "filename": "CL_LoadAssembly.ps1",
-        "reename": "svc-clloadassembly-1ndg8rij.ps1",
+        "rename": "svc-clloadassembly-1ndg8rij.ps1",
         "category": "4",
         "tool": "clloadassembly",
         "path32": "C:\\Program Files\\Microsoft Visual Studio",
@@ -910,7 +910,7 @@
     },
     {
         "filename": "CL_Mutexverifiers.ps1",
-        "reename": "svc-clmutexverifiers-g8stsnmc.ps1",
+        "rename": "svc-clmutexverifiers-g8stsnmc.ps1",
         "category": "4",
         "tool": "clmutexverifiers",
         "path32": "C:\\Program Files\\Microsoft Visual Studio",
@@ -919,7 +919,7 @@
     },
     {
         "filename": "devtunnel.exe",
-        "reename": "svc-devtunnel-651my95z.exe",
+        "rename": "svc-devtunnel-651my95z.exe",
         "category": "4",
         "tool": "devtunnel",
         "path32": "C:\\Program Files\\Microsoft Visual Studio",
@@ -928,7 +928,7 @@
     },
     {
         "filename": "Pester.bat",
-        "reename": "svc-pester-wtkuyvb4.bat",
+        "rename": "svc-pester-wtkuyvb4.bat",
         "category": "4",
         "tool": "pester",
         "path32": "C:\\Program Files\\Microsoft Visual Studio",
@@ -937,7 +937,7 @@
     },
     {
         "filename": "vsjitdebugger.exe",
-        "reename": "svc-vsjitdebugger-eo0opjv1.exe",
+        "rename": "svc-vsjitdebugger-eo0opjv1.exe",
         "category": "4",
         "tool": "vsjitdebugger",
         "path32": "C:\\Program Files\\Microsoft Visual Studio",
@@ -946,7 +946,7 @@
     },
     {
         "filename": "vstest.console.exe",
-        "reename": "svc-vstestconsole-s0rznkfj.exe",
+        "rename": "svc-vstestconsole-s0rznkfj.exe",
         "category": "4",
         "tool": "vstestconsole",
         "path32": "C:\\Program Files\\Microsoft Visual Studio",
@@ -955,7 +955,7 @@
     },
     {
         "filename": "windbg.exe",
-        "reename": "svc-windbg-x9spuyea.exe",
+        "rename": "svc-windbg-x9spuyea.exe",
         "category": "4",
         "tool": "windbg",
         "path32": "C:\\Program Files\\Debugging Tools for Windows",
@@ -964,7 +964,7 @@
     },
     {
         "filename": "vsls-agent.exe",
-        "reename": "svc-vslsagent-endfon5x.exe",
+        "rename": "svc-vslsagent-endfon5x.exe",
         "category": "4",
         "tool": "vslsagent",
         "path32": "C:\\Program Files\\Microsoft Visual Studio",
@@ -973,7 +973,7 @@
     },
     {
         "filename": "Appvlp.exe",
-        "reename": "svc-appvlp-6kqgynik.exe",
+        "rename": "svc-appvlp-6kqgynik.exe",
         "category": "5",
         "tool": "appvlp",
         "path32": "C:\\Program Files\\Microsoft Application Virtualization\\Client",
@@ -982,7 +982,7 @@
     },
     {
         "filename": "CertReq.exe",
-        "reename": "svc-certreq-l1c0v9ft.exe",
+        "rename": "svc-certreq-l1c0v9ft.exe",
         "category": "5",
         "tool": "certreq",
         "path32": "C:\\Windows\\System32",
@@ -991,7 +991,7 @@
     },
     {
         "filename": "bcp.exe",
-        "reename": "svc-bcp-mmd9ijx1.exe",
+        "rename": "svc-bcp-mmd9ijx1.exe",
         "category": "5",
         "tool": "bcp",
         "path32": "C:\\Program Files\\Microsoft SQL Server",
@@ -1000,7 +1000,7 @@
     },
     {
         "filename": "datasvcutil.exe",
-        "reename": "svc-datasvcutil-nlnokmnd.exe",
+        "rename": "svc-datasvcutil-nlnokmnd.exe",
         "category": "5",
         "tool": "datasvcutil",
         "path32": "C:\\Program Files\\Microsoft SDKs",
@@ -1009,7 +1009,7 @@
     },
     {
         "filename": "mpiexec.exe",
-        "reename": "svc-mpiexec-vug623dx.exe",
+        "rename": "svc-mpiexec-vug623dx.exe",
         "category": "5",
         "tool": "mpiexec",
         "path32": "C:\\Program Files\\Microsoft HPC Pack",
@@ -1018,7 +1018,7 @@
     },
     {
         "filename": "printbrm.exe",
-        "reename": "svc-printbrm-59lue1mx.exe",
+        "rename": "svc-printbrm-59lue1mx.exe",
         "category": "5",
         "tool": "printbrm",
         "path32": "C:\\Windows\\System32\\spool\\tools",
@@ -1027,7 +1027,7 @@
     },
     {
         "filename": "certoc.exe",
-        "reename": "svc-certoc-o9sdzgwy.exe",
+        "rename": "svc-certoc-o9sdzgwy.exe",
         "category": "5",
         "tool": "certoc",
         "path32": "C:\\Windows\\System32",
@@ -1036,7 +1036,7 @@
     },
     {
         "filename": "ConfigSecurityPolicy.exe",
-        "reename": "svc-configsecuritypolicy-stpzxtd8.exe",
+        "rename": "svc-configsecuritypolicy-stpzxtd8.exe",
         "category": "5",
         "tool": "configsecuritypolicy",
         "path32": "C:\\Windows\\System32",
@@ -1045,7 +1045,7 @@
     },
     {
         "filename": "dnscmd.exe",
-        "reename": "svc-dnscmd-moq9lhoi.exe",
+        "rename": "svc-dnscmd-moq9lhoi.exe",
         "category": "5",
         "tool": "dnscmd",
         "path32": "C:\\Windows\\System32",
@@ -1054,7 +1054,7 @@
     },
     {
         "filename": "dtutil.exe",
-        "reename": "svc-dtutil-dq5excat.exe",
+        "rename": "svc-dtutil-dq5excat.exe",
         "category": "5",
         "tool": "dtutil",
         "path32": "C:\\Program Files\\Microsoft SQL Server",
@@ -1063,7 +1063,7 @@
     },
     {
         "filename": "ldifde.exe",
-        "reename": "svc-ldifde-yy78ky7x.exe",
+        "rename": "svc-ldifde-yy78ky7x.exe",
         "category": "5",
         "tool": "ldifde",
         "path32": "C:\\Windows\\System32",
@@ -1072,7 +1072,7 @@
     },
     {
         "filename": "manage-bde.wsf",
-        "reename": "svc-managebde-9033bj49.wsf",
+        "rename": "svc-managebde-9033bj49.wsf",
         "category": "5",
         "tool": "managebde",
         "path32": "C:\\Windows\\System32",
@@ -1081,7 +1081,7 @@
     },
     {
         "filename": "sqlps.exe",
-        "reename": "svc-sqlps-cbyvtibi.exe",
+        "rename": "svc-sqlps-cbyvtibi.exe",
         "category": "5",
         "tool": "sqlps",
         "path32": "C:\\Program Files\\Microsoft SQL Server",
@@ -1090,7 +1090,7 @@
     },
     {
         "filename": "sqltoolps.exe",
-        "reename": "svc-sqltoolps-e43uudk3.exe",
+        "rename": "svc-sqltoolps-e43uudk3.exe",
         "category": "5",
         "tool": "sqltoolps",
         "path32": "C:\\Program Files\\Microsoft SQL Server",
@@ -1099,7 +1099,7 @@
     },
     {
         "filename": "runas.exe",
-        "reename": "svc-runas-bq2e49ui.exe",
+        "rename": "svc-runas-bq2e49ui.exe",
         "category": "6",
         "tool": "runas",
         "path32": "C:\\Windows\\System32",
@@ -1108,7 +1108,7 @@
     },
     {
         "filename": "ssh.exe",
-        "reename": "svc-ssh-ribg9mqr.exe",
+        "rename": "svc-ssh-ribg9mqr.exe",
         "category": "6",
         "tool": "ssh",
         "path32": "C:\\Windows\\System32\\OpenSSH",
@@ -1117,7 +1117,7 @@
     },
     {
         "filename": "mstsc.exe",
-        "reename": "svc-mstsc-enqoo2sh.exe",
+        "rename": "svc-mstsc-enqoo2sh.exe",
         "category": "6",
         "tool": "mstsc",
         "path32": "C:\\Windows\\System32",
@@ -1126,7 +1126,7 @@
     },
     {
         "filename": "shadow.exe",
-        "reename": "svc-shadow-r33cblg6.exe",
+        "rename": "svc-shadow-r33cblg6.exe",
         "category": "6",
         "tool": "shadow",
         "path32": "C:\\Windows\\System32",
@@ -1135,7 +1135,7 @@
     },
     {
         "filename": "winrs.exe",
-        "reename": "svc-winrs-6c53f0dx.exe",
+        "rename": "svc-winrs-6c53f0dx.exe",
         "category": "6",
         "tool": "winrs",
         "path32": "C:\\Windows\\System32",
@@ -1144,7 +1144,7 @@
     },
     {
         "filename": "At.exe",
-        "reename": "svc-at-bulfco30.exe",
+        "rename": "svc-at-bulfco30.exe",
         "category": "6",
         "tool": "at",
         "path32": "C:\\Windows\\System32",
@@ -1153,7 +1153,7 @@
     },
     {
         "filename": "cmd.exe",
-        "reename": "svc-cmd-i561rwmz.exe",
+        "rename": "svc-cmd-i561rwmz.exe",
         "category": "6",
         "tool": "cmd",
         "path32": "C:\\Windows\\System32",
@@ -1162,7 +1162,7 @@
     },
     {
         "filename": "icacls.exe",
-        "reename": "svc-icacls-uv40wm7l.exe",
+        "rename": "svc-icacls-uv40wm7l.exe",
         "category": "6",
         "tool": "icacls",
         "path32": "C:\\Windows\\System32",
@@ -1171,7 +1171,7 @@
     },
     {
         "filename": "netsh.exe",
-        "reename": "svc-netsh-7o550hgd.exe",
+        "rename": "svc-netsh-7o550hgd.exe",
         "category": "6",
         "tool": "netsh",
         "path32": "C:\\Windows\\System32",
@@ -1180,7 +1180,7 @@
     },
     {
         "filename": "openfiles.exe",
-        "reename": "svc-openfiles-intr55ir.exe",
+        "rename": "svc-openfiles-intr55ir.exe",
         "category": "6",
         "tool": "openfiles",
         "path32": "C:\\Windows\\System32",
@@ -1189,7 +1189,7 @@
     },
     {
         "filename": "reg.exe",
-        "reename": "svc-reg-bsw4y38b.exe",
+        "rename": "svc-reg-bsw4y38b.exe",
         "category": "6",
         "tool": "reg",
         "path32": "C:\\Windows\\System32",
@@ -1198,7 +1198,7 @@
     },
     {
         "filename": "Register-cimprovider.exe",
-        "reename": "svc-registercimprovider-ocypd3va.exe",
+        "rename": "svc-registercimprovider-ocypd3va.exe",
         "category": "6",
         "tool": "registercimprovider",
         "path32": "C:\\Windows\\System32\\wbem",
@@ -1207,7 +1207,7 @@
     },
     {
         "filename": "sc.exe",
-        "reename": "svc-sc-2cn91x36.exe",
+        "rename": "svc-sc-2cn91x36.exe",
         "category": "6",
         "tool": "sc",
         "path32": "C:\\Windows\\System32",
@@ -1216,7 +1216,7 @@
     },
     {
         "filename": "schtasks.exe",
-        "reename": "svc-schtasks-xtsnchp3.exe",
+        "rename": "svc-schtasks-xtsnchp3.exe",
         "category": "6",
         "tool": "schtasks",
         "path32": "C:\\Windows\\System32",
@@ -1225,7 +1225,7 @@
     },
     {
         "filename": "takeown.exe",
-        "reename": "svc-takeown-yr5na7uu.exe",
+        "rename": "svc-takeown-yr5na7uu.exe",
         "category": "6",
         "tool": "takeown",
         "path32": "C:\\Windows\\System32",
@@ -1234,7 +1234,7 @@
     },
     {
         "filename": "tscon.exe",
-        "reename": "svc-tscon-xeqold13.exe",
+        "rename": "svc-tscon-xeqold13.exe",
         "category": "6",
         "tool": "tscon",
         "path32": "C:\\Windows\\System32",
@@ -1243,7 +1243,7 @@
     },
     {
         "filename": "tsdiscon.exe",
-        "reename": "svc-tsdiscon-iye1fpvh.exe",
+        "rename": "svc-tsdiscon-iye1fpvh.exe",
         "category": "6",
         "tool": "tsdiscon",
         "path32": "C:\\Windows\\System32",
@@ -1252,7 +1252,7 @@
     },
     {
         "filename": "wbemtest.exe",
-        "reename": "svc-wbemtest-igihkvtg.exe",
+        "rename": "svc-wbemtest-igihkvtg.exe",
         "category": "6",
         "tool": "wbemtest",
         "path32": "C:\\Windows\\System32\\wbem",
@@ -1261,7 +1261,7 @@
     },
     {
         "filename": "wevtutil.exe",
-        "reename": "svc-wevtutil-8u9pp01i.exe",
+        "rename": "svc-wevtutil-8u9pp01i.exe",
         "category": "6",
         "tool": "wevtutil",
         "path32": "C:\\Windows\\System32",
@@ -1270,7 +1270,7 @@
     },
     {
         "filename": "logoff.exe",
-        "reename": "svc-logoff-afmckmzb.exe",
+        "rename": "svc-logoff-afmckmzb.exe",
         "category": "6",
         "tool": "logoff",
         "path32": "C:\\Windows\\System32",
@@ -1279,7 +1279,7 @@
     },
     {
         "filename": "ngen.exe",
-        "reename": "svc-ngen-dqpcddzm.exe",
+        "rename": "svc-ngen-dqpcddzm.exe",
         "category": "6",
         "tool": "ngen",
         "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
@@ -1288,7 +1288,7 @@
     },
     {
         "filename": "pktmon.exe",
-        "reename": "svc-pktmon-op1eiic0.exe",
+        "rename": "svc-pktmon-op1eiic0.exe",
         "category": "6",
         "tool": "pktmon",
         "path32": "C:\\Windows\\System32",
@@ -1297,7 +1297,7 @@
     },
     {
         "filename": "qappsrv.exe",
-        "reename": "svc-qappsrv-ict9ueqz.exe",
+        "rename": "svc-qappsrv-ict9ueqz.exe",
         "category": "6",
         "tool": "qappsrv",
         "path32": "C:\\Windows\\System32",
@@ -1306,7 +1306,7 @@
     },
     {
         "filename": "qprocess.exe",
-        "reename": "svc-qprocess-kmn5w6v6.exe",
+        "rename": "svc-qprocess-kmn5w6v6.exe",
         "category": "6",
         "tool": "qprocess",
         "path32": "C:\\Windows\\System32",
@@ -1315,7 +1315,7 @@
     },
     {
         "filename": "query.exe",
-        "reename": "svc-query-pluij40x.exe",
+        "rename": "svc-query-pluij40x.exe",
         "category": "6",
         "tool": "query",
         "path32": "C:\\Windows\\System32",
@@ -1324,7 +1324,7 @@
     },
     {
         "filename": "quser.exe",
-        "reename": "svc-quser-vx1u6v6o.exe",
+        "rename": "svc-quser-vx1u6v6o.exe",
         "category": "6",
         "tool": "quser",
         "path32": "C:\\Windows\\System32",
@@ -1333,7 +1333,7 @@
     },
     {
         "filename": "qwinsta.exe",
-        "reename": "svc-qwinsta-9697s6xk.exe",
+        "rename": "svc-qwinsta-9697s6xk.exe",
         "category": "6",
         "tool": "qwinsta",
         "path32": "C:\\Windows\\System32",
@@ -1342,7 +1342,7 @@
     },
     {
         "filename": "rwinsta.exe",
-        "reename": "svc-rwinsta-tbk10e4s.exe",
+        "rename": "svc-rwinsta-tbk10e4s.exe",
         "category": "6",
         "tool": "rwinsta",
         "path32": "C:\\Windows\\System32",
@@ -1351,7 +1351,7 @@
     },
     {
         "filename": "tskill.exe",
-        "reename": "svc-tskill-rp6bzcvl.exe",
+        "rename": "svc-tskill-rp6bzcvl.exe",
         "category": "6",
         "tool": "tskill",
         "path32": "C:\\Windows\\System32",
@@ -1360,7 +1360,7 @@
     },
     {
         "filename": "msiexec.exe",
-        "reename": "svc-msiexec-yrygwlpo.exe",
+        "rename": "svc-msiexec-yrygwlpo.exe",
         "category": "6",
         "tool": "msiexec",
         "path32": "C:\\Windows\\System32",
@@ -1369,7 +1369,7 @@
     },
     {
         "filename": "pnputil.exe",
-        "reename": "svc-pnputil-o78l17ay.exe",
+        "rename": "svc-pnputil-o78l17ay.exe",
         "category": "6",
         "tool": "pnputil",
         "path32": "C:\\Windows\\System32",
@@ -1378,7 +1378,7 @@
     },
     {
         "filename": "regedit.exe",
-        "reename": "svc-regedit-jyiuzhmv.exe",
+        "rename": "svc-regedit-jyiuzhmv.exe",
         "category": "6",
         "tool": "regedit",
         "path32": "C:\\Windows\\System32",
@@ -1387,7 +1387,7 @@
     },
     {
         "filename": "mmc.exe",
-        "reename": "svc-mmc-mfq8w36j.exe",
+        "rename": "svc-mmc-mfq8w36j.exe",
         "category": "6",
         "tool": "mmc",
         "path32": "C:\\Windows\\System32",
@@ -1396,7 +1396,7 @@
     },
     {
         "filename": "tar.exe",
-        "reename": "svc-tar-ujzy0jlb.exe",
+        "rename": "svc-tar-ujzy0jlb.exe",
         "category": "6",
         "tool": "tar",
         "path32": "C:\\Windows\\System32",
@@ -1405,7 +1405,7 @@
     },
     {
         "filename": "findstr.exe",
-        "reename": "svc-findstr-xohlcjyf.exe",
+        "rename": "svc-findstr-xohlcjyf.exe",
         "category": "6",
         "tool": "findstr",
         "path32": "C:\\Windows\\System32",
@@ -1414,7 +1414,7 @@
     },
     {
         "filename": "AppInstaller.exe",
-        "reename": "svc-appinstaller-3zbtfz63.exe",
+        "rename": "svc-appinstaller-3zbtfz63.exe",
         "category": "7",
         "tool": "appinstaller",
         "path32": "C:\\Program Files\\WindowsApps",
@@ -1423,7 +1423,7 @@
     },
     {
         "filename": "WorkFolders.exe",
-        "reename": "svc-workfolders-ej7mtjnu.exe",
+        "rename": "svc-workfolders-ej7mtjnu.exe",
         "category": "7",
         "tool": "workfolders",
         "path32": "C:\\Windows\\System32",
@@ -1432,7 +1432,7 @@
     },
     {
         "filename": "msedge.exe",
-        "reename": "svc-msedge-pd0xm8hi.exe",
+        "rename": "svc-msedge-pd0xm8hi.exe",
         "category": "7",
         "tool": "msedge",
         "path32": "C:\\Program Files\\Microsoft\\Edge\\Application",
@@ -1441,7 +1441,7 @@
     },
     {
         "filename": "msedge_proxy.exe",
-        "reename": "svc-msedgeproxy-01v4surw.exe",
+        "rename": "svc-msedgeproxy-01v4surw.exe",
         "category": "7",
         "tool": "msedgeproxy",
         "path32": "C:\\Program Files\\Microsoft\\Edge\\Application",
@@ -1450,7 +1450,7 @@
     },
     {
         "filename": "OneDriveStandaloneUpdater.exe",
-        "reename": "svc-onedrivestandaloneupdater-74x0nbsc.exe",
+        "rename": "svc-onedrivestandaloneupdater-74x0nbsc.exe",
         "category": "7",
         "tool": "onedrivestandaloneupdater",
         "path32": "C:\\Program Files\\Microsoft OneDrive",
@@ -1459,7 +1459,7 @@
     },
     {
         "filename": "winget.exe",
-        "reename": "svc-winget-7oyyfhzl.exe",
+        "rename": "svc-winget-7oyyfhzl.exe",
         "category": "7",
         "tool": "winget",
         "path32": "C:\\Program Files\\WindowsApps",
@@ -1468,7 +1468,7 @@
     },
     {
         "filename": "msedgewebview2.exe",
-        "reename": "svc-msedgewebview2-najym137.exe",
+        "rename": "svc-msedgewebview2-najym137.exe",
         "category": "7",
         "tool": "msedgewebview2",
         "path32": "C:\\Program Files\\Microsoft\\EdgeWebView\\Application",
@@ -1477,7 +1477,7 @@
     },
     {
         "filename": "desktopimgdownldr.exe",
-        "reename": "svc-desktopimgdownldr-to86ogzd.exe",
+        "rename": "svc-desktopimgdownldr-to86ogzd.exe",
         "category": "7",
         "tool": "desktopimgdownldr",
         "path32": "C:\\Windows\\System32",
@@ -1486,7 +1486,7 @@
     },
     {
         "filename": "IMEWDBLD.exe",
-        "reename": "svc-imewdbld-eyt1eclx.exe",
+        "rename": "svc-imewdbld-eyt1eclx.exe",
         "category": "7",
         "tool": "imewdbld",
         "path32": "C:\\Windows\\System32",
@@ -1495,7 +1495,7 @@
     },
     {
         "filename": "Xwizard.exe",
-        "reename": "svc-xwizard-llm63jej.exe",
+        "rename": "svc-xwizard-llm63jej.exe",
         "category": "7",
         "tool": "xwizard",
         "path32": "C:\\Windows\\System32",
@@ -1504,7 +1504,7 @@
     },
     {
         "filename": "conhost.exe",
-        "reename": "svc-conhost-d2gw12bw.exe",
+        "rename": "svc-conhost-d2gw12bw.exe",
         "category": "8",
         "tool": "conhost",
         "path32": "C:\\Windows\\System32",
@@ -1513,7 +1513,7 @@
     },
     {
         "filename": "explorer.exe",
-        "reename": "svc-explorer-8kodc08b.exe",
+        "rename": "svc-explorer-8kodc08b.exe",
         "category": "8",
         "tool": "explorer",
         "path32": "C:\\Windows",
@@ -1522,7 +1522,7 @@
     },
     {
         "filename": "control.exe",
-        "reename": "svc-control-ushm8yi2.exe",
+        "rename": "svc-control-ushm8yi2.exe",
         "category": "8",
         "tool": "control",
         "path32": "C:\\Windows\\System32",
