@@ -1,1532 +1,1532 @@
 [
     {
-        "filename": "Ftp.exe",
-        "rename": "svc-ftp-48m4e0k4.exe",
-        "category": "1",
-        "tool": "ftp",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "Msdt.exe",
-        "rename": "svc-msdt-82ggrgtr.exe",
-        "category": "1",
-        "tool": "msdt",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "sftp.exe",
-        "rename": "svc-sftp-5kdy5cq2.exe",
-        "category": "1",
-        "tool": "sftp",
-        "path32": "C:\\Windows\\System32\\OpenSSH",
-        "path64": "C:\\Windows\\SysWOW64\\OpenSSH",
-        "version": "1.0"
-    },
-    {
-        "filename": "Wmic.exe",
-        "rename": "svc-wmi-3a38p5pe.exe",
-        "category": "1",
-        "tool": "wmi",
-        "path32": "C:\\Windows\\System32\\wbem",
-        "path64": "C:\\Windows\\SysWOW64\\wbem",
-        "version": "1.0"
-    },
-    {
-        "filename": "DeviceCredentialDeployment.exe",
-        "rename": "svc-devicecredentialdeployment-a7uehs0j.exe",
-        "category": "1",
-        "tool": "devicecredentialdeployment",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "ECMangen.exe",
-        "rename": "svc-ecmangen-esn0x8wu.exe",
-        "category": "1",
-        "tool": "ecmangen",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "Finger.exe",
-        "rename": "svc-finger-cft9f89u.exe",
-        "category": "1",
-        "tool": "finger",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "cmdl32.exe",
-        "rename": "svc-cmdl32-ci8m531n.exe",
-        "category": "1",
-        "tool": "cmdl32",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "Colorcpl.exe",
-        "rename": "svc-colorcpl-nxhd5caj.exe",
-        "category": "1",
-        "tool": "colorcpl",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "Wab.exe",
-        "rename": "svc-wab-6z83cdma.exe",
-        "category": "1",
-        "tool": "wab",
-        "path32": "C:\\Program Files\\Windows Mail",
-        "path64": "C:\\Program Files (x86)\\Windows Mail",
-        "version": "1.0"
-    },
-    {
-        "filename": "Wlrmdr.exe",
-        "rename": "svc-wlrmdr-18oas936.exe",
-        "category": "1",
-        "tool": "wlrmdr",
-        "path32": "C:\\Program Files\\Windows Live",
-        "path64": "C:\\Program Files (x86)\\Windows Live",
-        "version": "1.0"
-    },
-    {
-        "filename": "winfile.exe",
-        "rename": "svc-winfile-d2sav1w9.exe",
-        "category": "1",
-        "tool": "winfile",
-        "path32": "C:\\Program Files\\WinFile",
-        "path64": "C:\\Program Files (x86)\\WinFile",
-        "version": "1.0"
-    },
-    {
-        "filename": "Atbroker.exe",
-        "rename": "svc-atbroker-o2dhusxb.exe",
-        "category": "2",
-        "tool": "atbroker",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "cmstp.exe",
-        "rename": "svc-cmstp-wcbys99f.exe",
-        "category": "2",
-        "tool": "cmstp",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "ComputerDefaults.exe",
-        "rename": "svc-computerdefaults-msihobtg.exe",
-        "category": "2",
-        "tool": "computerdefaults",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "mshta.exe",
-        "rename": "svc-hta-06zig4k9.exe",
-        "category": "2",
-        "tool": "hta",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "Pcalua.exe",
-        "rename": "svc-pcalua-wvlvgmad.exe",
-        "category": "2",
-        "tool": "pcalua",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "certutil.exe",
-        "rename": "svc-certutil-sni5coji.exe",
-        "category": "2",
-        "tool": "certutil",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "cscript.exe",
-        "rename": "svc-cscript-ar7d102c.exe",
-        "category": "2",
-        "tool": "cscript",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "Dfsvc.exe",
-        "rename": "svc-dfsvc-gtsruby0.exe",
-        "category": "2",
-        "tool": "dfsvc",
-        "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "path64": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "version": "1.0"
-    },
-    {
-        "filename": "powershell.exe",
-        "rename": "svc-psh-pc9fbyil.exe",
-        "category": "2",
-        "tool": "psh",
-        "path32": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0",
-        "path64": "C:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0",
-        "version": "1.0"
-    },
-    {
-        "filename": "pwsh.exe",
-        "rename": "svc-pwsh-z9g7b2ft.exe",
-        "category": "2",
-        "tool": "pwsh",
-        "path32": "C:\\Program Files\\PowerShell\\7",
-        "path64": "C:\\Program Files (x86)\\PowerShell\\7",
-        "version": "1.0"
-    },
-    {
-        "filename": "wscript.exe",
-        "rename": "svc-wscript-c4tv8g61.exe",
-        "category": "2",
-        "tool": "wscript",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "regsvr32.exe",
-        "rename": "svc-regsvr32-gbth0dwo.exe",
-        "category": "2",
-        "tool": "regsvr32",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "rundll32.exe",
-        "rename": "svc-rundll32-8lq3jayc.exe",
-        "category": "2",
-        "tool": "rundll32",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "CustomShellHost.exe",
-        "rename": "svc-customshellhost-ljyd0oy4.exe",
-        "category": "2",
-        "tool": "customshellhost",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "hh.exe",
-        "rename": "svc-hh-r5re6d16.exe",
-        "category": "2",
-        "tool": "hh",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "mavinject.exe",
-        "rename": "svc-mavinject-pxj3wmnc.exe",
-        "category": "2",
-        "tool": "mavinject",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "powershell_ise.exe",
-        "rename": "svc-powershellise-c29bxp90.exe",
-        "category": "2",
-        "tool": "powershellise",
-        "path32": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0",
-        "path64": "C:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0",
-        "version": "1.0"
-    },
-    {
-        "filename": "msxsl.exe",
-        "rename": "svc-msxsl-5eblq7qe.exe",
-        "category": "2",
-        "tool": "msxsl",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "odbcconf.exe",
-        "rename": "svc-odbcconf-0p5udtlo.exe",
-        "category": "2",
-        "tool": "odbcconf",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "OfflineScannerShell.exe",
-        "rename": "svc-offlinescannershell-polik3pt.exe",
-        "category": "2",
-        "tool": "offlinescannershell",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "Pcwrun.exe",
-        "rename": "svc-pcwrun-6uti19j7.exe",
-        "category": "2",
-        "tool": "pcwrun",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "Provlaunch.exe",
-        "rename": "svc-provlaunch-brfw6p14.exe",
-        "category": "2",
-        "tool": "provlaunch",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "Rasautou.exe",
-        "rename": "svc-rasautou-q93b4qf8.exe",
-        "category": "2",
-        "tool": "rasautou",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "Scriptrunner.exe",
-        "rename": "svc-scriptrunner-hu4u7ksa.exe",
-        "category": "2",
-        "tool": "scriptrunner",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "SettingSyncHost.exe",
-        "rename": "svc-settingsynchost-vnnnlp7f.exe",
-        "category": "2",
-        "tool": "settingsynchost",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "Unregmp2.exe",
-        "rename": "svc-unregmp2-qhgr8k1r.exe",
-        "category": "2",
-        "tool": "unregmp2",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "Verclsid.exe",
-        "rename": "svc-verclsid-k377ii2e.exe",
-        "category": "2",
-        "tool": "verclsid",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "Wsreset.exe",
-        "rename": "svc-wsreset-zm3kgo9p.exe",
-        "category": "2",
-        "tool": "wsreset",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "wuauclt.exe",
-        "rename": "svc-wuauclt-8goxbcvx.exe",
-        "category": "2",
-        "tool": "wuauclt",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "bitsadmin.exe",
-        "rename": "svc-bitsadmin-q366zhjn.exe",
-        "category": "2",
-        "tool": "bitsadmin",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "eventvwr.exe",
-        "rename": "svc-eventvwr-dhc1n2ry.exe",
-        "category": "2",
-        "tool": "eventvwr",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "regasm.exe",
-        "rename": "svc-regasm-jpe8dpmx.exe",
-        "category": "2",
-        "tool": "regasm",
-        "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "path64": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "version": "1.0"
-    },
-    {
-        "filename": "regsvcs.exe",
-        "rename": "svc-regsvcs-ww8ap1mx.exe",
-        "category": "2",
-        "tool": "regsvcs",
-        "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "path64": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "version": "1.0"
-    },
-    {
-        "filename": "Eudcedit.exe",
-        "rename": "svc-eudcedit-bchzylgu.exe",
-        "category": "2",
-        "tool": "eudcedit",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "expand.exe",
-        "rename": "svc-expand-v8vl4uds.exe",
-        "category": "2",
-        "tool": "expand",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "forfiles.exe",
-        "rename": "svc-forfiles-447qk4xm.exe",
-        "category": "2",
-        "tool": "forfiles",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "ieexec.exe",
-        "rename": "svc-ieexec-jvobzjhv.exe",
-        "category": "2",
-        "tool": "ieexec",
-        "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "path64": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "version": "1.0"
-    },
-    {
-        "filename": "makecab.exe",
-        "rename": "svc-makecab-fnhf9qpy.exe",
-        "category": "2",
-        "tool": "makecab",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "Msconfig.exe",
-        "rename": "svc-msconfig-c7krfs6l.exe",
-        "category": "2",
-        "tool": "msconfig",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "presentationhost.exe",
-        "rename": "svc-presentationhost-n8e5u0n0.exe",
-        "category": "2",
-        "tool": "presentationhost",
-        "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "path64": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "version": "1.0"
-    },
-    {
-        "filename": "syncappvpublishingserver.exe",
-        "rename": "svc-syncappvpublishingserver-myfk44tg.exe",
-        "category": "2",
-        "tool": "syncappvpublishingserver",
-        "path32": "C:\\Program Files\\Microsoft Application Virtualization\\Client",
-        "path64": "C:\\Program Files (x86)\\Microsoft Application Virtualization\\Client",
-        "version": "1.0"
-    },
-    {
-        "filename": "dsdbutil.exe",
-        "rename": "svc-dsdbutil-y0sympxc.exe",
-        "category": "3",
-        "tool": "dsdbutil",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "ntdsutil.exe",
-        "rename": "svc-ntdsutil-od0vasdv.exe",
-        "category": "3",
-        "tool": "ntdsutil",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "cmdkey.exe",
-        "rename": "svc-cmdkey-ntck6yoy.exe",
-        "category": "3",
-        "tool": "cmdkey",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "createdump.exe",
-        "rename": "svc-createdump-08bgaqqd.exe",
-        "category": "3",
-        "tool": "createdump",
-        "path32": "C:\\Program Files\\dotnet",
-        "path64": "C:\\Program Files (x86)\\dotnet",
-        "version": "1.0"
-    },
-    {
-        "filename": "dump64.exe",
-        "rename": "svc-dump64-hdy9k81a.exe",
-        "category": "3",
-        "tool": "dump64",
-        "path32": "C:\\Program Files\\Debugging Tools for Windows",
-        "path64": "C:\\Program Files (x86)\\Debugging Tools for Windows",
-        "version": "1.0"
-    },
-    {
-        "filename": "dumpminitool.exe",
-        "rename": "svc-dumpminitool-71bh8608.exe",
-        "category": "3",
-        "tool": "dumpminitool",
-        "path32": "C:\\Program Files\\Debugging Tools for Windows",
-        "path64": "C:\\Program Files (x86)\\Debugging Tools for Windows",
-        "version": "1.0"
-    },
-    {
-        "filename": "procdump.exe",
-        "rename": "svc-procdump-b0pu8q8x.exe",
-        "category": "3",
-        "tool": "procdump",
-        "path32": "C:\\Program Files\\Sysinternals",
-        "path64": "C:\\Program Files (x86)\\Sysinternals",
-        "version": "1.0"
-    },
-    {
-        "filename": "diskshadow.exe",
-        "rename": "svc-diskshadow-1hqzdtlw.exe",
-        "category": "3",
-        "tool": "diskshadow",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "esentutl.exe",
-        "rename": "svc-esentutl-c38va3b7.exe",
-        "category": "3",
-        "tool": "esentutl",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "vshadow.exe",
-        "rename": "svc-vshadow-qutowcv1.exe",
-        "category": "3",
-        "tool": "vshadow",
-        "path32": "C:\\Program Files\\Microsoft SDKs",
-        "path64": "C:\\Program Files (x86)\\Microsoft SDKs",
-        "version": "1.0"
-    },
-    {
-        "filename": "adplus.exe",
-        "rename": "svc-adplus-crgwcu4l.exe",
-        "category": "3",
-        "tool": "adplus",
-        "path32": "C:\\Program Files\\Debugging Tools for Windows",
-        "path64": "C:\\Program Files (x86)\\Debugging Tools for Windows",
-        "version": "1.0"
-    },
-    {
-        "filename": "Psr.exe",
-        "rename": "svc-psr-413jkxmh.exe",
-        "category": "3",
-        "tool": "psr",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "rdrleakdiag.exe",
-        "rename": "svc-rdrleakdiag-gat3ists.exe",
-        "category": "3",
-        "tool": "rdrleakdiag",
-        "path32": "C:\\Program Files\\Debugging Tools for Windows",
-        "path64": "C:\\Program Files (x86)\\Debugging Tools for Windows",
-        "version": "1.0"
-    },
-    {
-        "filename": "rpcping.exe",
-        "rename": "svc-rpcping-wawbod0u.exe",
-        "category": "3",
-        "tool": "rpcping",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "sqldumper.exe",
-        "rename": "svc-sqldumper-tmeplxbz.exe",
-        "category": "3",
-        "tool": "sqldumper",
-        "path32": "C:\\Program Files\\Microsoft SQL Server",
-        "path64": "C:\\Program Files (x86)\\Microsoft SQL Server",
-        "version": "1.0"
-    },
-    {
-        "filename": "Tttracer.exe",
-        "rename": "svc-tttracer-071ywzhx.exe",
-        "category": "3",
-        "tool": "tttracer",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "wbadmin.exe",
-        "rename": "svc-wbadmin-5m473hrx.exe",
-        "category": "3",
-        "tool": "wbadmin",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "AddinUtil.exe",
-        "rename": "svc-addinutil-8kysee5u.exe",
-        "category": "4",
-        "tool": "addinutil",
-        "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "path64": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "version": "1.0"
-    },
-    {
-        "filename": "Aspnet_Compiler.exe",
-        "rename": "svc-aspnetcompiler-73zghdnt.exe",
-        "category": "4",
-        "tool": "aspnetcompiler",
-        "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "path64": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "version": "1.0"
-    },
-    {
-        "filename": "csi.exe",
-        "rename": "svc-csi-lp26hnii.exe",
-        "category": "4",
-        "tool": "csi",
-        "path32": "C:\\Program Files\\Microsoft Visual Studio",
-        "path64": "C:\\Program Files (x86)\\Microsoft Visual Studio",
-        "version": "1.0"
-    },
-    {
-        "filename": "Fsi.exe",
-        "rename": "svc-fsi-vc9p16ej.exe",
-        "category": "4",
-        "tool": "fsi",
-        "path32": "C:\\Program Files\\Microsoft Visual Studio",
-        "path64": "C:\\Program Files (x86)\\Microsoft Visual Studio",
-        "version": "1.0"
-    },
-    {
-        "filename": "FsiAnyCpu.exe",
-        "rename": "svc-fsianycpu-i1zdjhsj.exe",
-        "category": "4",
-        "tool": "fsianycpu",
-        "path32": "C:\\Program Files\\Microsoft Visual Studio",
-        "path64": "C:\\Program Files (x86)\\Microsoft Visual Studio",
-        "version": "1.0"
-    },
-    {
-        "filename": "te.exe",
-        "rename": "svc-te-yfgmc04n.exe",
-        "category": "4",
-        "tool": "te",
-        "path32": "C:\\Program Files\\Microsoft SDKs",
-        "path64": "C:\\Program Files (x86)\\Microsoft SDKs",
-        "version": "1.0"
-    },
-    {
-        "filename": "installutil.exe",
-        "rename": "svc-installutil-c1jq9o8o.exe",
-        "category": "4",
-        "tool": "installutil",
-        "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "path64": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "version": "1.0"
-    },
-    {
-        "filename": "msbuild.exe",
-        "rename": "svc-msbuild-w80bucgj.exe",
-        "category": "4",
-        "tool": "msbuild",
-        "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "path64": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "version": "1.0"
-    },
-    {
-        "filename": "Microsoft.Workflow.Compiler.exe",
-        "rename": "svc-microsoftworkflowcompiler-yzr636ku.exe",
-        "category": "4",
-        "tool": "microsoftworkflowcompiler",
-        "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "path64": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "version": "1.0"
-    },
-    {
-        "filename": "AppCert.exe",
-        "rename": "svc-appcert-9ushqh2s.exe",
-        "category": "4",
-        "tool": "appcert",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "bash.exe",
-        "rename": "svc-bash-ypf62m5s.exe",
-        "category": "4",
-        "tool": "bash",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "Dxcap.exe",
-        "rename": "svc-dxcap-u4sx5or0.exe",
-        "category": "4",
-        "tool": "dxcap",
-        "path32": "C:\\Program Files\\Microsoft SDKs",
-        "path64": "C:\\Program Files (x86)\\Microsoft SDKs",
-        "version": "1.0"
-    },
-    {
-        "filename": "VSDiagnostics.exe",
-        "rename": "svc-vsdiagnostics-x0caoo6q.exe",
-        "category": "4",
-        "tool": "vsdiagnostics",
-        "path32": "C:\\Program Files\\Microsoft Visual Studio",
-        "path64": "C:\\Program Files (x86)\\Microsoft Visual Studio",
-        "version": "1.0"
-    },
-    {
-        "filename": "VSIISExeLauncher.exe",
-        "rename": "svc-vsiisexelauncher-t7scd56b.exe",
-        "category": "4",
-        "tool": "vsiisexelauncher",
-        "path32": "C:\\Program Files\\Microsoft Visual Studio",
-        "path64": "C:\\Program Files (x86)\\Microsoft Visual Studio",
-        "version": "1.0"
-    },
-    {
-        "filename": "VSLaunchBrowser.exe",
-        "rename": "svc-vslaunchbrowser-2hub8jmv.exe",
-        "category": "4",
-        "tool": "vslaunchbrowser",
-        "path32": "C:\\Program Files\\Microsoft Visual Studio",
-        "path64": "C:\\Program Files (x86)\\Microsoft Visual Studio",
-        "version": "1.0"
-    },
-    {
-        "filename": "VisualUiaVerifyNative.exe",
-        "rename": "svc-visualuiaverifynative-xz0lhlp3.exe",
-        "category": "4",
-        "tool": "visualuiaverifynative",
-        "path32": "C:\\Program Files\\Microsoft Visual Studio",
-        "path64": "C:\\Program Files (x86)\\Microsoft Visual Studio",
-        "version": "1.0"
-    },
-    {
-        "filename": "WFMFormat.exe",
-        "rename": "svc-wfmformat-w0ou76mh.exe",
-        "category": "4",
-        "tool": "wfmformat",
-        "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "path64": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "version": "1.0"
-    },
-    {
-        "filename": "Wfc.exe",
-        "rename": "svc-wfc-ji0kpjdv.exe",
-        "category": "4",
-        "tool": "wfc",
-        "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "path64": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "version": "1.0"
-    },
-    {
-        "filename": "xsd.exe",
-        "rename": "svc-xsd-jlc2y0qj.exe",
-        "category": "4",
-        "tool": "xsd",
-        "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "path64": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "version": "1.0"
-    },
-    {
-        "filename": "csc.exe",
-        "rename": "svc-csc-1wy2wq0d.exe",
-        "category": "4",
-        "tool": "csc",
-        "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "path64": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "version": "1.0"
-    },
-    {
-        "filename": "dotnet.exe",
-        "rename": "svc-dotnet-tk9xiwwp.exe",
-        "category": "4",
-        "tool": "dotnet",
-        "path32": "C:\\Program Files\\dotnet",
-        "path64": "C:\\Program Files (x86)\\dotnet",
-        "version": "1.0"
-    },
-    {
-        "filename": "vbc.exe",
-        "rename": "svc-vbc-cqbcojcc.exe",
-        "category": "4",
-        "tool": "vbc",
-        "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "path64": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "version": "1.0"
-    },
-    {
-        "filename": "wsl.exe",
-        "rename": "svc-wsl-dhy0t6h8.exe",
-        "category": "4",
-        "tool": "wsl",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "coregen.exe",
-        "rename": "svc-coregen-05jjsicp.exe",
-        "category": "4",
-        "tool": "coregen",
-        "path32": "C:\\Program Files\\dotnet",
-        "path64": "C:\\Program Files (x86)\\dotnet",
-        "version": "1.0"
-    },
-    {
-        "filename": "dnx.exe",
-        "rename": "svc-dnx-w5o0tzuu.exe",
-        "category": "4",
-        "tool": "dnx",
-        "path32": "C:\\Program Files\\dotnet",
-        "path64": "C:\\Program Files (x86)\\dotnet",
-        "version": "1.0"
-    },
-    {
-        "filename": "ilasm.exe",
-        "rename": "svc-ilasm-vbbxehr1.exe",
-        "category": "4",
-        "tool": "ilasm",
-        "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "path64": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "version": "1.0"
-    },
-    {
-        "filename": "jsc.exe",
-        "rename": "svc-jsc-pg2t9gem.exe",
-        "category": "4",
-        "tool": "jsc",
-        "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "path64": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "version": "1.0"
-    },
-    {
-        "filename": "Launch-VsDevShell.ps1",
-        "rename": "svc-launchvsdevshell-oy1270z7.ps1",
-        "category": "4",
-        "tool": "launchvsdevshell",
-        "path32": "C:\\Program Files\\Microsoft Visual Studio",
-        "path64": "C:\\Program Files (x86)\\Microsoft Visual Studio",
-        "version": "1.0"
-    },
-    {
-        "filename": "UtilityFunctions.ps1",
-        "rename": "svc-utilityfunctions-055ajk6w.ps1",
-        "category": "4",
-        "tool": "utilityfunctions",
-        "path32": "C:\\Program Files\\Microsoft Visual Studio",
-        "path64": "C:\\Program Files (x86)\\Microsoft Visual Studio",
-        "version": "1.0"
-    },
-    {
-        "filename": "CL_Invocation.ps1",
-        "rename": "svc-clinvocation-uev38zgs.ps1",
-        "category": "4",
-        "tool": "clinvocation",
-        "path32": "C:\\Program Files\\Microsoft Visual Studio",
-        "path64": "C:\\Program Files (x86)\\Microsoft Visual Studio",
-        "version": "1.0"
-    },
-    {
-        "filename": "CL_LoadAssembly.ps1",
-        "rename": "svc-clloadassembly-1ndg8rij.ps1",
-        "category": "4",
-        "tool": "clloadassembly",
-        "path32": "C:\\Program Files\\Microsoft Visual Studio",
-        "path64": "C:\\Program Files (x86)\\Microsoft Visual Studio",
-        "version": "1.0"
-    },
-    {
-        "filename": "CL_Mutexverifiers.ps1",
-        "rename": "svc-clmutexverifiers-g8stsnmc.ps1",
-        "category": "4",
-        "tool": "clmutexverifiers",
-        "path32": "C:\\Program Files\\Microsoft Visual Studio",
-        "path64": "C:\\Program Files (x86)\\Microsoft Visual Studio",
-        "version": "1.0"
-    },
-    {
-        "filename": "devtunnel.exe",
-        "rename": "svc-devtunnel-651my95z.exe",
-        "category": "4",
-        "tool": "devtunnel",
-        "path32": "C:\\Program Files\\Microsoft Visual Studio",
-        "path64": "C:\\Program Files (x86)\\Microsoft Visual Studio",
-        "version": "1.0"
-    },
-    {
-        "filename": "Pester.bat",
-        "rename": "svc-pester-wtkuyvb4.bat",
-        "category": "4",
-        "tool": "pester",
-        "path32": "C:\\Program Files\\Microsoft Visual Studio",
-        "path64": "C:\\Program Files (x86)\\Microsoft Visual Studio",
-        "version": "1.0"
-    },
-    {
-        "filename": "vsjitdebugger.exe",
-        "rename": "svc-vsjitdebugger-eo0opjv1.exe",
-        "category": "4",
-        "tool": "vsjitdebugger",
-        "path32": "C:\\Program Files\\Microsoft Visual Studio",
-        "path64": "C:\\Program Files (x86)\\Microsoft Visual Studio",
-        "version": "1.0"
-    },
-    {
-        "filename": "vstest.console.exe",
-        "rename": "svc-vstestconsole-s0rznkfj.exe",
-        "category": "4",
-        "tool": "vstestconsole",
-        "path32": "C:\\Program Files\\Microsoft Visual Studio",
-        "path64": "C:\\Program Files (x86)\\Microsoft Visual Studio",
-        "version": "1.0"
-    },
-    {
-        "filename": "windbg.exe",
-        "rename": "svc-windbg-x9spuyea.exe",
-        "category": "4",
-        "tool": "windbg",
-        "path32": "C:\\Program Files\\Debugging Tools for Windows",
-        "path64": "C:\\Program Files (x86)\\Debugging Tools for Windows",
-        "version": "1.0"
-    },
-    {
-        "filename": "vsls-agent.exe",
-        "rename": "svc-vslsagent-endfon5x.exe",
-        "category": "4",
-        "tool": "vslsagent",
-        "path32": "C:\\Program Files\\Microsoft Visual Studio",
-        "path64": "C:\\Program Files (x86)\\Microsoft Visual Studio",
-        "version": "1.0"
-    },
-    {
-        "filename": "Appvlp.exe",
-        "rename": "svc-appvlp-6kqgynik.exe",
-        "category": "5",
-        "tool": "appvlp",
-        "path32": "C:\\Program Files\\Microsoft Application Virtualization\\Client",
-        "path64": "C:\\Program Files (x86)\\Microsoft Application Virtualization\\Client",
-        "version": "1.0"
-    },
-    {
-        "filename": "CertReq.exe",
-        "rename": "svc-certreq-l1c0v9ft.exe",
-        "category": "5",
-        "tool": "certreq",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "bcp.exe",
-        "rename": "svc-bcp-mmd9ijx1.exe",
-        "category": "5",
-        "tool": "bcp",
-        "path32": "C:\\Program Files\\Microsoft SQL Server",
-        "path64": "C:\\Program Files (x86)\\Microsoft SQL Server",
-        "version": "1.0"
-    },
-    {
-        "filename": "datasvcutil.exe",
-        "rename": "svc-datasvcutil-nlnokmnd.exe",
-        "category": "5",
-        "tool": "datasvcutil",
-        "path32": "C:\\Program Files\\Microsoft SDKs",
-        "path64": "C:\\Program Files (x86)\\Microsoft SDKs",
-        "version": "1.0"
-    },
-    {
-        "filename": "mpiexec.exe",
-        "rename": "svc-mpiexec-vug623dx.exe",
-        "category": "5",
-        "tool": "mpiexec",
-        "path32": "C:\\Program Files\\Microsoft HPC Pack",
-        "path64": "C:\\Program Files (x86)\\Microsoft HPC Pack",
-        "version": "1.0"
-    },
-    {
-        "filename": "printbrm.exe",
-        "rename": "svc-printbrm-59lue1mx.exe",
-        "category": "5",
-        "tool": "printbrm",
-        "path32": "C:\\Windows\\System32\\spool\\tools",
-        "path64": "C:\\Windows\\SysWOW64\\spool\\tools",
-        "version": "1.0"
-    },
-    {
-        "filename": "certoc.exe",
-        "rename": "svc-certoc-o9sdzgwy.exe",
-        "category": "5",
-        "tool": "certoc",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "ConfigSecurityPolicy.exe",
-        "rename": "svc-configsecuritypolicy-stpzxtd8.exe",
-        "category": "5",
-        "tool": "configsecuritypolicy",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "dnscmd.exe",
-        "rename": "svc-dnscmd-moq9lhoi.exe",
-        "category": "5",
-        "tool": "dnscmd",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "dtutil.exe",
-        "rename": "svc-dtutil-dq5excat.exe",
-        "category": "5",
-        "tool": "dtutil",
-        "path32": "C:\\Program Files\\Microsoft SQL Server",
-        "path64": "C:\\Program Files (x86)\\Microsoft SQL Server",
-        "version": "1.0"
-    },
-    {
-        "filename": "ldifde.exe",
-        "rename": "svc-ldifde-yy78ky7x.exe",
-        "category": "5",
-        "tool": "ldifde",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "manage-bde.wsf",
-        "rename": "svc-managebde-9033bj49.wsf",
-        "category": "5",
-        "tool": "managebde",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "sqlps.exe",
-        "rename": "svc-sqlps-cbyvtibi.exe",
-        "category": "5",
-        "tool": "sqlps",
-        "path32": "C:\\Program Files\\Microsoft SQL Server",
-        "path64": "C:\\Program Files (x86)\\Microsoft SQL Server",
-        "version": "1.0"
-    },
-    {
-        "filename": "sqltoolps.exe",
-        "rename": "svc-sqltoolps-e43uudk3.exe",
-        "category": "5",
-        "tool": "sqltoolps",
-        "path32": "C:\\Program Files\\Microsoft SQL Server",
-        "path64": "C:\\Program Files (x86)\\Microsoft SQL Server",
-        "version": "1.0"
-    },
-    {
-        "filename": "runas.exe",
-        "rename": "svc-runas-bq2e49ui.exe",
-        "category": "6",
-        "tool": "runas",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "ssh.exe",
-        "rename": "svc-ssh-ribg9mqr.exe",
-        "category": "6",
-        "tool": "ssh",
-        "path32": "C:\\Windows\\System32\\OpenSSH",
-        "path64": "C:\\Windows\\SysWOW64\\OpenSSH",
-        "version": "1.0"
-    },
-    {
-        "filename": "mstsc.exe",
-        "rename": "svc-mstsc-enqoo2sh.exe",
-        "category": "6",
-        "tool": "mstsc",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "shadow.exe",
-        "rename": "svc-shadow-r33cblg6.exe",
-        "category": "6",
-        "tool": "shadow",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "winrs.exe",
-        "rename": "svc-winrs-6c53f0dx.exe",
-        "category": "6",
-        "tool": "winrs",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "At.exe",
-        "rename": "svc-at-bulfco30.exe",
-        "category": "6",
-        "tool": "at",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "cmd.exe",
-        "rename": "svc-cmd-i561rwmz.exe",
-        "category": "6",
-        "tool": "cmd",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "icacls.exe",
-        "rename": "svc-icacls-uv40wm7l.exe",
-        "category": "6",
-        "tool": "icacls",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "netsh.exe",
-        "rename": "svc-netsh-7o550hgd.exe",
-        "category": "6",
-        "tool": "netsh",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "openfiles.exe",
-        "rename": "svc-openfiles-intr55ir.exe",
-        "category": "6",
-        "tool": "openfiles",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "reg.exe",
-        "rename": "svc-reg-bsw4y38b.exe",
-        "category": "6",
-        "tool": "reg",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "Register-cimprovider.exe",
-        "rename": "svc-registercimprovider-ocypd3va.exe",
-        "category": "6",
-        "tool": "registercimprovider",
-        "path32": "C:\\Windows\\System32\\wbem",
-        "path64": "C:\\Windows\\SysWOW64\\wbem",
-        "version": "1.0"
-    },
-    {
-        "filename": "sc.exe",
-        "rename": "svc-sc-2cn91x36.exe",
-        "category": "6",
-        "tool": "sc",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "schtasks.exe",
-        "rename": "svc-schtasks-xtsnchp3.exe",
-        "category": "6",
-        "tool": "schtasks",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "takeown.exe",
-        "rename": "svc-takeown-yr5na7uu.exe",
-        "category": "6",
-        "tool": "takeown",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "tscon.exe",
-        "rename": "svc-tscon-xeqold13.exe",
-        "category": "6",
-        "tool": "tscon",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "tsdiscon.exe",
-        "rename": "svc-tsdiscon-iye1fpvh.exe",
-        "category": "6",
-        "tool": "tsdiscon",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "wbemtest.exe",
-        "rename": "svc-wbemtest-igihkvtg.exe",
-        "category": "6",
-        "tool": "wbemtest",
-        "path32": "C:\\Windows\\System32\\wbem",
-        "path64": "C:\\Windows\\SysWOW64\\wbem",
-        "version": "1.0"
-    },
-    {
-        "filename": "wevtutil.exe",
-        "rename": "svc-wevtutil-8u9pp01i.exe",
-        "category": "6",
-        "tool": "wevtutil",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "logoff.exe",
-        "rename": "svc-logoff-afmckmzb.exe",
-        "category": "6",
-        "tool": "logoff",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "ngen.exe",
-        "rename": "svc-ngen-dqpcddzm.exe",
-        "category": "6",
-        "tool": "ngen",
-        "path32": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "path64": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
-        "version": "1.0"
-    },
-    {
-        "filename": "pktmon.exe",
-        "rename": "svc-pktmon-op1eiic0.exe",
-        "category": "6",
-        "tool": "pktmon",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "qappsrv.exe",
-        "rename": "svc-qappsrv-ict9ueqz.exe",
-        "category": "6",
-        "tool": "qappsrv",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "qprocess.exe",
-        "rename": "svc-qprocess-kmn5w6v6.exe",
-        "category": "6",
-        "tool": "qprocess",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "query.exe",
-        "rename": "svc-query-pluij40x.exe",
-        "category": "6",
-        "tool": "query",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "quser.exe",
-        "rename": "svc-quser-vx1u6v6o.exe",
-        "category": "6",
-        "tool": "quser",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "qwinsta.exe",
-        "rename": "svc-qwinsta-9697s6xk.exe",
-        "category": "6",
-        "tool": "qwinsta",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "rwinsta.exe",
-        "rename": "svc-rwinsta-tbk10e4s.exe",
-        "category": "6",
-        "tool": "rwinsta",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "tskill.exe",
-        "rename": "svc-tskill-rp6bzcvl.exe",
-        "category": "6",
-        "tool": "tskill",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "msiexec.exe",
-        "rename": "svc-msiexec-yrygwlpo.exe",
-        "category": "6",
-        "tool": "msiexec",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "pnputil.exe",
-        "rename": "svc-pnputil-o78l17ay.exe",
-        "category": "6",
-        "tool": "pnputil",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "regedit.exe",
-        "rename": "svc-regedit-jyiuzhmv.exe",
-        "category": "6",
-        "tool": "regedit",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "mmc.exe",
-        "rename": "svc-mmc-mfq8w36j.exe",
-        "category": "6",
-        "tool": "mmc",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "tar.exe",
-        "rename": "svc-tar-ujzy0jlb.exe",
-        "category": "6",
-        "tool": "tar",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "findstr.exe",
-        "rename": "svc-findstr-xohlcjyf.exe",
-        "category": "6",
-        "tool": "findstr",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "AppInstaller.exe",
-        "rename": "svc-appinstaller-3zbtfz63.exe",
-        "category": "7",
-        "tool": "appinstaller",
-        "path32": "C:\\Program Files\\WindowsApps",
-        "path64": "C:\\Program Files\\WindowsApps",
-        "version": "1.0"
-    },
-    {
-        "filename": "WorkFolders.exe",
-        "rename": "svc-workfolders-ej7mtjnu.exe",
-        "category": "7",
-        "tool": "workfolders",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "msedge.exe",
-        "rename": "svc-msedge-pd0xm8hi.exe",
-        "category": "7",
-        "tool": "msedge",
-        "path32": "C:\\Program Files\\Microsoft\\Edge\\Application",
-        "path64": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application",
-        "version": "1.0"
-    },
-    {
-        "filename": "msedge_proxy.exe",
-        "rename": "svc-msedgeproxy-01v4surw.exe",
-        "category": "7",
-        "tool": "msedgeproxy",
-        "path32": "C:\\Program Files\\Microsoft\\Edge\\Application",
-        "path64": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application",
-        "version": "1.0"
-    },
-    {
-        "filename": "OneDriveStandaloneUpdater.exe",
-        "rename": "svc-onedrivestandaloneupdater-74x0nbsc.exe",
-        "category": "7",
-        "tool": "onedrivestandaloneupdater",
-        "path32": "C:\\Program Files\\Microsoft OneDrive",
-        "path64": "C:\\Program Files (x86)\\Microsoft OneDrive",
-        "version": "1.0"
-    },
-    {
-        "filename": "winget.exe",
-        "rename": "svc-winget-7oyyfhzl.exe",
-        "category": "7",
-        "tool": "winget",
-        "path32": "C:\\Program Files\\WindowsApps",
-        "path64": "C:\\Program Files\\WindowsApps",
-        "version": "1.0"
-    },
-    {
-        "filename": "msedgewebview2.exe",
-        "rename": "svc-msedgewebview2-najym137.exe",
-        "category": "7",
-        "tool": "msedgewebview2",
-        "path32": "C:\\Program Files\\Microsoft\\EdgeWebView\\Application",
-        "path64": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application",
-        "version": "1.0"
-    },
-    {
-        "filename": "desktopimgdownldr.exe",
-        "rename": "svc-desktopimgdownldr-to86ogzd.exe",
-        "category": "7",
-        "tool": "desktopimgdownldr",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "IMEWDBLD.exe",
-        "rename": "svc-imewdbld-eyt1eclx.exe",
-        "category": "7",
-        "tool": "imewdbld",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "Xwizard.exe",
-        "rename": "svc-xwizard-llm63jej.exe",
-        "category": "7",
-        "tool": "xwizard",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "conhost.exe",
-        "rename": "svc-conhost-d2gw12bw.exe",
-        "category": "8",
-        "tool": "conhost",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
-    },
-    {
-        "filename": "explorer.exe",
-        "rename": "svc-explorer-8kodc08b.exe",
-        "category": "8",
-        "tool": "explorer",
-        "path32": "C:\\Windows",
-        "path64": "C:\\Windows",
-        "version": "1.0"
-    },
-    {
-        "filename": "control.exe",
-        "rename": "svc-control-ushm8yi2.exe",
-        "category": "8",
-        "tool": "control",
-        "path32": "C:\\Windows\\System32",
-        "path64": "C:\\Windows\\SysWOW64",
-        "version": "1.0"
+        "filename":  "Ftp.exe",
+        "rename":  "svc-ftp-48m4e0k4.exe",
+        "category":  "1",
+        "tool":  "ftp",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "Msdt.exe",
+        "rename":  "svc-msdt-82ggrgtr.exe",
+        "category":  "1",
+        "tool":  "msdt",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "sftp.exe",
+        "rename":  "svc-sftp-5kdy5cq2.exe",
+        "category":  "1",
+        "tool":  "sftp",
+        "path32":  "C:\\Windows\\SysWOW64\\OpenSSH",
+        "path64":  "C:\\Windows\\System32\\OpenSSH",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "Wmic.exe",
+        "rename":  "svc-wmi-3a38p5pe.exe",
+        "category":  "1",
+        "tool":  "wmi",
+        "path32":  "C:\\Windows\\SysWOW64\\wbem",
+        "path64":  "C:\\Windows\\System32\\wbem",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "DeviceCredentialDeployment.exe",
+        "rename":  "svc-devicecredentialdeployment-a7uehs0j.exe",
+        "category":  "1",
+        "tool":  "devicecredentialdeployment",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "ECMangen.exe",
+        "rename":  "svc-ecmangen-esn0x8wu.exe",
+        "category":  "1",
+        "tool":  "ecmangen",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "Finger.exe",
+        "rename":  "svc-finger-cft9f89u.exe",
+        "category":  "1",
+        "tool":  "finger",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "cmdl32.exe",
+        "rename":  "svc-cmdl32-ci8m531n.exe",
+        "category":  "1",
+        "tool":  "cmdl32",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "Colorcpl.exe",
+        "rename":  "svc-colorcpl-nxhd5caj.exe",
+        "category":  "1",
+        "tool":  "colorcpl",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "Wab.exe",
+        "rename":  "svc-wab-6z83cdma.exe",
+        "category":  "1",
+        "tool":  "wab",
+        "path32":  "C:\\Program Files (x86)\\Windows Mail",
+        "path64":  "C:\\Program Files\\Windows Mail",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "Wlrmdr.exe",
+        "rename":  "svc-wlrmdr-18oas936.exe",
+        "category":  "1",
+        "tool":  "wlrmdr",
+        "path32":  "C:\\Program Files (x86)\\Windows Live",
+        "path64":  "C:\\Program Files\\Windows Live",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "winfile.exe",
+        "rename":  "svc-winfile-d2sav1w9.exe",
+        "category":  "1",
+        "tool":  "winfile",
+        "path32":  "C:\\Program Files (x86)\\WinFile",
+        "path64":  "C:\\Program Files\\WinFile",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "Atbroker.exe",
+        "rename":  "svc-atbroker-o2dhusxb.exe",
+        "category":  "2",
+        "tool":  "atbroker",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "cmstp.exe",
+        "rename":  "svc-cmstp-wcbys99f.exe",
+        "category":  "2",
+        "tool":  "cmstp",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "ComputerDefaults.exe",
+        "rename":  "svc-computerdefaults-msihobtg.exe",
+        "category":  "2",
+        "tool":  "computerdefaults",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "mshta.exe",
+        "rename":  "svc-hta-06zig4k9.exe",
+        "category":  "2",
+        "tool":  "hta",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "Pcalua.exe",
+        "rename":  "svc-pcalua-wvlvgmad.exe",
+        "category":  "2",
+        "tool":  "pcalua",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "certutil.exe",
+        "rename":  "svc-certutil-sni5coji.exe",
+        "category":  "2",
+        "tool":  "certutil",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "cscript.exe",
+        "rename":  "svc-cscript-ar7d102c.exe",
+        "category":  "2",
+        "tool":  "cscript",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "Dfsvc.exe",
+        "rename":  "svc-dfsvc-gtsruby0.exe",
+        "category":  "2",
+        "tool":  "dfsvc",
+        "path32":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "path64":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "powershell.exe",
+        "rename":  "svc-psh-pc9fbyil.exe",
+        "category":  "2",
+        "tool":  "psh",
+        "path32":  "C:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0",
+        "path64":  "C:\\Windows\\System32\\WindowsPowerShell\\v1.0",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "pwsh.exe",
+        "rename":  "svc-pwsh-z9g7b2ft.exe",
+        "category":  "2",
+        "tool":  "pwsh",
+        "path32":  "C:\\Program Files (x86)\\PowerShell\\7",
+        "path64":  "C:\\Program Files\\PowerShell\\7",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "wscript.exe",
+        "rename":  "svc-wscript-c4tv8g61.exe",
+        "category":  "2",
+        "tool":  "wscript",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "regsvr32.exe",
+        "rename":  "svc-regsvr32-gbth0dwo.exe",
+        "category":  "2",
+        "tool":  "regsvr32",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "rundll32.exe",
+        "rename":  "svc-rundll32-8lq3jayc.exe",
+        "category":  "2",
+        "tool":  "rundll32",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "CustomShellHost.exe",
+        "rename":  "svc-customshellhost-ljyd0oy4.exe",
+        "category":  "2",
+        "tool":  "customshellhost",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "hh.exe",
+        "rename":  "svc-hh-r5re6d16.exe",
+        "category":  "2",
+        "tool":  "hh",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "mavinject.exe",
+        "rename":  "svc-mavinject-pxj3wmnc.exe",
+        "category":  "2",
+        "tool":  "mavinject",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "powershell_ise.exe",
+        "rename":  "svc-powershellise-c29bxp90.exe",
+        "category":  "2",
+        "tool":  "powershellise",
+        "path32":  "C:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0",
+        "path64":  "C:\\Windows\\System32\\WindowsPowerShell\\v1.0",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "msxsl.exe",
+        "rename":  "svc-msxsl-5eblq7qe.exe",
+        "category":  "2",
+        "tool":  "msxsl",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "odbcconf.exe",
+        "rename":  "svc-odbcconf-0p5udtlo.exe",
+        "category":  "2",
+        "tool":  "odbcconf",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "OfflineScannerShell.exe",
+        "rename":  "svc-offlinescannershell-polik3pt.exe",
+        "category":  "2",
+        "tool":  "offlinescannershell",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "Pcwrun.exe",
+        "rename":  "svc-pcwrun-6uti19j7.exe",
+        "category":  "2",
+        "tool":  "pcwrun",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "Provlaunch.exe",
+        "rename":  "svc-provlaunch-brfw6p14.exe",
+        "category":  "2",
+        "tool":  "provlaunch",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "Rasautou.exe",
+        "rename":  "svc-rasautou-q93b4qf8.exe",
+        "category":  "2",
+        "tool":  "rasautou",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "Scriptrunner.exe",
+        "rename":  "svc-scriptrunner-hu4u7ksa.exe",
+        "category":  "2",
+        "tool":  "scriptrunner",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "SettingSyncHost.exe",
+        "rename":  "svc-settingsynchost-vnnnlp7f.exe",
+        "category":  "2",
+        "tool":  "settingsynchost",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "Unregmp2.exe",
+        "rename":  "svc-unregmp2-qhgr8k1r.exe",
+        "category":  "2",
+        "tool":  "unregmp2",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "Verclsid.exe",
+        "rename":  "svc-verclsid-k377ii2e.exe",
+        "category":  "2",
+        "tool":  "verclsid",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "Wsreset.exe",
+        "rename":  "svc-wsreset-zm3kgo9p.exe",
+        "category":  "2",
+        "tool":  "wsreset",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "wuauclt.exe",
+        "rename":  "svc-wuauclt-8goxbcvx.exe",
+        "category":  "2",
+        "tool":  "wuauclt",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "bitsadmin.exe",
+        "rename":  "svc-bitsadmin-q366zhjn.exe",
+        "category":  "2",
+        "tool":  "bitsadmin",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "eventvwr.exe",
+        "rename":  "svc-eventvwr-dhc1n2ry.exe",
+        "category":  "2",
+        "tool":  "eventvwr",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "regasm.exe",
+        "rename":  "svc-regasm-jpe8dpmx.exe",
+        "category":  "2",
+        "tool":  "regasm",
+        "path32":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "path64":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "regsvcs.exe",
+        "rename":  "svc-regsvcs-ww8ap1mx.exe",
+        "category":  "2",
+        "tool":  "regsvcs",
+        "path32":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "path64":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "Eudcedit.exe",
+        "rename":  "svc-eudcedit-bchzylgu.exe",
+        "category":  "2",
+        "tool":  "eudcedit",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "expand.exe",
+        "rename":  "svc-expand-v8vl4uds.exe",
+        "category":  "2",
+        "tool":  "expand",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "forfiles.exe",
+        "rename":  "svc-forfiles-447qk4xm.exe",
+        "category":  "2",
+        "tool":  "forfiles",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "ieexec.exe",
+        "rename":  "svc-ieexec-jvobzjhv.exe",
+        "category":  "2",
+        "tool":  "ieexec",
+        "path32":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "path64":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "makecab.exe",
+        "rename":  "svc-makecab-fnhf9qpy.exe",
+        "category":  "2",
+        "tool":  "makecab",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "Msconfig.exe",
+        "rename":  "svc-msconfig-c7krfs6l.exe",
+        "category":  "2",
+        "tool":  "msconfig",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "presentationhost.exe",
+        "rename":  "svc-presentationhost-n8e5u0n0.exe",
+        "category":  "2",
+        "tool":  "presentationhost",
+        "path32":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "path64":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "syncappvpublishingserver.exe",
+        "rename":  "svc-syncappvpublishingserver-myfk44tg.exe",
+        "category":  "2",
+        "tool":  "syncappvpublishingserver",
+        "path32":  "C:\\Program Files (x86)\\Microsoft Application Virtualization\\Client",
+        "path64":  "C:\\Program Files\\Microsoft Application Virtualization\\Client",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "dsdbutil.exe",
+        "rename":  "svc-dsdbutil-y0sympxc.exe",
+        "category":  "3",
+        "tool":  "dsdbutil",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "ntdsutil.exe",
+        "rename":  "svc-ntdsutil-od0vasdv.exe",
+        "category":  "3",
+        "tool":  "ntdsutil",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "cmdkey.exe",
+        "rename":  "svc-cmdkey-ntck6yoy.exe",
+        "category":  "3",
+        "tool":  "cmdkey",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "createdump.exe",
+        "rename":  "svc-createdump-08bgaqqd.exe",
+        "category":  "3",
+        "tool":  "createdump",
+        "path32":  "C:\\Program Files (x86)\\dotnet",
+        "path64":  "C:\\Program Files\\dotnet",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "dump64.exe",
+        "rename":  "svc-dump64-hdy9k81a.exe",
+        "category":  "3",
+        "tool":  "dump64",
+        "path32":  "C:\\Program Files (x86)\\Debugging Tools for Windows",
+        "path64":  "C:\\Program Files\\Debugging Tools for Windows",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "dumpminitool.exe",
+        "rename":  "svc-dumpminitool-71bh8608.exe",
+        "category":  "3",
+        "tool":  "dumpminitool",
+        "path32":  "C:\\Program Files (x86)\\Debugging Tools for Windows",
+        "path64":  "C:\\Program Files\\Debugging Tools for Windows",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "procdump.exe",
+        "rename":  "svc-procdump-b0pu8q8x.exe",
+        "category":  "3",
+        "tool":  "procdump",
+        "path32":  "C:\\Program Files (x86)\\Sysinternals",
+        "path64":  "C:\\Program Files\\Sysinternals",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "diskshadow.exe",
+        "rename":  "svc-diskshadow-1hqzdtlw.exe",
+        "category":  "3",
+        "tool":  "diskshadow",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "esentutl.exe",
+        "rename":  "svc-esentutl-c38va3b7.exe",
+        "category":  "3",
+        "tool":  "esentutl",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "vshadow.exe",
+        "rename":  "svc-vshadow-qutowcv1.exe",
+        "category":  "3",
+        "tool":  "vshadow",
+        "path32":  "C:\\Program Files (x86)\\Microsoft SDKs",
+        "path64":  "C:\\Program Files\\Microsoft SDKs",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "adplus.exe",
+        "rename":  "svc-adplus-crgwcu4l.exe",
+        "category":  "3",
+        "tool":  "adplus",
+        "path32":  "C:\\Program Files (x86)\\Debugging Tools for Windows",
+        "path64":  "C:\\Program Files\\Debugging Tools for Windows",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "Psr.exe",
+        "rename":  "svc-psr-413jkxmh.exe",
+        "category":  "3",
+        "tool":  "psr",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "rdrleakdiag.exe",
+        "rename":  "svc-rdrleakdiag-gat3ists.exe",
+        "category":  "3",
+        "tool":  "rdrleakdiag",
+        "path32":  "C:\\Program Files (x86)\\Debugging Tools for Windows",
+        "path64":  "C:\\Program Files\\Debugging Tools for Windows",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "rpcping.exe",
+        "rename":  "svc-rpcping-wawbod0u.exe",
+        "category":  "3",
+        "tool":  "rpcping",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "sqldumper.exe",
+        "rename":  "svc-sqldumper-tmeplxbz.exe",
+        "category":  "3",
+        "tool":  "sqldumper",
+        "path32":  "C:\\Program Files (x86)\\Microsoft SQL Server",
+        "path64":  "C:\\Program Files\\Microsoft SQL Server",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "Tttracer.exe",
+        "rename":  "svc-tttracer-071ywzhx.exe",
+        "category":  "3",
+        "tool":  "tttracer",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "wbadmin.exe",
+        "rename":  "svc-wbadmin-5m473hrx.exe",
+        "category":  "3",
+        "tool":  "wbadmin",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "AddinUtil.exe",
+        "rename":  "svc-addinutil-8kysee5u.exe",
+        "category":  "4",
+        "tool":  "addinutil",
+        "path32":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "path64":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "Aspnet_Compiler.exe",
+        "rename":  "svc-aspnetcompiler-73zghdnt.exe",
+        "category":  "4",
+        "tool":  "aspnetcompiler",
+        "path32":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "path64":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "csi.exe",
+        "rename":  "svc-csi-lp26hnii.exe",
+        "category":  "4",
+        "tool":  "csi",
+        "path32":  "C:\\Program Files (x86)\\Microsoft Visual Studio",
+        "path64":  "C:\\Program Files\\Microsoft Visual Studio",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "Fsi.exe",
+        "rename":  "svc-fsi-vc9p16ej.exe",
+        "category":  "4",
+        "tool":  "fsi",
+        "path32":  "C:\\Program Files (x86)\\Microsoft Visual Studio",
+        "path64":  "C:\\Program Files\\Microsoft Visual Studio",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "FsiAnyCpu.exe",
+        "rename":  "svc-fsianycpu-i1zdjhsj.exe",
+        "category":  "4",
+        "tool":  "fsianycpu",
+        "path32":  "C:\\Program Files (x86)\\Microsoft Visual Studio",
+        "path64":  "C:\\Program Files\\Microsoft Visual Studio",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "te.exe",
+        "rename":  "svc-te-yfgmc04n.exe",
+        "category":  "4",
+        "tool":  "te",
+        "path32":  "C:\\Program Files (x86)\\Microsoft SDKs",
+        "path64":  "C:\\Program Files\\Microsoft SDKs",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "installutil.exe",
+        "rename":  "svc-installutil-c1jq9o8o.exe",
+        "category":  "4",
+        "tool":  "installutil",
+        "path32":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "path64":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "msbuild.exe",
+        "rename":  "svc-msbuild-w80bucgj.exe",
+        "category":  "4",
+        "tool":  "msbuild",
+        "path32":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "path64":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "Microsoft.Workflow.Compiler.exe",
+        "rename":  "svc-microsoftworkflowcompiler-yzr636ku.exe",
+        "category":  "4",
+        "tool":  "microsoftworkflowcompiler",
+        "path32":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "path64":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "AppCert.exe",
+        "rename":  "svc-appcert-9ushqh2s.exe",
+        "category":  "4",
+        "tool":  "appcert",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "bash.exe",
+        "rename":  "svc-bash-ypf62m5s.exe",
+        "category":  "4",
+        "tool":  "bash",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "Dxcap.exe",
+        "rename":  "svc-dxcap-u4sx5or0.exe",
+        "category":  "4",
+        "tool":  "dxcap",
+        "path32":  "C:\\Program Files (x86)\\Microsoft SDKs",
+        "path64":  "C:\\Program Files\\Microsoft SDKs",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "VSDiagnostics.exe",
+        "rename":  "svc-vsdiagnostics-x0caoo6q.exe",
+        "category":  "4",
+        "tool":  "vsdiagnostics",
+        "path32":  "C:\\Program Files (x86)\\Microsoft Visual Studio",
+        "path64":  "C:\\Program Files\\Microsoft Visual Studio",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "VSIISExeLauncher.exe",
+        "rename":  "svc-vsiisexelauncher-t7scd56b.exe",
+        "category":  "4",
+        "tool":  "vsiisexelauncher",
+        "path32":  "C:\\Program Files (x86)\\Microsoft Visual Studio",
+        "path64":  "C:\\Program Files\\Microsoft Visual Studio",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "VSLaunchBrowser.exe",
+        "rename":  "svc-vslaunchbrowser-2hub8jmv.exe",
+        "category":  "4",
+        "tool":  "vslaunchbrowser",
+        "path32":  "C:\\Program Files (x86)\\Microsoft Visual Studio",
+        "path64":  "C:\\Program Files\\Microsoft Visual Studio",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "VisualUiaVerifyNative.exe",
+        "rename":  "svc-visualuiaverifynative-xz0lhlp3.exe",
+        "category":  "4",
+        "tool":  "visualuiaverifynative",
+        "path32":  "C:\\Program Files (x86)\\Microsoft Visual Studio",
+        "path64":  "C:\\Program Files\\Microsoft Visual Studio",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "WFMFormat.exe",
+        "rename":  "svc-wfmformat-w0ou76mh.exe",
+        "category":  "4",
+        "tool":  "wfmformat",
+        "path32":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "path64":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "Wfc.exe",
+        "rename":  "svc-wfc-ji0kpjdv.exe",
+        "category":  "4",
+        "tool":  "wfc",
+        "path32":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "path64":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "xsd.exe",
+        "rename":  "svc-xsd-jlc2y0qj.exe",
+        "category":  "4",
+        "tool":  "xsd",
+        "path32":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "path64":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "csc.exe",
+        "rename":  "svc-csc-1wy2wq0d.exe",
+        "category":  "4",
+        "tool":  "csc",
+        "path32":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "path64":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "dotnet.exe",
+        "rename":  "svc-dotnet-tk9xiwwp.exe",
+        "category":  "4",
+        "tool":  "dotnet",
+        "path32":  "C:\\Program Files (x86)\\dotnet",
+        "path64":  "C:\\Program Files\\dotnet",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "vbc.exe",
+        "rename":  "svc-vbc-cqbcojcc.exe",
+        "category":  "4",
+        "tool":  "vbc",
+        "path32":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "path64":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "wsl.exe",
+        "rename":  "svc-wsl-dhy0t6h8.exe",
+        "category":  "4",
+        "tool":  "wsl",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "coregen.exe",
+        "rename":  "svc-coregen-05jjsicp.exe",
+        "category":  "4",
+        "tool":  "coregen",
+        "path32":  "C:\\Program Files (x86)\\dotnet",
+        "path64":  "C:\\Program Files\\dotnet",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "dnx.exe",
+        "rename":  "svc-dnx-w5o0tzuu.exe",
+        "category":  "4",
+        "tool":  "dnx",
+        "path32":  "C:\\Program Files (x86)\\dotnet",
+        "path64":  "C:\\Program Files\\dotnet",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "ilasm.exe",
+        "rename":  "svc-ilasm-vbbxehr1.exe",
+        "category":  "4",
+        "tool":  "ilasm",
+        "path32":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "path64":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "jsc.exe",
+        "rename":  "svc-jsc-pg2t9gem.exe",
+        "category":  "4",
+        "tool":  "jsc",
+        "path32":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "path64":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "Launch-VsDevShell.ps1",
+        "rename":  "svc-launchvsdevshell-oy1270z7.ps1",
+        "category":  "4",
+        "tool":  "launchvsdevshell",
+        "path32":  "C:\\Program Files (x86)\\Microsoft Visual Studio",
+        "path64":  "C:\\Program Files\\Microsoft Visual Studio",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "UtilityFunctions.ps1",
+        "rename":  "svc-utilityfunctions-055ajk6w.ps1",
+        "category":  "4",
+        "tool":  "utilityfunctions",
+        "path32":  "C:\\Program Files (x86)\\Microsoft Visual Studio",
+        "path64":  "C:\\Program Files\\Microsoft Visual Studio",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "CL_Invocation.ps1",
+        "rename":  "svc-clinvocation-uev38zgs.ps1",
+        "category":  "4",
+        "tool":  "clinvocation",
+        "path32":  "C:\\Program Files (x86)\\Microsoft Visual Studio",
+        "path64":  "C:\\Program Files\\Microsoft Visual Studio",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "CL_LoadAssembly.ps1",
+        "rename":  "svc-clloadassembly-1ndg8rij.ps1",
+        "category":  "4",
+        "tool":  "clloadassembly",
+        "path32":  "C:\\Program Files (x86)\\Microsoft Visual Studio",
+        "path64":  "C:\\Program Files\\Microsoft Visual Studio",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "CL_Mutexverifiers.ps1",
+        "rename":  "svc-clmutexverifiers-g8stsnmc.ps1",
+        "category":  "4",
+        "tool":  "clmutexverifiers",
+        "path32":  "C:\\Program Files (x86)\\Microsoft Visual Studio",
+        "path64":  "C:\\Program Files\\Microsoft Visual Studio",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "devtunnel.exe",
+        "rename":  "svc-devtunnel-651my95z.exe",
+        "category":  "4",
+        "tool":  "devtunnel",
+        "path32":  "C:\\Program Files (x86)\\Microsoft Visual Studio",
+        "path64":  "C:\\Program Files\\Microsoft Visual Studio",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "Pester.bat",
+        "rename":  "svc-pester-wtkuyvb4.bat",
+        "category":  "4",
+        "tool":  "pester",
+        "path32":  "C:\\Program Files (x86)\\Microsoft Visual Studio",
+        "path64":  "C:\\Program Files\\Microsoft Visual Studio",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "vsjitdebugger.exe",
+        "rename":  "svc-vsjitdebugger-eo0opjv1.exe",
+        "category":  "4",
+        "tool":  "vsjitdebugger",
+        "path32":  "C:\\Program Files (x86)\\Microsoft Visual Studio",
+        "path64":  "C:\\Program Files\\Microsoft Visual Studio",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "vstest.console.exe",
+        "rename":  "svc-vstestconsole-s0rznkfj.exe",
+        "category":  "4",
+        "tool":  "vstestconsole",
+        "path32":  "C:\\Program Files (x86)\\Microsoft Visual Studio",
+        "path64":  "C:\\Program Files\\Microsoft Visual Studio",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "windbg.exe",
+        "rename":  "svc-windbg-x9spuyea.exe",
+        "category":  "4",
+        "tool":  "windbg",
+        "path32":  "C:\\Program Files (x86)\\Debugging Tools for Windows",
+        "path64":  "C:\\Program Files\\Debugging Tools for Windows",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "vsls-agent.exe",
+        "rename":  "svc-vslsagent-endfon5x.exe",
+        "category":  "4",
+        "tool":  "vslsagent",
+        "path32":  "C:\\Program Files (x86)\\Microsoft Visual Studio",
+        "path64":  "C:\\Program Files\\Microsoft Visual Studio",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "Appvlp.exe",
+        "rename":  "svc-appvlp-6kqgynik.exe",
+        "category":  "5",
+        "tool":  "appvlp",
+        "path32":  "C:\\Program Files (x86)\\Microsoft Application Virtualization\\Client",
+        "path64":  "C:\\Program Files\\Microsoft Application Virtualization\\Client",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "CertReq.exe",
+        "rename":  "svc-certreq-l1c0v9ft.exe",
+        "category":  "5",
+        "tool":  "certreq",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "bcp.exe",
+        "rename":  "svc-bcp-mmd9ijx1.exe",
+        "category":  "5",
+        "tool":  "bcp",
+        "path32":  "C:\\Program Files (x86)\\Microsoft SQL Server",
+        "path64":  "C:\\Program Files\\Microsoft SQL Server",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "datasvcutil.exe",
+        "rename":  "svc-datasvcutil-nlnokmnd.exe",
+        "category":  "5",
+        "tool":  "datasvcutil",
+        "path32":  "C:\\Program Files (x86)\\Microsoft SDKs",
+        "path64":  "C:\\Program Files\\Microsoft SDKs",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "mpiexec.exe",
+        "rename":  "svc-mpiexec-vug623dx.exe",
+        "category":  "5",
+        "tool":  "mpiexec",
+        "path32":  "C:\\Program Files (x86)\\Microsoft HPC Pack",
+        "path64":  "C:\\Program Files\\Microsoft HPC Pack",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "printbrm.exe",
+        "rename":  "svc-printbrm-59lue1mx.exe",
+        "category":  "5",
+        "tool":  "printbrm",
+        "path32":  "C:\\Windows\\SysWOW64\\spool\\tools",
+        "path64":  "C:\\Windows\\System32\\spool\\tools",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "certoc.exe",
+        "rename":  "svc-certoc-o9sdzgwy.exe",
+        "category":  "5",
+        "tool":  "certoc",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "ConfigSecurityPolicy.exe",
+        "rename":  "svc-configsecuritypolicy-stpzxtd8.exe",
+        "category":  "5",
+        "tool":  "configsecuritypolicy",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "dnscmd.exe",
+        "rename":  "svc-dnscmd-moq9lhoi.exe",
+        "category":  "5",
+        "tool":  "dnscmd",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "dtutil.exe",
+        "rename":  "svc-dtutil-dq5excat.exe",
+        "category":  "5",
+        "tool":  "dtutil",
+        "path32":  "C:\\Program Files (x86)\\Microsoft SQL Server",
+        "path64":  "C:\\Program Files\\Microsoft SQL Server",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "ldifde.exe",
+        "rename":  "svc-ldifde-yy78ky7x.exe",
+        "category":  "5",
+        "tool":  "ldifde",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "manage-bde.wsf",
+        "rename":  "svc-managebde-9033bj49.wsf",
+        "category":  "5",
+        "tool":  "managebde",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "sqlps.exe",
+        "rename":  "svc-sqlps-cbyvtibi.exe",
+        "category":  "5",
+        "tool":  "sqlps",
+        "path32":  "C:\\Program Files (x86)\\Microsoft SQL Server",
+        "path64":  "C:\\Program Files\\Microsoft SQL Server",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "sqltoolps.exe",
+        "rename":  "svc-sqltoolps-e43uudk3.exe",
+        "category":  "5",
+        "tool":  "sqltoolps",
+        "path32":  "C:\\Program Files (x86)\\Microsoft SQL Server",
+        "path64":  "C:\\Program Files\\Microsoft SQL Server",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "runas.exe",
+        "rename":  "svc-runas-bq2e49ui.exe",
+        "category":  "6",
+        "tool":  "runas",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "ssh.exe",
+        "rename":  "svc-ssh-ribg9mqr.exe",
+        "category":  "6",
+        "tool":  "ssh",
+        "path32":  "C:\\Windows\\SysWOW64\\OpenSSH",
+        "path64":  "C:\\Windows\\System32\\OpenSSH",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "mstsc.exe",
+        "rename":  "svc-mstsc-enqoo2sh.exe",
+        "category":  "6",
+        "tool":  "mstsc",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "shadow.exe",
+        "rename":  "svc-shadow-r33cblg6.exe",
+        "category":  "6",
+        "tool":  "shadow",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "winrs.exe",
+        "rename":  "svc-winrs-6c53f0dx.exe",
+        "category":  "6",
+        "tool":  "winrs",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "At.exe",
+        "rename":  "svc-at-bulfco30.exe",
+        "category":  "6",
+        "tool":  "at",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "cmd.exe",
+        "rename":  "svc-cmd-i561rwmz.exe",
+        "category":  "6",
+        "tool":  "cmd",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "icacls.exe",
+        "rename":  "svc-icacls-uv40wm7l.exe",
+        "category":  "6",
+        "tool":  "icacls",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "netsh.exe",
+        "rename":  "svc-netsh-7o550hgd.exe",
+        "category":  "6",
+        "tool":  "netsh",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "openfiles.exe",
+        "rename":  "svc-openfiles-intr55ir.exe",
+        "category":  "6",
+        "tool":  "openfiles",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "reg.exe",
+        "rename":  "svc-reg-bsw4y38b.exe",
+        "category":  "6",
+        "tool":  "reg",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "Register-cimprovider.exe",
+        "rename":  "svc-registercimprovider-ocypd3va.exe",
+        "category":  "6",
+        "tool":  "registercimprovider",
+        "path32":  "C:\\Windows\\SysWOW64\\wbem",
+        "path64":  "C:\\Windows\\System32\\wbem",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "sc.exe",
+        "rename":  "svc-sc-2cn91x36.exe",
+        "category":  "6",
+        "tool":  "sc",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "schtasks.exe",
+        "rename":  "svc-schtasks-xtsnchp3.exe",
+        "category":  "6",
+        "tool":  "schtasks",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "takeown.exe",
+        "rename":  "svc-takeown-yr5na7uu.exe",
+        "category":  "6",
+        "tool":  "takeown",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "tscon.exe",
+        "rename":  "svc-tscon-xeqold13.exe",
+        "category":  "6",
+        "tool":  "tscon",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "tsdiscon.exe",
+        "rename":  "svc-tsdiscon-iye1fpvh.exe",
+        "category":  "6",
+        "tool":  "tsdiscon",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "wbemtest.exe",
+        "rename":  "svc-wbemtest-igihkvtg.exe",
+        "category":  "6",
+        "tool":  "wbemtest",
+        "path32":  "C:\\Windows\\SysWOW64\\wbem",
+        "path64":  "C:\\Windows\\System32\\wbem",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "wevtutil.exe",
+        "rename":  "svc-wevtutil-8u9pp01i.exe",
+        "category":  "6",
+        "tool":  "wevtutil",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "logoff.exe",
+        "rename":  "svc-logoff-afmckmzb.exe",
+        "category":  "6",
+        "tool":  "logoff",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "ngen.exe",
+        "rename":  "svc-ngen-dqpcddzm.exe",
+        "category":  "6",
+        "tool":  "ngen",
+        "path32":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "path64":  "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "pktmon.exe",
+        "rename":  "svc-pktmon-op1eiic0.exe",
+        "category":  "6",
+        "tool":  "pktmon",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "qappsrv.exe",
+        "rename":  "svc-qappsrv-ict9ueqz.exe",
+        "category":  "6",
+        "tool":  "qappsrv",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "qprocess.exe",
+        "rename":  "svc-qprocess-kmn5w6v6.exe",
+        "category":  "6",
+        "tool":  "qprocess",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "query.exe",
+        "rename":  "svc-query-pluij40x.exe",
+        "category":  "6",
+        "tool":  "query",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "quser.exe",
+        "rename":  "svc-quser-vx1u6v6o.exe",
+        "category":  "6",
+        "tool":  "quser",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "qwinsta.exe",
+        "rename":  "svc-qwinsta-9697s6xk.exe",
+        "category":  "6",
+        "tool":  "qwinsta",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "rwinsta.exe",
+        "rename":  "svc-rwinsta-tbk10e4s.exe",
+        "category":  "6",
+        "tool":  "rwinsta",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "tskill.exe",
+        "rename":  "svc-tskill-rp6bzcvl.exe",
+        "category":  "6",
+        "tool":  "tskill",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "msiexec.exe",
+        "rename":  "svc-msiexec-yrygwlpo.exe",
+        "category":  "6",
+        "tool":  "msiexec",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "pnputil.exe",
+        "rename":  "svc-pnputil-o78l17ay.exe",
+        "category":  "6",
+        "tool":  "pnputil",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "regedit.exe",
+        "rename":  "svc-regedit-jyiuzhmv.exe",
+        "category":  "6",
+        "tool":  "regedit",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "mmc.exe",
+        "rename":  "svc-mmc-mfq8w36j.exe",
+        "category":  "6",
+        "tool":  "mmc",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "tar.exe",
+        "rename":  "svc-tar-ujzy0jlb.exe",
+        "category":  "6",
+        "tool":  "tar",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "findstr.exe",
+        "rename":  "svc-findstr-xohlcjyf.exe",
+        "category":  "6",
+        "tool":  "findstr",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "AppInstaller.exe",
+        "rename":  "svc-appinstaller-3zbtfz63.exe",
+        "category":  "7",
+        "tool":  "appinstaller",
+        "path32":  "C:\\Program Files\\WindowsApps",
+        "path64":  "C:\\Program Files\\WindowsApps",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "WorkFolders.exe",
+        "rename":  "svc-workfolders-ej7mtjnu.exe",
+        "category":  "7",
+        "tool":  "workfolders",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "msedge.exe",
+        "rename":  "svc-msedge-pd0xm8hi.exe",
+        "category":  "7",
+        "tool":  "msedge",
+        "path32":  "C:\\Program Files (x86)\\Microsoft\\Edge\\Application",
+        "path64":  "C:\\Program Files\\Microsoft\\Edge\\Application",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "msedge_proxy.exe",
+        "rename":  "svc-msedgeproxy-01v4surw.exe",
+        "category":  "7",
+        "tool":  "msedgeproxy",
+        "path32":  "C:\\Program Files (x86)\\Microsoft\\Edge\\Application",
+        "path64":  "C:\\Program Files\\Microsoft\\Edge\\Application",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "OneDriveStandaloneUpdater.exe",
+        "rename":  "svc-onedrivestandaloneupdater-74x0nbsc.exe",
+        "category":  "7",
+        "tool":  "onedrivestandaloneupdater",
+        "path32":  "C:\\Program Files (x86)\\Microsoft OneDrive",
+        "path64":  "C:\\Program Files\\Microsoft OneDrive",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "winget.exe",
+        "rename":  "svc-winget-7oyyfhzl.exe",
+        "category":  "7",
+        "tool":  "winget",
+        "path32":  "C:\\Program Files\\WindowsApps",
+        "path64":  "C:\\Program Files\\WindowsApps",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "msedgewebview2.exe",
+        "rename":  "svc-msedgewebview2-najym137.exe",
+        "category":  "7",
+        "tool":  "msedgewebview2",
+        "path32":  "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application",
+        "path64":  "C:\\Program Files\\Microsoft\\EdgeWebView\\Application",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "desktopimgdownldr.exe",
+        "rename":  "svc-desktopimgdownldr-to86ogzd.exe",
+        "category":  "7",
+        "tool":  "desktopimgdownldr",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "IMEWDBLD.exe",
+        "rename":  "svc-imewdbld-eyt1eclx.exe",
+        "category":  "7",
+        "tool":  "imewdbld",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "Xwizard.exe",
+        "rename":  "svc-xwizard-llm63jej.exe",
+        "category":  "7",
+        "tool":  "xwizard",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "conhost.exe",
+        "rename":  "svc-conhost-d2gw12bw.exe",
+        "category":  "8",
+        "tool":  "conhost",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "explorer.exe",
+        "rename":  "svc-explorer-8kodc08b.exe",
+        "category":  "8",
+        "tool":  "explorer",
+        "path32":  "C:\\Windows",
+        "path64":  "C:\\Windows",
+        "version":  "1.0"
+    },
+    {
+        "filename":  "control.exe",
+        "rename":  "svc-control-ushm8yi2.exe",
+        "category":  "8",
+        "tool":  "control",
+        "path32":  "C:\\Windows\\SysWOW64",
+        "path64":  "C:\\Windows\\System32",
+        "version":  "1.0"
     }
 ]
