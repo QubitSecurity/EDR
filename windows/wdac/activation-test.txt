@@ -1,0 +1,1 @@
+mshta 'vbscript:CreateObject("WScript.Shell").Run("notepad.exe",1,false)(window.close)'
