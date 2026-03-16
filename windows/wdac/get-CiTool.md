@@ -39,4 +39,11 @@ Policy Name: WDAC Policy
 Policy Status: Enabled
 ```
 
+속도 체크:
+
+```powershell
+Measure-Command { powershell.exe -ExecutionPolicy Bypass -File .\wd-wdac-light-ultrafast.ps1 -PostRunWaitSeconds 0 } | Select-Object TotalSeconds
+```
+
+
 ---
