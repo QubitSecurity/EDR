@@ -45,5 +45,22 @@ Policy Status: Enabled
 Measure-Command { powershell.exe -ExecutionPolicy Bypass -File .\wd-wdac-light-ultrafast.ps1 -PostRunWaitSeconds 0 } | Select-Object TotalSeconds
 ```
 
+```text
+PS C:\WINDOWS\system32> tasklist /svc /fi "imagename eq PluraService.exe"
+
+이미지 이름                    PID 서비스
+========================= ======== ============================================
+PluraService.exe              3384 PLURA
+PS C:\WINDOWS\system32>
+PS C:\WINDOWS\system32> sc.exe sidtype  Plura unrestricted
+[SC] ChangeServiceConfig2 성공
+PS C:\WINDOWS\system32>
+PS C:\WINDOWS\system32> sc.exe showsid PLURA
+
+이름: PLURA
+서비스 SID: S-1-5-80-3427437279-2399216130-3600404540-2081304160-213528526
+상태: 활성
+PS C:\WINDOWS\system32>
+```
 
 ---
