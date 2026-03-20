@@ -1,0 +1,2712 @@
+﻿{
+    "FriendlyName":  "PLURA_WDAC_MANAGED_INDEX_toggle-lolbas-exe",
+    "GeneratedAtUtc":  "2026-03-20T01:16:54.7731925Z",
+    "SourceManifest":  "manifest.json",
+    "SourceManifestSha256":  "9D6CEEE8BD736A82A211EB7A50D8F6D41BC50CA3FF83832C4BAFDFD92140E161",
+    "ToggleSource":  "toggle-lolbas-exe.json",
+    "ToggleSourceSha256":  "93501542740F5F7FA1252FFEAD652DDD18BCEBDEFADC2AAA95C76A56A0C0539B",
+    "SourceMode":  "PREBUILT_MANAGED_INDEX",
+    "OutputLayout":  "managed-index",
+    "TotalPolicies":  250,
+    "ManagedPolicyCount":  142,
+    "Policies":  [
+                     {
+                         "Index":  1,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_addinutil",
+                         "DisplayName":  "AddinUtil.exe",
+                         "PolicyId":  "63AF4D48-88B9-5BF5-820C-AFF181A27045",
+                         "Targets":  [
+                                         "addinutil.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "addinutil.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_addinutil.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_addinutil.cip",
+                         "CipSha256":  "C24754D0AE5E4C93901B4AD0E08729E939671739BF1458D56F39222D41B54C90"
+                     },
+                     {
+                         "Index":  2,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_adplus",
+                         "DisplayName":  "adplus.exe",
+                         "PolicyId":  "C2592AEC-014C-57DB-9290-475E8CBCDB83",
+                         "Targets":  [
+                                         "adplus.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "adplus.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "3"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_adplus.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_adplus.cip",
+                         "CipSha256":  "0A054D666AC55C4F1990A3C5A67CCA95166647D3569E1A0D50A638F231B87114"
+                     },
+                     {
+                         "Index":  3,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_appcert",
+                         "DisplayName":  "AppCert.exe",
+                         "PolicyId":  "76179B19-ED26-5098-B419-A70D5BCD1589",
+                         "Targets":  [
+                                         "appcert.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "appcert.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_appcert.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_appcert.cip",
+                         "CipSha256":  "9960168C92834F99A26C456A7FDAEEED35AF371320F684F0DAB041510A187B76"
+                     },
+                     {
+                         "Index":  4,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_appinstaller",
+                         "DisplayName":  "AppInstaller.exe",
+                         "PolicyId":  "0F655634-2EFD-509C-A515-474690264FEC",
+                         "Targets":  [
+                                         "appinstaller.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "appinstaller.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "7"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_appinstaller.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_appinstaller.cip",
+                         "CipSha256":  "B6DB3601DAA0E086352AAB72FFA1ECBCA7F4CE6CCD300E9364ACD69ED947F960"
+                     },
+                     {
+                         "Index":  5,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_appvlp",
+                         "DisplayName":  "Appvlp.exe",
+                         "PolicyId":  "2FDC12D0-3E92-570D-AB92-71E857DF748A",
+                         "Targets":  [
+                                         "appvlp.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "appvlp.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "5"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_appvlp.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_appvlp.cip",
+                         "CipSha256":  "B6D740BBE860F35DC87E28A328BA0FF4FC5D8454D8E93FC3D4AAD9485815DFDF"
+                     },
+                     {
+                         "Index":  6,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_aspnet_compiler",
+                         "DisplayName":  "Aspnet_Compiler.exe",
+                         "PolicyId":  "F4A96F2B-F604-5828-B87E-32FDABC2E72A",
+                         "Targets":  [
+                                         "aspnet_compiler.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "aspnet_compiler.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_aspnet_compiler.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_aspnet_compiler.cip",
+                         "CipSha256":  "A6F8E8AF086B7BFC4EAF34A39EB089D5937274AF110D0FB7B6289056D9DE8F94"
+                     },
+                     {
+                         "Index":  7,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_at",
+                         "DisplayName":  "At.exe",
+                         "PolicyId":  "7B8AF220-6336-5479-8018-5C0AFF996C75",
+                         "Targets":  [
+                                         "at.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "at.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "6"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_at.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_at.cip",
+                         "CipSha256":  "10B9397EC0F0A266BED0EA449F0B3608212C7DB507C9F869D4DA11887E423C73"
+                     },
+                     {
+                         "Index":  8,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_atbroker",
+                         "DisplayName":  "Atbroker.exe",
+                         "PolicyId":  "17E74C1A-F930-520B-9CD1-615C0A52768F",
+                         "Targets":  [
+                                         "atbroker.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "atbroker.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_atbroker.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_atbroker.cip",
+                         "CipSha256":  "69A5928283A0DC41B0EBC82AA0CB24CB3620239C3DA19F33DD7AD85B463DAE01"
+                     },
+                     {
+                         "Index":  9,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_bash",
+                         "DisplayName":  "Bash.exe",
+                         "PolicyId":  "FC4E7794-BA46-5F96-9961-193AFB3B829D",
+                         "Targets":  [
+                                         "bash.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "bash.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_bash.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_bash.cip",
+                         "CipSha256":  "6ADA647EE1897B707A153C602E4DFD7FAFDE2DD5559841BA925B483B3D424FF3"
+                     },
+                     {
+                         "Index":  10,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_bcp",
+                         "DisplayName":  "Bcp.exe",
+                         "PolicyId":  "C7A2BB25-A164-5A20-87AF-C743D1D20DB2",
+                         "Targets":  [
+                                         "bcp.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "bcp.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "5"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_bcp.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_bcp.cip",
+                         "CipSha256":  "EC8B25A37852E0951E1148B97926FEE842D7C0D54F0BE9E2C091030DC6F9503B"
+                     },
+                     {
+                         "Index":  11,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_bitsadmin",
+                         "DisplayName":  "Bitsadmin.exe",
+                         "PolicyId":  "2E6A1FDE-A720-5240-9EF7-D53C3925899C",
+                         "Targets":  [
+                                         "bitsadmin.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "bitsadmin.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_bitsadmin.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_bitsadmin.cip",
+                         "CipSha256":  "F3F2C1037CAD26D6E6951C1CA4971F9D401E8B99ED128BB6F86FFEBF0C4CE38A"
+                     },
+                     {
+                         "Index":  12,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_certoc",
+                         "DisplayName":  "CertOC.exe",
+                         "PolicyId":  "06877373-CCB1-500A-81F7-A56C24BA901A",
+                         "Targets":  [
+                                         "certoc.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "certoc.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "5"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_certoc.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_certoc.cip",
+                         "CipSha256":  "51CE45D26C1B30326230631602631F8A59EA5CE1CFA9FEF828F415A892049E46"
+                     },
+                     {
+                         "Index":  13,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_certreq",
+                         "DisplayName":  "CertReq.exe",
+                         "PolicyId":  "255ED337-759B-595B-8EFF-BEAC140ABBFF",
+                         "Targets":  [
+                                         "certreq.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "certreq.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "5"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_certreq.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_certreq.cip",
+                         "CipSha256":  "07E213A79DC80C3AB866339678188789B5049F9A8BABDDA2EA9CB157CA4150D8"
+                     },
+                     {
+                         "Index":  14,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_certutil",
+                         "DisplayName":  "Certutil.exe",
+                         "PolicyId":  "B951C7D4-A9EF-5896-81FD-0784EADBBEC7",
+                         "Targets":  [
+                                         "certutil.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "certutil.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_certutil.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_certutil.cip",
+                         "CipSha256":  "453022DC4D646387F814086087F6AE76AF7C4ADF49E139AD08B9B6A46BFBA787"
+                     },
+                     {
+                         "Index":  15,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_cmd",
+                         "DisplayName":  "Cmd.exe",
+                         "PolicyId":  "A054A6EC-879D-5D52-9FB2-C1336C1A6C06",
+                         "Targets":  [
+                                         "cmd.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "cmd.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "6"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_cmd.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_cmd.cip",
+                         "CipSha256":  "7E5BFA763B6C70B6207638A5200C7DDAE4C8CDF21EC865838868EF46D8FB7369"
+                     },
+                     {
+                         "Index":  16,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_cmdkey",
+                         "DisplayName":  "Cmdkey.exe",
+                         "PolicyId":  "D8C4B41C-9FAB-57E9-B7CC-5D82FC71232E",
+                         "Targets":  [
+                                         "cmdkey.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "cmdkey.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "3"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_cmdkey.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_cmdkey.cip",
+                         "CipSha256":  "2F4EDF35338FF5E57D9C6AF214DC7611A96090C714425EC966326D3C579FA4AB"
+                     },
+                     {
+                         "Index":  17,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_cmdl32",
+                         "DisplayName":  "cmdl32.exe",
+                         "PolicyId":  "7300A3B6-FB1C-5B6B-81E5-3A9E6D2E0464",
+                         "Targets":  [
+                                         "cmdl32.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "cmdl32.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "1"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_cmdl32.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_cmdl32.cip",
+                         "CipSha256":  "91DF9E0F1BD9F341C94B797401D28DB516E5F47CD37656CD0394EB9E454DA0F6"
+                     },
+                     {
+                         "Index":  18,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_cmstp",
+                         "DisplayName":  "Cmstp.exe",
+                         "PolicyId":  "F5AE8905-6DD5-5E71-9320-6E4F6B65C7EB",
+                         "Targets":  [
+                                         "cmstp.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "cmstp.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_cmstp.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_cmstp.cip",
+                         "CipSha256":  "85D39D573275A4CE9D0822A518C400D2719B767181BFC149D667F2BD60A8574A"
+                     },
+                     {
+                         "Index":  19,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_colorcpl",
+                         "DisplayName":  "Colorcpl.exe",
+                         "PolicyId":  "9FB48D76-04B0-59A5-87AF-640DA7B1F18F",
+                         "Targets":  [
+                                         "colorcpl.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "colorcpl.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "1"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_colorcpl.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_colorcpl.cip",
+                         "CipSha256":  "4C9B8EE6C6FA01BE5B5251805B93A0E6B8BB24BA7C34A93524A7C08AAE00702E"
+                     },
+                     {
+                         "Index":  20,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_computerdefaults",
+                         "DisplayName":  "ComputerDefaults.exe",
+                         "PolicyId":  "115B6912-C7CC-56EC-91FF-62118953E467",
+                         "Targets":  [
+                                         "computerdefaults.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "computerdefaults.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_computerdefaults.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_computerdefaults.cip",
+                         "CipSha256":  "2D5C12567A6BBA58CCF158B2573F01195978AE3BAD838C9BCB9D472ED6B5AD07"
+                     },
+                     {
+                         "Index":  21,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_configsecuritypolicy",
+                         "DisplayName":  "ConfigSecurityPolicy.exe",
+                         "PolicyId":  "87DCBC6A-AA40-5E16-BDE0-C5476D89ED01",
+                         "Targets":  [
+                                         "configsecuritypolicy.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "configsecuritypolicy.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "5"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_configsecuritypolicy.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_configsecuritypolicy.cip",
+                         "CipSha256":  "BC040A5CEEF8B8A130747CB682B36786BAC0ADF79F56B5CED366D4AC1BDF3EA3"
+                     },
+                     {
+                         "Index":  22,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_conhost",
+                         "DisplayName":  "Conhost.exe",
+                         "PolicyId":  "C2BD8415-3C51-5633-83B9-33D4CBB7B67F",
+                         "Targets":  [
+                                         "conhost.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "conhost.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "8"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_conhost.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_conhost.cip",
+                         "CipSha256":  "0C28DC53FD8FC1BB08E1DDFE891EA7A97911A6598A8A4AE43E0A4B569F989192"
+                     },
+                     {
+                         "Index":  23,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_control",
+                         "DisplayName":  "Control.exe",
+                         "PolicyId":  "4A14882C-424F-58D5-8C62-7C046AC39D20",
+                         "Targets":  [
+                                         "control.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "control.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "8"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_control.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_control.cip",
+                         "CipSha256":  "11FA6DD371C327920F509BBDBAFDEB3F25D40DC3317B2CC679BB9822E64B20A5"
+                     },
+                     {
+                         "Index":  24,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_coregen",
+                         "DisplayName":  "coregen.exe",
+                         "PolicyId":  "BCCD66C2-DF72-542E-B29E-0D91DF3FF4A6",
+                         "Targets":  [
+                                         "coregen.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "coregen.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_coregen.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_coregen.cip",
+                         "CipSha256":  "1F835371B17439A75BA599E4227B663B2F58A555A3929043E497682CBE6DDD3D"
+                     },
+                     {
+                         "Index":  25,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_createdump",
+                         "DisplayName":  "Createdump.exe",
+                         "PolicyId":  "A8177A9F-B397-539B-9EC2-3CD641B1B1F0",
+                         "Targets":  [
+                                         "createdump.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "createdump.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "3"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_createdump.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_createdump.cip",
+                         "CipSha256":  "517CD26570652BF8688796F0E3104757930CE440084532DB8B80015D830249ED"
+                     },
+                     {
+                         "Index":  26,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_csc",
+                         "DisplayName":  "Csc.exe",
+                         "PolicyId":  "5B53E3D5-7AE4-5E53-987E-7E4DBEAC26B8",
+                         "Targets":  [
+                                         "csc.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "csc.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_csc.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_csc.cip",
+                         "CipSha256":  "5A36CBBC3BC0300F98A494D01EDCBCBAA0EECF0F4CB67BCBB5E4D5DBEDF97004"
+                     },
+                     {
+                         "Index":  27,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_cscript",
+                         "DisplayName":  "Cscript.exe",
+                         "PolicyId":  "C8A5A17E-E6C3-53A8-A9AD-E5C6569C7750",
+                         "Targets":  [
+                                         "cscript.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "cscript.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_cscript.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_cscript.cip",
+                         "CipSha256":  "FA9A97CFE530331FBFFA03550C2516609914AE344147425F6DE4F459E1837DA0"
+                     },
+                     {
+                         "Index":  28,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_csi",
+                         "DisplayName":  "csi.exe",
+                         "PolicyId":  "E6BC246D-C881-5DDD-A42F-6114AB6B0ECF",
+                         "Targets":  [
+                                         "csi.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "csi.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_csi.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_csi.cip",
+                         "CipSha256":  "F6B68B57A0297391E835C38EC476C87B38721E034BFC7D77D1488B6F0148DBE1"
+                     },
+                     {
+                         "Index":  29,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_customshellhost",
+                         "DisplayName":  "CustomShellHost.exe",
+                         "PolicyId":  "A68944CA-E546-5477-B07B-F03B7D176265",
+                         "Targets":  [
+                                         "customshellhost.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "customshellhost.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_customshellhost.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_customshellhost.cip",
+                         "CipSha256":  "581C76FA429CD70380D9A7901FE1316B96EE4449E624D9969565833327DB3E73"
+                     },
+                     {
+                         "Index":  30,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_datasvcutil",
+                         "DisplayName":  "DataSvcUtil.exe",
+                         "PolicyId":  "A4E1CAE4-7809-5244-B60D-CC5D306D9BD7",
+                         "Targets":  [
+                                         "datasvcutil.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "datasvcutil.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "5"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_datasvcutil.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_datasvcutil.cip",
+                         "CipSha256":  "6F0E5D39344CAB8A9BA04383C328F582F41AD4BF98DA26462727B3AB8725F784"
+                     },
+                     {
+                         "Index":  31,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_desktopimgdownldr",
+                         "DisplayName":  "Desktopimgdownldr.exe",
+                         "PolicyId":  "187A930C-B5C9-5B5E-B751-8F9D9DD449AB",
+                         "Targets":  [
+                                         "desktopimgdownldr.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "desktopimgdownldr.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "7"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_desktopimgdownldr.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_desktopimgdownldr.cip",
+                         "CipSha256":  "FC5EE1E8EC878E3BBAD55D94BD3094DF8F0AB5C6866A16795B4219BF4B66EC8B"
+                     },
+                     {
+                         "Index":  32,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_devicecredentialdeployment",
+                         "DisplayName":  "DeviceCredentialDeployment.exe",
+                         "PolicyId":  "62AD1BD7-D96A-5A3D-8AC9-87C18B121008",
+                         "Targets":  [
+                                         "devicecredentialdeployment.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "devicecredentialdeployment.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "1"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_devicecredentialdeployment.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_devicecredentialdeployment.cip",
+                         "CipSha256":  "FFAD13EFCA7FB89525F5008E83BEF502B8F3ACD88B762E6A5400D364F4CDBE3B"
+                     },
+                     {
+                         "Index":  33,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_devtunnel",
+                         "DisplayName":  "devtunnel.exe",
+                         "PolicyId":  "536D7B75-05B5-5C6C-9010-6B0536DC048A",
+                         "Targets":  [
+                                         "devtunnel.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "devtunnel.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_devtunnel.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_devtunnel.cip",
+                         "CipSha256":  "21FC6E6249032DFF6731CE1C37CBD812BB6C4321175C6476D7EAF3D320886768"
+                     },
+                     {
+                         "Index":  34,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_dfsvc",
+                         "DisplayName":  "Dfsvc.exe",
+                         "PolicyId":  "D407FCDD-75BE-5AD9-A8F9-02EFAAE049D2",
+                         "Targets":  [
+                                         "dfsvc.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "dfsvc.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_dfsvc.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_dfsvc.cip",
+                         "CipSha256":  "94787F25E9ED0094279CE59F80C77B1588872E493FE131312C9D7E99071111F3"
+                     },
+                     {
+                         "Index":  35,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_diskshadow",
+                         "DisplayName":  "Diskshadow.exe",
+                         "PolicyId":  "634266B8-FB61-598E-B177-A127A7E23DE6",
+                         "Targets":  [
+                                         "diskshadow.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "diskshadow.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "3"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_diskshadow.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_diskshadow.cip",
+                         "CipSha256":  "CBD5BBDBF00B8E402EA79087884482BA6A5EF63EE19A30DBE8CCC0F63E88A973"
+                     },
+                     {
+                         "Index":  36,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_dnscmd",
+                         "DisplayName":  "Dnscmd.exe",
+                         "PolicyId":  "34EFBA47-0634-54CE-B8C1-CB396D442C3D",
+                         "Targets":  [
+                                         "dnscmd.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "dnscmd.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "5"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_dnscmd.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_dnscmd.cip",
+                         "CipSha256":  "E886E1008B438915EA1132F0A6BDE3A532A2DECA2D00F9D03A419FA83ECB3563"
+                     },
+                     {
+                         "Index":  37,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_dnx",
+                         "DisplayName":  "dnx.exe",
+                         "PolicyId":  "39DDA0E8-095D-5473-9B9F-FFB9500E3EFE",
+                         "Targets":  [
+                                         "dnx.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "dnx.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_dnx.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_dnx.cip",
+                         "CipSha256":  "D9A3CAEBB6471683E59EABF1D11CFA5CFAA05738C3CBCAD828AA107813F25147"
+                     },
+                     {
+                         "Index":  38,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_dotnet",
+                         "DisplayName":  "Dotnet.exe",
+                         "PolicyId":  "54A051C8-EB32-5AB4-B99A-2A77685986EE",
+                         "Targets":  [
+                                         "dotnet.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "dotnet.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_dotnet.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_dotnet.cip",
+                         "CipSha256":  "ABF7C46FF0AB7C252D603E2E31CA1C8DAA331F2206C157214B1A27100EBF256E"
+                     },
+                     {
+                         "Index":  39,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_dsdbutil",
+                         "DisplayName":  "dsdbutil.exe",
+                         "PolicyId":  "23BC86A4-8258-5024-97C4-828C91632360",
+                         "Targets":  [
+                                         "dsdbutil.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "dsdbutil.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "3"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_dsdbutil.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_dsdbutil.cip",
+                         "CipSha256":  "6032209A4B2B741F48AF598C6EA7B3327FAC91BF60840EFF38E44D05054BE6F2"
+                     },
+                     {
+                         "Index":  40,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_dtutil",
+                         "DisplayName":  "dtutil.exe",
+                         "PolicyId":  "D6316606-CA97-5B8D-9942-80C38CD2CED8",
+                         "Targets":  [
+                                         "dtutil.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "dtutil.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "5"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_dtutil.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_dtutil.cip",
+                         "CipSha256":  "44162C0F7C3B4D80B5FA4691517AEA60B9E9544F9057AAC28A348FE7AA030CFB"
+                     },
+                     {
+                         "Index":  41,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_dump64",
+                         "DisplayName":  "Dump64.exe",
+                         "PolicyId":  "6DC78012-E4B5-581F-828D-13D266A0DDDB",
+                         "Targets":  [
+                                         "dump64.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "dump64.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "3"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_dump64.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_dump64.cip",
+                         "CipSha256":  "6D65374F2B6F8D9D71664FC825DE3585E04157E83F8663EB1CE9527818F0FEB7"
+                     },
+                     {
+                         "Index":  42,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_dumpminitool",
+                         "DisplayName":  "DumpMinitool.exe",
+                         "PolicyId":  "C067C36D-A771-5FF5-A745-8CF641E6AF23",
+                         "Targets":  [
+                                         "dumpminitool.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "dumpminitool.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "3"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_dumpminitool.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_dumpminitool.cip",
+                         "CipSha256":  "BCF4E7F80E9F28C2E3EABD75CDEDBF44DFEDC440A9B90D979EDB1BCF085E60A8"
+                     },
+                     {
+                         "Index":  43,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_dxcap",
+                         "DisplayName":  "Dxcap.exe",
+                         "PolicyId":  "9D2DFD83-7E62-5D62-9576-E198E3FCBA2E",
+                         "Targets":  [
+                                         "dxcap.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "dxcap.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_dxcap.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_dxcap.cip",
+                         "CipSha256":  "E5AFDCD5C84A2765C0D351C1DF07C0F007E91AD8FC32E449F591FFBA2854C2EE"
+                     },
+                     {
+                         "Index":  44,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_ecmangen",
+                         "DisplayName":  "ECMangen.exe",
+                         "PolicyId":  "138F8B3F-5E64-5B0E-A4FC-8D8CFEF44877",
+                         "Targets":  [
+                                         "ecmangen.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "ecmangen.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "1"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_ecmangen.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_ecmangen.cip",
+                         "CipSha256":  "14AB394F66F43710986A6D81F6249394A574C6674B466D51C7E26A93069BCA89"
+                     },
+                     {
+                         "Index":  45,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_esentutl",
+                         "DisplayName":  "Esentutl.exe",
+                         "PolicyId":  "2707C8C6-2B2A-54DF-9E4A-5E8FAEC0393D",
+                         "Targets":  [
+                                         "esentutl.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "esentutl.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "3"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_esentutl.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_esentutl.cip",
+                         "CipSha256":  "2D7075C50A33CA4229F2D2630E06AFE65B681617762D347443BD82CD936EB50A"
+                     },
+                     {
+                         "Index":  46,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_eudcedit",
+                         "DisplayName":  "Eudcedit.exe",
+                         "PolicyId":  "424C6AAA-C54D-5AF8-B032-E78DDF2F0BB5",
+                         "Targets":  [
+                                         "eudcedit.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "eudcedit.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_eudcedit.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_eudcedit.cip",
+                         "CipSha256":  "13906A9BF46E46AEAE7BE5B1A0D6D192856C04D3F1BA32B5ECB605D3354A3662"
+                     },
+                     {
+                         "Index":  47,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_eventvwr",
+                         "DisplayName":  "Eventvwr.exe",
+                         "PolicyId":  "969BF054-F9FE-56E1-AC71-8CD1F33E8432",
+                         "Targets":  [
+                                         "eventvwr.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "eventvwr.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_eventvwr.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_eventvwr.cip",
+                         "CipSha256":  "E3213C9EEF80FC395F6EBF0DAE7D377966CBED4C4640C3BEA1A70935922328CA"
+                     },
+                     {
+                         "Index":  48,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_expand",
+                         "DisplayName":  "Expand.exe",
+                         "PolicyId":  "51EA7103-1EE7-573B-9C97-26C3EB2083AC",
+                         "Targets":  [
+                                         "expand.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "expand.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_expand.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_expand.cip",
+                         "CipSha256":  "ED165667B442C2A92F2DF0070DC915910C868634927BC5C832DD59D8D396A645"
+                     },
+                     {
+                         "Index":  49,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_explorer",
+                         "DisplayName":  "Explorer.exe",
+                         "PolicyId":  "C1FC2412-B5AB-5E71-95E8-DFC7665E8D42",
+                         "Targets":  [
+                                         "explorer.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "explorer.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "8"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_explorer.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_explorer.cip",
+                         "CipSha256":  "AD9E07E553009614128DB3E970A69BE6DDE134B055A3B05BB1B6FAD76FAC43AE"
+                     },
+                     {
+                         "Index":  50,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_findstr",
+                         "DisplayName":  "Findstr.exe",
+                         "PolicyId":  "5EE13B7F-097B-57F7-9B6A-82EA818ABDAB",
+                         "Targets":  [
+                                         "findstr.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "findstr.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "6"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_findstr.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_findstr.cip",
+                         "CipSha256":  "8C46E5FE2FA48F773C2814863D8264F318FA3E304F6AF13073F0FF0768A30E9F"
+                     },
+                     {
+                         "Index":  51,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_finger",
+                         "DisplayName":  "Finger.exe",
+                         "PolicyId":  "35890ECD-09EE-5FFC-89BE-1F95B2543854",
+                         "Targets":  [
+                                         "finger.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "finger.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "1"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_finger.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_finger.cip",
+                         "CipSha256":  "AF69F1E5645D9FD3598178D57F3A6064CFDF6108E75039864A1493FA62960E50"
+                     },
+                     {
+                         "Index":  52,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_forfiles",
+                         "DisplayName":  "Forfiles.exe",
+                         "PolicyId":  "89044DE7-A61A-5920-852E-9AD918AE9A26",
+                         "Targets":  [
+                                         "forfiles.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "forfiles.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_forfiles.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_forfiles.cip",
+                         "CipSha256":  "5A6A0A92395E5C4688B231D9EE046DD1556B83520C6578CFD6765FFBC0AC31C3"
+                     },
+                     {
+                         "Index":  53,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_fsi",
+                         "DisplayName":  "Fsi.exe",
+                         "PolicyId":  "6227346B-FD27-5350-AEB2-EEBE1CF2DCD1",
+                         "Targets":  [
+                                         "fsi.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "fsi.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_fsi.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_fsi.cip",
+                         "CipSha256":  "B3EB1D4EA8B71C99744BED52C037AA91607AE6253240DE9877B438D1DE65E88A"
+                     },
+                     {
+                         "Index":  54,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_fsianycpu",
+                         "DisplayName":  "FsiAnyCpu.exe",
+                         "PolicyId":  "5BE4CF8A-A248-5E76-AC30-DC0B9EF556A4",
+                         "Targets":  [
+                                         "fsianycpu.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "fsianycpu.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_fsianycpu.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_fsianycpu.cip",
+                         "CipSha256":  "D9EEE2D53A90A0AEC3498B1C5CB87136119B8533037D36A0CCE5071DCA8EE03A"
+                     },
+                     {
+                         "Index":  55,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_ftp",
+                         "DisplayName":  "Ftp.exe",
+                         "PolicyId":  "05458196-8006-57DE-B33B-C43868A501D7",
+                         "Targets":  [
+                                         "ftp.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "ftp.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "1"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_ftp.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_ftp.cip",
+                         "CipSha256":  "CA512D3B5241EDD58ADFF6528A2261548094688021A9A3BA29C0C57F10921F79"
+                     },
+                     {
+                         "Index":  56,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_hh",
+                         "DisplayName":  "Hh.exe",
+                         "PolicyId":  "926A345A-014B-5D50-A147-97F4A579FD38",
+                         "Targets":  [
+                                         "hh.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "hh.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_hh.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_hh.cip",
+                         "CipSha256":  "C99132BC60B0B1F255A2FA2E59FA797BBE193B12594BB8A2768C7F8ED142CEF3"
+                     },
+                     {
+                         "Index":  57,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_ieexec",
+                         "DisplayName":  "Ieexec.exe",
+                         "PolicyId":  "F0A986A9-3FB6-5213-8706-DD4A827BA71C",
+                         "Targets":  [
+                                         "ieexec.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "ieexec.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_ieexec.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_ieexec.cip",
+                         "CipSha256":  "6415A89F13005DC635782DA7E086AAC6C0382901B25DA9A599C93F189F17C0FD"
+                     },
+                     {
+                         "Index":  58,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_ilasm",
+                         "DisplayName":  "Ilasm.exe",
+                         "PolicyId":  "9D2C156D-F3BB-53DB-81B1-8240269B2ABC",
+                         "Targets":  [
+                                         "ilasm.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "ilasm.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_ilasm.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_ilasm.cip",
+                         "CipSha256":  "402C82A1CD91ABFE0D237F00CCBD16A899A2714D178889E07564C225453311DE"
+                     },
+                     {
+                         "Index":  59,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_imewdbld",
+                         "DisplayName":  "IMEWDBLD.exe",
+                         "PolicyId":  "F58C7211-E801-54E9-8F00-5EC5705B945F",
+                         "Targets":  [
+                                         "imewdbld.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "imewdbld.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "7"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_imewdbld.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_imewdbld.cip",
+                         "CipSha256":  "84AA7B5E8F430A76B98188F1FD00161A08C46069EBE9EE957D70EFA68C5470FE"
+                     },
+                     {
+                         "Index":  60,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_installutil",
+                         "DisplayName":  "Installutil.exe",
+                         "PolicyId":  "25604117-6E1C-5F79-B476-674CEEB39BB4",
+                         "Targets":  [
+                                         "installutil.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "installutil.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_installutil.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_installutil.cip",
+                         "CipSha256":  "5CBDA0BF5202E6D7ED0159F86EF1CD653BDC15F32A24D8615CB5103B7D889E94"
+                     },
+                     {
+                         "Index":  61,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_jsc",
+                         "DisplayName":  "Jsc.exe",
+                         "PolicyId":  "F7D87421-C7A9-5477-8E6E-06E55A67B24E",
+                         "Targets":  [
+                                         "jsc.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "jsc.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_jsc.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_jsc.cip",
+                         "CipSha256":  "4642D27EC09F57426BC19ADF1C2247780E79E4C1F8A4F998EFA308F54678457D"
+                     },
+                     {
+                         "Index":  62,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_ldifde",
+                         "DisplayName":  "Ldifde.exe",
+                         "PolicyId":  "EC556F45-CD9D-5F32-9BB0-9E8C3A03A9A8",
+                         "Targets":  [
+                                         "ldifde.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "ldifde.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "5"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_ldifde.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_ldifde.cip",
+                         "CipSha256":  "B707F75C9801FA3DFF8A11606FE6599922A1177F636DD4F0CC6C452929032E70"
+                     },
+                     {
+                         "Index":  63,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_makecab",
+                         "DisplayName":  "Makecab.exe",
+                         "PolicyId":  "70878428-B2C5-5944-8215-EE5E8851EA32",
+                         "Targets":  [
+                                         "makecab.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "makecab.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_makecab.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_makecab.cip",
+                         "CipSha256":  "0EF6A0AFA1A81C0132D6258CEFF1EE1F5A964F3E2FE490410EF4342EA1651226"
+                     },
+                     {
+                         "Index":  64,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_mavinject",
+                         "DisplayName":  "Mavinject.exe",
+                         "PolicyId":  "41DC37DF-6F18-58CC-8311-F149423DEEE8",
+                         "Targets":  [
+                                         "mavinject.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "mavinject.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_mavinject.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_mavinject.cip",
+                         "CipSha256":  "B044F7E36867C26DDECD183DE300949EC091AF4B9AEBD3E6182840251937DDDD"
+                     },
+                     {
+                         "Index":  65,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_microsoft_workflow_compiler",
+                         "DisplayName":  "Microsoft.Workflow.Compiler.exe",
+                         "PolicyId":  "2C8D5B28-EFA3-5BFC-A828-A9DC1A84BCF8",
+                         "Targets":  [
+                                         "microsoft.workflow.compiler.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "microsoft.workflow.compiler.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_microsoft_workflow_compiler.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_microsoft_workflow_compiler.cip",
+                         "CipSha256":  "3B1AB8B588CB4C34EC45F65D50C82AB13ACE07120A1C6E73DAA9EF1E3E5C19B0"
+                     },
+                     {
+                         "Index":  66,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_mmc",
+                         "DisplayName":  "Mmc.exe",
+                         "PolicyId":  "FCE87DF4-9825-5B20-ACE5-4042A1351ADF",
+                         "Targets":  [
+                                         "mmc.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "mmc.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "6"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_mmc.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_mmc.cip",
+                         "CipSha256":  "B2B8C38F7DC6443E74B4D9B626B9EFB8018AC392FBADE6103BDC4F3E8D4A9DCA"
+                     },
+                     {
+                         "Index":  67,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_mpiexec",
+                         "DisplayName":  "Mpiexec.exe",
+                         "PolicyId":  "15C4A0B7-D653-528E-8C43-7E51DE076A8A",
+                         "Targets":  [
+                                         "mpiexec.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "mpiexec.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "5"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_mpiexec.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_mpiexec.cip",
+                         "CipSha256":  "DA17CDC9C3B04811EC39E80D3676F920E1F1CA4D5057050C81B202D2D9EBD68B"
+                     },
+                     {
+                         "Index":  68,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_msbuild",
+                         "DisplayName":  "Msbuild.exe",
+                         "PolicyId":  "0DD6AFEC-E1A6-57B9-B780-7CB277D7655A",
+                         "Targets":  [
+                                         "msbuild.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "msbuild.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_msbuild.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_msbuild.cip",
+                         "CipSha256":  "A67A1984931D5A80931D1611D64C9D31CE358DC1ECEDA0DEB36AAAB0051505D7"
+                     },
+                     {
+                         "Index":  69,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_msconfig",
+                         "DisplayName":  "Msconfig.exe",
+                         "PolicyId":  "AE94752A-DD55-55A7-B0DB-98CBB4B1507E",
+                         "Targets":  [
+                                         "msconfig.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "msconfig.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_msconfig.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_msconfig.cip",
+                         "CipSha256":  "1E7628A77C5EB67123D8F92FBEFE89F182A78A4259609056C6E71DEF90AF48C5"
+                     },
+                     {
+                         "Index":  70,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_msdt",
+                         "DisplayName":  "Msdt.exe",
+                         "PolicyId":  "E6A9EE5B-6EB9-52D1-A3EC-837B4E5B3D8C",
+                         "Targets":  [
+                                         "msdt.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "msdt.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "1"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_msdt.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_msdt.cip",
+                         "CipSha256":  "2784AE0FDF967CBC3FA0AF7E6BFF8C912B5208A28ADFDFF7CCDAE1193BB2CC68"
+                     },
+                     {
+                         "Index":  71,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_msedge",
+                         "DisplayName":  "Msedge.exe",
+                         "PolicyId":  "2268990D-674C-51EA-A3D3-AF443AABE08B",
+                         "Targets":  [
+                                         "msedge.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "msedge.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "7"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_msedge.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_msedge.cip",
+                         "CipSha256":  "89E0B47129B91373BDF4D9253E48AA74AF547EDB347E301809484D33386310AC"
+                     },
+                     {
+                         "Index":  72,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_msedge_proxy",
+                         "DisplayName":  "msedge_proxy.exe",
+                         "PolicyId":  "F4B4696A-3B69-54F3-8866-3663C3217776",
+                         "Targets":  [
+                                         "msedge_proxy.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "msedge_proxy.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "7"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_msedge_proxy.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_msedge_proxy.cip",
+                         "CipSha256":  "0EA86370FD67A0861EC8E2C43110E8A21774BE6F53FD69B40F60C28B64DFCA89"
+                     },
+                     {
+                         "Index":  73,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_msedgewebview2",
+                         "DisplayName":  "msedgewebview2.exe",
+                         "PolicyId":  "445C6CC8-45F4-51EA-926C-162B7DC5FC8C",
+                         "Targets":  [
+                                         "msedgewebview2.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "msedgewebview2.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "7"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_msedgewebview2.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_msedgewebview2.cip",
+                         "CipSha256":  "C3A266BB9464DDDAC14D22A795EE061D2A8F303ED6EB8DF31671DB273527B283"
+                     },
+                     {
+                         "Index":  74,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_mshta",
+                         "DisplayName":  "Mshta.exe",
+                         "PolicyId":  "EB31F12B-D324-5605-BEB2-448B9ED6FFBD",
+                         "Targets":  [
+                                         "mshta.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "mshta.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_mshta.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_mshta.cip",
+                         "CipSha256":  "A0060D73096F4515C8BCEC5C24F78EE752BCD696F335F8E4AD7E604991F4876A"
+                     },
+                     {
+                         "Index":  75,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_msiexec",
+                         "DisplayName":  "Msiexec.exe",
+                         "PolicyId":  "F4FAAEF7-515D-56C4-AC60-286169DB1E54",
+                         "Targets":  [
+                                         "msiexec.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "msiexec.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "6"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_msiexec.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_msiexec.cip",
+                         "CipSha256":  "888FD211157A7F2CF554A186100959F13DF7BCD9AB46CE3826DA7A329FB3D7B4"
+                     },
+                     {
+                         "Index":  76,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_msxsl",
+                         "DisplayName":  "msxsl.exe",
+                         "PolicyId":  "ED580812-2B87-518D-8E0B-80CDD8948EAA",
+                         "Targets":  [
+                                         "msxsl.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "msxsl.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_msxsl.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_msxsl.cip",
+                         "CipSha256":  "E54937A65BB6605025D56B31523A1D8866D4EF6AA816C9CA469FAC57C121623A"
+                     },
+                     {
+                         "Index":  77,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_netsh",
+                         "DisplayName":  "Netsh.exe",
+                         "PolicyId":  "E1635730-67E5-5C0A-A418-6D9472C024C1",
+                         "Targets":  [
+                                         "netsh.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "netsh.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "6"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_netsh.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_netsh.cip",
+                         "CipSha256":  "260C3EBB9737BA320554EE615DA451445AE93CC85C1132C194C015591D84E2EC"
+                     },
+                     {
+                         "Index":  78,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_ngen",
+                         "DisplayName":  "Ngen.exe",
+                         "PolicyId":  "37BE3E6E-FB73-5158-89CA-72CF087C490C",
+                         "Targets":  [
+                                         "ngen.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "ngen.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "6"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_ngen.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_ngen.cip",
+                         "CipSha256":  "44507D17F16C0A78038AAF3758076C0F4529D1C00EC16292C32EACCBD5A60051"
+                     },
+                     {
+                         "Index":  79,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_ntdsutil",
+                         "DisplayName":  "ntdsutil.exe",
+                         "PolicyId":  "56F6E56F-66AE-5F0D-BD00-BFEE93513790",
+                         "Targets":  [
+                                         "ntdsutil.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "ntdsutil.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "3"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_ntdsutil.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_ntdsutil.cip",
+                         "CipSha256":  "EA6566DAC6CE79A3064CD6672313C573466E000B48C4845B91A9BCEED0898D2B"
+                     },
+                     {
+                         "Index":  80,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_odbcconf",
+                         "DisplayName":  "Odbcconf.exe",
+                         "PolicyId":  "5CA2E275-3E9E-5D58-ABDD-37DAD3D4985C",
+                         "Targets":  [
+                                         "odbcconf.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "odbcconf.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_odbcconf.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_odbcconf.cip",
+                         "CipSha256":  "DBE2D91F73CFC1F658AB36CEB1ADB2505BD3C1FAF630E288A0517E9323C9FDCF"
+                     },
+                     {
+                         "Index":  81,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_offlinescannershell",
+                         "DisplayName":  "OfflineScannerShell.exe",
+                         "PolicyId":  "B3B60AF3-9762-5D7B-8AF2-E60EB48CF06D",
+                         "Targets":  [
+                                         "offlinescannershell.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "offlinescannershell.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_offlinescannershell.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_offlinescannershell.cip",
+                         "CipSha256":  "732423FE6C23395E8663AC09007AEDDBF66D6D3A08A56A14B94B79072B7D7DDD"
+                     },
+                     {
+                         "Index":  82,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_onedrivestandaloneupdater",
+                         "DisplayName":  "OneDriveStandaloneUpdater.exe",
+                         "PolicyId":  "BB437CA7-09A2-5AF4-AF35-1E9D4D43D8F8",
+                         "Targets":  [
+                                         "onedrivestandaloneupdater.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "onedrivestandaloneupdater.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "7"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_onedrivestandaloneupdater.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_onedrivestandaloneupdater.cip",
+                         "CipSha256":  "B9C28576A7C1E2463412DCA4887EC44E0D924E917F70356F1CB5C41A6B62EAFC"
+                     },
+                     {
+                         "Index":  83,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_pcalua",
+                         "DisplayName":  "Pcalua.exe",
+                         "PolicyId":  "D71540CB-F6A7-5EA5-AE55-054CCA1F32A9",
+                         "Targets":  [
+                                         "pcalua.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "pcalua.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_pcalua.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_pcalua.cip",
+                         "CipSha256":  "FC39E982BF06EEA8D05EF61EAE5D28B5F20DB0A959541011A4FB2F690A29C464"
+                     },
+                     {
+                         "Index":  84,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_pcwrun",
+                         "DisplayName":  "Pcwrun.exe",
+                         "PolicyId":  "432F8F0F-D855-530F-9A72-B79CB1C897CA",
+                         "Targets":  [
+                                         "pcwrun.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "pcwrun.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_pcwrun.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_pcwrun.cip",
+                         "CipSha256":  "5166D96D204A7D2118B0F2984E36878A4620917A1F1FCBE60F05758FFE551DFC"
+                     },
+                     {
+                         "Index":  85,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_pktmon",
+                         "DisplayName":  "Pktmon.exe",
+                         "PolicyId":  "04364CA4-8EC3-5652-90D1-5646C581C92C",
+                         "Targets":  [
+                                         "pktmon.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "pktmon.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "6"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_pktmon.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_pktmon.cip",
+                         "CipSha256":  "01AED96AEE372864962C0AF399CA39CD51C0988335F3FD246DABB027D0266919"
+                     },
+                     {
+                         "Index":  86,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_pnputil",
+                         "DisplayName":  "Pnputil.exe",
+                         "PolicyId":  "CCB56431-8928-5D86-8558-3931810BDFED",
+                         "Targets":  [
+                                         "pnputil.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "pnputil.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "6"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_pnputil.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_pnputil.cip",
+                         "CipSha256":  "67A441B3029ADE4C799FD5B4D78D91D078015A4BCD6AE6BF0AD83A278165961C"
+                     },
+                     {
+                         "Index":  87,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_presentationhost",
+                         "DisplayName":  "Presentationhost.exe",
+                         "PolicyId":  "7940601E-FACE-5669-BB2F-D217CF53755F",
+                         "Targets":  [
+                                         "presentationhost.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "presentationhost.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_presentationhost.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_presentationhost.cip",
+                         "CipSha256":  "D91B3D7C39E0B15102696B8E5D275128C28A82639B75C44F53E320838D51EC4A"
+                     },
+                     {
+                         "Index":  88,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_printbrm",
+                         "DisplayName":  "PrintBrm.exe",
+                         "PolicyId":  "A90DB4FD-C842-536D-B0C9-221DD6B6222B",
+                         "Targets":  [
+                                         "printbrm.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "printbrm.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "5"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_printbrm.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_printbrm.cip",
+                         "CipSha256":  "19FEE19C641F29A76658E7B2EC3198D81D5D5ECBEECC8C7D4B61A92DE63E5416"
+                     },
+                     {
+                         "Index":  89,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_procdump",
+                         "DisplayName":  "Procdump.exe",
+                         "PolicyId":  "D904F2C9-1D01-5B01-80C2-2F728D8B39CD",
+                         "Targets":  [
+                                         "procdump.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "procdump.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "3"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_procdump.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_procdump.cip",
+                         "CipSha256":  "E77BB03E2026069BB3C6D903C7E5AC61A6E7CB10664758CB5B02B7245436F169"
+                     },
+                     {
+                         "Index":  90,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_provlaunch",
+                         "DisplayName":  "Provlaunch.exe",
+                         "PolicyId":  "559AF4C8-F24E-52AC-8BDE-3FEDB448AAB9",
+                         "Targets":  [
+                                         "provlaunch.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "provlaunch.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_provlaunch.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_provlaunch.cip",
+                         "CipSha256":  "8862FA642568A396D5F15C7647C8615EAC4586DBAC9EF598B84FADD5A87A6BF8"
+                     },
+                     {
+                         "Index":  91,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_psr",
+                         "DisplayName":  "Psr.exe",
+                         "PolicyId":  "0B231836-09D8-5B9E-9535-7845116EC208",
+                         "Targets":  [
+                                         "psr.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "psr.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "3"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_psr.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_psr.cip",
+                         "CipSha256":  "827FA0CF35C413896DC915F8034D88E055658AF2984082D7F57DBCEF557B63A2"
+                     },
+                     {
+                         "Index":  92,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_query",
+                         "DisplayName":  "Query.exe",
+                         "PolicyId":  "1E8311D2-E2E4-50BA-86F8-66ADB8D9CECA",
+                         "Targets":  [
+                                         "query.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "query.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "6"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_query.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_query.cip",
+                         "CipSha256":  "9EA2D0E5DF1540D06678A0F19CCB9CFC0780E4242CE046037CDEFAE8DD393389"
+                     },
+                     {
+                         "Index":  93,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_rasautou",
+                         "DisplayName":  "Rasautou.exe",
+                         "PolicyId":  "E3824813-2353-5CE6-B267-9AB980A825C7",
+                         "Targets":  [
+                                         "rasautou.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "rasautou.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_rasautou.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_rasautou.cip",
+                         "CipSha256":  "79E4CC62150E0AE1F3DAB387CABDFE8876E294F39A42578FEFE5A1B1061E6C82"
+                     },
+                     {
+                         "Index":  94,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_rdrleakdiag",
+                         "DisplayName":  "rdrleakdiag.exe",
+                         "PolicyId":  "461C53FC-6011-5D44-9319-726D91ED5B9F",
+                         "Targets":  [
+                                         "rdrleakdiag.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "rdrleakdiag.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "3"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_rdrleakdiag.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_rdrleakdiag.cip",
+                         "CipSha256":  "15D4947848809B377E4B5A43E09C2F5283CE778BCDADE5B44BB0050DEC728702"
+                     },
+                     {
+                         "Index":  95,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_reg",
+                         "DisplayName":  "Reg.exe",
+                         "PolicyId":  "20442A3D-D3C9-50D1-BC34-A6778F38D970",
+                         "Targets":  [
+                                         "reg.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "reg.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "6"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_reg.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_reg.cip",
+                         "CipSha256":  "3145E4E895CE9ED4E976539E19192EB08FCAE437AD05E61B591EEC2239BDA289"
+                     },
+                     {
+                         "Index":  96,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_regasm",
+                         "DisplayName":  "Regasm.exe",
+                         "PolicyId":  "1E5DED97-59BF-54AE-A1E2-46A2802416F0",
+                         "Targets":  [
+                                         "regasm.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "regasm.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_regasm.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_regasm.cip",
+                         "CipSha256":  "EC3EA88361F56BDC4D5EEFBB41B1D6400C6660DECF20B3BDA4DE27802D01FAE3"
+                     },
+                     {
+                         "Index":  97,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_regedit",
+                         "DisplayName":  "Regedit.exe",
+                         "PolicyId":  "42A5B152-5C11-5D55-AF3D-B291B731C6DD",
+                         "Targets":  [
+                                         "regedit.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "regedit.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "6"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_regedit.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_regedit.cip",
+                         "CipSha256":  "57B4370785F234E80FCB0351C79684AFF3DBF5644AF78E152D5DE0D2451831C6"
+                     },
+                     {
+                         "Index":  98,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_register-cimprovider",
+                         "DisplayName":  "Register-cimprovider.exe",
+                         "PolicyId":  "5E4BD32F-0AF0-58D7-B509-DAF6D8F6ACA5",
+                         "Targets":  [
+                                         "register-cimprovider.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "register-cimprovider.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "6"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_register-cimprovider.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_register-cimprovider.cip",
+                         "CipSha256":  "7CED0D0BD96E7E07F9A780DD29C35F2F441A285B2970D65281FE05479829DFDF"
+                     },
+                     {
+                         "Index":  99,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_regsvcs",
+                         "DisplayName":  "Regsvcs.exe",
+                         "PolicyId":  "497C1617-3BB4-5EAF-9DB8-2C24B1AAF142",
+                         "Targets":  [
+                                         "regsvcs.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "regsvcs.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_regsvcs.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_regsvcs.cip",
+                         "CipSha256":  "BA632A073C8969D46F8E87F50E775BB424A235E3CF6541BDE62F1699496AC6BB"
+                     },
+                     {
+                         "Index":  100,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_regsvr32",
+                         "DisplayName":  "Regsvr32.exe",
+                         "PolicyId":  "7F2EE13B-37B1-5EE9-8D35-18A42B8E00FF",
+                         "Targets":  [
+                                         "regsvr32.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "regsvr32.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_regsvr32.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_regsvr32.cip",
+                         "CipSha256":  "3DC84C08ED20E1321D19139A0FB1DDA9EAFF88260A5B39089FC42364E6AD0170"
+                     },
+                     {
+                         "Index":  101,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_rpcping",
+                         "DisplayName":  "Rpcping.exe",
+                         "PolicyId":  "53FBEF1F-43B8-5947-813A-E222C86D13D3",
+                         "Targets":  [
+                                         "rpcping.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "rpcping.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "3"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_rpcping.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_rpcping.cip",
+                         "CipSha256":  "984B36A5CEF7D53C734A85DED79E8748ED793E2BC1D81959AB0DE4420513B7A1"
+                     },
+                     {
+                         "Index":  102,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_rundll32",
+                         "DisplayName":  "Rundll32.exe",
+                         "PolicyId":  "22C8AF73-D7C2-5FB1-98C6-3FCCDC94C570",
+                         "Targets":  [
+                                         "rundll32.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "rundll32.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_rundll32.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_rundll32.cip",
+                         "CipSha256":  "B86AE76F37EEBF0AEFB11C80E609058D35087C92338A0DC58352EE7540A17DF1"
+                     },
+                     {
+                         "Index":  103,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_sc",
+                         "DisplayName":  "Sc.exe",
+                         "PolicyId":  "BEA5945F-05AA-575F-B12B-49F88FD394ED",
+                         "Targets":  [
+                                         "sc.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "sc.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "6"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_sc.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_sc.cip",
+                         "CipSha256":  "F16C0721D5028F910DED56D4B1C8D1D9BB63C52AACC0443AA687C1F0A3432518"
+                     },
+                     {
+                         "Index":  104,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_schtasks",
+                         "DisplayName":  "Schtasks.exe",
+                         "PolicyId":  "D60BC801-B5D9-5CC9-866E-4E078F314B3B",
+                         "Targets":  [
+                                         "schtasks.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "schtasks.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "6"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_schtasks.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_schtasks.cip",
+                         "CipSha256":  "2E4DBE19C9050F66E1E1F80B6EEF9EDC77B2921A0F086340AE17DC7343EC4F7C"
+                     },
+                     {
+                         "Index":  105,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_scriptrunner",
+                         "DisplayName":  "Scriptrunner.exe",
+                         "PolicyId":  "45365831-532D-5888-AD17-0CEDEF178714",
+                         "Targets":  [
+                                         "scriptrunner.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "scriptrunner.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_scriptrunner.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_scriptrunner.cip",
+                         "CipSha256":  "32A7F59D4B08CA6ABBD875F552BC24E00636EA074EDD680BF6D0E5388BBA092B"
+                     },
+                     {
+                         "Index":  106,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_settingsynchost",
+                         "DisplayName":  "SettingSyncHost.exe",
+                         "PolicyId":  "0CF40E8D-0145-56D5-A6F5-60C54BA278C8",
+                         "Targets":  [
+                                         "settingsynchost.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "settingsynchost.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_settingsynchost.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_settingsynchost.cip",
+                         "CipSha256":  "DB4DF8E50A1B26BC12985F5D0B08DE9F4ABF5BE685316059729A31D8077F7471"
+                     },
+                     {
+                         "Index":  107,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_sftp",
+                         "DisplayName":  "Sftp.exe",
+                         "PolicyId":  "D124B5DA-EE19-5236-AD49-AD1546B69960",
+                         "Targets":  [
+                                         "sftp.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "sftp.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "1"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_sftp.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_sftp.cip",
+                         "CipSha256":  "35EC9B79798EC3D86FE0051B5333EF43AF67451EB49E533304075F5185B9B3FC"
+                     },
+                     {
+                         "Index":  108,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_sqldumper",
+                         "DisplayName":  "Sqldumper.exe",
+                         "PolicyId":  "277D5F8B-58C6-5627-A3B1-69D72987AA6B",
+                         "Targets":  [
+                                         "sqldumper.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "sqldumper.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "3"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_sqldumper.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_sqldumper.cip",
+                         "CipSha256":  "2E32B74697C25AA03510E1CABE55C2EF223D15FA0FDC82C08916C562BC889D1F"
+                     },
+                     {
+                         "Index":  109,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_sqlps",
+                         "DisplayName":  "Sqlps.exe",
+                         "PolicyId":  "770449EB-11EB-5B89-943C-FCD1C1CAAEC6",
+                         "Targets":  [
+                                         "sqlps.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "sqlps.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "5"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_sqlps.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_sqlps.cip",
+                         "CipSha256":  "356B2F7EAAA089FF5FC19C305EB1C7DB671CDFAE0B812422BA276FA5ACCE8D6F"
+                     },
+                     {
+                         "Index":  110,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_ssh",
+                         "DisplayName":  "ssh.exe",
+                         "PolicyId":  "8F7AC0A2-9810-5ECB-AF25-FFB8C7C68CBC",
+                         "Targets":  [
+                                         "ssh.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "ssh.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "6"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_ssh.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_ssh.cip",
+                         "CipSha256":  "271B0606B4B2E4FCAB9CC2AAE2B491C75717CA161C5F844FEA17CD71E6397BB6"
+                     },
+                     {
+                         "Index":  111,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_syncappvpublishingserver_exe",
+                         "DisplayName":  "SyncAppvPublishingServer.exe",
+                         "PolicyId":  "3383DB37-19D9-51A4-B965-30397EBB7E5E",
+                         "Targets":  [
+                                         "syncappvpublishingserver.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "syncappvpublishingserver.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_syncappvpublishingserver_exe.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_syncappvpublishingserver_exe.cip",
+                         "CipSha256":  "3E2537E4DB600C47A113157B49CFEABD9E8380E2F4FA2338BC39423B9F660DFB"
+                     },
+                     {
+                         "Index":  112,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_tar",
+                         "DisplayName":  "Tar.exe",
+                         "PolicyId":  "4CB55BB4-E119-510C-ABC3-9A577C27D638",
+                         "Targets":  [
+                                         "tar.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "tar.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "6"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_tar.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_tar.cip",
+                         "CipSha256":  "4F716EA998A4D582E8445CE7026FDD61DF64C0E9A461ABF4DB41745EC4B842ED"
+                     },
+                     {
+                         "Index":  113,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_te",
+                         "DisplayName":  "te.exe",
+                         "PolicyId":  "AE2E169D-8559-50BB-9C26-52CA11CC4F8A",
+                         "Targets":  [
+                                         "te.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "te.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_te.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_te.cip",
+                         "CipSha256":  "3DF6D30D16ADC0BB406728C3AAEFA9076CB0F96F8D67AEFE5A8F94954FF78AB0"
+                     },
+                     {
+                         "Index":  114,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_tttracer",
+                         "DisplayName":  "Tttracer.exe",
+                         "PolicyId":  "741F9C67-C121-59E7-90C4-173C357B528C",
+                         "Targets":  [
+                                         "tttracer.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "tttracer.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "3"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_tttracer.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_tttracer.cip",
+                         "CipSha256":  "56E06270BD792086636DD4E1189E339D3520941A2D4447B96A380477EC4C2079"
+                     },
+                     {
+                         "Index":  115,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_unregmp2",
+                         "DisplayName":  "Unregmp2.exe",
+                         "PolicyId":  "C2660A48-2B73-5E96-8625-A8BBAA167AF4",
+                         "Targets":  [
+                                         "unregmp2.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "unregmp2.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_unregmp2.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_unregmp2.cip",
+                         "CipSha256":  "9CEF1ABA16A8F11F3C5AD9AC7DA70CFD606663D2EE0E104EEA7AE296683CE0B3"
+                     },
+                     {
+                         "Index":  116,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_vbc",
+                         "DisplayName":  "vbc.exe",
+                         "PolicyId":  "CACA1317-AACE-5DF4-9F9F-137568E40F5D",
+                         "Targets":  [
+                                         "vbc.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "vbc.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_vbc.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_vbc.cip",
+                         "CipSha256":  "812EAE7FC1E4228C86443860D9CDCB8D3581A376566397592C071F509B22B07B"
+                     },
+                     {
+                         "Index":  117,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_verclsid",
+                         "DisplayName":  "Verclsid.exe",
+                         "PolicyId":  "D820A80F-F8D8-5D35-94E6-2465EFE916FC",
+                         "Targets":  [
+                                         "verclsid.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "verclsid.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_verclsid.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_verclsid.cip",
+                         "CipSha256":  "EF148A2B9A32B4D63AFAEB2943D0A677A4712F141C4BD9EA8C1C4BD24B2C8865"
+                     },
+                     {
+                         "Index":  118,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_visualuiaverifynative",
+                         "DisplayName":  "VisualUiaVerifyNative.exe",
+                         "PolicyId":  "5E0A991F-F292-51C2-8345-0733164FEFEA",
+                         "Targets":  [
+                                         "visualuiaverifynative.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "visualuiaverifynative.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_visualuiaverifynative.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_visualuiaverifynative.cip",
+                         "CipSha256":  "F51754E0D91BA3DCCF0CA7E563D9D70CAFAD4BC0703AF64890B5E2D97D28831B"
+                     },
+                     {
+                         "Index":  119,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_vsdiagnostics",
+                         "DisplayName":  "VSDiagnostics.exe",
+                         "PolicyId":  "76954C2C-78F5-54CA-8A3C-79EA1470B9BF",
+                         "Targets":  [
+                                         "vsdiagnostics.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "vsdiagnostics.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_vsdiagnostics.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_vsdiagnostics.cip",
+                         "CipSha256":  "53EFEF6468B6512D3B03EE739CCD805F122D2CE17369F477AC2A48F79F63534C"
+                     },
+                     {
+                         "Index":  120,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_vshadow",
+                         "DisplayName":  "Vshadow.exe",
+                         "PolicyId":  "EFAAC64E-B34A-5E74-90FD-2D22EC4F77DA",
+                         "Targets":  [
+                                         "vshadow.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "vshadow.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "3"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_vshadow.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_vshadow.cip",
+                         "CipSha256":  "3A6B5BB81693C8B9B075A0EF521A79A19099CC198C4417CADB9AA669C706CFF0"
+                     },
+                     {
+                         "Index":  121,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_vsiisexelauncher",
+                         "DisplayName":  "VSIISExeLauncher.exe",
+                         "PolicyId":  "AD557683-66BD-5CDD-A493-28667568AD48",
+                         "Targets":  [
+                                         "vsiisexelauncher.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "vsiisexelauncher.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_vsiisexelauncher.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_vsiisexelauncher.cip",
+                         "CipSha256":  "154BB3FBED403C6A5AEF7E701B5BB03AA01D72B7196C413CBC20D18A0E403265"
+                     },
+                     {
+                         "Index":  122,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_vsjitdebugger",
+                         "DisplayName":  "vsjitdebugger.exe",
+                         "PolicyId":  "4CA551A1-8638-5D30-8F82-889C344326AF",
+                         "Targets":  [
+                                         "vsjitdebugger.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "vsjitdebugger.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_vsjitdebugger.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_vsjitdebugger.cip",
+                         "CipSha256":  "77C8E717775B943D2C31CCC8E461267EAE94CDBEE28CBF2AD7792EE8C78DB701"
+                     },
+                     {
+                         "Index":  123,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_vslaunchbrowser",
+                         "DisplayName":  "VSLaunchBrowser.exe",
+                         "PolicyId":  "FB1DBB67-F4A3-5083-8AB8-1A7D6A026878",
+                         "Targets":  [
+                                         "vslaunchbrowser.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "vslaunchbrowser.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_vslaunchbrowser.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_vslaunchbrowser.cip",
+                         "CipSha256":  "C5FAE8C577A605CA3ADDD1A867A354232149567EBF6E13C97DF8536D35C8ABCC"
+                     },
+                     {
+                         "Index":  124,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_vsls-agent",
+                         "DisplayName":  "vsls-agent.exe",
+                         "PolicyId":  "0DFE2EA7-86D1-5B0E-B71A-6B7BFB522838",
+                         "Targets":  [
+                                         "vsls-agent.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "vsls-agent.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_vsls-agent.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_vsls-agent.cip",
+                         "CipSha256":  "54C632F93625DF21AF36D55BCA13C25611BA502B7C6237FE3ED2156B3B35A319"
+                     },
+                     {
+                         "Index":  125,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_vstest_console",
+                         "DisplayName":  "vstest.console.exe",
+                         "PolicyId":  "891069F3-FB4C-51A9-98F1-2E76AFA33448",
+                         "Targets":  [
+                                         "vstest.console.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "vstest.console.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_vstest_console.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_vstest_console.cip",
+                         "CipSha256":  "607014238CA1F8B16F47EC5031ADF6103E9507C15B9E282BDDD274AE2A1F0A83"
+                     },
+                     {
+                         "Index":  126,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_wab",
+                         "DisplayName":  "Wab.exe",
+                         "PolicyId":  "D77DB5D7-6509-5D4F-94B0-5AD4A302DDCF",
+                         "Targets":  [
+                                         "wab.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "wab.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "1"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_wab.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_wab.cip",
+                         "CipSha256":  "10EDC38BE5D53D9187869A8474DEF3534EED38720D6770CF214A5146C8B272BE"
+                     },
+                     {
+                         "Index":  127,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_wbadmin",
+                         "DisplayName":  "wbadmin.exe",
+                         "PolicyId":  "E423DF41-A5EA-5886-9466-78D7C4C51E92",
+                         "Targets":  [
+                                         "wbadmin.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "wbadmin.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "3"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_wbadmin.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_wbadmin.cip",
+                         "CipSha256":  "8847910ACA35DBE353D5ACBABEC5DEC2DE3FD2CC5E8DFA82B15697A615E02D01"
+                     },
+                     {
+                         "Index":  128,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_wbemtest",
+                         "DisplayName":  "wbemtest.exe",
+                         "PolicyId":  "503C4287-B43B-523C-BE98-7A0219D15E19",
+                         "Targets":  [
+                                         "wbemtest.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "wbemtest.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "6"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_wbemtest.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_wbemtest.cip",
+                         "CipSha256":  "3AF22B18D0E94CF7A223E5A0D79A46D79F4B8257DD631FE0041B2B74101E3BD6"
+                     },
+                     {
+                         "Index":  129,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_wfc",
+                         "DisplayName":  "Wfc.exe",
+                         "PolicyId":  "49E1AECC-269A-5C8D-B4C6-B84E25BA8F63",
+                         "Targets":  [
+                                         "wfc.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "wfc.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_wfc.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_wfc.cip",
+                         "CipSha256":  "A331C47B1719CA40FA5EBE73128E1972C948C1DF8695B141C23E18F9BE488B9A"
+                     },
+                     {
+                         "Index":  130,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_wfmformat",
+                         "DisplayName":  "WFMFormat.exe",
+                         "PolicyId":  "F0719735-F421-5FD5-B1F9-94FE82313C2E",
+                         "Targets":  [
+                                         "wfmformat.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "wfmformat.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_wfmformat.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_wfmformat.cip",
+                         "CipSha256":  "231DB1B691EB8E2AD6A022626456FDDE2E1F4C9B423A0889772F19993388B188"
+                     },
+                     {
+                         "Index":  131,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_windbg",
+                         "DisplayName":  "WinDbg.exe",
+                         "PolicyId":  "7D13B174-9842-5C7D-BC18-7FDBFD0207EC",
+                         "Targets":  [
+                                         "windbg.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "windbg.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_windbg.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_windbg.cip",
+                         "CipSha256":  "F7BC7904C3EBBA1D8DD4A579AAEBA6209302210B700BD4D332381A8803D70797"
+                     },
+                     {
+                         "Index":  132,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_winfile",
+                         "DisplayName":  "winfile.exe",
+                         "PolicyId":  "856C8C8C-DDA6-513C-85B6-E98B0BB591D8",
+                         "Targets":  [
+                                         "winfile.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "winfile.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "1"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_winfile.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_winfile.cip",
+                         "CipSha256":  "71D8087F5DD8948B5D8C387E74638ED7939DCD416852E177A7EE894006435EAC"
+                     },
+                     {
+                         "Index":  133,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_winget",
+                         "DisplayName":  "winget.exe",
+                         "PolicyId":  "BBE51D66-B718-528E-9D56-959E35FA4DCF",
+                         "Targets":  [
+                                         "winget.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "winget.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "7"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_winget.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_winget.cip",
+                         "CipSha256":  "2E08764C59A965CDD282DB97CA8A002E7586E293ED218F373D7E94AB10004D2F"
+                     },
+                     {
+                         "Index":  134,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_wlrmdr",
+                         "DisplayName":  "Wlrmdr.exe",
+                         "PolicyId":  "FF553443-15BB-50B1-B16C-1B177EA01EC4",
+                         "Targets":  [
+                                         "wlrmdr.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "wlrmdr.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "1"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_wlrmdr.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_wlrmdr.cip",
+                         "CipSha256":  "DB152231998F3CB08177437245B0DF0B93FE1FEBD701E3DD382F94A7747AB728"
+                     },
+                     {
+                         "Index":  135,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_wmic",
+                         "DisplayName":  "Wmic.exe",
+                         "PolicyId":  "6253BB96-3F9F-5C0A-85F2-616481D13839",
+                         "Targets":  [
+                                         "wmic.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "wmic.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "1"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_wmic.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_wmic.cip",
+                         "CipSha256":  "FB0560AF890D8ECC58012E95D726D845F00C96EA1E32641BA5DE97EBD05E96A1"
+                     },
+                     {
+                         "Index":  136,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_workfolders",
+                         "DisplayName":  "WorkFolders.exe",
+                         "PolicyId":  "7C461137-D8F5-5F96-B505-30B8FC18BF11",
+                         "Targets":  [
+                                         "workfolders.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "workfolders.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "7"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_workfolders.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_workfolders.cip",
+                         "CipSha256":  "B9519786077339AA24C9891A3338C33284C1FA30D82CA33E11A216BF655D70C5"
+                     },
+                     {
+                         "Index":  137,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_wscript",
+                         "DisplayName":  "Wscript.exe",
+                         "PolicyId":  "B21D0123-0B9E-593B-961C-509686D41C4F",
+                         "Targets":  [
+                                         "wscript.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "wscript.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_wscript.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_wscript.cip",
+                         "CipSha256":  "26C1ED3DC30CE164F9C049C70B7959B1615A64FDA833D5B731B9FD6D3CED2F4C"
+                     },
+                     {
+                         "Index":  138,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_wsl",
+                         "DisplayName":  "Wsl.exe",
+                         "PolicyId":  "6049E164-7060-56CC-8D8B-DC372C8C3D65",
+                         "Targets":  [
+                                         "wsl.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "wsl.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_wsl.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_wsl.cip",
+                         "CipSha256":  "E9206EE36EB8F143202AD44CF5E94B8CCCA3839F9E4D74A9DF35FDE0AA613F65"
+                     },
+                     {
+                         "Index":  139,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_wsreset",
+                         "DisplayName":  "Wsreset.exe",
+                         "PolicyId":  "A767922F-F4DB-53AA-BEE2-5905090D7D17",
+                         "Targets":  [
+                                         "wsreset.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "wsreset.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_wsreset.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_wsreset.cip",
+                         "CipSha256":  "234F0DB1BD45F8FB8105785614564E687698EE4AED5771F43F35F7DF02ECB4E5"
+                     },
+                     {
+                         "Index":  140,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_wuauclt",
+                         "DisplayName":  "wuauclt.exe",
+                         "PolicyId":  "172A685F-1436-52D8-9540-AF55AF0165FD",
+                         "Targets":  [
+                                         "wuauclt.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "wuauclt.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "2"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_wuauclt.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_wuauclt.cip",
+                         "CipSha256":  "62F157492E65CC16208CF17441CB22DAF898796A9BC074C02AAF3BC7A5F47596"
+                     },
+                     {
+                         "Index":  141,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_xsd",
+                         "DisplayName":  "xsd.exe",
+                         "PolicyId":  "F28EDA67-F17F-58A6-8DA5-52000D9BEF6B",
+                         "Targets":  [
+                                         "xsd.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "xsd.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "4"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_xsd.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_xsd.cip",
+                         "CipSha256":  "A05B8E416F30EBA327467E4C6F53CF990275C882F6F9C107F53F08875B44F582"
+                     },
+                     {
+                         "Index":  142,
+                         "FriendlyName":  "PLURA_WDAC_LOLBAS_DENY_xwizard",
+                         "DisplayName":  "Xwizard.exe",
+                         "PolicyId":  "48F571C5-E45B-5200-81AA-6127B359F914",
+                         "Targets":  [
+                                         "xwizard.exe"
+                                     ],
+                         "TargetLeaves":  [
+                                              "xwizard.exe"
+                                          ],
+                         "ToggleCategories":  [
+                                                  "7"
+                                              ],
+                         "BinaryFileName":  "PLURA_WDAC_LOLBAS_DENY_xwizard.cip",
+                         "DeploymentBinaryFileName":  "",
+                         "RelativeBinaryPath":  "PLURA_WDAC_LOLBAS_DENY_xwizard.cip",
+                         "CipSha256":  "5300812E3E23447BEE3B2E71081D12D8085E8FD36501C57AB046880F1D3EE934"
+                     }
+                 ]
+}
