@@ -1,0 +1,654 @@
+[
+  {
+    "category": "1",
+    "fileName": "ftp.exe"
+  },
+  {
+    "category": "1",
+    "fileName": "msdt.exe"
+  },
+  {
+    "category": "1",
+    "fileName": "sftp.exe"
+  },
+  {
+    "category": "1",
+    "fileName": "wmic.exe"
+  },
+  {
+    "category": "1",
+    "fileName": "devicecredentialdeployment.exe"
+  },
+  {
+    "category": "1",
+    "fileName": "ecmangen.exe"
+  },
+  {
+    "category": "1",
+    "fileName": "finger.exe"
+  },
+  {
+    "category": "1",
+    "fileName": "cmdl32.exe"
+  },
+  {
+    "category": "1",
+    "fileName": "colorcpl.exe"
+  },
+  {
+    "category": "1",
+    "fileName": "wab.exe"
+  },
+  {
+    "category": "1",
+    "fileName": "wlrmdr.exe"
+  },
+  {
+    "category": "1",
+    "fileName": "winfile.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "atbroker.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "cmstp.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "computerdefaults.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "mshta.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "pcalua.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "certutil.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "cscript.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "dfsvc.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "powershell.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "pwsh.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "wscript.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "regsvr32.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "rundll32.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "customshellhost.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "hh.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "mavinject.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "powershell_ise.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "msxsl.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "odbcconf.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "offlinescannershell.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "pcwrun.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "provlaunch.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "rasautou.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "scriptrunner.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "settingsynchost.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "unregmp2.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "verclsid.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "wsreset.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "wuauclt.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "bitsadmin.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "eventvwr.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "regasm.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "regsvcs.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "eudcedit.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "expand.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "forfiles.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "ieexec.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "makecab.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "msconfig.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "presentationhost.exe"
+  },
+  {
+    "category": "2",
+    "fileName": "syncappvpublishingserver.exe"
+  },
+  {
+    "category": "3",
+    "fileName": "dsdbutil.exe"
+  },
+  {
+    "category": "3",
+    "fileName": "ntdsutil.exe"
+  },
+  {
+    "category": "3",
+    "fileName": "cmdkey.exe"
+  },
+  {
+    "category": "3",
+    "fileName": "createdump.exe"
+  },
+  {
+    "category": "3",
+    "fileName": "dump64.exe"
+  },
+  {
+    "category": "3",
+    "fileName": "dumpminitool.exe"
+  },
+  {
+    "category": "3",
+    "fileName": "procdump.exe"
+  },
+  {
+    "category": "3",
+    "fileName": "diskshadow.exe"
+  },
+  {
+    "category": "3",
+    "fileName": "esentutl.exe"
+  },
+  {
+    "category": "3",
+    "fileName": "vshadow.exe"
+  },
+  {
+    "category": "3",
+    "fileName": "adplus.exe"
+  },
+  {
+    "category": "3",
+    "fileName": "psr.exe"
+  },
+  {
+    "category": "3",
+    "fileName": "rdrleakdiag.exe"
+  },
+  {
+    "category": "3",
+    "fileName": "rpcping.exe"
+  },
+  {
+    "category": "3",
+    "fileName": "sqldumper.exe"
+  },
+  {
+    "category": "3",
+    "fileName": "tttracer.exe"
+  },
+  {
+    "category": "3",
+    "fileName": "wbadmin.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "addinutil.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "aspnet_compiler.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "csi.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "fsi.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "fsianycpu.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "te.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "installutil.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "msbuild.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "microsoft.workflow.compiler.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "appcert.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "bash.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "dxcap.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "vsdiagnostics.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "vsiisexelauncher.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "vslaunchbrowser.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "visualuiaverifynative.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "wfmformat.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "wfc.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "xsd.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "csc.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "dotnet.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "vbc.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "wsl.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "coregen.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "dnx.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "ilasm.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "jsc.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "devtunnel.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "vsjitdebugger.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "vstest.console.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "windbg.exe"
+  },
+  {
+    "category": "4",
+    "fileName": "vsls-agent.exe"
+  },
+  {
+    "category": "5",
+    "fileName": "appvlp.exe"
+  },
+  {
+    "category": "5",
+    "fileName": "certreq.exe"
+  },
+  {
+    "category": "5",
+    "fileName": "bcp.exe"
+  },
+  {
+    "category": "5",
+    "fileName": "datasvcutil.exe"
+  },
+  {
+    "category": "5",
+    "fileName": "mpiexec.exe"
+  },
+  {
+    "category": "5",
+    "fileName": "printbrm.exe"
+  },
+  {
+    "category": "5",
+    "fileName": "certoc.exe"
+  },
+  {
+    "category": "5",
+    "fileName": "configsecuritypolicy.exe"
+  },
+  {
+    "category": "5",
+    "fileName": "dnscmd.exe"
+  },
+  {
+    "category": "5",
+    "fileName": "dtutil.exe"
+  },
+  {
+    "category": "5",
+    "fileName": "ldifde.exe"
+  },
+  {
+    "category": "5",
+    "fileName": "sqlps.exe"
+  },
+  {
+    "category": "5",
+    "fileName": "sqltoolps.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "runas.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "ssh.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "mstsc.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "shadow.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "winrs.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "at.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "cmd.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "icacls.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "netsh.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "openfiles.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "reg.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "register-cimprovider.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "sc.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "schtasks.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "takeown.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "tscon.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "tsdiscon.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "wbemtest.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "wevtutil.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "logoff.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "ngen.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "pktmon.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "qappsrv.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "qprocess.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "query.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "quser.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "qwinsta.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "rwinsta.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "tskill.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "msiexec.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "pnputil.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "regedit.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "mmc.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "tar.exe"
+  },
+  {
+    "category": "6",
+    "fileName": "findstr.exe"
+  },
+  {
+    "category": "7",
+    "fileName": "appinstaller.exe"
+  },
+  {
+    "category": "7",
+    "fileName": "workfolders.exe"
+  },
+  {
+    "category": "7",
+    "fileName": "msedge.exe"
+  },
+  {
+    "category": "7",
+    "fileName": "msedge_proxy.exe"
+  },
+  {
+    "category": "7",
+    "fileName": "onedrivestandaloneupdater.exe"
+  },
+  {
+    "category": "7",
+    "fileName": "winget.exe"
+  },
+  {
+    "category": "7",
+    "fileName": "msedgewebview2.exe"
+  },
+  {
+    "category": "7",
+    "fileName": "desktopimgdownldr.exe"
+  },
+  {
+    "category": "7",
+    "fileName": "imewdbld.exe"
+  },
+  {
+    "category": "7",
+    "fileName": "xwizard.exe"
+  },
+  {
+    "category": "8",
+    "fileName": "conhost.exe"
+  },
+  {
+    "category": "8",
+    "fileName": "explorer.exe"
+  },
+  {
+    "category": "8",
+    "fileName": "control.exe"
+  }
+]
