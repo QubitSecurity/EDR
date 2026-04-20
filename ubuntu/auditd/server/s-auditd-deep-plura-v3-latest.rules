@@ -1,5 +1,5 @@
-# PLURA_CONFIG_VERSION: u-auditd-deep-plura-v3-latest.rules
-# PLURA_SCHEMA_TARGET: v3.1
+# PLURA_CONFIG_VERSION: auditd-deep-plura-v3.2.rules
+# PLURA_SCHEMA_TARGET: v3.2
 # Profile: DEEP (incident response / higher visibility)
 # Notes:
 # - Includes BASELINE rules + deeper syscall auditing.
@@ -83,10 +83,6 @@
 # Removed (often high-frequency in ops environments):
 # -w /usr/bin/rm -p x -k qubit-rm
 # -w /usr/bin/cp -p x -k qubit-cp
-
-# Socket syscall (AF_PACKET=17) - add auid filter to reduce daemon noise
--a always,exit -F arch=b64 -S socket -F a0=17 -F auid!=unset -k qubit-socket-17
--a always,exit -F arch=b32 -S socket -F a0=17 -F auid!=unset -k qubit-socket-17
 
 # Firewall (Ubuntu)
 # iptables binaries (may be nft-backed depending on system alternatives)
@@ -252,6 +248,26 @@
 -a always,exit -F arch=b64 -S ptrace -F auid!=unset -k plura_ptrace
 -a always,exit -F arch=b32 -S ptrace -F auid!=unset -k plura_ptrace
 
+# 3-9) BPFDoor / packet socket + BPF filter attach monitoring
+# AF_PACKET=17, SOCK_DGRAM=2, SOCK_RAW=3
+# Do not add auid!=unset: BPFDoor may run as daemon/root with auid=unset.
+-a always,exit -F arch=b64 -S socket -F a0=17 -k plura_bpfdoor_socket
+-a always,exit -F arch=b32 -S socket -F a0=17 -k plura_bpfdoor_socket
+
+# Optional: raw socket creation that may also be relevant in some cases
+-a always,exit -F arch=b64 -S socket -F a0=2  -F a1=3 -k plura_bpfdoor_socket
+-a always,exit -F arch=b64 -S socket -F a0=10 -F a1=3 -k plura_bpfdoor_socket
+# If 32-bit userspace compatibility matters in your environment, also add:
+# -a always,exit -F arch=b32 -S socket -F a0=2  -F a1=3 -k plura_bpfdoor_socket
+# -a always,exit -F arch=b32 -S socket -F a0=10 -F a1=3 -k plura_bpfdoor_socket
+
+# BPF filter attachment only
+# setsockopt(fd, SOL_SOCKET=1, SO_ATTACH_FILTER=26, ...)
+# setsockopt(fd, SOL_SOCKET=1, SO_ATTACH_BPF=50, ...)
+-a always,exit -F arch=b64 -S setsockopt -F a1=1 -F a2=26 -k plura_bpfdoor_setsockopt
+-a always,exit -F arch=b32 -S setsockopt -F a1=1 -F a2=26 -k plura_bpfdoor_setsockopt
+-a always,exit -F arch=b64 -S setsockopt -F a1=1 -F a2=50 -k plura_bpfdoor_setsockopt
+-a always,exit -F arch=b32 -S setsockopt -F a1=1 -F a2=50 -k plura_bpfdoor_setsockopt
 # Optional (advanced / kernel-dependent): memfd_create is not available on older kernels
 # -a always,exit -F arch=b64 -S memfd_create -F auid!=unset -k plura_memfd
 # -a always,exit -F arch=b32 -S memfd_create -F auid!=unset -k plura_memfd
