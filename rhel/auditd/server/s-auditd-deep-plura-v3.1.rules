@@ -64,10 +64,6 @@
 # -w /usr/bin/rm -p x -k qubit-rm
 # -w /usr/bin/cp -p x -k qubit-cp
 
-# Socket syscall (AF_PACKET=17) - add auid filter to reduce daemon noise
--a always,exit -F arch=b64 -S socket -F a0=17 -F auid!=unset -k qubit-socket-17
--a always,exit -F arch=b32 -S socket -F a0=17 -F auid!=unset -k qubit-socket-17
-
 # Firewall (kept as existing)
 -w /etc/iptables -p wa -k qubit-iptables
 -w /etc/sysconfig/iptables -p wa -k qubit-iptables
@@ -217,6 +213,10 @@
 # 3-8) ptrace (process injection / debugging abuse)
 -a always,exit -F arch=b64 -S ptrace -F auid!=unset -k plura_ptrace
 -a always,exit -F arch=b32 -S ptrace -F auid!=unset -k plura_ptrace
+
+# Socket syscall (AF_PACKET=17) - add auid filter to reduce daemon noise
+-a always,exit -F arch=b64 -S socket -F a0=17 -F auid!=unset -k qubit-socket-17
+-a always,exit -F arch=b32 -S socket -F a0=17 -F auid!=unset -k qubit-socket-17
 
 # Optional (advanced / kernel-dependent): memfd_create is not available on older kernels
 # -a always,exit -F arch=b64 -S memfd_create -F auid!=unset -k plura_memfd
