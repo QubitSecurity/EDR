@@ -64,10 +64,6 @@
 # -w /usr/bin/rm -p x -k qubit-rm
 # -w /usr/bin/cp -p x -k qubit-cp
 
-# Socket syscall (AF_PACKET=17) - add auid filter to reduce daemon noise
--a always,exit -F arch=b64 -S socket -F a0=17 -F auid!=unset -k qubit-socket-17
--a always,exit -F arch=b32 -S socket -F a0=17 -F auid!=unset -k qubit-socket-17
-
 # Firewall (kept as existing)
 -w /etc/iptables -p wa -k qubit-iptables
 -w /etc/sysconfig/iptables -p wa -k qubit-iptables
