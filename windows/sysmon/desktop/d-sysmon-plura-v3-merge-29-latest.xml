@@ -1,4 +1,4 @@
-<!-- PLURA_CONFIG_VERSION: d-sysmon-29-plura-v3.4.2-merged-refactored.xml -->
+<!-- PLURA_CONFIG_VERSION: d-sysmon-29-plura-v3.4.3-merged-refactored -->
 <!-- PLURA_SCHEMA_TARGET: 4.90 -->
 
 <Sysmon schemaversion="4.90">
@@ -232,10 +232,6 @@
 		<DestinationHostname condition="end with">microsoft.com.akadns.net</DestinationHostname>
 		<DestinationHostname condition="end with">microsoft.com.nsatc.net</DestinationHostname>
 		<Rule groupRelation="and">
-		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
-		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
-		</Rule>
-		<Rule groupRelation="and">
 		  <Image condition="is">C:\Windows\System32\lsass.exe</Image>
 		  <DestinationPort condition="is">88</DestinationPort>
 		</Rule>
@@ -246,7 +242,6 @@
 		<SourceIp condition="is">0:0:0:0:0:0:0:1</SourceIp>
 		<DestinationIp condition="is">239.255.255.250</DestinationIp>
 		<DestinationIp condition="is">0:0:0:0:0:0:0:1</DestinationIp>
-		<DestinationIp condition="is">168.126.63.1</DestinationIp>
 		<DestinationIp condition="begin with">ff02:0:0:0:0:0:1:</DestinationIp>
 		<DestinationIp condition="end with">.255</DestinationIp>
 		<Rule groupRelation="and">
@@ -260,7 +255,13 @@
 		<Image condition="is">C:\Program Files\Sophos\Sophos Network Threat Protection\bin\SntpService.exe</Image>
 		<Image condition="is">C:\Program Files\Palo Alto Networks\Traps\cyserver.exe</Image>
 		<Image condition="end with">winlogbeat.exe</Image>
-		<Image condition="end with">packetbeat.exe</Image>		    
+		<Image condition="end with">packetbeat.exe</Image>
+
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>		
 	  </NetworkConnect>
 	</RuleGroup>
 
