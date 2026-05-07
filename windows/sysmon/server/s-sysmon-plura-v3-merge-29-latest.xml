@@ -1,4 +1,4 @@
-<!-- PLURA_CONFIG_VERSION: s-sysmon-29-plura-v3.4.2-merged-refactored.xml -->
+<!-- PLURA_CONFIG_VERSION: s-sysmon-29-plura-v3.4.3-merged-refactored -->
 <!-- PLURA_SCHEMA_TARGET: 4.90 -->
 
 <Sysmon schemaversion="4.90">
@@ -164,10 +164,6 @@
 		<DestinationHostname condition="end with">microsoft.com.akadns.net</DestinationHostname>
 		<DestinationHostname condition="end with">microsoft.com.nsatc.net</DestinationHostname>
 		<Rule groupRelation="and">
-		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
-		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
-		</Rule>
-		<Rule groupRelation="and">
 		  <Image condition="is">C:\Windows\System32\lsass.exe</Image>
 		  <DestinationPort condition="is">88</DestinationPort>
 		</Rule>
@@ -178,7 +174,6 @@
 		<SourceIp condition="is">0:0:0:0:0:0:0:1</SourceIp>
 		<DestinationIp condition="is">239.255.255.250</DestinationIp>
 		<DestinationIp condition="is">0:0:0:0:0:0:0:1</DestinationIp>
-		<DestinationIp condition="is">168.126.63.1</DestinationIp>
 		<DestinationIp condition="begin with">ff02:0:0:0:0:0:1:</DestinationIp>
 		<DestinationIp condition="end with">.255</DestinationIp>
 		<Rule groupRelation="and">
@@ -192,7 +187,254 @@
 		<Image condition="is">C:\Program Files\Sophos\Sophos Network Threat Protection\bin\SntpService.exe</Image>
 		<Image condition="is">C:\Program Files\Palo Alto Networks\Traps\cyserver.exe</Image>
 		<Image condition="end with">winlogbeat.exe</Image>
-		<Image condition="end with">packetbeat.exe</Image>	    
+		<Image condition="end with">packetbeat.exe</Image>
+
+		<!-- 10.0.0.0/8 -->
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="begin with">10.</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+		
+		<!-- 172.16.0.0/16 ~ 172.31.0.0/16 -->
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="begin with">172.16.</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+		
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="begin with">172.17.</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+		
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="begin with">172.18.</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+		
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="begin with">172.19.</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+		
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="begin with">172.20.</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+		
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="begin with">172.21.</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+		
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="begin with">172.22.</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+		
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="begin with">172.23.</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+		
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="begin with">172.24.</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+		
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="begin with">172.25.</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+		
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="begin with">172.26.</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+		
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="begin with">172.27.</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+		
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="begin with">172.28.</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+		
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="begin with">172.29.</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+		
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="begin with">172.30.</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+		
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="begin with">172.31.</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+		
+		<!-- 192.168.0.0/16 -->
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="begin with">192.168.</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+		
+		<!-- KT DNS -->
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="is">168.126.63.1</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+		
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="is">168.126.63.2</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+		
+		<!-- SKB / SKT DNS -->
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="is">219.250.36.130</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+		
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="is">210.220.163.82</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+		
+		<!-- LG U+ DNS -->
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="is">164.124.101.2</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+		
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="is">203.248.252.2</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+		<!--
+		===========================================================
+		Google Public DNS
+		===========================================================
+
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="is">8.8.8.8</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="is">8.8.4.4</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+
+		===========================================================
+		Cloudflare DNS
+		===========================================================
+
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="is">1.1.1.1</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="is">1.0.0.1</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+
+		===========================================================
+		Quad9 DNS
+		===========================================================
+
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="is">9.9.9.9</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="is">149.112.112.112</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+
+		===========================================================
+		OpenDNS
+		===========================================================
+
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="is">208.67.222.222</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
+		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
+		  <DestinationIp condition="is">208.67.220.220</DestinationIp>
+		  <DestinationPort condition="is">53</DestinationPort>
+		</Rule>
+		-->
 	  </NetworkConnect>
 	</RuleGroup>
 	
