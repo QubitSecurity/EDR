@@ -235,7 +235,7 @@
 # -a always,exit -F arch=b32 -S memfd_create -F auid!=unset -k plura_memfd
 
 ############################################################
-# 4) PLURA GTFOBins additions (execve-focused audit rules)
+# 4) PLURA GTFOBins additions (file watch audit rules)
 ############################################################
 # Source: GTFOBins Audit rule.txt
 # Placement: appended after the existing PLURA deep additions.
@@ -244,119 +244,53 @@
 
 # 4-1) Privilege / sandbox wrappers (GTFOBins priv)
 -c
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/aa-exec -k plura_gtfobins_priv
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/aa-exec -k plura_gtfobins_priv
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/aoss -k plura_gtfobins_priv
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/aoss -k plura_gtfobins_priv
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/arch-nspawn -k plura_gtfobins_priv
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/arch-nspawn -k plura_gtfobins_priv
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/doas -k plura_gtfobins_priv
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/doas -k plura_gtfobins_priv
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/firejail -k plura_gtfobins_priv
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/firejail -k plura_gtfobins_priv
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/ksu -k plura_gtfobins_priv
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/ksu -k plura_gtfobins_priv
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/pexec     -k plura_gtfobins_priv
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/pexec     -k plura_gtfobins_priv
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/pkexec    -k plura_gtfobins_priv
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/pkexec    -k plura_gtfobins_priv
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/setarch   -k plura_gtfobins_priv
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/setarch   -k plura_gtfobins_priv
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/setlock   -k plura_gtfobins_priv
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/setlock   -k plura_gtfobins_priv
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/newgrp    -k plura_gtfobins_priv
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/newgrp    -k plura_gtfobins_priv
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/softlimit -k plura_gtfobins_priv
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/softlimit -k plura_gtfobins_priv
--a always,exit -F arch=b64 -S execve -F exe=/usr/sbin/capsh    -k plura_gtfobins_priv
--a always,exit -F arch=b32 -S execve -F exe=/usr/sbin/capsh    -k plura_gtfobins_priv
+-w /usr/bin/aa-exec      -p x -k plura_gtfobins_priv
+-w /usr/bin/aoss         -p x -k plura_gtfobins_priv
+-w /usr/bin/arch-nspawn  -p x -k plura_gtfobins_priv
+-w /usr/bin/doas         -p x -k plura_gtfobins_priv
+-w /usr/bin/firejail     -p x -k plura_gtfobins_priv
+-w /usr/bin/ksu          -p x -k plura_gtfobins_priv
+-w /usr/bin/pexec        -p x -k plura_gtfobins_priv
+-w /usr/bin/pkexec       -p x -k plura_gtfobins_priv
+-w /usr/bin/setarch      -p x -k plura_gtfobins_priv
+-w /usr/bin/setlock      -p x -k plura_gtfobins_priv
+-w /usr/bin/newgrp       -p x -k plura_gtfobins_priv
+-w /usr/bin/softlimit    -p x -k plura_gtfobins_priv
+-w /usr/sbin/capsh       -p x -k plura_gtfobins_priv
 
 # 4-2) Debug / trace tools (GTFOBins debug)
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/bpftrace   -k plura_gtfobins_debug
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/bpftrace   -k plura_gtfobins_debug
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/crash      -k plura_gtfobins_debug
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/crash      -k plura_gtfobins_debug
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/ltrace     -k plura_gtfobins_debug
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/ltrace     -k plura_gtfobins_debug
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/msfconsole -k plura_gtfobins_debug
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/msfconsole -k plura_gtfobins_debug
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/sqlmap     -k plura_gtfobins_debug
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/sqlmap     -k plura_gtfobins_debug
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/tshark     -k plura_gtfobins_debug
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/tshark     -k plura_gtfobins_debug
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/volatility -k plura_gtfobins_debug
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/volatility -k plura_gtfobins_debug
--a always,exit -F arch=b64 -S execve -F exe=/usr/sbin/debugfs   -k plura_gtfobins_debug
--a always,exit -F arch=b32 -S execve -F exe=/usr/sbin/debugfs   -k plura_gtfobins_debug
--a always,exit -F arch=b64 -S execve -F exe=/usr/sbin/dmsetup   -k plura_gtfobins_debug
--a always,exit -F arch=b32 -S execve -F exe=/usr/sbin/dmsetup   -k plura_gtfobins_debug
+-w /usr/bin/bpftrace     -p x -k plura_gtfobins_debug
+-w /usr/bin/crash        -p x -k plura_gtfobins_debug
+-w /usr/bin/ltrace       -p x -k plura_gtfobins_debug
+-w /usr/bin/msfconsole   -p x -k plura_gtfobins_debug
+-w /usr/bin/sqlmap       -p x -k plura_gtfobins_debug
+-w /usr/bin/tshark       -p x -k plura_gtfobins_debug
+-w /usr/bin/volatility   -p x -k plura_gtfobins_debug
+-w /usr/sbin/debugfs     -p x -k plura_gtfobins_debug
+-w /usr/sbin/dmsetup     -p x -k plura_gtfobins_debug
 
 # 4-3) System service control (GTFOBins systemd)
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/run-parts          -F auid!=unset -k plura_gtfobins_systemd
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/run-parts          -F auid!=unset -k plura_gtfobins_systemd
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/systemd-run        -F auid!=unset -k plura_gtfobins_systemd
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/systemd-run        -F auid!=unset -k plura_gtfobins_systemd
--a always,exit -F arch=b64 -S execve -F exe=/usr/sbin/start-stop-daemon -F auid!=unset -k plura_gtfobins_systemd
--a always,exit -F arch=b32 -S execve -F exe=/usr/sbin/start-stop-daemon -F auid!=unset -k plura_gtfobins_systemd
+-w /usr/bin/run-parts          -p x -k plura_gtfobins_systemd
+-w /usr/bin/systemd-run        -p x -k plura_gtfobins_systemd
+-w /usr/sbin/start-stop-daemon -p x -k plura_gtfobins_systemd
 
 # 4-4) Network / remote access (GTFOBins net)
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/mosh-server    -F auid!=unset -k plura_gtfobins_net
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/mosh-server    -F auid=unset -F uid>=1 -F uid<1000 -k plura_gtfobins_net_svc
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/mosh-server    -F auid!=unset -k plura_gtfobins_net
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/mosh-server    -F auid=unset -F uid>=1 -F uid<1000 -k plura_gtfobins_net_svc
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/rlogin         -F auid!=unset -k plura_gtfobins_net
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/rlogin         -F auid=unset -F uid>=1 -F uid<1000 -k plura_gtfobins_net_svc
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/rlogin         -F auid!=unset -k plura_gtfobins_net
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/rlogin         -F auid=unset -F uid>=1 -F uid<1000 -k plura_gtfobins_net_svc
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/socat          -F auid!=unset -k plura_gtfobins_net
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/socat          -F auid=unset -F uid>=1 -F uid<1000 -k plura_gtfobins_net_svc
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/socat          -F auid!=unset -k plura_gtfobins_net
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/socat          -F auid=unset -F uid>=1 -F uid<1000 -k plura_gtfobins_net_svc
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/sshpass        -F auid!=unset -k plura_gtfobins_net
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/sshpass        -F auid=unset -F uid>=1 -F uid<1000 -k plura_gtfobins_net_svc
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/sshpass        -F auid!=unset -k plura_gtfobins_net
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/sshpass        -F auid=unset -F uid>=1 -F uid<1000 -k plura_gtfobins_net_svc
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/sshuttle       -F auid!=unset -k plura_gtfobins_net
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/sshuttle       -F auid=unset -F uid>=1 -F uid<1000 -k plura_gtfobins_net_svc
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/sshuttle       -F auid!=unset -k plura_gtfobins_net
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/sshuttle       -F auid=unset -F uid>=1 -F uid<1000 -k plura_gtfobins_net_svc
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/telnet         -F auid!=unset -k plura_gtfobins_net
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/telnet         -F auid=unset -F uid>=1 -F uid<1000 -k plura_gtfobins_net_svc
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/telnet         -F auid!=unset -k plura_gtfobins_net
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/telnet         -F auid=unset -F uid>=1 -F uid<1000 -k plura_gtfobins_net_svc
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/tftp           -F auid!=unset -k plura_gtfobins_net
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/tftp           -F auid=unset -F uid>=1 -F uid<1000 -k plura_gtfobins_net_svc
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/tftp           -F auid!=unset -k plura_gtfobins_net
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/tftp           -F auid=unset -F uid>=1 -F uid<1000 -k plura_gtfobins_net_svc
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/torify         -F auid!=unset -k plura_gtfobins_net
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/torify         -F auid=unset -F uid>=1 -F uid<1000 -k plura_gtfobins_net_svc
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/torify         -F auid!=unset -k plura_gtfobins_net
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/torify         -F auid=unset -F uid>=1 -F uid<1000 -k plura_gtfobins_net_svc
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/torsocks       -F auid!=unset -k plura_gtfobins_net
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/torsocks       -F auid=unset -F uid>=1 -F uid<1000 -k plura_gtfobins_net_svc
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/torsocks       -F auid!=unset -k plura_gtfobins_net
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/torsocks       -F auid=unset -F uid>=1 -F uid<1000 -k plura_gtfobins_net_svc
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/wg-quick       -F auid!=unset -k plura_gtfobins_net
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/wg-quick       -F auid=unset -F uid>=1 -F uid<1000 -k plura_gtfobins_net_svc
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/wg-quick       -F auid!=unset -k plura_gtfobins_net
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/wg-quick       -F auid=unset -F uid>=1 -F uid<1000 -k plura_gtfobins_net_svc
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/wireshark      -F auid!=unset -k plura_gtfobins_net
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/wireshark      -F auid=unset -F uid>=1 -F uid<1000 -k plura_gtfobins_net_svc
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/wireshark      -F auid!=unset -k plura_gtfobins_net
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/wireshark      -F auid=unset -F uid>=1 -F uid<1000 -k plura_gtfobins_net_svc
--a always,exit -F arch=b64 -S execve -F exe=/usr/sbin/hping3        -F auid!=unset -k plura_gtfobins_net
--a always,exit -F arch=b64 -S execve -F exe=/usr/sbin/hping3        -F auid=unset -F uid>=1 -F uid<1000 -k plura_gtfobins_net_svc
--a always,exit -F arch=b32 -S execve -F exe=/usr/sbin/hping3        -F auid!=unset -k plura_gtfobins_net
--a always,exit -F arch=b32 -S execve -F exe=/usr/sbin/hping3        -F auid=unset -F uid>=1 -F uid<1000 -k plura_gtfobins_net_svc
--a always,exit -F arch=b64 -S execve -F exe=/usr/sbin/openvpn       -F auid!=unset -k plura_gtfobins_net
--a always,exit -F arch=b64 -S execve -F exe=/usr/sbin/openvpn       -F auid=unset -F uid>=1 -F uid<1000 -k plura_gtfobins_net_svc
--a always,exit -F arch=b32 -S execve -F exe=/usr/sbin/openvpn       -F auid!=unset -k plura_gtfobins_net
--a always,exit -F arch=b32 -S execve -F exe=/usr/sbin/openvpn       -F auid=unset -F uid>=1 -F uid<1000 -k plura_gtfobins_net_svc
+-w /usr/bin/mosh-server  -p x -k plura_gtfobins_net
+-w /usr/bin/rlogin       -p x -k plura_gtfobins_net
+-w /usr/bin/socat        -p x -k plura_gtfobins_net
+-w /usr/bin/sshpass      -p x -k plura_gtfobins_net
+-w /usr/bin/sshuttle     -p x -k plura_gtfobins_net
+-w /usr/bin/telnet       -p x -k plura_gtfobins_net
+-w /usr/bin/tftp         -p x -k plura_gtfobins_net
+-w /usr/bin/torify       -p x -k plura_gtfobins_net
+-w /usr/bin/torsocks     -p x -k plura_gtfobins_net
+-w /usr/bin/wg-quick     -p x -k plura_gtfobins_net
+-w /usr/bin/wireshark    -p x -k plura_gtfobins_net
+-w /usr/sbin/hping3      -p x -k plura_gtfobins_net
+-w /usr/sbin/openvpn     -p x -k plura_gtfobins_net
 
 # 4-5) Security / cryptographic tooling (GTFOBins security)
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/easyrsa -F auid!=unset -k plura_gtfobins_security
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/easyrsa -F auid!=unset -k plura_gtfobins_security
+-w /usr/bin/easyrsa      -p x -k plura_gtfobins_security
 
 # 4-6) Version control systems (GTFOBins scm)
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/hg -F auid!=unset -k plura_gtfobins_scm
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/hg -F auid!=unset -k plura_gtfobins_scm
+-w /usr/bin/hg           -p x -k plura_gtfobins_scm
