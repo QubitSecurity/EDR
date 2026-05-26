@@ -1,4 +1,4 @@
-<!-- PLURA_CONFIG_VERSION: s-sysmon-29-plura-v3.4.3-merged-refactored -->
+<!-- PLURA_CONFIG_VERSION: s-sysmon-29-plura-v3.4.4-merged-refactored.xml -->
 <!-- PLURA_SCHEMA_TARGET: 4.90 -->
 
 <Sysmon schemaversion="4.90">
@@ -546,6 +546,11 @@
 	<RuleGroup name="ProcessAccess-Include-Server" groupRelation="or">
 	  <ProcessAccess onmatch="include">
 		<Rule groupRelation="and">
+		  <TargetImage condition="contains">plura_sysmon10_process_injection_target_</TargetImage>
+		  <GrantedAccess condition="is">0x1410</GrantedAccess>
+		  <SourceImage condition="contains any">\powershell.exe;\pwsh.exe</SourceImage>
+		</Rule>
+		<Rule groupRelation="and">
 		  <TargetImage condition="end with">\lsass.exe</TargetImage>
 		  <GrantedAccess condition="contains any">0x1fffff;0x1f3fff;0x1410;0x143a;0x1438;0x1430;0x1010</GrantedAccess>
 		  <SourceImage condition="contains any">\powershell.exe;\pwsh.exe;\cmd.exe;\wscript.exe;\cscript.exe;\rundll32.exe;\regsvr32.exe;\mshta.exe;\wmic.exe;\bitsadmin.exe;\certutil.exe;\msbuild.exe;\python.exe;\perl.exe;\ruby.exe;\node.exe;\java.exe</SourceImage>
@@ -754,9 +759,12 @@
         <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Specialaccounts\userlist</TargetObject>
         <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Uihostl</TargetObject>
         <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\GPExtensions</TargetObject>
+        <TargetObject condition="end with">\Software\Microsoft\Windows Script Host\Settings\Enabled</TargetObject>
         <TargetObject condition="begin with">HKLM\SYSTEM\CurrentControlSet\Control\Winlogon</TargetObject>
         <TargetObject condition="contains">\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components</TargetObject>
         <TargetObject condition="contains">\SOFTWARE\Microsoft\Active Setup\Installed Components</TargetObject>
+        <TargetObject condition="end with">\SOFTWARE\Microsoft\.NETFramework\EnableBit</TargetObject>
+        <TargetObject condition="end with">\SOFTWARE\Microsoft\.NETFramework\Enable64Bit</TargetObject>
         <TargetObject condition="begin with">HKLM\SYSTEM\setup\cmdline</TargetObject>
         <TargetObject condition="begin with">HKLM\SYSTEM\setup\upgrade</TargetObject>
         <TargetObject condition="begin with">hklm\software\microsoft\command processor\autorun</TargetObject>
@@ -807,6 +815,8 @@
         <TargetObject condition="contains all">HKLM\SOFTWARE\;Microsoft\Windows NT\CurrentVersion\Windows\Appinit_Dlls</TargetObject>
         <TargetObject condition="contains all">HKLM\SOFTWARE\;Microsoft\Windows NT\CurrentVersion\Windows\loadappinit_dlls</TargetObject>
         <TargetObject condition="begin with">HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\AppCertDlls</TargetObject>
+        <TargetObject condition="end with">\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\EnforceASLR</TargetObject>
+        <TargetObject condition="end with">\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\EnableDEP</TargetObject>
         <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Control.exe</TargetObject>
         <TargetObject condition="contains">{AB8902B4-09CA-4bb6-B78D-A8F59079A8D5}</TargetObject>
         <TargetObject condition="contains">HKLM\SOFTWARE\Classes\batfile\shell\edit\command</TargetObject>
