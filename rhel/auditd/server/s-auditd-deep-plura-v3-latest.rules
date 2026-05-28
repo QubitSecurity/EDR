@@ -360,3 +360,11 @@
 # 4-6) Version control systems (GTFOBins scm)
 -a always,exit -F arch=b64 -S execve -F exe=/usr/bin/hg -F auid!=unset -k plura_gtfobins_scm
 -a always,exit -F arch=b32 -S execve -F exe=/usr/bin/hg -F auid!=unset -k plura_gtfobins_scm
+
+############################################################
+# 5) CVE
+############################################################
+# Fragnesia
+-a always,exit -F arch=b64 -S unshare -F key=unshare
+-a always,exit -F arch=b64 -S socket -F a0=0x10 -F a2=0x6 -F key=xfrm
+-w /proc/sys/user/max_user_namespaces -p wa -k userns_runtime_change
