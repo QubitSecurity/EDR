@@ -1,4 +1,4 @@
-# PLURA_CONFIG_VERSION: su-auditd-deep-plura-v3-latest-gtfobins.rules
+# PLURA_CONFIG_VERSION: s-auditd-deep-plura-v3-latest-ubuntu-ssh-exec.rules
 # PLURA_SCHEMA_TARGET: v3.2
 # Profile: DEEP (incident response / higher visibility)
 # Notes:
@@ -338,6 +338,9 @@
 -a always,exit -F arch=b32 -S execve -F exe=/usr/sbin/start-stop-daemon -F auid!=unset -k plura_gtfobins_systemd
 
 # 4-4) Network / remote access (GTFOBins net)
+# SSH client execution
+-a always,exit -F arch=b64 -S execve -F exe=/usr/bin/ssh            -F auid!=unset -k plura_ssh_exec
+-a always,exit -F arch=b32 -S execve -F exe=/usr/bin/ssh            -F auid!=unset -k plura_ssh_exec
 -a always,exit -F arch=b64 -S execve -F exe=/usr/bin/mosh-server    -F auid!=unset -k plura_gtfobins_net
 -a always,exit -F arch=b64 -S execve -F exe=/usr/bin/mosh-server    -F auid=unset -F uid>=1 -F uid<1000 -k plura_gtfobins_net_svc
 -a always,exit -F arch=b32 -S execve -F exe=/usr/bin/mosh-server    -F auid!=unset -k plura_gtfobins_net
