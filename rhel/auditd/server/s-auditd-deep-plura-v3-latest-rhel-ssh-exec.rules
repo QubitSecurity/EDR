@@ -301,8 +301,8 @@
 
 # 4-4) Network / remote access (GTFOBins net)
 # SSH client execution
--a always,exit -F arch=b64 -S execve -F exe=/usr/bin/ssh            -F auid!=unset -k plura_ssh_exec
--a always,exit -F arch=b32 -S execve -F exe=/usr/bin/ssh            -F auid!=unset -k plura_ssh_exec
+-a always,exit -F arch=b64 -S execve -F exe=/usr/bin/ssh            -k plura_ssh_exec
+-a always,exit -F arch=b32 -S execve -F exe=/usr/bin/ssh            -k plura_ssh_exec
 -a always,exit -F arch=b64 -S execve -F exe=/usr/bin/mosh-server    -F auid!=unset -k plura_gtfobins_net
 -a always,exit -F arch=b64 -S execve -F exe=/usr/bin/mosh-server    -F auid=unset -F uid>=1 -F uid<1000 -k plura_gtfobins_net_svc
 -a always,exit -F arch=b32 -S execve -F exe=/usr/bin/mosh-server    -F auid!=unset -k plura_gtfobins_net
