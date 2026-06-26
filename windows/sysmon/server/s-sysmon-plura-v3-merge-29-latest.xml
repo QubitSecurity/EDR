@@ -1,4 +1,4 @@
-<!-- PLURA_CONFIG_VERSION: s-sysmon-29-plura-v3.4.6-merged-refactored.xml -->
+<!-- PLURA_CONFIG_VERSION: s-sysmon-29-plura-v3.4.7-merged-refactored.xml -->
 <!-- PLURA_SCHEMA_TARGET: 4.90 -->
 
 <Sysmon schemaversion="4.90">
@@ -693,6 +693,21 @@
     <!-- ============================================================ -->
     <RuleGroup name="RegistryEvent-Exclude-Server" groupRelation="or">
       <RegistryEvent onmatch="exclude">
+        <Rule groupRelation="and">
+	      <Image condition="is">csrss.exe</Image>
+	      <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows\LeakedPoolTag</TargetObject>
+	      <Details condition="is">DWORD (0x00000000)</Details>
+        </Rule>
+        <Rule groupRelation="and">
+	      <Image condition="is">csrss.exe</Image>
+	      <TargetObject condition="is">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows\PoolLeakedState</TargetObject>
+	      <Details condition="is">DWORD (0x00000000)</Details>
+        </Rule>
+        <Rule groupRelation="and">
+	      <Image condition="is">csrss.exe</Image>
+	      <TargetObject condition="is">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows\LeakTrackingAllocatorMode</TargetObject>
+	      <Details condition="is">DWORD (0x00000000)</Details>
+        </Rule>
         <Image condition="is">C:\Program Files\Windows Defender Advanced Threat Protection\MsSense.exe</Image>
         <Image condition="is">C:\Program Files\Windows Defender Advanced Threat Protection\SenseCncProxy.exe</Image>
         <Image condition="is">C:\Program Files\Windows Defender Advanced Threat Protection\SenseIR.exe</Image>
