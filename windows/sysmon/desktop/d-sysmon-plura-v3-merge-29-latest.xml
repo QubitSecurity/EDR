@@ -1,4 +1,4 @@
-<!-- PLURA_CONFIG_VERSION: d-sysmon-29-plura-v3.4.8-merged-refactored.xml -->
+<!-- PLURA_CONFIG_VERSION: d-sysmon-29-plura-v3.4.9-merged-refactored.xml -->
 <!-- PLURA_SCHEMA_TARGET: 4.90 -->
 
 <Sysmon schemaversion="4.90">
@@ -89,6 +89,104 @@
 		<Rule groupRelation="and">
 		  <CurrentDirectory condition="is">C:\Program Files\PLURA\</CurrentDirectory>
 		  <ParentCommandLine condition="is">powershell -ep bypass -File forensic.ps1</ParentCommandLine>
+		</Rule>
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\net.exe</Image>
+		  <CommandLine condition="is">net  accounts</CommandLine>
+		  <CurrentDirectory condition="is">C:\Program Files\PLURA\</CurrentDirectory>
+		  <ParentImage condition="is">C:\Windows\System32\cmd.exe</ParentImage>
+		  <ParentCommandLine condition="is">"C:\Windows\system32\cmd.exe" /d /c "net accounts"</ParentCommandLine>
+		</Rule>
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\net.exe</Image>
+		  <CommandLine condition="is">net  localgroup</CommandLine>
+		  <CurrentDirectory condition="is">C:\Program Files\PLURA\</CurrentDirectory>
+		  <ParentImage condition="is">C:\Windows\System32\cmd.exe</ParentImage>
+		  <ParentCommandLine condition="is">"C:\Windows\system32\cmd.exe" /d /c "net localgroup"</ParentCommandLine>
+		</Rule>
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\net.exe</Image>
+		  <CommandLine condition="is">net  localgroup "Administrators"</CommandLine>
+		  <CurrentDirectory condition="is">C:\Program Files\PLURA\</CurrentDirectory>
+		  <ParentImage condition="is">C:\Windows\System32\cmd.exe</ParentImage>
+		  <ParentCommandLine condition="is">"C:\Windows\system32\cmd.exe" /d /c "net localgroup "Administrators""</ParentCommandLine>
+		</Rule>
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\net.exe</Image>
+		  <CommandLine condition="is">net  share</CommandLine>
+		  <CurrentDirectory condition="is">C:\Program Files\PLURA\</CurrentDirectory>
+		  <ParentImage condition="is">C:\Windows\System32\cmd.exe</ParentImage>
+		  <ParentCommandLine condition="is">"C:\Windows\system32\cmd.exe" /d /c "net share"</ParentCommandLine>
+		</Rule>
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\net.exe</Image>
+		  <CommandLine condition="is">net  file</CommandLine>
+		  <CurrentDirectory condition="is">C:\Program Files\PLURA\</CurrentDirectory>
+		  <ParentImage condition="is">C:\Windows\System32\cmd.exe</ParentImage>
+		  <ParentCommandLine condition="is">"C:\Windows\system32\cmd.exe" /d /c "net file"</ParentCommandLine>
+		</Rule>
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\net.exe</Image>
+		  <CommandLine condition="is">net  session</CommandLine>
+		  <CurrentDirectory condition="is">C:\Program Files\PLURA\</CurrentDirectory>
+		  <ParentImage condition="is">C:\Windows\System32\cmd.exe</ParentImage>
+		  <ParentCommandLine condition="is">"C:\Windows\system32\cmd.exe" /d /c "net session"</ParentCommandLine>
+		</Rule>
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\net.exe</Image>
+		  <CommandLine condition="is">net  use</CommandLine>
+		  <CurrentDirectory condition="is">C:\Program Files\PLURA\</CurrentDirectory>
+		  <ParentImage condition="is">C:\Windows\System32\cmd.exe</ParentImage>
+		  <ParentCommandLine condition="is">"C:\Windows\system32\cmd.exe" /d /c "net use"</ParentCommandLine>
+		</Rule>
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\net1.exe</Image>
+		  <CommandLine condition="is">C:\Windows\system32\net1  accounts</CommandLine>
+		  <CurrentDirectory condition="is">C:\Program Files\PLURA\</CurrentDirectory>
+		  <ParentImage condition="is">C:\Windows\System32\net.exe</ParentImage>
+		  <ParentCommandLine condition="is">net  accounts</ParentCommandLine>
+		</Rule>
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\net1.exe</Image>
+		  <CommandLine condition="is">C:\Windows\system32\net1  localgroup</CommandLine>
+		  <CurrentDirectory condition="is">C:\Program Files\PLURA\</CurrentDirectory>
+		  <ParentImage condition="is">C:\Windows\System32\net.exe</ParentImage>
+		  <ParentCommandLine condition="is">net  localgroup</ParentCommandLine>
+		</Rule>
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\net1.exe</Image>
+		  <CommandLine condition="is">C:\Windows\system32\net1  localgroup "Administrators"</CommandLine>
+		  <CurrentDirectory condition="is">C:\Program Files\PLURA\</CurrentDirectory>
+		  <ParentImage condition="is">C:\Windows\System32\net.exe</ParentImage>
+		  <ParentCommandLine condition="is">net  localgroup "Administrators"</ParentCommandLine>
+		</Rule>
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\net1.exe</Image>
+		  <CommandLine condition="is">C:\Windows\system32\net1  share</CommandLine>
+		  <CurrentDirectory condition="is">C:\Program Files\PLURA\</CurrentDirectory>
+		  <ParentImage condition="is">C:\Windows\System32\net.exe</ParentImage>
+		  <ParentCommandLine condition="is">net  share</ParentCommandLine>
+		</Rule>
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\net1.exe</Image>
+		  <CommandLine condition="is">C:\Windows\system32\net1  file</CommandLine>
+		  <CurrentDirectory condition="is">C:\Program Files\PLURA\</CurrentDirectory>
+		  <ParentImage condition="is">C:\Windows\System32\net.exe</ParentImage>
+		  <ParentCommandLine condition="is">net  file</ParentCommandLine>
+		</Rule>
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\net1.exe</Image>
+		  <CommandLine condition="is">C:\Windows\system32\net1  session</CommandLine>
+		  <CurrentDirectory condition="is">C:\Program Files\PLURA\</CurrentDirectory>
+		  <ParentImage condition="is">C:\Windows\System32\net.exe</ParentImage>
+		  <ParentCommandLine condition="is">net  session</ParentCommandLine>
+		</Rule>
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Windows\System32\net1.exe</Image>
+		  <CommandLine condition="is">C:\Windows\system32\net1  use</CommandLine>
+		  <CurrentDirectory condition="is">C:\Program Files\PLURA\</CurrentDirectory>
+		  <ParentImage condition="is">C:\Windows\System32\net.exe</ParentImage>
+		  <ParentCommandLine condition="is">net  use</ParentCommandLine>
 		</Rule>
 		<CommandLine condition="contains">PowerShell.exe  -EP bypass '&amp; '..\win-registry.ps1''  -path</CommandLine>
 		<CommandLine condition="contains">PowerShell.exe  -EP bypass '&amp; '..\win-audit-del.ps1''  -path</CommandLine>
@@ -270,7 +368,13 @@
 		  <Image condition="is">C:\Windows\System32\svchost.exe</Image>
 		  <User condition="is">NT AUTHORITY\NETWORK SERVICE</User>
 		  <DestinationPort condition="is">53</DestinationPort>
-		</Rule>		
+		</Rule>
+
+		<Rule groupRelation="and">
+		  <Image condition="is">C:\Program Files\PLURA\PluraService.exe</Image>
+		  <DestinationIp condition="is any">172.16.10.20;172.16.11.205;172.16.11.206</DestinationIp>
+		  <DestinationPort condition="is">3128</DestinationPort>
+		</Rule>
 	  </NetworkConnect>
 	</RuleGroup>
 
@@ -538,6 +642,12 @@
 		  <TargetFilename condition="end with">\Program Files\Common Files\System\Ole DB\xmlrwbin.inc</TargetFilename>
 		  <Image condition="begin with">\Device\HarddiskVolumeShadowCopy</Image>
 		  <TargetFilename condition="begin with">C:\PerfLogs\</TargetFilename>
+		  <TargetFilename condition="begin with">C:\Windows\Tracing\</TargetFilename>
+		  <TargetFilename condition="begin with">C:\Windows\System32\spool\drivers\color\</TargetFilename>
+		  <TargetFilename condition="begin with">C:\Windows\Help\</TargetFilename>
+		  <TargetFilename condition="begin with">C:\Windows\PLA\</TargetFilename>
+		  <TargetFilename condition="begin with">C:\Windows\Debug\</TargetFilename>
+		  <TargetFilename condition="begin with">C:\Windows\Panther\</TargetFilename>
 		</Rule>
 	  </FileCreate>
 	</RuleGroup>
@@ -1782,4 +1892,4 @@
       </FileExecutableDetected>
 	</RuleGroup>
   </EventFiltering>
-</Sysmon>
+</Sysmon> 
