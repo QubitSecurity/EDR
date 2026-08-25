@@ -1,0 +1,338 @@
+{
+  "behaviorRules": [
+    {
+      "category": "AD Enumeration",
+      "id": "ad-enumeration",
+      "reason": "Active Directory enumeration command observed",
+      "regex": "(?i)(?:\\bGet-AD(?:User|Computer|Group|Domain|Forest)\\b|(?:^|[\\\\/\\\"'\\s;&|])nltest(?:\\.exe)?\\s+/(?:domain_trusts|dclist|dsgetdc)\\b|(?:^|[\\\\/\\\"'\\s;&|])dsquery(?:\\.exe)?\\s+(?:user|computer|group)\\b)",
+      "score": 18
+    },
+    {
+      "category": "Network Scan",
+      "id": "network-scan-tool",
+      "reason": "Dedicated network scanning utility observed",
+      "regex": "(?i)(?:^|[\\\\/\\\"'\\s;&|])(?:nmap|masscan|rustscan|naabu)(?:\\.exe)?(?=[\\\"'\\s;&|]|$)",
+      "score": 25
+    },
+    {
+      "category": "Network Scan",
+      "id": "network-probe",
+      "reason": "Targeted network reachability or port probe observed",
+      "regex": "(?i)(?:\\bTest-NetConnection\\b[^\\r\\n;&|]{0,240}\\s-(?:Port|CommonTCPPort)\\b|(?:^|[\\\\/\\\"'\\s;&|])(?:tcping|psping)(?:\\.exe)?(?=[\\\"'\\s;&|]|$))",
+      "score": 5
+    },
+    {
+      "category": "Account Enumeration",
+      "id": "account-enumeration",
+      "reason": "Local account or group enumeration observed",
+      "regex": "(?i)(?:^|[\\\\/\\\"'\\s;&|])(?:net(?:\\.exe)?[\\\"']?\\s+(?:user|localgroup)(?=\\s*(?:[;&|]|$))|whoami(?:\\.exe)?[\\\"']?\\s+/user\\b)",
+      "score": 8
+    },
+    {
+      "category": "Privilege Discovery",
+      "id": "privilege-discovery",
+      "reason": "Current token privilege or group discovery observed",
+      "regex": "(?i)(?:^|[\\\\/\\\"'\\s;&|])whoami(?:\\.exe)?[\\\"']?\\s+/(?:groups|priv|all)\\b",
+      "score": 8
+    },
+    {
+      "category": "System Discovery",
+      "id": "system-discovery",
+      "reason": "Host or local network configuration discovery observed",
+      "regex": "(?i)(?:^|[\\\\/\\\"'\\s;&|])(?:hostname(?:\\.exe)?(?=[\\\"'\\s;&|]|$)|ipconfig(?:\\.exe)?\\s+/(?:all|displaydns)\\b|systeminfo(?:\\.exe)?(?=[\\\"'\\s;&|]|$))",
+      "score": 5
+    },
+    {
+      "category": "Remote Execution",
+      "id": "remote-execution",
+      "reason": "Remote command execution primitive observed",
+      "regex": "(?i)(?:\\bInvoke-Command\\b[^\\r\\n;&|]{0,240}\\s-ComputerName\\b|\\bEnter-PSSession\\b[^\\r\\n;&|]{0,240}\\s-ComputerName\\b|(?:^|[\\\\/\\\"'\\s;&|])(?:psexec|winrs)(?:\\.exe)?(?=[\\\"'\\s;&|]|$)|(?:^|[\\\\/\\\"'\\s;&|])wmic(?:\\.exe)?\\s+/node:)",
+      "score": 28
+    },
+    {
+      "category": "Credential Access",
+      "id": "credential-discovery",
+      "reason": "Stored credential metadata discovery observed",
+      "regex": "(?i)(?:^|[\\\\/\\\"'\\s;&|])(?:cmdkey(?:\\.exe)?\\s+/list\\b|vaultcmd(?:\\.exe)?\\s+/list\\b|klist(?:\\.exe)?\\s+(?:sessions|tickets)\\b)",
+      "score": 14
+    },
+    {
+      "category": "Credential Access",
+      "id": "credential-access",
+      "reason": "Credential-bearing process access or dump command observed",
+      "regex": "(?i)(?:\\b(?:procdump|procdump64)(?:\\.exe)?\\b[^\\r\\n;&|]{0,240}\\s-(?:ma|mm)\\s+lsass(?:\\.exe)?\\b|\\bmimikatz(?:\\.exe)?\\b|\\brundll32(?:\\.exe)?\\b[^\\r\\n;&|]{0,240}\\bcomsvcs\\.dll\\b[^\\r\\n;&|]{0,240}\\bMiniDump\\b)",
+      "score": 45
+    },
+    {
+      "category": "Lateral Movement",
+      "id": "lateral-movement",
+      "reason": "Remote administration path used for lateral movement observed",
+      "regex": "(?i)(?:\\bInvoke-Command\\b[^\\r\\n;&|]{0,240}\\s-ComputerName\\b|(?:^|[\\\\/\\\"'\\s;&|])psexec(?:\\.exe)?(?=[\\\"'\\s;&|]|$)|(?:^|[\\\\/\\\"'\\s;&|])winrs(?:\\.exe)?\\s+-r:)",
+      "score": 32
+    },
+    {
+      "category": "Privilege Escalation",
+      "id": "privilege-escalation",
+      "reason": "Command requests execution as a privileged local principal",
+      "regex": "(?i)(?:(?:^|[\\\\/\\\"'\\s;&|])schtasks(?:\\.exe)?\\s+/create\\b[^\\r\\n;&|]{0,320}\\s+/ru\\s+(?:SYSTEM|\\\"NT AUTHORITY\\\\SYSTEM\\\")\\b|(?:^|[\\\\/\\\"'\\s;&|])sc(?:\\.exe)?\\s+create\\b[^\\r\\n;&|]{0,320}\\bobj=\\s*(?:LocalSystem|SYSTEM)\\b)",
+      "score": 30
+    },
+    {
+      "category": "Defense Evasion",
+      "id": "defense-evasion",
+      "reason": "Security control weakening command observed",
+      "regex": "(?i)(?:\\bSet-MpPreference\\b[^\\r\\n;&|]{0,320}\\s-DisableRealtimeMonitoring\\s+\\$?true\\b|(?:^|[\\\\/\\\"'\\s;&|])wevtutil(?:\\.exe)?\\s+cl\\s+\\S+|\\bAdd-MpPreference\\b[^\\r\\n;&|]{0,320}\\s-ExclusionPath\\b)",
+      "score": 32
+    },
+    {
+      "category": "Persistence",
+      "id": "persistence",
+      "reason": "Persistence registration command observed",
+      "regex": "(?i)(?:(?:^|[\\\\/\\\"'\\s;&|])schtasks(?:\\.exe)?\\s+/create\\b|(?:^|[\\\\/\\\"'\\s;&|])sc(?:\\.exe)?\\s+create\\b|(?:^|[\\\\/\\\"'\\s;&|])reg(?:\\.exe)?\\s+add\\s+[^\\r\\n;&|]{0,240}\\\\CurrentVersion\\\\Run(?:Once)?\\b)",
+      "score": 30
+    },
+    {
+      "category": "Payload Delivery",
+      "id": "download-execute",
+      "reason": "Remote content download combined with an execution primitive observed",
+      "regex": "(?i)(?:\\b(?:Invoke-WebRequest|iwr|Start-BitsTransfer)\\b[^\\r\\n]{0,480}\\b(?:Invoke-Expression|iex|Start-Process)\\b|\\b(?:curl|wget)(?:\\.exe)?\\b[^\\r\\n]{0,480}(?:[;&|]\\s*|\\s-o\\s+\\S+\\s+)(?:powershell|pwsh|cmd|wscript|cscript)(?:\\.exe)?\\b)",
+      "score": 22
+    },
+    {
+      "category": "Obfuscated Execution",
+      "id": "obfuscation",
+      "reason": "Encoded or dynamically reconstructed command content observed",
+      "regex": "(?i)(?:\\s-(?:EncodedCommand|enc)\\s+[A-Za-z0-9+/=]{8,}|\\[Convert\\]::FromBase64String\\s*\\(|\\b(?:IEX|Invoke-Expression)\\s*\\([^\\r\\n]{0,320}\\))",
+      "score": 15
+    },
+    {
+      "category": "Collection / Exfiltration",
+      "id": "collection-exfiltration",
+      "reason": "Collection archive or explicit transfer utility observed",
+      "regex": "(?i)(?:\\bCompress-Archive\\b[^\\r\\n;&|]{0,320}\\s-DestinationPath\\b|(?:^|[\\\\/\\\"'\\s;&|])7z(?:\\.exe)?\\s+a\\s+\\S+\\.(?:7z|zip)\\b|(?:^|[\\\\/\\\"'\\s;&|])rclone(?:\\.exe)?\\s+(?:copy|sync)\\b)",
+      "score": 28
+    },
+    {
+      "category": "Impact",
+      "id": "destructive-action",
+      "reason": "Destructive recovery or data removal command observed",
+      "regex": "(?i)(?:(?:^|[\\\\/\\\"'\\s;&|])vssadmin(?:\\.exe)?\\s+delete\\s+shadows\\b|(?:^|[\\\\/\\\"'\\s;&|])wbadmin(?:\\.exe)?\\s+delete\\s+catalog\\b|(?:^|[\\\\/\\\"'\\s;&|])bcdedit(?:\\.exe)?\\s+/set\\s+\\{?default\\}?\\s+recoveryenabled\\s+no\\b)",
+      "score": 45
+    }
+  ],
+  "contextRules": [
+    {
+      "id": "task-registration-context",
+      "queries": [
+        {
+          "eventIds": [
+            4698,
+            4702
+          ],
+          "logName": "Security",
+          "maximum": 500
+        },
+        {
+          "eventIds": [
+            106,
+            140,
+            141,
+            200,
+            201
+          ],
+          "logName": "Microsoft-Windows-TaskScheduler/Operational",
+          "maximum": 500
+        }
+      ],
+      "regex": "(?i)(?:^|[\\\\/\\\"'\\s;&|])schtasks(?:\\.exe)?\\s+/(?:create|change)\\b|\\bRegister-ScheduledTask\\b",
+      "relation": "TaskRegistrationCommandContext"
+    },
+    {
+      "id": "service-registration-context",
+      "queries": [
+        {
+          "eventIds": [
+            7045
+          ],
+          "logName": "System",
+          "maximum": 500
+        },
+        {
+          "eventIds": [
+            4697
+          ],
+          "logName": "Security",
+          "maximum": 500
+        }
+      ],
+      "regex": "(?i)(?:^|[\\\\/\\\"'\\s;&|])sc(?:\\.exe)?\\s+(?:create|config)\\b|\\bNew-Service\\b",
+      "relation": "ServiceRegistrationCommandContext"
+    },
+    {
+      "id": "wmi-command-context",
+      "queries": [
+        {
+          "eventIds": [
+            5857,
+            5858,
+            5859,
+            5860,
+            5861
+          ],
+          "logName": "Microsoft-Windows-WMI-Activity/Operational",
+          "maximum": 500
+        }
+      ],
+      "regex": "(?i)(?:^|[\\\\/\\\"'\\s;&|])wmic(?:\\.exe)?\\b|\\b(?:Invoke-WmiMethod|New-CimSession|Invoke-CimMethod)\\b",
+      "relation": "WmiCommandContext"
+    },
+    {
+      "id": "security-configuration-context",
+      "queries": [
+        {
+          "eventIds": [
+            5007
+          ],
+          "logName": "Microsoft-Windows-Windows Defender/Operational",
+          "maximum": 500
+        }
+      ],
+      "regex": "(?i)\\b(?:Set-MpPreference|Add-MpPreference|Remove-MpPreference)\\b",
+      "relation": "DefenderConfigurationCommandContext"
+    }
+  ],
+  "directEvidenceRules": [
+    {
+      "category": "Credential Access",
+      "eventIds": [
+        10
+      ],
+      "id": "sensitive-process-access",
+      "reason": "AI Agent lineage process accessed a protected credential-bearing process",
+      "regex": "(?i)(?:^|[\\\\/\\s])(?:lsass|winlogon)\\.exe(?:\\s|$)",
+      "relation": "LineageProcessAccessSource",
+      "score": 45,
+      "source": "Sysmon"
+    },
+    {
+      "category": "Persistence",
+      "eventIds": [
+        12,
+        13,
+        14
+      ],
+      "id": "registry-persistence-event",
+      "reason": "AI Agent lineage modified a registry location associated with persistence",
+      "regex": "(?i)\\\\(?:Software\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Run(?:Once)?|System\\\\CurrentControlSet\\\\Services|Software\\\\Microsoft\\\\Windows NT\\\\CurrentVersion\\\\Winlogon)(?:\\\\|\\s|$)",
+      "relation": "",
+      "score": 28,
+      "source": "Sysmon"
+    },
+    {
+      "category": "Lateral Movement",
+      "eventIds": [
+        17,
+        18
+      ],
+      "id": "lateral-named-pipe",
+      "reason": "AI Agent lineage used a named pipe associated with lateral administration",
+      "regex": "(?i)\\\\pipe\\\\(?:psexesvc|atsvc|remcom|paexec|winreg)(?:\\s|$)",
+      "relation": "",
+      "score": 25,
+      "source": "Sysmon"
+    }
+  ],
+  "ruleSetVersion": "1.4.0-rc.2",
+  "schemaVersion": "1.0",
+  "triggerCompositeRules": [
+    {
+      "destinationRegex": "(?i)(?:-OutFile|-Destination|-o)\\s+(?<path>\\\"[^\\\"]+\\\"|'[^']+'|[^\\s;&|]+)",
+      "downloadRegex": "(?i)\\b(?:Invoke-WebRequest|iwr|curl|wget|Start-BitsTransfer)\\b[^\\r\\n;&|]{0,360}https?://",
+      "executablePathRegex": "(?i)^(?:(?:\\$env:|%)(?:temp|tmp|appdata|localappdata|userprofile)%?\\\\|[a-z]:\\\\users\\\\[^\\\\]+\\\\|[a-z]:\\\\programdata\\\\|[a-z]:\\\\windows\\\\temp\\\\|[a-z]:\\\\[^\\\\]+\\\\temp\\\\)[^\\r\\n]+\\.(?:ps1|psm1|psd1|bat|cmd|exe|dll|js|jse|vbs|vbe|wsf|hta)$",
+      "executionRegex": "(?i)(?:^|[;&|]\\s*)(?:&|\\.\\s+|Start-Process(?:\\s+-FilePath)?|powershell(?:\\.exe)?\\s+-File|pwsh(?:\\.exe)?\\s+-File)\\s*(?<path>\\\"[^\\\"]+\\.(?:ps1|psm1|psd1|bat|cmd|exe|dll|js|jse|vbs|vbe|wsf|hta)\\\"|'[^']+\\.(?:ps1|psm1|psd1|bat|cmd|exe|dll|js|jse|vbs|vbe|wsf|hta)'|[^\\s;&|]+\\.(?:ps1|psm1|psd1|bat|cmd|exe|dll|js|jse|vbs|vbe|wsf|hta))",
+      "id": "download-drop-execute-composite",
+      "name": "DownloadDropExecute",
+      "reason": "Remote content was saved to a user-writable executable path and the same path was invoked",
+      "score": 70
+    }
+  ],
+  "triggerRiskPolicy": {
+    "criticalMinimum": 45,
+    "expectedMaximum": 9,
+    "highRiskMaximum": 44,
+    "riskTriggerMinimum": 25,
+    "suspiciousMaximum": 24
+  },
+  "triggerRiskRules": [
+    {
+      "id": "execution-policy-bypass",
+      "reason": "PowerShell execution-policy bypass option observed",
+      "regex": "(?i)(?:^|\\s)-(?:ExecutionPolicy|ep)\\s+(?:Bypass|Unrestricted)\\b",
+      "scope": "Invocation",
+      "score": 5
+    },
+    {
+      "id": "hidden-window",
+      "reason": "Hidden PowerShell window option observed",
+      "regex": "(?i)(?:^|\\s)-(?:WindowStyle|w)\\s+Hidden\\b",
+      "scope": "Invocation",
+      "score": 8
+    },
+    {
+      "id": "remote-download",
+      "reason": "Executable command downloads content from an HTTP or HTTPS URL",
+      "regex": "(?i)(?:\\b(?:Invoke-WebRequest|iwr|wget|curl|Start-BitsTransfer)\\b[^\\r\\n;&|]{0,320}https?://|\\.Download(?:File|String)\\s*\\(\\s*[\\\"']https?://)",
+      "scope": "Executable",
+      "score": 15
+    },
+    {
+      "id": "encoded-command",
+      "reason": "Encoded PowerShell command option observed",
+      "regex": "(?i)(?:^|\\s)-(?:EncodedCommand|enc)\\s+[A-Za-z0-9+/=]{8,}",
+      "scope": "Invocation",
+      "score": 30
+    },
+    {
+      "id": "dynamic-evaluation",
+      "reason": "Dynamic expression evaluation observed in executable command text",
+      "regex": "(?i)(?:\\bInvoke-Expression\\b|(?:^|[\\s;&|])iex(?=[\\s(;&|]|$))",
+      "scope": "Executable",
+      "score": 20
+    },
+    {
+      "id": "remote-execution-command",
+      "reason": "Remote command invocation observed in executable command text",
+      "regex": "(?i)(?:\\bInvoke-Command\\b[^\\r\\n;&|]{0,240}\\s-ComputerName\\b|\\bEnter-PSSession\\b[^\\r\\n;&|]{0,240}\\s-ComputerName\\b|(?:^|[\\\\/\\\"'\\s;&|])psexec(?:\\.exe)?(?=[\\\"'\\s;&|]|$))",
+      "scope": "Executable",
+      "score": 28
+    },
+    {
+      "id": "persistence-command",
+      "reason": "Persistence registration command observed in executable command text",
+      "regex": "(?i)(?:(?:^|[\\\\/\\\"'\\s;&|])schtasks(?:\\.exe)?\\s+/create\\b|(?:^|[\\\\/\\\"'\\s;&|])sc(?:\\.exe)?\\s+create\\b|(?:^|[\\\\/\\\"'\\s;&|])reg(?:\\.exe)?\\s+add\\s+[^\\r\\n;&|]{0,240}\\\\CurrentVersion\\\\Run(?:Once)?\\b)",
+      "scope": "Executable",
+      "score": 30
+    },
+    {
+      "id": "defense-evasion-command",
+      "reason": "Security-control weakening command observed in executable command text",
+      "regex": "(?i)(?:\\bSet-MpPreference\\b[^\\r\\n;&|]{0,320}\\s-DisableRealtimeMonitoring\\s+\\$?true\\b|(?:^|[\\\\/\\\"'\\s;&|])wevtutil(?:\\.exe)?\\s+cl\\s+\\S+)",
+      "scope": "Executable",
+      "score": 35
+    },
+    {
+      "id": "credential-access-command",
+      "reason": "Credential process dump command observed in executable command text",
+      "regex": "(?i)(?:\\b(?:procdump|procdump64)(?:\\.exe)?\\b[^\\r\\n;&|]{0,240}\\s-(?:ma|mm)\\s+lsass(?:\\.exe)?\\b|\\bmimikatz(?:\\.exe)?\\b|\\bcomsvcs\\.dll\\b[^\\r\\n;&|]{0,240}\\bMiniDump\\b)",
+      "scope": "Executable",
+      "score": 45
+    },
+    {
+      "id": "destructive-command",
+      "reason": "Destructive recovery or data-removal command observed",
+      "regex": "(?i)(?:(?:^|[\\\\/\\\"'\\s;&|])vssadmin(?:\\.exe)?\\s+delete\\s+shadows\\b|(?:^|[\\\\/\\\"'\\s;&|])wbadmin(?:\\.exe)?\\s+delete\\s+catalog\\b)",
+      "scope": "Executable",
+      "score": 45
+    }
+  ]
+}

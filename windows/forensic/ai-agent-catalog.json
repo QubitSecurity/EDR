@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "1.0",
+  "catalogVersion": "1.4.0-rc.2",
+  "inventorySchemaVersion": "1.3",
+  "signaturePolicies": {
+    "primaryAsset": "ValidOrPinnedHash",
+    "agentComponent": "ValidOrPinnedHash",
+    "versionedHelper": "ValidOrPinnedHash",
+    "bridgeShell": "ValidOrPinnedHash"
+  },
+  "agents": [
+    {"agentId":"chatgpt","productName":"ChatGPT","displayNameRegex":"(?i)ChatGPT|OpenAI","packageNameRegex":"(?i)ChatGPT|OpenAI","executableNames":["ChatGPT.exe"],"knownPathTemplates":["%LOCALAPPDATA%\\Programs\\ChatGPT\\ChatGPT.exe","%PROGRAMFILES%\\ChatGPT\\ChatGPT.exe","%PROGRAMFILES(X86)%\\ChatGPT\\ChatGPT.exe"]},
+    {"agentId":"claude","productName":"Claude","displayNameRegex":"(?i)Claude","packageNameRegex":"(?i)Claude","executableNames":["Claude.exe"],"knownPathTemplates":["%LOCALAPPDATA%\\Programs\\Claude\\Claude.exe","%PROGRAMFILES%\\Claude\\Claude.exe","%PROGRAMFILES(X86)%\\Claude\\Claude.exe"]},
+    {"agentId":"cursor","productName":"Cursor","displayNameRegex":"(?i)Cursor","packageNameRegex":"(?i)Cursor","executableNames":["Cursor.exe"],"knownPathTemplates":["%LOCALAPPDATA%\\Programs\\cursor\\Cursor.exe","%LOCALAPPDATA%\\Programs\\Cursor\\Cursor.exe","%PROGRAMFILES%\\Cursor\\Cursor.exe","%PROGRAMFILES(X86)%\\Cursor\\Cursor.exe"]},
+    {"agentId":"windsurf","productName":"Windsurf","displayNameRegex":"(?i)Windsurf","packageNameRegex":"(?i)Windsurf","executableNames":["Windsurf.exe"],"knownPathTemplates":["%LOCALAPPDATA%\\Programs\\Windsurf\\Windsurf.exe","%PROGRAMFILES%\\Windsurf\\Windsurf.exe","%PROGRAMFILES(X86)%\\Windsurf\\Windsurf.exe"]}
+  ],
+  "componentPolicies": [
+    {"componentId":"chatgpt-codex-agent-component","agentId":"chatgpt","role":"agentComponent","nameRegex":"(?i)^codex\\.exe$","signaturePolicy":"ValidOrPinnedHash","trustedRootTemplates":["%LOCALAPPDATA%\\Programs\\Codex","%LOCALAPPDATA%\\OpenAI\\Codex","%USERPROFILE%\\.cache\\codex-runtimes"]},
+    {"componentId":"codex-versioned-command-runner","agentId":"chatgpt","role":"versionedHelper","nameRegex":"(?i)^codex-command-runner-[0-9A-Za-z._-]+\\.exe$","signaturePolicy":"ValidOrPinnedHash","trustedRootTemplates":["%USERPROFILE%\\.cache\\codex-runtimes","%LOCALAPPDATA%\\OpenAI\\Codex"]},
+    {"componentId":"codex-pwsh-bridge","agentId":"chatgpt","role":"bridgeShell","nameRegex":"(?i)^pwsh\\.exe$","signaturePolicy":"ValidOrPinnedHash","trustedRootTemplates":["%USERPROFILE%\\.cache\\codex-runtimes"]}
+  ],
+  "candidateShellPolicy": {"names":["powershell.exe","pwsh.exe","cmd.exe"],"agentIdentity":false},
+  "helperChainPolicy": {"maximumAncestorHops":5,"processGuidRelationshipRequired":true,"unknownHopAllowed":false,"basenameOnlyAllowed":false}
+}
+
