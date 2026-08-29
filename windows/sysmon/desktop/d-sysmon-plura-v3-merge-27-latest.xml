@@ -1,4 +1,4 @@
-<!-- PLURA_CONFIG_VERSION: d-sysmon-27-plura-v3.4.9-merged-refactored.xml -->
+<!-- PLURA_CONFIG_VERSION: d-sysmon-27-plura-v3.4.10-merged-refactored.xml -->
 <!-- PLURA_SCHEMA_TARGET: 4.90 -->
 
 <Sysmon schemaversion="4.90">
@@ -1100,12 +1100,23 @@
     </RuleGroup>
 	
     <!-- ============================================================ -->
-    <!-- Event ID 23/26: FileDelete / FileDeleteDetected (Desktop) -->
+    <!-- Event ID 23: FileDelete (Desktop) -->
     <!-- ============================================================ -->
     <!--RuleGroup name="FileDelete-ArchivedCopy-Disabled" groupRelation="or">
       <FileDelete onmatch="exclude" />
     </RuleGroup-->
 	
+	<!-- ============================================================ -->
+    <!-- Event ID 25: ProcessTampering (Desktop) -->
+    <!-- ============================================================ -->
+    <RuleGroup name="ProcessTampering" groupRelation="or">
+      <ProcessTampering onmatch="exclude">
+	  </ProcessTampering>
+    </RuleGroup>
+	
+	<!-- ============================================================ -->
+    <!-- Event ID 26: FileDeleteDetected (Desktop) -->
+    <!-- ============================================================ -->
 	<RuleGroup name="FileDeleteDetected-Exclude-Desktop" groupRelation="or">
 	  <FileDeleteDetected onmatch="exclude">
 		<Image condition="contains all">\appdata\local\google\chrome\user data\swreporter\;software_reporter_tool.exe</Image>
