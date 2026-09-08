@@ -1,4 +1,4 @@
-<!-- PLURA_CONFIG_VERSION: s-sysmon-27-plura-v3.4.11-merged-refactored.xml -->
+<!-- PLURA_CONFIG_VERSION: s-sysmon-27-plura-v3.4.12-merged-refactored.xml -->
 <!-- PLURA_SCHEMA_TARGET: 4.90 -->
 
 <Sysmon schemaversion="4.90">
@@ -1146,6 +1146,8 @@
         </Rule>
         <TargetObject condition="begin with">HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System\LocalAccountTokenFilterPolicy</TargetObject>
         <TargetObject condition="begin with">HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System\DontDisplayLastUsername</TargetObject>
+        <TargetObject condition="contains">\SOFTWARE\Policies\Google\Chrome\ExtensionInstallForcelist</TargetObject>
+        <TargetObject condition="contains">\SOFTWARE\Policies\Google\Chrome\ExtensionSettings</TargetObject>
 	  </RegistryEvent>
 	</RuleGroup>
 
