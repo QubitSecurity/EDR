@@ -1,4 +1,4 @@
-<!-- PLURA_CONFIG_VERSION: s-sysmon-27-plura-v3.4.12-merged-refactored.xml -->
+<!-- PLURA_CONFIG_VERSION: s-sysmon-29-plura-v3.4.12-merged-refactored.xml -->
 <!-- PLURA_SCHEMA_TARGET: 4.90 -->
 
 <Sysmon schemaversion="4.90">
@@ -805,13 +805,13 @@
 		<TargetFilename condition="begin with">C:\Windows\SysWOW64\Tasks</TargetFilename>
 		<TargetFilename condition="contains">\Windows\SYSVOL\domain\scripts</TargetFilename>
 		<Image condition="begin with">\Device\HarddiskVolumeShadowCopy</Image>
-		  <TargetFilename condition="begin with">C:\PerfLogs\</TargetFilename>
-		  <TargetFilename condition="begin with">C:\Windows\Tracing\</TargetFilename>
-		  <TargetFilename condition="begin with">C:\Windows\System32\spool\drivers\color\</TargetFilename>
-		  <TargetFilename condition="begin with">C:\Windows\Help\</TargetFilename>
-		  <TargetFilename condition="begin with">C:\Windows\PLA\</TargetFilename>
-		  <TargetFilename condition="begin with">C:\Windows\Debug\</TargetFilename>
-		  <TargetFilename condition="begin with">C:\Windows\Panther\</TargetFilename>
+		<TargetFilename condition="begin with">C:\PerfLogs\</TargetFilename>
+		<TargetFilename condition="begin with">C:\Windows\Tracing\</TargetFilename>
+		<TargetFilename condition="begin with">C:\Windows\System32\spool\drivers\color\</TargetFilename>
+		<TargetFilename condition="begin with">C:\Windows\Help\</TargetFilename>
+		<TargetFilename condition="begin with">C:\Windows\PLA\</TargetFilename>
+		<TargetFilename condition="begin with">C:\Windows\Debug\</TargetFilename>
+		<TargetFilename condition="begin with">C:\Windows\Panther\</TargetFilename>
 	  </FileCreate>
 	</RuleGroup>
 	
@@ -1206,7 +1206,7 @@
     <!--RuleGroup name="FileDelete-ArchivedCopy-Disabled" groupRelation="or">
       <FileDelete onmatch="exclude" />
     </RuleGroup-->
-	
+
 	<!-- ============================================================ -->
     <!-- Event ID 25: ProcessTampering (Server) -->
     <!-- ============================================================ -->
@@ -1303,16 +1303,13 @@
 		</Rule>
 	  </FileDeleteDetected>
 	</RuleGroup>
-
+	
     <!-- ============================================================ -->
-    <!-- SYSMON EVENT ID 27 : FILE BLOCK EXECUTABLE [FileBlockExecutable] - Server (보수적 적용) -->
+    <!-- Event ID 29: FileExecutableDetected (Server) -->
     <!-- ============================================================ -->
 
-    <!-- INCLUDE: 악성 Drop/Run 경로 (서버에 맞게 보수적으로) -->
-    <RuleGroup name="Include_MalwareDrop_Server" groupRelation="or">
-      <FileBlockExecutable onmatch="include">
-
-        <!-- (A) 사용자 데이터 보호 (Honeypot) -->
+    <RuleGroup name="FileExecutableDetected-Include-MalwareDrop-Server" groupRelation="or">
+      <FileExecutableDetected onmatch="include">
         <Rule groupRelation="and">
           <TargetFilename condition="begin with">C:\Users\</TargetFilename>
           <TargetFilename condition="contains any">
@@ -1325,11 +1322,9 @@
           </TargetFilename>
         </Rule>
 
-        <!-- (B) 일반적 임시경로 (C:\Temp, C:\Windows\Temp) -->
         <TargetFilename condition="begin with">C:\Temp\</TargetFilename>
         <TargetFilename condition="begin with">C:\Windows\Temp\</TargetFilename>
 
-        <!-- (C) Office 체인 → Temp/Roaming EXE 생성 시 차단 -->
         <Rule groupRelation="and">
           <Image condition="contains any">
             OUTLOOK.exe;
@@ -1350,22 +1345,15 @@
           </TargetFilename>
         </Rule>
 
-        <!-- (D) ZIP 기반 랜섬웨어 Drop (7z.exe 사용) -->
         <Rule groupRelation="and">
           <Image condition="end with">7z.exe</Image>
           <TargetFilename condition="contains">\AppData\Local\Temp\</TargetFilename>
         </Rule>
-
-        <!-- 서버에서는 PowerShell/LOLBin의 Temp/ProgramData 전역 차단은 제외 -->
-
-      </FileBlockExecutable>
+      </FileExecutableDetected>
     </RuleGroup>
 
-    
-
-    <!-- INCLUDE: LOLBAS Writer → PE drop in common staging paths (Server) -->
-    <RuleGroup name="Include_LOLBAS_FileBlock_Server_Curated" groupRelation="or">
-      <FileBlockExecutable onmatch="include">
+    <RuleGroup name="FileExecutableDetected-Include-LOLBAS-Server" groupRelation="or">
+      <FileExecutableDetected onmatch="include">
         <Rule groupRelation="and">
           <Image condition="contains any">
             AddinUtil.exe;
@@ -1486,31 +1474,26 @@
             C:\Temp\;
           </TargetFilename>
         </Rule>
-      </FileBlockExecutable>
+      </FileExecutableDetected>
     </RuleGroup>
-<!-- EXCLUDE: 정상 설치/업데이트/보안솔루션/개발 환경 예외 -->
-    <RuleGroup name="Exclude_LegitActivity_Server" groupRelation="or">
-      <FileBlockExecutable onmatch="exclude">
-
-        <!-- (1) Outlook/Office 정상 임시 파일 -->
+	
+    <RuleGroup name="FileExecutableDetected-Exclude-LegitActivity-Server" groupRelation="or">
+      <FileExecutableDetected onmatch="exclude">
         <TargetFilename condition="contains">Content.Outlook\</TargetFilename>
         <TargetFilename condition="contains">Content.MSO\</TargetFilename>
         <TargetFilename condition="end with">MSForms.exd</TargetFilename>
         <TargetFilename condition="contains">~$</TargetFilename>
 
-        <!-- (2) 정상 다운로드 폴더 -->
         <Rule groupRelation="and">
           <TargetFilename condition="begin with">C:\Users\</TargetFilename>
           <TargetFilename condition="contains">\Downloads\</TargetFilename>
         </Rule>
 
-        <!-- (3) PowerShell Profile 업데이트 -->
         <Rule groupRelation="and">
           <TargetFilename condition="begin with">C:\Users\</TargetFilename>
           <TargetFilename condition="contains">\Documents\WindowsPowerShell\</TargetFilename>
         </Rule>
 
-        <!-- (4) Windows Installer / Update -->
         <Image condition="is">C:\Windows\System32\msiexec.exe</Image>
         <Image condition="is">C:\Windows\servicing\TrustedInstaller.exe</Image>
         <Image condition="is">C:\Windows\System32\TiWorker.exe</Image>
@@ -1519,15 +1502,12 @@
         <Image condition="is">C:\Windows\System32\cleanmgr.exe</Image>
         <Image condition="is">C:\Windows\System32\wuauclt.exe</Image>
 
-        <!-- (5) Windows 오류보고/진단 -->
         <Image condition="is">C:\Windows\System32\werfault.exe</Image>
         <Image condition="is">C:\Windows\System32\wermgr.exe</Image>
 
-        <!-- (6) Windows CAB/압축 관련 -->
         <Image condition="is">C:\Windows\System32\makecab.exe</Image>
         <Image condition="is">C:\Windows\System32\iexpress.exe</Image>
 
-        <!-- (7) 보안 솔루션 필수 예외 -->
         <Image condition="contains any">
           C:\ProgramData\Microsoft\Windows Defender\Platform\;
           MsMpEng.exe
@@ -1536,12 +1516,10 @@
         <Image condition="end with">NisSrv.exe</Image>
         <Image condition="end with">Sysmon.exe</Image>
 
-        <!-- (8) Python 개발 환경 (필요 시 서버에 맞게 조정) -->
         <Image condition="contains">\venv\Scripts\python.exe</Image>
         <Image condition="contains">\python.exe</Image>
         <Image condition="contains">\pip.exe</Image>
 
-        <!-- (9) 기타 자동 업데이트/에이전트 (환경에 맞게 추가/조정) -->
         <Image condition="contains any">
           msedge.exe;
           Squirrel.exe;
@@ -1563,20 +1541,17 @@
 
         <Image condition="end with">OneDrive.exe</Image>
 
-        <!-- (10) Windows Troubleshooter -->
         <Rule groupRelation="and">
           <Image condition="is">C:\Windows\System32\taskhostw.exe</Image>
           <TargetFilename condition="begin with">C:\Windows\Temp\SDIAG_</TargetFilename>
           <TargetFilename condition="contains any">.dll;.dll.mui</TargetFilename>
         </Rule>
 
-        <!-- (11) DISM 핵심 DLL -->
         <Rule groupRelation="and">
           <Image condition="is">C:\Windows\system32\wbem\wmiprvse.exe</Image>
           <TargetFilename condition="contains">\Windows\Temp\</TargetFilename>
         </Rule>
-        
-      </FileBlockExecutable>
+      </FileExecutableDetected>
     </RuleGroup>
   </EventFiltering>
 </Sysmon>
