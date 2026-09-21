@@ -1,6 +1,8 @@
-# PLURA_CONFIG_VERSION: s-auditd-deep-plura-v3-latest-rhel-ssh-exec.rules
+# PLURA_CONFIG_VERSION: s-auditd-deep-plura-v3.3-latest-rhel.rules
+# PLURA_SCHEMA_TARGET: v3.3
 # Profile: DEEP (incident response / higher visibility)
 # Notes:
+# - v3.3: Added Lua execution audit rule (tid1059_011_lua).
 # - Includes BASELINE rules + deeper syscall auditing.
 # - Default deep focuses on authenticated sessions (auid!=unset) and root actions (euid=0) to control volume.
 # - Optional "all user actions" blocks are provided but commented.
@@ -363,6 +365,9 @@
 # 4-6) Version control systems (GTFOBins scm)
 -a always,exit -F arch=b64 -S execve -F exe=/usr/bin/hg -F auid!=unset -k plura_gtfobins_scm
 -a always,exit -F arch=b32 -S execve -F exe=/usr/bin/hg -F auid!=unset -k plura_gtfobins_scm
+
+# 4-7) Lua interpreter execution
+-a always,exit -F arch=b64 -S execve -F exe=/usr/bin/lua -F key=tid1059_011_lua
 
 ############################################################
 # 5) CVE
