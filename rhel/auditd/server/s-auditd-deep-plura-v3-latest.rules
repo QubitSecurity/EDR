@@ -251,28 +251,6 @@
 
 # SO_ATTACH_REUSEPORT_EBPF (52)
 -a always,exit -F arch=b64 -S setsockopt -F a1=1 -F a2=52 -k plura_bpfdoor_setsockopt
--a always,exit -F arch=b32 -S setsockopt -F a1=1 -F a2=52 -k plura_bpfdoor_setsockopt# SO_ATTACH_FILTER (26)
--a always,exit -F arch=b64 -S setsockopt -F a1=1 -F a2=26 -k plura_bpfdoor_setsockopt
--a always,exit -F arch=b32 -S setsockopt -F a1=1 -F a2=26 -k plura_bpfdoor_setsockopt
-
-# SO_DETACH_FILTER / SO_DETACH_BPF (27)
--a always,exit -F arch=b64 -S setsockopt -F a1=1 -F a2=27 -k plura_bpfdoor_setsockopt
--a always,exit -F arch=b32 -S setsockopt -F a1=1 -F a2=27 -k plura_bpfdoor_setsockopt
-
-# SO_LOCK_FILTER (44)
--a always,exit -F arch=b64 -S setsockopt -F a1=1 -F a2=44 -k plura_bpfdoor_setsockopt
--a always,exit -F arch=b32 -S setsockopt -F a1=1 -F a2=44 -k plura_bpfdoor_setsockopt
-
-# SO_ATTACH_BPF (50)
--a always,exit -F arch=b64 -S setsockopt -F a1=1 -F a2=50 -k plura_bpfdoor_setsockopt
--a always,exit -F arch=b32 -S setsockopt -F a1=1 -F a2=50 -k plura_bpfdoor_setsockopt
-
-# SO_ATTACH_REUSEPORT_CBPF (51)
--a always,exit -F arch=b64 -S setsockopt -F a1=1 -F a2=51 -k plura_bpfdoor_setsockopt
--a always,exit -F arch=b32 -S setsockopt -F a1=1 -F a2=51 -k plura_bpfdoor_setsockopt
-
-# SO_ATTACH_REUSEPORT_EBPF (52)
--a always,exit -F arch=b64 -S setsockopt -F a1=1 -F a2=52 -k plura_bpfdoor_setsockopt
 -a always,exit -F arch=b32 -S setsockopt -F a1=1 -F a2=52 -k plura_bpfdoor_setsockopt
 
 # Optional (advanced / kernel-dependent): memfd_create is not available on older kernels
