@@ -1,4 +1,4 @@
-<!-- PLURA_CONFIG_VERSION: s-sysmon-27-plura-v3.4.13-merged-refactored.xml -->
+<!-- PLURA_CONFIG_VERSION: s-sysmon-27-plura-v3.4.14-merged-refactored.xml -->
 <!-- PLURA_SCHEMA_TARGET: 4.90 -->
 
 <Sysmon schemaversion="4.90">
@@ -1163,6 +1163,10 @@
 		<Rule groupRelation="and">
 		  <TargetFilename condition="end with">:Zone.Identifier</TargetFilename>
 		  <Contents condition="contains any">blob:;about:internet</Contents>
+		</Rule>
+		<Rule groupRelation="and">
+		  <TargetFilename condition="end with">:Zone.Identifier</TargetFilename>
+		  <Contents condition="contains all">ReferrerUrl=;.svg</Contents>
 		</Rule>
 		<TargetFilename condition="end with">.ps1</TargetFilename>
 		<TargetFilename condition="end with">.ps2</TargetFilename>
